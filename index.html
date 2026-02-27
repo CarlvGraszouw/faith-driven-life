@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A FAITH DRIVEN LIFE — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a1628;
+      --surface: #132238;
+      --text: #f0f4f8;
+      --muted: #94a3b8;
+      --accent: #d4af37;
+      --accent-dim: rgba(212, 175, 55, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-top: 8rem;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Top nav – proportional, logo prominent */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 1rem 1.5rem;
+      min-height: 7rem;
+    }
+
+    .site-nav .nav-inner {
+      max-width: 100%;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .site-nav .site-name {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: inherit;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .site-nav .site-name:hover {
+      color: var(--accent);
+    }
+
+    .site-nav .site-name-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.1rem;
+      max-width: min(28em, 50vw);
+    }
+
+    .site-nav .site-tagline {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: #00d4ff;
+      letter-spacing: 0;
+      line-height: 1.35;
+    }
+
+    .site-nav .site-name:hover .site-tagline {
+      color: #00d4ff;
+    }
+
+    .site-nav .site-logo {
+      height: 5.5rem;
+      width: auto;
+      max-width: 280px;
+      display: block;
+      object-fit: contain;
+    }
+
+    .site-nav .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.25rem 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .site-nav .nav-links a {
+      color: #00d4ff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .site-nav .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .site-nav .nav-links a.nav-blogs {
+      color: var(--accent);
+      font-size: 1.05rem;
+    }
+
+    .site-nav .nav-links a.nav-blogs:hover {
+      color: #00d4ff;
+    }
+
+    @media (min-width: 768px) {
+      .site-nav .site-logo { height: 6.5rem; max-width: 320px; }
+      .site-nav .site-tagline { font-size: 0.8rem; }
+      .site-nav .nav-links a { font-size: 1rem; }
+      .site-nav .nav-links a.nav-blogs { font-size: 1.125rem; }
+    }
+
+    /* Header (intro under nav) – clear separation from content */
+    header {
+      padding: 2.5rem 0 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Section titles */
+    section {
+      padding: 3rem 0;
+    }
+
+    section h2 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 1.5rem;
+      color: var(--accent);
+    }
+
+    /* Audio section */
+    .audio-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .audio-card {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .audio-card .play-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .audio-card .play-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .audio-card .info h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .audio-card .info p {
+      margin: 0.25rem 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Placeholder when no audio yet */
+    .placeholder {
+      color: var(--muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+      background: var(--surface);
+      border-radius: 10px;
+      border: 1px dashed rgba(255,255,255,0.1);
+    }
+
+    /* Blogs section */
+    .blog-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .blog-list li {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 1.25rem 0;
+    }
+
+    .blog-list li:first-child {
+      padding-top: 0;
+    }
+
+    .blog-list a {
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+
+    .blog-list a:hover {
+      color: var(--accent);
+    }
+
+    .blog-list .blog-img-wrap {
+      flex-shrink: 0;
+      width: 140px;
+      height: 100px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .blog-list .blog-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .blog-list .blog-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .blog-list .title {
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .blog-list .meta {
+      font-size: 0.9375rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+
+    @media (max-width: 480px) {
+      .blog-list a { flex-direction: column; }
+      .blog-list .blog-img-wrap { width: 100%; height: 160px; }
+    }
+
+    .section-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      opacity: 0.9;
+    }
+
+    /* Submission forms */
+    .submit-form {
+      margin: 1rem 0 0;
+    }
+
+    .submit-form label {
+      display: block;
+      font-size: 0.9rem;
+      margin-top: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .submit-form input,
+    .submit-form textarea {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.5rem 0.75rem;
+      font: inherit;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      color: var(--text);
+    }
+
+    .submit-form input:focus,
+    .submit-form textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .submit-form button {
+      margin-top: 1rem;
+      padding: 0.5rem 1.25rem;
+      font: inherit;
+      font-weight: 600;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .submit-form button:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .approved-list {
+      margin-top: 0.5rem;
+    }
+
+    .approved-item {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .approved-item p {
+      margin: 0.5rem 0 0;
+      font-size: 0.95rem;
+    }
+
+    .approved-meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .intro-section {
+      padding: 2.5rem 0 3rem;
+    }
+
+    .intro-title {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 0 0 1rem;
+    }
+
+    .intro-content {
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .intro-content p {
+      margin: 0 0 1rem;
+    }
+
+    .intro-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .intro-list {
+      margin: 0 0 1rem;
+      padding-left: 1.5rem;
+    }
+
+    .intro-list li {
+      margin-bottom: 0.35rem;
+    }
+
+    .intro-verse {
+      margin: 1.25rem 0 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .page-links {
+      padding: 2rem 0 3rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .page-links-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+    }
+
+    .page-links-list a {
+      color: #00d4ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .page-links-list a:hover {
+      color: var(--accent);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem 0 3rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Main">
+    <div class="nav-inner">
+      <a href="index.html" class="site-name">
+      <img src="logo.png" alt="A Faith Driven Life" class="site-logo" onerror="this.style.display='none'">
+      <span class="site-name-block">
+        <span class="site-tagline">Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will. — Romans 12:2 (NIV)</span>
+      </span>
+    </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blogs.html" class="nav-blogs">Blogs</a></li>
+        <li><a href="audio.html">Audio</a></li>
+        <li><a href="comments.html">Comments</a></li>
+        <li><a href="prayer-requests.html">Prayer requests</a></li>
+        <li><a href="testimonies.html">Testimonies</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="intro-section">
+      <h1 class="intro-title">Welcome to Carl and Wilma's "A Faith Driven Life" Website</h1>
+      <div class="intro-content">
+        <p>Carl and Wilma here — we're so glad you've stopped by.</p>
+        <p>At this space, we leave our CVs (and all our titles, achievements, and labels) at the door. Whether you're a longtime believer, someone exploring faith, or even a complete skeptic or non-believer, you're warmly welcomed exactly as you are. Come as you are and experience God for yourself — the real, living God who's already at work and inviting you into the incredible journey He's taking us on.</p>
+        <p>God is deeply interested in your future. He offers complete freedom from the burdens and mistakes of your past. Every single day, He empowers us through His living Word and the presence of the Holy Spirit — guiding, strengthening, and transforming us step by step.</p>
+        <p>This is a place to connect and share:</p>
+        <ul class="intro-list">
+          <li>Feel free to leave comments</li>
+          <li>Share a prayer request</li>
+          <li>Write your testimony of what God has done (or is doing) in your life</li>
+        </ul>
+        <p>We'll be adding audio clips of teachings soon, so watch this space!</p>
+        <p>Wherever you are on your journey, know this with certainty: God loves you, and He cares about you so much.</p>
+        <blockquote class="intro-verse">"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."<br>— John 3:16 (NIV)</blockquote>
+        <p>You're not here by accident. We're excited to see what God has in store — for you, for us, and for all of us together.</p>
+      </div>
+    </section>
+
+    <section class="page-links">
+      <h2 class="sr-only">Explore</h2>
+      <ul class="page-links-list">
+        <li><a href="blogs.html">Blogs</a></li>
+        <li><a href="audio.html">Audio</a></li>
+        <li><a href="comments.html">Comments</a></li>
+        <li><a href="prayer-requests.html">Prayer requests</a></li>
+        <li><a href="testimonies.html">Testimonies</a></li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>A FAITH DRIVEN LIFE</p>
+    </footer>
+  </div>
+</body>
+</html>

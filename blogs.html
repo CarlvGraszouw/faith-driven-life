@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A FAITH DRIVEN LIFE — Blogs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0a1628; --surface: #132238; --text: #f0f4f8; --muted: #94a3b8; --accent: #d4af37; --accent-dim: rgba(212, 175, 55, 0.2); }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; padding-top: 8rem; }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; min-height: 7rem; }
+    .site-nav .nav-inner { max-width: 100%; width: 100%; margin: 0 auto; padding: 0 0.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+    .site-nav .site-name { display: flex; align-items: center; gap: 0.75rem; font-size: inherit; font-weight: 700; letter-spacing: -0.02em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+    .site-nav .site-name:hover { color: var(--accent); }
+    .site-nav .site-name-block { display: flex; flex-direction: column; justify-content: center; gap: 0.1rem; max-width: min(28em, 50vw); }
+    .site-nav .site-tagline { font-size: 0.75rem; font-weight: 400; color: #00d4ff; letter-spacing: 0; line-height: 1.35; }
+    .site-nav .site-logo { height: 5.5rem; width: auto; max-width: 280px; display: block; object-fit: contain; }
+    .site-nav .nav-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; list-style: none; margin: 0; padding: 0; }
+    .site-nav .nav-links a { color: #00d4ff; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+    .site-nav .nav-links a:hover { color: var(--accent); }
+    .site-nav .nav-links a.nav-blogs { color: var(--accent); font-size: 1.05rem; }
+    .site-nav .nav-links a.nav-blogs:hover { color: #00d4ff; }
+    @media (min-width: 768px) { .site-nav .site-logo { height: 6.5rem; max-width: 320px; } .site-nav .site-tagline { font-size: 0.8rem; } .site-nav .nav-links a { font-size: 1rem; } .site-nav .nav-links a.nav-blogs { font-size: 1.125rem; } }
+    section { padding: 3rem 0; }
+    #blogs { padding-top: 3.5rem; }
+    section h2 { font-family: 'Source Serif 4', serif; font-size: 1.5rem; font-weight: 600; margin: 0 0 1.5rem; color: var(--accent); }
+    .blog-list { list-style: none; padding: 0; margin: 0; }
+    .blog-list li { border-bottom: 1px solid rgba(255,255,255,0.06); padding: 1.25rem 0; }
+    .blog-list li:first-child { padding-top: 0; }
+    .blog-list a { color: var(--text); text-decoration: none; display: flex; gap: 1.25rem; align-items: flex-start; }
+    .blog-list a:hover { color: var(--accent); }
+    .blog-list .blog-img-wrap { flex-shrink: 0; width: 140px; height: 100px; border-radius: 8px; overflow: hidden; background: var(--surface); }
+    .blog-list .blog-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .blog-list .blog-text { flex: 1; min-width: 0; }
+    .blog-list .title { font-weight: 600; font-size: 1.125rem; }
+    .blog-list .meta { font-size: 0.9375rem; color: var(--muted); margin-top: 0.35rem; }
+    @media (max-width: 480px) { .blog-list a { flex-direction: column; } .blog-list .blog-img-wrap { width: 100%; height: 160px; } }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Main">
+    <div class="nav-inner">
+      <a href="index.html" class="site-name">
+        <img src="logo.png" alt="A Faith Driven Life" class="site-logo" onerror="this.style.display='none'">
+        <span class="site-name-block">
+          <span class="site-tagline">Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will. — Romans 12:2 (NIV)</span>
+        </span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blogs.html" class="nav-blogs">Blogs</a></li>
+        <li><a href="audio.html">Audio</a></li>
+        <li><a href="comments.html">Comments</a></li>
+        <li><a href="prayer-requests.html">Prayer requests</a></li>
+        <li><a href="testimonies.html">Testimonies</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section id="blogs">
+      <h2>Blogs</h2>
+      <ul class="blog-list" id="blog-list">
+        <li id="blog-loading">Loading posts…</li>
+      </ul>
+      <p style="margin-top: 1.25rem; font-size: 0.9rem; color: var(--muted);">
+        Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener" style="color: var(--accent);">the blog</a>. Publish there and they appear here automatically.
+      </p>
+    </section>
+
+    <footer>
+      <p>A FAITH DRIVEN LIFE</p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var BLOGGER_FEED_BASE = 'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=25';
+      var CORS_PROXIES = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
+      var REFRESH_MINUTES = 10;
+      var listEl = document.getElementById('blog-list');
+      var loadingEl = document.getElementById('blog-loading');
+      function getDateString(entry) {
+        var raw = (entry.published && (entry.published.$t != null ? entry.published.$t : entry.published)) || (entry.updated && (entry.updated.$t != null ? entry.updated.$t : entry.updated));
+        return typeof raw === 'string' ? raw : '';
+      }
+      function formatDate(iso) {
+        if (!iso) return '';
+        var d = new Date(iso);
+        if (isNaN(d.getTime())) return '';
+        return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      }
+      function stripHtml(html) {
+        if (!html) return '';
+        var div = document.createElement('div');
+        div.innerHTML = html;
+        return (div.textContent || div.innerText || '').trim().slice(0, 120);
+      }
+      function getPostUrl(entry) {
+        var links = entry.link || [];
+        for (var i = 0; i < links.length; i++) { if (links[i].rel === 'alternate') return links[i].href; }
+        return 'https://awfgsa.blogspot.com/';
+      }
+      function getPostImage(entry) {
+        var thumb = entry['media$thumbnail'];
+        if (thumb && thumb.url) return thumb.url;
+        if (thumb && thumb.length && thumb[0].url) return thumb[0].url;
+        var content = (entry.content && entry.content.$t) || (entry.summary && entry.summary.$t) || '';
+        var match = content.match(/<img[^>]+src=["']([^"']+)["']/i);
+        return match ? match[1] : '';
+      }
+      function showError() {
+        listEl.innerHTML = '<li class="blog-fallback">Could not load posts. <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener" style="color: var(--accent);">View them on the blog</a>.</li>';
+      }
+      function renderPosts(data) {
+        var entries = (data && data.feed && data.feed.entry) || [];
+        if (entries.length === 0) { showError(); return; }
+        if (loadingEl && loadingEl.parentNode) loadingEl.remove();
+        listEl.innerHTML = '';
+        entries.forEach(function (entry) {
+          var title = (entry.title && entry.title.$t) || 'Untitled';
+          var url = getPostUrl(entry);
+          var imgUrl = getPostImage(entry);
+          var date = formatDate(getDateString(entry));
+          var snippet = stripHtml((entry.content && entry.content.$t) || (entry.summary && entry.summary.$t) || '');
+          var meta = date + (snippet ? ' — ' + snippet + (snippet.length >= 120 ? '…' : '') : '');
+          var imgHtml = imgUrl ? '<span class="blog-img-wrap"><img src="' + imgUrl.replace(/"/g, '&quot;') + '" alt="" class="blog-img" loading="lazy"></span>' : '';
+          var li = document.createElement('li');
+          li.innerHTML = '<a href="' + url.replace(/"/g, '&quot;') + '" target="_blank" rel="noopener">' + imgHtml + '<span class="blog-text"><span class="title">' + title.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span><span class="meta">' + meta.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span></span></a>';
+          listEl.appendChild(li);
+        });
+      }
+      function tryLoad(proxyIndex) {
+        var proxy = CORS_PROXIES[proxyIndex];
+        var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
+        var url = proxy === 'https://corsproxy.io/?' ? proxy + encodeURIComponent(feedUrl) : proxy + encodeURIComponent(feedUrl);
+        fetch(url).then(function (res) { if (!res.ok) throw new Error(); return res.text(); }).then(function (text) {
+          var data; try { data = JSON.parse(text); } catch (e) { throw new Error(); }
+          renderPosts(data);
+        }).catch(function () {
+          if (proxyIndex + 1 < CORS_PROXIES.length) tryLoad(proxyIndex + 1); else showError();
+        });
+      }
+      tryLoad(0);
+      setInterval(function () { tryLoad(0); }, REFRESH_MINUTES * 60 * 1000);
+    })();
+  </script>
+</body>
+</html>
