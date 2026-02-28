@@ -179,28 +179,26 @@
       .site-nav .nav-links a.nav-blogs { font-size: 1.125rem; }
     }
 
-    /* Mobile / cellphone friendly */
+    /* Mobile / cellphone friendly – compact header so content isn't clipped */
     @media (max-width: 767px) {
-      body { padding-top: 13rem; padding-bottom: max(env(safe-area-inset-bottom), 2rem); }
+      body { padding-top: 8rem; padding-bottom: max(env(safe-area-inset-bottom), 2rem); }
       .container { padding-left: 1rem; padding-right: 1rem; }
-      .site-nav { padding: 0.75rem 1rem; min-height: 11rem; box-sizing: border-box; }
-      .site-nav .nav-inner { gap: 0.5rem; padding-right: 0.25rem; }
-      .visit-counter { margin-left: 0; padding-left: 0; font-size: 0.7rem; }
-      .site-nav .nav-links { gap: 0.2rem 0.6rem; }
-      .site-nav .site-name-block { max-width: min(18em, 55vw); }
-      .site-nav .site-tagline { font-size: 0.65rem; line-height: 1.3; overflow-wrap: break-word; word-break: break-word; }
-      .site-nav .site-logo { height: 8rem; max-width: 320px; }
-      .site-nav .nav-links { gap: 0.15rem 0.5rem; }
-      .site-nav .nav-links a { padding: 0.5rem 0.35rem; min-height: 2.75rem; display: inline-flex; align-items: center; font-size: 0.9rem; }
-      header { padding: 1.5rem 0 1.25rem; }
+      .site-nav { padding: 0.5rem 0.75rem; min-height: 7.5rem; box-sizing: border-box; }
+      .site-nav .nav-inner { gap: 0.4rem 0.75rem; padding-right: 0; flex-direction: row; flex-wrap: wrap; }
+      .site-nav .site-brand { width: 100%; flex: 1 1 100%; flex-direction: row; align-items: center; gap: 0.5rem; min-width: 0; }
+      .site-nav .site-name { flex-shrink: 0; }
+      .site-nav .site-logo { height: 4rem; max-width: 140px; }
+      .site-nav .scripture-rotator { flex: 1; min-width: 0; max-width: none; border-radius: 6px; }
+      .site-nav .scripture-rotator-banner { padding: 0.2rem 0.5rem; font-size: 0.6rem; }
+      .site-nav .scripture-rotator-verse { padding: 0.35rem 0.5rem; font-size: 0.75rem; line-height: 1.35; min-height: 0; overflow-wrap: break-word; word-break: break-word; }
+      .visit-counter { margin-left: 0; padding-left: 0; font-size: 0.7rem; order: 2; flex-shrink: 0; }
+      .site-nav .nav-links { gap: 0.15rem 0.5rem; order: 3; flex: 1 1 auto; }
+      .site-nav .nav-links a { padding: 0.4rem 0.3rem; min-height: 0; display: inline-flex; align-items: center; font-size: 0.85rem; }
+      header { padding: 1.25rem 0 1rem; }
       header p { font-size: 0.9rem; }
-      section { padding: 2rem 0; }
+      section { padding: 1.5rem 0; }
       section h2 { font-size: 1.35rem; margin-bottom: 1rem; }
-      .site-brand { flex-direction: column; align-items: stretch; gap: 0.75rem; }
-      .site-nav .scripture-rotator { max-width: 100%; border-radius: 8px; }
-      .site-nav .scripture-rotator-banner { padding: 0.35rem 0.75rem; font-size: 0.7rem; overflow-wrap: break-word; word-break: break-word; }
-      .site-nav .scripture-rotator-verse { padding: 0.6rem 0.75rem; font-size: 0.85rem; min-height: 3em; overflow-wrap: break-word; word-break: break-word; }
-      .intro-section { padding: 1.5rem 0 2rem; }
+      .intro-section { padding: 1.25rem 0 1.5rem; }
       .intro-title { font-size: 1.45rem; margin-bottom: 0.5rem; }
       .intro-tagline { font-size: 0.9rem; margin-bottom: 1rem; }
       .intro-content { font-size: 1rem; }
@@ -213,8 +211,9 @@
       footer { padding: 1.5rem 0 2rem; font-size: 0.85rem; }
     }
     @media (max-width: 380px) {
-      .site-nav .site-name-block { max-width: 12em; }
-      .site-nav .nav-links a { font-size: 0.85rem; padding: 0.4rem 0.25rem; }
+      .site-nav .site-logo { max-width: 120px; }
+      .site-nav .scripture-rotator-verse { font-size: 0.7rem; }
+      .site-nav .nav-links a { font-size: 0.8rem; padding: 0.35rem 0.25rem; }
     }
 
     /* Header (intro under nav) – clear separation from content */
