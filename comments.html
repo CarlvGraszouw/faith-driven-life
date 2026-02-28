@@ -110,5 +110,11 @@
     </footer>
   </div>
   <script src="visit-counter.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('comments-form') || document.querySelector('.submit-form');
+      if (form && form.action) form.action = 'https://formspree.io/f/mykdvvln';
+    })();
+  </script>
 </body>
 </html>
