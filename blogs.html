@@ -56,6 +56,7 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="blogs.html" class="nav-blogs">Blogs</a></li>
         <li><a href="audio.html">Audio</a></li>
+        <li><a href="bible.html">Search the Bible</a></li>
         <li><a href="comments.html">Comments</a></li>
         <li><a href="prayer-requests.html">Prayer requests</a></li>
         <li><a href="testimonies.html">Testimonies</a></li>
@@ -70,7 +71,7 @@
         <li id="blog-loading">Loading posts…</li>
       </ul>
       <p style="margin-top: 1.25rem; font-size: 0.9rem; color: var(--muted);">
-        Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener" style="color: var(--accent);">the blog</a>. Publish there and they appear here automatically.
+        Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener" style="color: var(--accent);">the blog</a>.
       </p>
     </section>
 
@@ -132,7 +133,7 @@
           var meta = date + (snippet ? ' — ' + snippet + (snippet.length >= 120 ? '…' : '') : '');
           var imgHtml = imgUrl ? '<span class="blog-img-wrap"><img src="' + imgUrl.replace(/"/g, '&quot;') + '" alt="" class="blog-img" loading="lazy"></span>' : '';
           var li = document.createElement('li');
-          li.innerHTML = '<a href="' + url.replace(/"/g, '&quot;') + '" target="_blank" rel="noopener">' + imgHtml + '<span class="blog-text"><span class="title">' + title.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span><span class="meta">' + meta.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span></span></a>';
+          li.innerHTML = '<a href="post.html?url=' + encodeURIComponent(url) + '">' + imgHtml + '<span class="blog-text"><span class="title">' + title.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span><span class="meta">' + meta.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span></span></a>';
           listEl.appendChild(li);
         });
       }

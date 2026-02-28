@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post — A FAITH DRIVEN LIFE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0a1628; --surface: #132238; --text: #f0f4f8; --muted: #94a3b8; --accent: #d4af37; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; padding-top: 8rem; }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; min-height: 7rem; }
+    .site-nav .nav-inner { max-width: 100%; width: 100%; margin: 0 auto; padding: 0 0.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+    .site-nav .site-name { display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; font-weight: 700; flex-shrink: 0; }
+    .site-nav .site-name:hover { color: var(--accent); }
+    .site-nav .site-name-block { max-width: min(28em, 50vw); }
+    .site-nav .site-tagline { font-size: 0.75rem; color: #00d4ff; line-height: 1.35; }
+    .site-nav .site-logo { height: 5.5rem; width: auto; max-width: 280px; display: block; object-fit: contain; }
+    .site-nav .nav-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; list-style: none; margin: 0; padding: 0; }
+    .site-nav .nav-links a { color: #00d4ff; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+    .site-nav .nav-links a:hover { color: var(--accent); }
+    .site-nav .nav-links a.nav-blogs { color: var(--accent); font-size: 1.05rem; }
+    .site-nav .nav-links a.nav-blogs:hover { color: #00d4ff; }
+    @media (min-width: 768px) { .site-nav .site-logo { height: 6.5rem; max-width: 320px; } .site-nav .nav-links a { font-size: 1rem; } .site-nav .nav-links a.nav-blogs { font-size: 1.125rem; } }
+    .post-back { margin-bottom: 1.5rem; }
+    .post-back a { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+    .post-back a:hover { color: var(--accent); }
+    .post-header { margin-bottom: 2rem; }
+    .post-title { font-family: 'Source Serif 4', serif; font-size: 1.75rem; font-weight: 600; color: var(--text); margin: 0 0 0.5rem; }
+    .post-date { color: var(--muted); font-size: 0.9rem; }
+    .post-body { font-size: 1.05rem; }
+    .post-body img { max-width: 100%; height: auto; border-radius: 8px; }
+    .post-body p { margin: 0 0 1rem; }
+    .post-body a { color: var(--accent); }
+    .post-loading, .post-error { color: var(--muted); padding: 2rem; text-align: center; }
+    .post-error a { color: var(--accent); }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; margin-top: 3rem; }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Main">
+    <div class="nav-inner">
+      <a href="index.html" class="site-name">
+        <img src="logo.png" alt="A Faith Driven Life" class="site-logo" onerror="this.style.display='none'">
+        <span class="site-name-block">
+          <span class="site-tagline">Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will. — Romans 12:2 (NIV)</span>
+        </span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blogs.html" class="nav-blogs">Blogs</a></li>
+        <li><a href="audio.html">Audio</a></li>
+        <li><a href="bible.html">Search the Bible</a></li>
+        <li><a href="comments.html">Comments</a></li>
+        <li><a href="prayer-requests.html">Prayer requests</a></li>
+        <li><a href="testimonies.html">Testimonies</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <p class="post-back"><a href="blogs.html">← Back to Blogs</a></p>
+    <div id="post-loading" class="post-loading">Loading post…</div>
+    <article id="post-content" style="display: none;">
+      <header class="post-header">
+        <h1 class="post-title" id="post-title"></h1>
+        <p class="post-date" id="post-date"></p>
+      </header>
+      <div class="post-body" id="post-body"></div>
+    </article>
+    <div id="post-error" class="post-error" style="display: none;">
+      <p>Could not load this post.</p>
+      <p><a href="blogs.html">Back to Blogs</a> · <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener">Open on Blogger</a></p>
+    </div>
+    <footer><p>A FAITH DRIVEN LIFE</p></footer>
+  </div>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var postUrl = params.get('url');
+      var loadingEl = document.getElementById('post-loading');
+      var contentEl = document.getElementById('post-content');
+      var errorEl = document.getElementById('post-error');
+      var BLOGGER_FEED = 'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=25';
+      var CORS_PROXIES = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
+      function getPostUrl(entry) {
+        var links = entry.link || [];
+        for (var i = 0; i < links.length; i++) { if (links[i].rel === 'alternate') return links[i].href; }
+        return '';
+      }
+      function getDateString(entry) {
+        var raw = (entry.published && (entry.published.$t != null ? entry.published.$t : entry.published)) || (entry.updated && (entry.updated.$t != null ? entry.updated.$t : entry.updated));
+        return typeof raw === 'string' ? raw : '';
+      }
+      function formatDate(iso) {
+        if (!iso) return '';
+        var d = new Date(iso);
+        if (isNaN(d.getTime())) return '';
+        return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      }
+      function showPost(entry) {
+        var title = (entry.title && entry.title.$t) || 'Untitled';
+        var content = (entry.content && entry.content.$t) || (entry.summary && entry.summary.$t) || '';
+        var date = formatDate(getDateString(entry));
+        document.title = title + ' — A FAITH DRIVEN LIFE';
+        document.getElementById('post-title').textContent = title;
+        document.getElementById('post-date').textContent = date;
+        document.getElementById('post-body').innerHTML = content;
+        loadingEl.style.display = 'none';
+        contentEl.style.display = 'block';
+      }
+      function showError() {
+        loadingEl.style.display = 'none';
+        errorEl.style.display = 'block';
+      }
+      function tryLoad(proxyIndex) {
+        if (!postUrl) { showError(); return; }
+        var proxy = CORS_PROXIES[proxyIndex];
+        var feedUrl = BLOGGER_FEED + '&_=' + Date.now();
+        var url = proxy === 'https://corsproxy.io/?' ? proxy + encodeURIComponent(feedUrl) : proxy + encodeURIComponent(feedUrl);
+        fetch(url).then(function (res) { if (!res.ok) throw new Error(); return res.text(); }).then(function (text) {
+          var data; try { data = JSON.parse(text); } catch (e) { throw new Error(); }
+          var entries = (data.feed && data.feed.entry) || [];
+          for (var i = 0; i < entries.length; i++) {
+            if (getPostUrl(entries[i]) === postUrl) { showPost(entries[i]); return; }
+          }
+          showError();
+        }).catch(function () {
+          if (proxyIndex + 1 < CORS_PROXIES.length) tryLoad(proxyIndex + 1); else showError();
+        });
+      }
+      tryLoad(0);
+    })();
+  </script>
+</body>
+</html>

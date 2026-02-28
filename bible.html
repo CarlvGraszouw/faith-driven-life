@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search the Bible (NIV) — A FAITH DRIVEN LIFE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0a1628; --surface: #132238; --text: #f0f4f8; --muted: #94a3b8; --accent: #d4af37; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; padding-top: 8rem; }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; min-height: 7rem; }
+    .site-nav .nav-inner { max-width: 100%; width: 100%; margin: 0 auto; padding: 0 0.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+    .site-nav .site-name { display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; font-weight: 700; flex-shrink: 0; }
+    .site-nav .site-name:hover { color: var(--accent); }
+    .site-nav .site-name-block { max-width: min(28em, 50vw); }
+    .site-nav .site-tagline { font-size: 0.75rem; color: #00d4ff; line-height: 1.35; }
+    .site-nav .site-logo { height: 5.5rem; width: auto; max-width: 280px; display: block; object-fit: contain; }
+    .site-nav .nav-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; list-style: none; margin: 0; padding: 0; }
+    .site-nav .nav-links a { color: #00d4ff; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+    .site-nav .nav-links a:hover { color: var(--accent); }
+    @media (min-width: 768px) { .site-nav .site-logo { height: 6.5rem; max-width: 320px; } .site-nav .nav-links a { font-size: 1rem; } }
+    section { padding: 3rem 0; }
+    section h2 { font-family: 'Source Serif 4', serif; font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem; color: var(--accent); }
+    .bible-intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .bible-form { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+    .bible-form input { flex: 1; min-width: 200px; padding: 0.6rem 1rem; font: inherit; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text); }
+    .bible-form input:focus { outline: none; border-color: var(--accent); }
+    .bible-form input::placeholder { color: var(--muted); }
+    .bible-form button { padding: 0.6rem 1.25rem; font: inherit; font-weight: 600; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; cursor: pointer; }
+    .bible-form button:hover { opacity: 0.9; }
+    .bible-result { background: var(--surface); border-radius: 10px; padding: 1.5rem 1.75rem; border: 1px solid rgba(255,255,255,0.06); margin-top: 1rem; }
+    .bible-ref { font-weight: 600; color: var(--accent); margin-bottom: 0.75rem; font-size: 1rem; }
+    .bible-text { font-size: 1.1rem; line-height: 1.8; }
+    .bible-text .verse-num { color: var(--muted); font-size: 0.85em; font-weight: 400; }
+    .bible-loading, .bible-error { color: var(--muted); padding: 1.5rem 0; }
+    .bible-error { color: #f87171; }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Main">
+    <div class="nav-inner">
+      <a href="index.html" class="site-name">
+        <img src="logo.png" alt="A Faith Driven Life" class="site-logo" onerror="this.style.display='none'">
+        <span class="site-name-block">
+          <span class="site-tagline">Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will. — Romans 12:2 (NIV)</span>
+        </span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blogs.html">Blogs</a></li>
+        <li><a href="audio.html">Audio</a></li>
+        <li><a href="bible.html">Search the Bible</a></li>
+        <li><a href="comments.html">Comments</a></li>
+        <li><a href="prayer-requests.html">Prayer requests</a></li>
+        <li><a href="testimonies.html">Testimonies</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section id="bible">
+      <h2>Search the Bible (NIV)</h2>
+      <p class="bible-intro">Enter a verse reference (e.g. John 3:16, Psalm 23:1, Genesis 1:1) to read it in the NIV.</p>
+      <form class="bible-form" id="bible-form">
+        <input type="text" id="verse-input" placeholder="e.g. John 3:16" required autocomplete="off">
+        <button type="submit">Search</button>
+      </form>
+      <div id="bible-loading" class="bible-loading" style="display: none;">Loading…</div>
+      <div id="bible-error" class="bible-error" style="display: none;"></div>
+      <div id="bible-result" class="bible-result" style="display: none;">
+        <div class="bible-ref" id="bible-ref"></div>
+        <div class="bible-text" id="bible-text"></div>
+      </div>
+    </section>
+    <footer><p>A FAITH DRIVEN LIFE</p></footer>
+  </div>
+
+  <script>
+    (function () {
+      var form = document.getElementById('bible-form');
+      var input = document.getElementById('verse-input');
+      var loadingEl = document.getElementById('bible-loading');
+      var errorEl = document.getElementById('bible-error');
+      var resultEl = document.getElementById('bible-result');
+      var refEl = document.getElementById('bible-ref');
+      var textEl = document.getElementById('bible-text');
+      var CORS_PROXIES = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
+        var bookNames = { gen: 'Genesis', ex: 'Exodus', lev: 'Leviticus', num: 'Numbers', deut: 'Deuteronomy', josh: 'Joshua', judg: 'Judges', ruth: 'Ruth', '1 sam': '1 Samuel', '2 sam': '2 Samuel', '1 kings': '1 Kings', '2 kings': '2 Kings', '1 chron': '1 Chronicles', '2 chron': '2 Chronicles', ezra: 'Ezra', neh: 'Nehemiah', est: 'Esther', job: 'Job', ps: 'Psalm', prov: 'Proverbs', eccl: 'Ecclesiastes', song: 'Song of Solomon', isa: 'Isaiah', jer: 'Jeremiah', lam: 'Lamentations', ezek: 'Ezekiel', dan: 'Daniel', hos: 'Hosea', joel: 'Joel', amos: 'Amos', obad: 'Obadiah', jonah: 'Jonah', mic: 'Micah', nah: 'Nahum', hab: 'Habakkuk', zeph: 'Zephaniah', hag: 'Haggai', zech: 'Zechariah', mal: 'Malachi', matt: 'Matthew', mk: 'Mark', lk: 'Luke', jn: 'John', jhn: 'John', acts: 'Acts', rom: 'Romans', '1 cor': '1 Corinthians', '2 cor': '2 Corinthians', gal: 'Galatians', eph: 'Ephesians', phil: 'Philippians', col: 'Colossians', '1 thess': '1 Thessalonians', '2 thess': '2 Thessalonians', '1 tim': '1 Timothy', '2 tim': '2 Timothy', titus: 'Titus', philem: 'Philemon', heb: 'Hebrews', jas: 'James', '1 pet': '1 Peter', '2 pet': '2 Peter', '1 jn': '1 John', '2 jn': '2 John', '3 jn': '3 John', jude: 'Jude', rev: 'Revelation' };
+      function normalizeRef(ref) {
+        var lower = ref.trim().toLowerCase();
+        var parts = lower.match(/^(\d?\s*\w+(?:\s+\w+)?)\s+(\d+)(?::(\d+(?:-\d+)?))?$/);
+        if (!parts) return ref;
+        var book = parts[1].replace(/\s+/g, ' ').trim();
+        var expanded = bookNames[book] || book;
+        return expanded + ' ' + parts[2] + (parts[3] ? ':' + parts[3] : '');
+      }
+      function tryFetch(proxyIndex) {
+        var ref = input.value.trim();
+        var normalized = normalizeRef(ref);
+        var apiUrl = 'https://bible-api.com/' + encodeURIComponent(normalized) + '?translation=niv';
+        var proxy = CORS_PROXIES[proxyIndex];
+        var url = proxy === 'https://corsproxy.io/?' ? proxy + encodeURIComponent(apiUrl) : proxy + encodeURIComponent(apiUrl);
+        fetch(url)
+          .then(function (res) { return res.text(); })
+          .then(function (text) {
+            var data;
+            try { data = JSON.parse(text); } catch (e) { throw new Error('Invalid response'); }
+            loadingEl.style.display = 'none';
+            if (data.error) {
+              errorEl.textContent = data.error || 'Verse not found. Try e.g. John 3:16, Psalm 23:1';
+              errorEl.style.display = 'block';
+              return;
+            }
+            refEl.textContent = (data.reference || ref) + ' (NIV)';
+            var html = '';
+            if (data.verses && data.verses.length) {
+              data.verses.forEach(function (v) {
+                html += '<span class="verse-num">' + (v.verse || '') + '</span> ' + (v.text || '').trim() + ' ';
+              });
+            } else if (data.text) {
+              html = data.text;
+            }
+            textEl.innerHTML = html.trim() || (data.reference || ref);
+            resultEl.style.display = 'block';
+          })
+          .catch(function () {
+            if (proxyIndex + 1 < CORS_PROXIES.length) {
+              tryFetch(proxyIndex + 1);
+            } else {
+              loadingEl.style.display = 'none';
+              errorEl.textContent = 'Could not load verse. Try "Genesis 3:2" or "John 3:16". If you\'re viewing from your computer (file://), open the site from GitHub Pages instead.';
+              errorEl.style.display = 'block';
+            }
+          });
+      }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var ref = input.value.trim();
+        if (!ref) return;
+        loadingEl.style.display = 'block';
+        errorEl.style.display = 'none';
+        resultEl.style.display = 'none';
+        tryFetch(0);
+      });
+    })();
+  </script>
+</body>
+</html>
