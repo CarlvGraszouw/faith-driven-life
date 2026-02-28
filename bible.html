@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search the Bible (NIV) — A FAITH DRIVEN LIFE</title>
+  <title>Search the Bible — A FAITH DRIVEN LIFE</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -64,8 +64,8 @@
 
   <div class="container">
     <section id="bible">
-      <h2>Search the Bible (NIV)</h2>
-      <p class="bible-intro">Enter a verse reference (e.g. John 3:16, Psalm 23:1, Genesis 1:1) to read it in the NIV.</p>
+      <h2>Search the Bible</h2>
+      <p class="bible-intro">Enter a verse reference (e.g. John 3:16, Psalm 23:1, Genesis 1:1) to read it in the Berean Standard Bible.</p>
       <form class="bible-form" id="bible-form">
         <input type="text" id="verse-input" placeholder="e.g. John 3:16" required autocomplete="off">
         <button type="submit">Search</button>
@@ -89,82 +89,89 @@
       var resultEl = document.getElementById('bible-result');
       var refEl = document.getElementById('bible-ref');
       var textEl = document.getElementById('bible-text');
-      var bookNames = { gen: 'Genesis', ex: 'Exodus', lev: 'Leviticus', num: 'Numbers', deut: 'Deuteronomy', josh: 'Joshua', judg: 'Judges', ruth: 'Ruth', '1 sam': '1 Samuel', '2 sam': '2 Samuel', '1 kings': '1 Kings', '2 kings': '2 Kings', '1 chron': '1 Chronicles', '2 chron': '2 Chronicles', ezra: 'Ezra', neh: 'Nehemiah', est: 'Esther', job: 'Job', ps: 'Psalm', prov: 'Proverbs', eccl: 'Ecclesiastes', song: 'Song of Solomon', isa: 'Isaiah', jer: 'Jeremiah', lam: 'Lamentations', ezek: 'Ezekiel', dan: 'Daniel', hos: 'Hosea', joel: 'Joel', amos: 'Amos', obad: 'Obadiah', jonah: 'Jonah', mic: 'Micah', nah: 'Nahum', hab: 'Habakkuk', zeph: 'Zephaniah', hag: 'Haggai', zech: 'Zechariah', mal: 'Malachi', matt: 'Matthew', mk: 'Mark', lk: 'Luke', jn: 'John', jhn: 'John', acts: 'Acts', rom: 'Romans', '1 cor': '1 Corinthians', '2 cor': '2 Corinthians', gal: 'Galatians', eph: 'Ephesians', phil: 'Philippians', col: 'Colossians', '1 thess': '1 Thessalonians', '2 thess': '2 Thessalonians', '1 tim': '1 Timothy', '2 tim': '2 Timothy', titus: 'Titus', philem: 'Philemon', heb: 'Hebrews', jas: 'James', '1 pet': '1 Peter', '2 pet': '2 Peter', '1 jn': '1 John', '2 jn': '2 John', '3 jn': '3 John', jude: 'Jude', rev: 'Revelation' };
-      function normalizeRef(ref) {
-        var lower = ref.trim().toLowerCase();
-        var parts = lower.match(/^(\d?\s*\w+(?:\s+\w+)?)\s+(\d+)(?::(\d+(?:-\d+)?))?$/);
-        if (!parts) return ref;
-        var book = parts[1].replace(/\s+/g, ' ').trim();
-        var expanded = bookNames[book] || book;
-        return expanded + ' ' + parts[2] + (parts[3] ? ':' + parts[3] : '');
+      var TIMEOUT_MS = 8000;
+      var bookToOsis = { 'Genesis': 'GEN', 'Exodus': 'EXO', 'Leviticus': 'LEV', 'Numbers': 'NUM', 'Deuteronomy': 'DEU', 'Joshua': 'JOS', 'Judges': 'JDG', 'Ruth': 'RUT', '1 Samuel': '1SA', '2 Samuel': '2SA', '1 Kings': '1KI', '2 Kings': '2KI', '1 Chronicles': '1CH', '2 Chronicles': '2CH', 'Ezra': 'EZR', 'Nehemiah': 'NEH', 'Esther': 'EST', 'Job': 'JOB', 'Psalm': 'PSA', 'Psalms': 'PSA', 'Proverbs': 'PRO', 'Ecclesiastes': 'ECC', 'Song of Solomon': 'SNG', 'Song of Songs': 'SNG', 'Isaiah': 'ISA', 'Jeremiah': 'JER', 'Lamentations': 'LAM', 'Ezekiel': 'EZK', 'Daniel': 'DAN', 'Hosea': 'HOS', 'Joel': 'JOL', 'Amos': 'AMO', 'Obadiah': 'OBA', 'Jonah': 'JON', 'Micah': 'MIC', 'Nahum': 'NAH', 'Habakkuk': 'HAB', 'Zephaniah': 'ZEP', 'Haggai': 'HAG', 'Zechariah': 'ZEC', 'Malachi': 'MAL', 'Matthew': 'MAT', 'Mark': 'MRK', 'Luke': 'LUK', 'John': 'JHN', 'Acts': 'ACT', 'Romans': 'ROM', '1 Corinthians': '1CO', '2 Corinthians': '2CO', 'Galatians': 'GAL', 'Ephesians': 'EPH', 'Philippians': 'PHP', 'Colossians': 'COL', '1 Thessalonians': '1TH', '2 Thessalonians': '2TH', '1 Timothy': '1TI', '2 Timothy': '2TI', 'Titus': 'TIT', 'Philemon': 'PHM', 'Hebrews': 'HEB', 'James': 'JAS', '1 Peter': '1PE', '2 Peter': '2PE', '1 John': '1JN', '2 John': '2JN', '3 John': '3JN', 'Jude': 'JUD', 'Revelation': 'REV' };
+      var abbrToBook = { gen: 'Genesis', ex: 'Exodus', lev: 'Leviticus', num: 'Numbers', deut: 'Deuteronomy', josh: 'Joshua', judg: 'Judges', ruth: 'Ruth', '1 sam': '1 Samuel', '2 sam': '2 Samuel', '1 kings': '1 Kings', '2 kings': '2 Kings', '1 chron': '1 Chronicles', '2 chron': '2 Chronicles', ezra: 'Ezra', neh: 'Nehemiah', est: 'Esther', job: 'Job', ps: 'Psalm', psalm: 'Psalm', psalms: 'Psalms', prov: 'Proverbs', eccl: 'Ecclesiastes', song: 'Song of Solomon', isa: 'Isaiah', jer: 'Jeremiah', lam: 'Lamentations', ezek: 'Ezekiel', dan: 'Daniel', hos: 'Hosea', joel: 'Joel', amos: 'Amos', obad: 'Obadiah', jonah: 'Jonah', mic: 'Micah', nah: 'Nahum', hab: 'Habakkuk', zeph: 'Zephaniah', hag: 'Haggai', zech: 'Zechariah', mal: 'Malachi', matt: 'Matthew', mk: 'Mark', lk: 'Luke', jn: 'John', jhn: 'John', acts: 'Acts', rom: 'Romans', '1 cor': '1 Corinthians', '2 cor': '2 Corinthians', gal: 'Galatians', eph: 'Ephesians', phil: 'Philippians', col: 'Colossians', '1 thess': '1 Thessalonians', '2 thess': '2 Thessalonians', '1 tim': '1 Timothy', '2 tim': '2 Timothy', titus: 'Titus', philem: 'Philemon', heb: 'Hebrews', jas: 'James', '1 pet': '1 Peter', '2 pet': '2 Peter', '1 jn': '1 John', '2 jn': '2 John', '3 jn': '3 John', jude: 'Jude', rev: 'Revelation' };
+      function parseRef(ref) {
+        var s = ref.trim();
+        var m = s.match(/^(\d?\s*\w+(?:\s+\w+)?)\s+(\d+)(?::(\d+)(?:-(\d+))?)?$/i);
+        if (!m) return null;
+        var bookPart = m[1].replace(/\s+/g, ' ').trim().toLowerCase();
+        var book = abbrToBook[bookPart] || (m[1].trim().replace(/\b\w/g, function (c) { return c.toUpperCase(); }));
+        var chapter = parseInt(m[2], 10);
+        var v1 = m[3] ? parseInt(m[3], 10) : 1;
+        var v2 = m[4] ? parseInt(m[4], 10) : v1;
+        var osis = bookToOsis[book];
+        if (!osis) return null;
+        return { book: book, bookId: osis, chapter: chapter, verseStart: v1, verseEnd: v2 };
       }
-      function pathForApi(normalized) {
-        return normalized.replace(/\s+/g, '+');
+      function verseContentToText(content) {
+        if (!content || !content.length) return '';
+        return content.map(function (c) {
+          if (typeof c === 'string') return c;
+          if (c && typeof c === 'object' && c.text) return c.text;
+          return '';
+        }).join('').trim();
       }
-      function showVerse(data, ref) {
-        loadingEl.style.display = 'none';
-        if (data.error) {
-          errorEl.textContent = data.error || 'Verse not found. Try e.g. John 3:16, Psalm 23:1';
+      function runSearch() {
+        var ref = input.value.trim();
+        if (!ref) return;
+        var parsed = parseRef(ref);
+        if (!parsed) {
+          loadingEl.style.display = 'none';
+          errorEl.textContent = 'Use a reference like John 3:16, Psalm 23:1, or Genesis 1:1.';
           errorEl.style.display = 'block';
           return;
         }
-        refEl.textContent = (data.reference || ref) + ' (NIV)';
-        var html = '';
-        if (data.verses && data.verses.length) {
-          data.verses.forEach(function (v) {
-            html += '<span class="verse-num">' + (v.verse || '') + '</span> ' + (v.text || '').trim() + ' ';
-          });
-        } else if (data.text) {
-          html = data.text;
-        }
-        textEl.innerHTML = html.trim() || (data.reference || ref);
-        resultEl.style.display = 'block';
-      }
-      function handleError() {
-        loadingEl.style.display = 'none';
-        errorEl.textContent = 'Unable to load verse right now. Please try again in a moment or use a reference like John 3:16 or Psalm 23:1.';
-        errorEl.style.display = 'block';
-      }
-      function parseResponse(text) {
-        var data;
-        try { data = JSON.parse(text); } catch (e) { throw new Error('Invalid response'); }
-        return data;
-      }
-      function tryFetch(proxyIndex) {
-        var ref = input.value.trim();
-        var normalized = normalizeRef(ref);
-        var path = pathForApi(normalized);
-        var apiUrl = 'https://bible-api.com/' + path + '?translation=niv';
-        var urlsToTry = [];
-        urlsToTry.push(apiUrl);
-        urlsToTry.push('https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl));
-        urlsToTry.push('https://corsproxy.io/?' + encodeURIComponent(apiUrl));
-        urlsToTry.push('https://api.cors.lol/?url=' + encodeURIComponent(apiUrl));
-        urlsToTry.push('https://thingproxy.freeboard.io/fetch/' + encodeURIComponent(apiUrl));
-        var url = urlsToTry[proxyIndex];
-        if (!url) { handleError(); return; }
-        fetch(url, { method: 'GET', mode: 'cors' })
-          .then(function (res) { return res.text(); })
-          .then(function (text) {
-            var data = parseResponse(text);
-            showVerse(data, ref);
-          })
-          .catch(function () {
-            if (proxyIndex + 1 < urlsToTry.length) {
-              tryFetch(proxyIndex + 1);
-            } else {
-              handleError();
-            }
-          });
-      }
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var ref = input.value.trim();
-        if (!ref) return;
         loadingEl.style.display = 'block';
         errorEl.style.display = 'none';
         resultEl.style.display = 'none';
-        tryFetch(0);
+        var url = 'https://bible.helloao.org/api/BSB/' + parsed.bookId + '/' + parsed.chapter + '.json';
+        function doFetch(fetchUrl) {
+          var controller = new AbortController();
+          var timeoutId = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
+          return fetch(fetchUrl, { signal: controller.signal })
+            .then(function (res) {
+              clearTimeout(timeoutId);
+              if (!res.ok) throw new Error('Not found');
+              return res.json();
+            })
+            .then(function (data) {
+              clearTimeout(timeoutId);
+              var content = data.chapter && data.chapter.content;
+              if (!content || !content.length) throw new Error('No content');
+              var verses = [];
+              content.forEach(function (item) {
+                if (item.type !== 'verse' || item.number == null) return;
+                var n = parseInt(item.number, 10);
+                if (n >= parsed.verseStart && n <= parsed.verseEnd) {
+                  verses.push({ num: n, text: verseContentToText(item.content) });
+                }
+              });
+              if (verses.length === 0) throw new Error('Verse not found');
+              var refLabel = parsed.book + ' ' + parsed.chapter + (parsed.verseStart === parsed.verseEnd ? ':' + parsed.verseStart : ':' + parsed.verseStart + '-' + parsed.verseEnd);
+              refEl.textContent = refLabel + ' (BSB)';
+              var html = verses.map(function (v) {
+                return '<span class="verse-num">' + v.num + '</span> ' + (v.text || '');
+              }).join(' ');
+              textEl.innerHTML = html.trim();
+              resultEl.style.display = 'block';
+              loadingEl.style.display = 'none';
+            });
+        }
+        doFetch(url).catch(function () {
+          var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+          doFetch(proxyUrl)
+            .catch(function () {
+              loadingEl.style.display = 'none';
+              errorEl.textContent = 'Could not load that verse. Check the reference (e.g. John 3:16, Psalm 23:1) and try again.';
+              errorEl.style.display = 'block';
+            });
+        });
+      }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        runSearch();
       });
     })();
   </script>
