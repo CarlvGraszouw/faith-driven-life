@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Phone-optimized layout: full-width WebView, minimal chrome, respects system bars and cutouts -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
+    <!-- Minimal toolbar for menu only – same colour as site (#0a1628), compact for phone -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#0a1628" />
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:background="#0a1628"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- WebView fills remaining space below toolbar -->
     <FrameLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -32,4 +44,4 @@
             android:progress="0"
             android:visibility="visible" />
     </FrameLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

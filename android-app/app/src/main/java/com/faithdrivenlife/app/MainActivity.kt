@@ -1,15 +1,18 @@
 package com.faithdrivenlife.app
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +27,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Allow content to extend into display cutouts (notch, punch-hole) on Samsung etc.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.attributes = window.attributes.apply {
+                layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            }
+        }
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
         webView = findViewById(R.id.webView)
@@ -36,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             loadWithOverviewMode = true
             setSupportZoom(false)
             builtInZoomControls = false
+            databaseEnabled = true
         }
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
@@ -44,9 +56,20 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                // Force viewport so scripture rotator and layout fit on all devices
+                // Viewport for phone: device-width, viewport-fit=cover for safe areas, no horizontal overflow
                 view?.evaluateJavascript(
-                    "(function(){ var m=document.querySelector('meta[name=viewport]'); if(m){ m.setAttribute('content','width=device-width,initial-scale=1,maximum-scale=1'); } document.body.style.maxWidth='100%'; document.documentElement.style.overflowX='hidden'; document.body.style.overflowX='hidden'; })();",
+                    """
+                    (function(){
+                      var m=document.querySelector('meta[name=viewport]');
+                      var c='width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover';
+                      if(m){ m.setAttribute('content',c); } else {
+                        var meta=document.createElement('meta'); meta.name='viewport'; meta.content=c; document.head.appendChild(meta);
+                      }
+                      document.documentElement.style.overflowX='hidden';
+                      document.body.style.overflowX='hidden';
+                      document.body.style.maxWidth='100%';
+                    })();
+                    """.trimIndent(),
                     null
                 )
             }
