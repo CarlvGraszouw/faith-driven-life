@@ -417,6 +417,38 @@
       color: var(--text);
     }
 
+    /* Live changing scriptures rotator */
+    .scripture-rotator {
+      margin: 0 0 2.5rem;
+      padding: 0;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .scripture-rotator-banner {
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      text-align: center;
+    }
+    .scripture-rotator-verse {
+      padding: 1.25rem 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text);
+      min-height: 4.5em;
+    }
+    .scripture-rotator-verse .ref {
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+
     .page-links {
       padding: 2rem 0 3rem;
       border-top: 1px solid rgba(255,255,255,0.06);
@@ -483,6 +515,14 @@
   </nav>
 
   <div class="container">
+    <section class="scripture-rotator" aria-live="polite">
+      <div class="scripture-rotator-banner">Live changing scriptures</div>
+      <div class="scripture-rotator-verse" id="scripture-rotator-verse">
+        <span class="ref" id="scripture-ref"></span>
+        <span id="scripture-text"></span>
+      </div>
+    </section>
+
     <section class="intro-section">
       <h1 class="intro-title">Welcome to Carl and Wilma's "A Faith Driven Life" Website</h1>
       <div class="intro-content">
@@ -518,5 +558,25 @@
       <p>A FAITH DRIVEN LIFE</p>
     </footer>
   </div>
+
+  <script src="scripture-rotator-data.js"></script>
+  <script>
+    (function () {
+      var list = window.SCRIPTURE_ROTATOR_LIST;
+      if (!list || !list.length) return;
+      var refEl = document.getElementById('scripture-ref');
+      var textEl = document.getElementById('scripture-text');
+      if (!refEl || !textEl) return;
+      var index = Math.floor(Math.random() * list.length);
+      function show() {
+        var s = list[index];
+        refEl.textContent = s.ref + ' — ';
+        textEl.textContent = s.text;
+        index = (index + 1) % list.length;
+      }
+      show();
+      setInterval(show, 15000);
+    })();
+  </script>
 </body>
 </html>
