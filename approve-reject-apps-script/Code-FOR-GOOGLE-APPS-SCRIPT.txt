@@ -1,0 +1,15 @@
+/**
+ * Automated Approve/Reject for Formspree submissions.
+ * Deploy as Web App (Execute as me, Anyone can access).
+ * Use the /dev or /exec URL as Formspree webhook and for approve/reject links.
+ */
+
+// ============ CONFIG — Edit these ============
+var CONFIG = {
+  SPREADSHEET_ID: 'YOUR_SPREADSHEET_ID',   // From SHEET URL: docs.google.com/spreadsheets/d/THIS_PART/edit
+  OWNER_EMAIL: 'vongraszouw@gmail.com',    // Where to send Approve/Reject emails
+  APPROVED_SHEET_NAME: 'Sheet1',           // Tab with Type, Name, Date, Message (published as CSV)
+  PENDING_SHEET_NAME: 'Pending',           // Tab for pending submissions
+  WEB_APP_URL: 'YOUR_WEB_APP_URL'          // Set after first deploy: Deploy > Web app > copy URL
+};
+// =============================================
