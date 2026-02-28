@@ -9,11 +9,16 @@ This folder contains an Android app that wraps your website in a WebView. The ap
 
 ## How to build and run
 
+**You need Android Studio** (it includes the JDK and Android SDK). Install from [developer.android.com/studio](https://developer.android.com/studio) if you haven’t.
+
 1. Open **Android Studio**.
-2. **File → Open** and select this folder: `android-app` (the one containing `build.gradle.kts`).
-3. Wait for Gradle sync to finish (first time may take a few minutes).
-4. Connect an Android device with **USB debugging** enabled, or start an **Android emulator**.
-5. Click the **Run** button (green triangle) or press **Shift+F10** to build and install the app.
+2. **File → Open** and select the **`android-app`** folder (the one that contains `build.gradle.kts` and `gradlew.bat`).
+3. Wait for **Gradle sync** to finish (first time can take several minutes; it will download Gradle and dependencies).
+4. To run on a device: connect an Android phone with **USB debugging** enabled, or start an **Android emulator** (Tools → Device Manager).
+5. Click the green **Run** button (or **Shift+F10**) to build and install the app.
+
+**From the command line (after opening the project once in Android Studio):**  
+From the `android-app` folder you can run `gradlew.bat assembleDebug` if `JAVA_HOME` is set to your JDK (e.g. the one inside Android Studio).
 
 ## Building a release APK (to share or publish)
 
