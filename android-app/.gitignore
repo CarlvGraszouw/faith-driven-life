@@ -4,5 +4,4 @@
 .gradle/
 local.properties
 
-# Firebase (add your own google-services.json from Firebase Console)
-app/google-services.json
+# Optional: add app/google-services.json here if you use a real Firebase project and want to keep it out of git
