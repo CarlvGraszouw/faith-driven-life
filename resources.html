@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <title>A FAITH DRIVEN LIFE — Testimonies</title>
+  <title>A FAITH DRIVEN LIFE — Resources</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <style>
-    :root { --bg: #0a1628; --surface: #132238; --text: #f0f4f8; --muted: #94a3b8; --accent: #d4af37; --accent-dim: rgba(212, 175, 55, 0.2); }
+    :root { --bg: #0a1628; --surface: #132238; --text: #f0f4f8; --muted: #94a3b8; --accent: #d4af37; }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; padding-top: 16rem; padding-bottom: env(safe-area-inset-bottom, 2rem); }
     .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
@@ -25,21 +25,18 @@
     .site-nav .nav-links a:hover { color: var(--accent); }
     .site-nav .nav-links a.nav-blogs { color: var(--accent); font-size: 1.05rem; }
     .site-nav .nav-links a.nav-blogs:hover { color: #00d4ff; }
+    .site-nav .nav-links a.nav-resources { color: var(--accent); font-size: 1.05rem; }
+    .site-nav .nav-links a.nav-resources:hover { color: #00d4ff; }
     .visit-counter { font-size: 0.75rem; color: var(--muted); margin-left: auto; padding-left: 1rem; white-space: nowrap; }
     .visit-counter::before { content: 'Site visits: '; }
-    @media (min-width: 768px) { .site-nav .site-logo { height: 13rem; max-width: 640px; } .site-nav .nav-links a { font-size: 1rem; } .site-nav .nav-links a.nav-blogs { font-size: 1.125rem; } }
+    @media (min-width: 768px) { .site-nav .site-logo { height: 13rem; max-width: 640px; } .site-nav .nav-links a { font-size: 1rem; } .site-nav .nav-links a.nav-blogs, .site-nav .nav-links a.nav-resources { font-size: 1.125rem; } }
     section { padding: 3rem 0; }
     section h2 { font-family: 'Source Serif 4', serif; font-size: 1.5rem; font-weight: 600; margin: 0 0 1.5rem; color: var(--accent); }
-    .section-note { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
-    .submit-form label { display: block; font-size: 0.9rem; margin-top: 0.75rem; margin-bottom: 0.25rem; }
-    .submit-form input, .submit-form textarea { width: 100%; max-width: 400px; padding: 0.5rem 0.75rem; font: inherit; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: var(--text); }
-    .submit-form input:focus, .submit-form textarea:focus { outline: none; border-color: var(--accent); }
-    .submit-form button { margin-top: 1rem; padding: 0.5rem 1.25rem; font: inherit; font-weight: 600; background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; cursor: pointer; }
-    .submit-form button:hover { background: var(--accent); color: var(--bg); }
-    .approved-list { margin-top: 0.5rem; }
-    .approved-item { background: var(--surface); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; border: 1px solid rgba(255,255,255,0.06); }
-    .approved-item p { margin: 0.5rem 0 0; font-size: 0.95rem; }
-    .approved-meta { font-size: 0.85rem; color: var(--muted); font-weight: 400; }
+    .resource-list { list-style: none; padding: 0; margin: 0; }
+    .resource-list li { margin-bottom: 1rem; }
+    .resource-list a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    .resource-list a:hover { text-decoration: underline; }
+    .resource-list .resource-desc { font-size: 0.9rem; color: var(--muted); margin-top: 0.25rem; }
     footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
     /* Phone: menu + headings max 25% of screen, 75% for scrolling */
     @media (max-width: 767px) {
@@ -55,14 +52,12 @@
       .site-nav .nav-links a { padding: 0.35rem 0.25rem; min-height: 0; display: inline-flex; align-items: center; font-size: 0.8rem; }
       section { padding: 2rem 0; }
       section h2 { font-size: 1.35rem; margin-bottom: 1rem; }
-      .submit-form input, .submit-form textarea { max-width: none; }
-      .submit-form button { min-height: 2.75rem; }
       footer { padding: 1.5rem 0 2rem; font-size: 0.85rem; }
     }
     @media (max-width: 380px) { .site-nav .site-name-block { max-width: 12em; } .site-nav .nav-links a { font-size: 0.85rem; padding: 0.4rem 0.25rem; } }
   </style>
 </head>
-<body data-approved-type="testimonies">
+<body>
   <nav class="site-nav" aria-label="Main">
     <div class="nav-inner">
       <a href="index.html" class="site-name">
@@ -77,30 +72,26 @@
         <li><a href="comments.html">Comments</a></li>
         <li><a href="prayer-requests.html">Prayer requests</a></li>
         <li><a href="testimonies.html">Testimonies</a></li>
-        <li><a href="resources.html">Resources</a></li>
+        <li><a href="resources.html" class="nav-resources">Resources</a></li>
       </ul>
     </div>
   </nav>
 
   <div class="container">
-    <section id="testimonies">
-      <h2>Testimonies</h2>
-      <p style="margin: 0 0 1rem; color: var(--muted);">Share your testimony. We receive it by email and may add it to the list below for others to see.</p>
-      <form class="submit-form" action="https://formspree.io/f/mykdvvln" method="POST">
-        <input type="hidden" name="_subject" value="[A Faith Driven Life] Testimony">
-        <label for="testimony-name">Your name</label>
-        <input type="text" id="testimony-name" name="name" required>
-        <label for="testimony-email">Your email (not published)</label>
-        <input type="email" id="testimony-email" name="email" required>
-        <label for="testimony-message">Your testimony</label>
-        <textarea id="testimony-message" name="message" rows="5" required></textarea>
-        <button type="submit">Send</button>
-      </form>
-      <p class="section-note">Testimonies shown below have been added to this page.</p>
-      <h3 style="font-size: 1rem; color: var(--muted); margin: 1.5rem 0 0.5rem;">Published testimonies</h3>
-      <div class="approved-list">
-        <!-- Add new approved testimonies here. See HOW_TO_APPROVE_SUBMISSIONS.md -->
-      </div>
+    <section id="resources">
+      <h2>Resources</h2>
+      <p style="margin: 0 0 1.5rem; color: var(--muted);">Helpful links, readings, and tools for your journey.</p>
+      <ul class="resource-list">
+        <li>
+          <a href="bible.html">Search the Bible</a>
+          <p class="resource-desc">Look up verses and passages on this site.</p>
+        </li>
+        <li>
+          <a href="https://www.bible.com/" target="_blank" rel="noopener">Bible.com (YouVersion)</a>
+          <p class="resource-desc">Read and listen to the Bible in many versions and languages.</p>
+        </li>
+        <!-- Add more resources below -->
+      </ul>
     </section>
 
     <footer>
@@ -108,7 +99,5 @@
     </footer>
   </div>
   <script src="visit-counter.js"></script>
-  <script src="approved-list-config.js"></script>
-  <script src="approved-list.js"></script>
 </body>
 </html>
