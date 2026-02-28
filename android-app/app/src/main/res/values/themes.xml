@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.FaithDrivenLife" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#d4af37</item>
+        <item name="colorPrimaryVariant">#b8942e</item>
+        <item name="android:statusBarColor">#0a1628</item>
+        <item name="android:navigationBarColor">#0a1628</item>
+        <item name="android:windowBackground">#0a1628</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
