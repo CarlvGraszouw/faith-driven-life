@@ -195,24 +195,24 @@
         function fillVoices() {
           var voices = window.speechSynthesis.getVoices();
           var en = voices.filter(function (v) { return (v.lang || '').startsWith('en'); }).sort(function (a, b) { return scoreVoice(b) - scoreVoice(a); });
-          if (!voiceSelect) return en;
-          voiceSelect.innerHTML = '';
-          en.forEach(function (v, i) {
-            var opt = document.createElement('option');
-            opt.value = i;
-            opt.textContent = v.name || v.lang || 'Voice ' + (i + 1);
-            voiceSelect.appendChild(opt);
-          });
+          if (voiceSelect && voiceSelect.options.length === 0) {
+            en.forEach(function (v, i) {
+              var opt = document.createElement('option');
+              opt.value = i;
+              opt.textContent = v.name || v.lang || 'Voice ' + (i + 1);
+              voiceSelect.appendChild(opt);
+            });
+          }
           return en;
         }
         var voicesList = [];
         function getVoicesList() {
-          if (voicesList.length) return voicesList;
-          voicesList = fillVoices();
+          var en = fillVoices();
+          if (en.length) voicesList = en;
           return voicesList;
         }
         if (window.speechSynthesis.getVoices().length) getVoicesList();
-        else window.speechSynthesis.addEventListener('voiceschanged', function () { voicesList = []; getVoicesList(); });
+        else window.speechSynthesis.addEventListener('voiceschanged', function () { getVoicesList(); });
         btn.onclick = function () {
           if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
             window.speechSynthesis.pause();
@@ -231,12 +231,18 @@
           if (window.speechSynthesis.speaking) return;
           var text = getSpeakText();
           if (!text) return;
+          window.speechSynthesis.cancel();
           var u = new SpeechSynthesisUtterance(text);
           u.rate = 0.9;
           u.pitch = 1;
           var list = getVoicesList();
-          var idx = voiceSelect ? parseInt(voiceSelect.value, 10) : 0;
-          if (list[idx]) u.voice = list[idx];
+          var idx = 0;
+          if (voiceSelect && voiceSelect.options.length) {
+            idx = parseInt(voiceSelect.value, 10);
+            if (isNaN(idx) || idx < 0 || idx >= list.length) idx = 0;
+          }
+          if (list[idx] && list[idx].localService) u.voice = list[idx];
+          else if (list[idx]) u.voice = list[idx];
           u.onstart = function () { setPlaying(true); };
           u.onend = u.onerror = function () { setStopped(); };
           window.speechSynthesis.speak(u);
