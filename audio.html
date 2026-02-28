@@ -46,6 +46,7 @@
       color: var(--text);
       letter-spacing: 0.01em;
     }
+    .audio-item .audio-meta { margin: 0.35rem 0 0; font-size: 0.9rem; color: var(--muted); }
     .audio-item audio {
       display: block;
       width: 100%;
@@ -125,8 +126,18 @@
             <h3>The Supreme Commission</h3>
           </div>
           <audio controls preload="metadata" title="Play The Supreme Commission">
-            <source src="audio/The Supreme Commission.mp3" type="audio/mpeg">
-            Your browser does not support the audio element. <a href="audio/The Supreme Commission.mp3" download>Download</a> the file.
+            <source src="audio/The%20Supreme%20Commission.mp3" type="audio/mpeg">
+            Your browser does not support the audio element. <a href="audio/The%20Supreme%20Commission.mp3" download>Download</a> the file.
+          </audio>
+        </div>
+        <div class="audio-item">
+          <div class="audio-info">
+            <h3>Welcome</h3>
+            <p class="audio-meta">A short welcome message.</p>
+          </div>
+          <audio controls preload="metadata" title="Play Welcome">
+            <source src="audio/welcome.mp3" type="audio/mpeg">
+            Your browser does not support the audio element. <a href="audio/welcome.mp3" download>Download</a> the file.
           </audio>
         </div>
       </div>
