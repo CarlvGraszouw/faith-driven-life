@@ -41,6 +41,16 @@
     .resource-list a.video-link { display: inline-block; padding: 0.25rem 0; min-height: 2.5rem; cursor: pointer; text-decoration: underline; position: relative; z-index: 1; }
     .resource-list .resource-desc { font-size: 0.9rem; color: var(--muted); margin-top: 0.25rem; }
     .resource-list .resource-video { display: block; margin-top: 0.35rem; font-size: 0.85rem; color: #00d4ff; }
+    .study-curriculum { margin-top: 0.5rem; }
+    .study-level { margin-bottom: 1.75rem; }
+    .study-level h4 { font-size: 1rem; font-weight: 600; color: var(--accent); margin: 0 0 0.75rem; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(212, 175, 55, 0.3); }
+    .study-lessons { list-style: none; padding: 0; margin: 0; }
+    .study-lessons li { display: flex; align-items: baseline; gap: 0.5rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.95rem; }
+    .study-lessons li:last-child { border-bottom: none; }
+    .study-lesson-num { flex-shrink: 0; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 2.5rem; }
+    .study-lesson-topic { color: var(--text); }
+    .study-lessons a { color: var(--accent); text-decoration: none; }
+    .study-lessons a:hover { text-decoration: underline; }
     footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
     /* Phone: menu + headings max 25% of screen, 75% for scrolling */
     @media (max-width: 767px) {
@@ -98,9 +108,72 @@
 
       <div class="resource-section">
         <h3>Self study material (free to share)</h3>
-        <ul class="resource-list">
-          <!-- Add items here: links to PDFs, documents, or pages -->
-        </ul>
+        <p class="resource-desc" style="margin-bottom: 1rem;">Curriculum overview. When materials are available, each topic may link to a PDF or page.</p>
+        <div class="study-curriculum">
+          <div class="study-level">
+            <h4>Level 1</h4>
+            <ol class="study-lessons" start="1">
+              <li><span class="study-lesson-num">1.</span><span class="study-lesson-topic">Eternal Life</span></li>
+              <li><span class="study-lesson-num">2.</span><span class="study-lesson-topic">Salvation by Grace</span></li>
+              <li><span class="study-lesson-num">3.</span><span class="study-lesson-topic">Righteousness by Grace</span></li>
+              <li><span class="study-lesson-num">4.</span><span class="study-lesson-topic">Relationship with God</span></li>
+              <li><span class="study-lesson-num">5.</span><span class="study-lesson-topic">The Nature of God</span></li>
+              <li><span class="study-lesson-num">6.</span><span class="study-lesson-topic">Repentance</span></li>
+              <li><span class="study-lesson-num">7.</span><span class="study-lesson-topic">Commitment</span></li>
+              <li><span class="study-lesson-num">8.</span><span class="study-lesson-topic">Water Baptism</span></li>
+              <li><span class="study-lesson-num">9.</span><span class="study-lesson-topic">Identity in Christ — Part 1</span></li>
+              <li><span class="study-lesson-num">10.</span><span class="study-lesson-topic">Identity in Christ — Part 2</span></li>
+              <li><span class="study-lesson-num">11.</span><span class="study-lesson-topic">What Happens When a Christian Sins</span></li>
+              <li><span class="study-lesson-num">12.</span><span class="study-lesson-topic">Integrity of God's Word</span></li>
+              <li><span class="study-lesson-num">13.</span><span class="study-lesson-topic">God's Not Guilty</span></li>
+              <li><span class="study-lesson-num">14.</span><span class="study-lesson-topic">The Power of a Spirit Filled Life</span></li>
+              <li><span class="study-lesson-num">15.</span><span class="study-lesson-topic">How To Receive the Holy Spirit</span></li>
+              <li><span class="study-lesson-num">16.</span><span class="study-lesson-topic">The Benefits of Speaking in Tongues</span></li>
+            </ol>
+          </div>
+          <div class="study-level">
+            <h4>Level 2</h4>
+            <ol class="study-lessons" start="1">
+              <li><span class="study-lesson-num">1.</span><span class="study-lesson-topic">Self-Centeredness: The Source of All Grief</span></li>
+              <li><span class="study-lesson-num">2.</span><span class="study-lesson-topic">How to Meditate on God's Word</span></li>
+              <li><span class="study-lesson-num">3.</span><span class="study-lesson-topic">Renewing the Mind</span></li>
+              <li><span class="study-lesson-num">4.</span><span class="study-lesson-topic">The Importance of Christ's Church</span></li>
+              <li><span class="study-lesson-num">5.</span><span class="study-lesson-topic">Deliverance</span></li>
+              <li><span class="study-lesson-num">6.</span><span class="study-lesson-topic">Authority of the Believer</span></li>
+              <li><span class="study-lesson-num">7.</span><span class="study-lesson-topic">Healing Is in the Atonement</span></li>
+              <li><span class="study-lesson-num">8.</span><span class="study-lesson-topic">Hindrances to Healing</span></li>
+              <li><span class="study-lesson-num">9.</span><span class="study-lesson-topic">Forgiving Others</span></li>
+              <li><span class="study-lesson-num">10.</span><span class="study-lesson-topic">Marriage — Part 1</span></li>
+              <li><span class="study-lesson-num">11.</span><span class="study-lesson-topic">Marriage — Part 2</span></li>
+              <li><span class="study-lesson-num">12.</span><span class="study-lesson-topic">God's Kind of Love — Part 1</span></li>
+              <li><span class="study-lesson-num">13.</span><span class="study-lesson-topic">God's Kind of Love — Part 2</span></li>
+              <li><span class="study-lesson-num">14.</span><span class="study-lesson-topic">God's Kind of Love: To You</span></li>
+              <li><span class="study-lesson-num">15.</span><span class="study-lesson-topic">Finances — Part 1</span></li>
+              <li><span class="study-lesson-num">16.</span><span class="study-lesson-topic">What To Do When Your Prayers Seem Unanswered</span></li>
+            </ol>
+          </div>
+          <div class="study-level">
+            <h4>Level 3</h4>
+            <ol class="study-lessons" start="1">
+              <li><span class="study-lesson-num">1.</span><span class="study-lesson-topic">The Divine Flow</span></li>
+              <li><span class="study-lesson-num">2.</span><span class="study-lesson-topic">Using the Gifts to Minister</span></li>
+              <li><span class="study-lesson-num">3.</span><span class="study-lesson-topic">Miracles Glorify God</span></li>
+              <li><span class="study-lesson-num">4.</span><span class="study-lesson-topic">The Power of Godly Relationships</span></li>
+              <li><span class="study-lesson-num">5.</span><span class="study-lesson-topic">Persecution</span></li>
+              <li><span class="study-lesson-num">6.</span><span class="study-lesson-topic">The King and His Kingdom</span></li>
+              <li><span class="study-lesson-num">7.</span><span class="study-lesson-topic">The Object of Saving Faith</span></li>
+              <li><span class="study-lesson-num">8.</span><span class="study-lesson-topic">The Proper Use of God's Law</span></li>
+              <li><span class="study-lesson-num">9.</span><span class="study-lesson-topic">Not Under Law, but Under Grace</span></li>
+              <li><span class="study-lesson-num">10.</span><span class="study-lesson-topic">No More Consciousness of Sin</span></li>
+              <li><span class="study-lesson-num">11.</span><span class="study-lesson-topic">I Am Loved, I Am Pretty</span></li>
+              <li><span class="study-lesson-num">12.</span><span class="study-lesson-topic">The Fruit of Salvation — Part 1</span></li>
+              <li><span class="study-lesson-num">13.</span><span class="study-lesson-topic">The Fruit of Salvation — Part 2</span></li>
+              <li><span class="study-lesson-num">14.</span><span class="study-lesson-topic">A Call to Discipleship</span></li>
+              <li><span class="study-lesson-num">15.</span><span class="study-lesson-topic">How to Use Your Testimony</span></li>
+              <li><span class="study-lesson-num">16.</span><span class="study-lesson-topic">Using Everyone's Gifts to Disciple</span></li>
+            </ol>
+          </div>
+        </div>
       </div>
 
       <div class="resource-section">
