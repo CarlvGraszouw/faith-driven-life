@@ -35,6 +35,15 @@ From the `android-app` folder you can run `gradlew.bat assembleDebug` if `JAVA_H
 
 The app shows a loading bar at the top while the site loads, and the **Back** button navigates back inside the WebView when possible.
 
+## Registration and push notifications (new blogs)
+
+The app supports **user registration** (name, email, password) and **push notifications** when new blog posts are published.
+
+- **In the app:** Tap the **⋮** menu → **Register for blog notifications**. Create an account to receive notifications.
+- **Setup required:** You must create a Firebase project and add `google-services.json` to the `app/` folder, then deploy the included Cloud Function. Full steps: see **[FIREBASE_SETUP.md](FIREBASE_SETUP.md)**.
+
+Without Firebase configured, the app still works as a WebView; the registration menu item will open the screen but sign-up will fail until Firebase is set up.
+
 ## Changing the app icon
 
 The app uses a simple gold-on-dark icon. To use your own:

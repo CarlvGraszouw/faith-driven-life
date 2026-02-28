@@ -3,3 +3,6 @@
 /app/build
 .gradle/
 local.properties
+
+# Firebase (add your own google-services.json from Firebase Console)
+app/google-services.json
