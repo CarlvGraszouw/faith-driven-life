@@ -116,8 +116,70 @@
         var chapter = parseInt(m[2], 10);
         var v1 = m[3] ? parseInt(m[3], 10) : 1;
         var v2 = m[4] ? parseInt(m[4], 10) : v1;
-        if (!bookToOsis[book]) return null;
-        return { book: book, chapter: chapter, verseStart: v1, verseEnd: v2 };
+        var bookId = bookToOsis[book];
+        if (!bookId) return null;
+        return { book: book, bookId: bookId, chapter: chapter, verseStart: v1, verseEnd: v2 };
+      }
+      function verseContentToText(content) {
+        if (!content || !content.length) return '';
+        return content.map(function (c) {
+          if (typeof c === 'string') return c;
+          if (c && typeof c === 'object' && c.text) return c.text;
+          return '';
+        }).join('').trim();
+      }
+      function showNIV(data, path) {
+        refEl.textContent = (data.reference || path) + ' (NIV)';
+        var html = '';
+        if (data.verses && data.verses.length) {
+          data.verses.forEach(function (v) {
+            html += '<span class="verse-num">' + (v.verse || '') + '</span> ' + (v.text || '').trim() + ' ';
+          });
+        } else if (data.text) {
+          html = data.text;
+        }
+        textEl.innerHTML = html.trim() || (data.reference || path);
+        resultEl.style.display = 'block';
+        loadingEl.style.display = 'none';
+      }
+      function showBSBFallback(parsed, path) {
+        refEl.textContent = path + ' (BSB — for NIV use link below)';
+        var apiUrl = 'https://bible.helloao.org/api/BSB/' + parsed.bookId + '/' + parsed.chapter + '.json';
+        var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl);
+        var controller = new AbortController();
+        var timeoutId = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
+        fetch(proxyUrl, { signal: controller.signal })
+          .then(function (res) {
+            clearTimeout(timeoutId);
+            if (!res.ok) throw new Error();
+            return res.json();
+          })
+          .then(function (data) {
+            clearTimeout(timeoutId);
+            var content = data.chapter && data.chapter.content;
+            if (!content || !content.length) throw new Error();
+            var verses = [];
+            content.forEach(function (item) {
+              if (item.type !== 'verse' || item.number == null) return;
+              var n = parseInt(item.number, 10);
+              if (n >= parsed.verseStart && n <= parsed.verseEnd) {
+                verses.push({ num: n, text: verseContentToText(item.content) });
+              }
+            });
+            if (verses.length === 0) throw new Error();
+            var html = verses.map(function (v) {
+              return '<span class="verse-num">' + v.num + '</span> ' + (v.text || '');
+            }).join(' ');
+            textEl.innerHTML = html.trim();
+            resultEl.style.display = 'block';
+            loadingEl.style.display = 'none';
+          })
+          .catch(function () {
+            clearTimeout(timeoutId);
+            loadingEl.style.display = 'none';
+            errorEl.innerHTML = 'Verse could not be loaded here. <strong>Click the link below</strong> to open it on Bible Gateway (NIV).';
+            errorEl.style.display = 'block';
+          });
       }
       function runSearch() {
         var ref = input.value.trim();
@@ -137,13 +199,12 @@
         var apiUrl = 'https://bible-api.com/' + path.replace(/\s+/g, '+') + '?translation=niv';
         var proxies = [
           'https://api.allorigins.win/raw?url=',
-          'https://corsproxy.io/?'
+          'https://corsproxy.io/?',
+          'https://api.cors.lol/?url='
         ];
         function tryProxy(index) {
           if (index >= proxies.length) {
-            loadingEl.style.display = 'none';
-            errorEl.innerHTML = 'Verse could not be loaded here. <strong>Click the link below</strong> to open it on Bible Gateway (NIV) instead.';
-            errorEl.style.display = 'block';
+            showBSBFallback(parsed, path);
             return;
           }
           var proxyUrl = proxies[index] + encodeURIComponent(apiUrl);
@@ -164,18 +225,7 @@
                 loadingEl.style.display = 'none';
                 return;
               }
-              refEl.textContent = (data.reference || path) + ' (NIV)';
-              var html = '';
-              if (data.verses && data.verses.length) {
-                data.verses.forEach(function (v) {
-                  html += '<span class="verse-num">' + (v.verse || '') + '</span> ' + (v.text || '').trim() + ' ';
-                });
-              } else if (data.text) {
-                html = data.text;
-              }
-              textEl.innerHTML = html.trim() || (data.reference || path);
-              resultEl.style.display = 'block';
-              loadingEl.style.display = 'none';
+              showNIV(data, path);
             })
             .catch(function () {
               clearTimeout(timeoutId);
