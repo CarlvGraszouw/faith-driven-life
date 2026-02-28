@@ -4,52 +4,62 @@
   var listEl = document.querySelector('.approved-list');
   if (!url || !type || !listEl || url.indexOf('YOUR_SHEET_ID') !== -1) return;
 
-  var CORS_PROXY = 'https://corsproxy.io/?';
-  var fetchUrl = CORS_PROXY + encodeURIComponent(url);
+  var PROXIES = [
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?'
+  ];
 
-  fetch(fetchUrl)
-    .then(function (r) { return r.text(); })
-    .then(function (text) {
-      var rows = parseCSV(text);
-      if (!rows.length) return;
-      var header = rows[0].map(function (c) { return (c || '').toLowerCase().trim(); });
-      var typeCol = -1;
-      var nameCol = -1;
-      var dateCol = -1;
-      var messageCol = -1;
-      for (var i = 0; i < header.length; i++) {
-        var h = header[i];
-        if (h === 'type') typeCol = i;
-        else if (h === 'name') nameCol = i;
-        else if (h === 'date') dateCol = i;
-        else if (h === 'message') messageCol = i;
-      }
-      if (typeCol === -1) typeCol = 0;
-      if (nameCol === -1) nameCol = 1;
-      if (dateCol === -1) dateCol = 2;
-      if (messageCol === -1) messageCol = 3;
+  function tryFetch(proxyIndex) {
+    var proxy = PROXIES[proxyIndex];
+    var fetchUrl = proxy === 'https://corsproxy.io/?' ? proxy + encodeURIComponent(url) : proxy + encodeURIComponent(url);
+    fetch(fetchUrl)
+      .then(function (r) { return r.text(); })
+      .then(function (text) {
+        if (!text || text.indexOf('Type') === -1) throw new Error('not csv');
+        var rows = parseCSV(text);
+        if (!rows.length) return;
+        var header = rows[0].map(function (c) { return (c || '').toLowerCase().trim(); });
+        var typeCol = -1;
+        var nameCol = -1;
+        var dateCol = -1;
+        var messageCol = -1;
+        for (var i = 0; i < header.length; i++) {
+          var h = header[i];
+          if (h === 'type') typeCol = i;
+          else if (h === 'name') nameCol = i;
+          else if (h === 'date') dateCol = i;
+          else if (h === 'message') messageCol = i;
+        }
+        if (typeCol === -1) typeCol = 0;
+        if (nameCol === -1) nameCol = 1;
+        if (dateCol === -1) dateCol = 2;
+        if (messageCol === -1) messageCol = 3;
 
-      var want = type.replace(/-/g, '').toLowerCase();
-      if (want === 'comments') want = 'comment';
-      if (want === 'prayerrequests') want = 'prayer';
-      if (want === 'testimonies') want = 'testimony';
+        var want = type.replace(/-/g, '').toLowerCase();
+        if (want === 'comments') want = 'comment';
+        if (want === 'prayerrequests') want = 'prayer';
+        if (want === 'testimonies') want = 'testimony';
 
-      var html = '';
-      for (var j = 1; j < rows.length; j++) {
-        var row = rows[j];
-        var rowType = (row[typeCol] || '').toLowerCase().trim();
-        if (rowType !== want) continue;
-        var name = escapeHtml((row[nameCol] || '').trim());
-        var date = escapeHtml((row[dateCol] || '').trim());
-        var message = escapeHtml((row[messageCol] || '').trim());
-        if (!name && !message) continue;
-        html += '<div class="approved-item"><strong>' + name + '</strong>';
-        if (date) html += ' <span class="approved-meta">— ' + date + '</span>';
-        html += '<p>' + message + '</p></div>';
-      }
-      if (html) listEl.innerHTML = html;
-    })
-    .catch(function () {});
+        var html = '';
+        for (var j = 1; j < rows.length; j++) {
+          var row = rows[j];
+          var rowType = (row[typeCol] || '').toLowerCase().trim();
+          if (rowType !== want) continue;
+          var name = escapeHtml((row[nameCol] || '').trim());
+          var date = escapeHtml((row[dateCol] || '').trim());
+          var message = escapeHtml((row[messageCol] || '').trim());
+          if (!name && !message) continue;
+          html += '<div class="approved-item"><strong>' + name + '</strong>';
+          if (date) html += ' <span class="approved-meta">— ' + date + '</span>';
+          html += '<p>' + message + '</p></div>';
+        }
+        if (html) listEl.innerHTML = html;
+      })
+      .catch(function () {
+        if (proxyIndex + 1 < PROXIES.length) tryFetch(proxyIndex + 1);
+      });
+  }
+  tryFetch(0);
 
   function parseCSV(t) {
     var rows = [];
