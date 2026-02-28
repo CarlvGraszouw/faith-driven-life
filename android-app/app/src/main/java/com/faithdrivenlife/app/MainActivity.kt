@@ -29,10 +29,21 @@ class MainActivity : AppCompatActivity() {
             domStorageEnabled = true
             useWideViewPort = true
             loadWithOverviewMode = true
+            setSupportZoom(false)
+            builtInZoomControls = false
         }
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 return false
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                // Force viewport so scripture rotator and layout fit on all devices
+                view?.evaluateJavascript(
+                    "(function(){ var m=document.querySelector('meta[name=viewport]'); if(m){ m.setAttribute('content','width=device-width,initial-scale=1,maximum-scale=1'); } document.body.style.maxWidth='100%'; document.documentElement.style.overflowX='hidden'; document.body.style.overflowX='hidden'; })();",
+                    null
+                )
             }
         }
         webView.webChromeClient = object : WebChromeClient() {
