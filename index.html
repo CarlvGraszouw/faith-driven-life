@@ -131,6 +131,17 @@
       color: var(--accent);
     }
 
+    .visit-counter {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-left: auto;
+      padding-left: 1rem;
+      white-space: nowrap;
+    }
+    .visit-counter::before {
+      content: 'Site visits: ';
+    }
+
     .site-nav .nav-links a.nav-blogs {
       color: var(--accent);
       font-size: 1.05rem;
@@ -145,6 +156,42 @@
       .site-nav .site-tagline { font-size: 0.8rem; }
       .site-nav .nav-links a { font-size: 1rem; }
       .site-nav .nav-links a.nav-blogs { font-size: 1.125rem; }
+    }
+
+    /* Mobile / cellphone friendly */
+    @media (max-width: 767px) {
+      body { padding-top: 6.5rem; }
+      .container { padding-left: 1rem; padding-right: 1rem; }
+      .site-nav { padding: 0.75rem 1rem; min-height: 5.5rem; }
+      .visit-counter { margin-left: 0; padding-left: 0; font-size: 0.7rem; }
+      .site-nav .nav-inner { gap: 0.5rem; }
+      .site-nav .site-name-block { max-width: min(20em, 65vw); }
+      .site-nav .site-tagline { font-size: 0.65rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .site-nav .site-logo { height: 4rem; max-width: 160px; }
+      .site-nav .nav-links { gap: 0.15rem 0.5rem; }
+      .site-nav .nav-links a { padding: 0.5rem 0.35rem; min-height: 2.75rem; display: inline-flex; align-items: center; font-size: 0.9rem; }
+      header { padding: 1.5rem 0 1.25rem; }
+      header p { font-size: 0.9rem; }
+      section { padding: 2rem 0; }
+      section h2 { font-size: 1.35rem; margin-bottom: 1rem; }
+      .scripture-rotator { margin: 0 0 1.5rem; border-radius: 8px; }
+      .scripture-rotator-banner { padding: 0.35rem 0.75rem; font-size: 0.7rem; }
+      .scripture-rotator-verse { padding: 1rem 1rem; font-size: 0.95rem; min-height: 3.5em; }
+      .intro-section { padding: 1.5rem 0 2rem; }
+      .intro-title { font-size: 1.45rem; margin-bottom: 0.75rem; }
+      .intro-content { font-size: 1rem; }
+      .intro-verse { padding: 0.85rem 1rem; margin: 1rem 0; font-size: 0.95rem; }
+      .page-links { padding: 1.5rem 0 2rem; }
+      .page-links-list { gap: 0.5rem 1rem; font-size: 0.95rem; }
+      .audio-card { padding: 1rem 1.25rem; gap: 0.75rem; }
+      .audio-card .play-btn { width: 44px; height: 44px; font-size: 1.1rem; }
+      .submit-form input, .submit-form textarea { max-width: none; }
+      footer { padding: 1.5rem 0 2rem; font-size: 0.85rem; }
+    }
+    @media (max-width: 380px) {
+      .site-nav .site-tagline { -webkit-line-clamp: 1; }
+      .site-nav .site-name-block { max-width: 12em; }
+      .site-nav .nav-links a { font-size: 0.85rem; padding: 0.4rem 0.25rem; }
     }
 
     /* Header (intro under nav) – clear separation from content */
@@ -502,6 +549,7 @@
         <span class="site-tagline">Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will. — Romans 12:2 (NIV)</span>
       </span>
     </a>
+      <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="blogs.html" class="nav-blogs">Blogs</a></li>
@@ -559,6 +607,7 @@
     </footer>
   </div>
 
+  <script src="visit-counter.js"></script>
   <script src="scripture-rotator-data.js"></script>
   <script>
     (function () {

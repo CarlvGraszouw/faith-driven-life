@@ -25,6 +25,8 @@
     .site-nav .nav-links a:hover { color: var(--accent); }
     .site-nav .nav-links a.nav-blogs { color: var(--accent); font-size: 1.05rem; }
     .site-nav .nav-links a.nav-blogs:hover { color: #00d4ff; }
+    .visit-counter { font-size: 0.75rem; color: var(--muted); margin-left: auto; padding-left: 1rem; white-space: nowrap; }
+    .visit-counter::before { content: 'Site visits: '; }
     @media (min-width: 768px) { .site-nav .site-logo { height: 6.5rem; max-width: 320px; } .site-nav .site-tagline { font-size: 0.8rem; } .site-nav .nav-links a { font-size: 1rem; } .site-nav .nav-links a.nav-blogs { font-size: 1.125rem; } }
     section { padding: 3rem 0; }
     #blogs { padding-top: 3.5rem; }
@@ -40,7 +42,34 @@
     .blog-list .title { font-weight: 600; font-size: 1.125rem; }
     .blog-list .meta { font-size: 0.9375rem; color: var(--muted); margin-top: 0.35rem; }
     @media (max-width: 480px) { .blog-list a { flex-direction: column; } .blog-list .blog-img-wrap { width: 100%; height: 160px; } }
+    /* Skeleton placeholders while posts load */
+    .blog-list .blog-skeleton { padding: 1.25rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .blog-list .blog-skeleton:first-child { padding-top: 0; }
+    .blog-list .blog-skeleton a { pointer-events: none; cursor: default; }
+    .blog-skeleton .skeleton-img { width: 140px; height: 100px; border-radius: 8px; background: linear-gradient(90deg, var(--surface) 25%, rgba(255,255,255,0.06) 50%, var(--surface) 75%); background-size: 200% 100%; animation: skeleton 1.2s ease-in-out infinite; flex-shrink: 0; }
+    .blog-skeleton .skeleton-title { height: 1.25rem; border-radius: 4px; background: linear-gradient(90deg, var(--surface) 25%, rgba(255,255,255,0.06) 50%, var(--surface) 75%); background-size: 200% 100%; animation: skeleton 1.2s ease-in-out infinite; width: 85%; max-width: 320px; }
+    .blog-skeleton .skeleton-meta { height: 0.9rem; border-radius: 4px; margin-top: 0.5rem; background: linear-gradient(90deg, var(--surface) 25%, rgba(255,255,255,0.06) 50%, var(--surface) 75%); background-size: 200% 100%; animation: skeleton 1.2s ease-in-out infinite; width: 70%; max-width: 260px; }
+    @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @media (max-width: 480px) { .blog-skeleton .skeleton-img { width: 100%; height: 160px; } }
+    .blog-loading-msg { font-size: 0.9rem; color: var(--muted); margin-top: 0.75rem; }
+    .blog-loading-msg a { color: var(--accent); }
     footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
+    @media (max-width: 767px) {
+      body { padding-top: 6.5rem; }
+      .container { padding-left: 1rem; padding-right: 1rem; }
+      .site-nav { padding: 0.75rem 1rem; min-height: 5.5rem; }
+      .site-nav .nav-inner { gap: 0.5rem; }
+      .site-nav .site-name-block { max-width: min(20em, 65vw); }
+      .site-nav .site-tagline { font-size: 0.65rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .site-nav .site-logo { height: 4rem; max-width: 160px; }
+      .site-nav .nav-links { gap: 0.15rem 0.5rem; }
+      .site-nav .nav-links a { padding: 0.5rem 0.35rem; min-height: 2.75rem; display: inline-flex; align-items: center; font-size: 0.9rem; }
+      section { padding: 2rem 0; }
+      #blogs { padding-top: 2rem; }
+      section h2 { font-size: 1.35rem; margin-bottom: 1rem; }
+      footer { padding: 1.5rem 0 2rem; font-size: 0.85rem; }
+    }
+    @media (max-width: 380px) { .site-nav .site-tagline { -webkit-line-clamp: 1; } .site-nav .site-name-block { max-width: 12em; } .site-nav .nav-links a { font-size: 0.85rem; padding: 0.4rem 0.25rem; } }
   </style>
 </head>
 <body>
@@ -52,6 +81,7 @@
           <span class="site-tagline">Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will. — Romans 12:2 (NIV)</span>
         </span>
       </a>
+      <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="blogs.html" class="nav-blogs">Blogs</a></li>
@@ -68,10 +98,13 @@
     <section id="blogs">
       <h2>Blogs</h2>
       <ul class="blog-list" id="blog-list">
-        <li id="blog-loading">Loading posts…</li>
+        <li id="blog-loading" class="blog-skeleton"><a href="#"><span class="skeleton-img"></span><span class="blog-text"><span class="skeleton-title"></span><span class="skeleton-meta"></span></span></a></li>
+        <li class="blog-skeleton"><a href="#"><span class="skeleton-img"></span><span class="blog-text"><span class="skeleton-title"></span><span class="skeleton-meta"></span></span></a></li>
+        <li class="blog-skeleton"><a href="#"><span class="skeleton-img"></span><span class="blog-text"><span class="skeleton-title"></span><span class="skeleton-meta"></span></span></a></li>
+        <li class="blog-skeleton"><a href="#"><span class="skeleton-img"></span><span class="blog-text"><span class="skeleton-title"></span><span class="skeleton-meta"></span></span></a></li>
       </ul>
-      <p style="margin-top: 1.25rem; font-size: 0.9rem; color: var(--muted);">
-        Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener" style="color: var(--accent);">the blog</a>.
+      <p class="blog-loading-msg" id="blog-status-msg" style="margin-top: 1.25rem;">
+        Loading posts from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener">the blog</a>…
       </p>
     </section>
 
@@ -85,8 +118,11 @@
       var BLOGGER_FEED_BASE = 'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=25';
       var CORS_PROXIES = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
       var REFRESH_MINUTES = 10;
+      var LOADING_TIMEOUT_MS = 5000;
       var listEl = document.getElementById('blog-list');
-      var loadingEl = document.getElementById('blog-loading');
+      var statusMsg = document.getElementById('blog-status-msg');
+      var loadingDone = false;
+      function setStatus(html) { if (statusMsg) statusMsg.innerHTML = html; }
       function getDateString(entry) {
         var raw = (entry.published && (entry.published.$t != null ? entry.published.$t : entry.published)) || (entry.updated && (entry.updated.$t != null ? entry.updated.$t : entry.updated));
         return typeof raw === 'string' ? raw : '';
@@ -117,12 +153,15 @@
         return match ? match[1] : '';
       }
       function showError() {
+        loadingDone = true;
         listEl.innerHTML = '<li class="blog-fallback">Could not load posts. <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener" style="color: var(--accent);">View them on the blog</a>.</li>';
+        setStatus('Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener">the blog</a>.');
       }
       function renderPosts(data) {
+        if (loadingDone) return;
+        loadingDone = true;
         var entries = (data && data.feed && data.feed.entry) || [];
         if (entries.length === 0) { showError(); return; }
-        if (loadingEl && loadingEl.parentNode) loadingEl.remove();
         listEl.innerHTML = '';
         entries.forEach(function (entry) {
           var title = (entry.title && entry.title.$t) || 'Untitled';
@@ -136,21 +175,34 @@
           li.innerHTML = '<a href="post.html?url=' + encodeURIComponent(url) + '">' + imgHtml + '<span class="blog-text"><span class="title">' + title.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span><span class="meta">' + meta.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span></span></a>';
           listEl.appendChild(li);
         });
+        setStatus('Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener">the blog</a>.');
       }
-      function tryLoad(proxyIndex) {
+      function tryDirect() {
+        var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
+        return fetch(feedUrl).then(function (res) { if (!res.ok) throw new Error(); return res.json(); }).then(renderPosts).catch(function () { return false; });
+      }
+      function tryProxy(proxyIndex) {
         var proxy = CORS_PROXIES[proxyIndex];
         var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
         var url = proxy === 'https://corsproxy.io/?' ? proxy + encodeURIComponent(feedUrl) : proxy + encodeURIComponent(feedUrl);
-        fetch(url).then(function (res) { if (!res.ok) throw new Error(); return res.text(); }).then(function (text) {
+        return fetch(url).then(function (res) { if (!res.ok) throw new Error(); return res.text(); }).then(function (text) {
           var data; try { data = JSON.parse(text); } catch (e) { throw new Error(); }
           renderPosts(data);
         }).catch(function () {
-          if (proxyIndex + 1 < CORS_PROXIES.length) tryLoad(proxyIndex + 1); else showError();
+          if (proxyIndex + 1 < CORS_PROXIES.length) return tryProxy(proxyIndex + 1); else showError();
         });
       }
-      tryLoad(0);
-      setInterval(function () { tryLoad(0); }, REFRESH_MINUTES * 60 * 1000);
+      function load() {
+        tryDirect().then(function (ok) { if (ok === false && !loadingDone) tryProxy(0); });
+      }
+      load();
+      setInterval(function () { if (!loadingDone) return; loadingDone = false; load(); }, REFRESH_MINUTES * 60 * 1000);
+      setTimeout(function () {
+        if (loadingDone || !statusMsg) return;
+        setStatus('Taking a moment… You can <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener">view posts on the blog</a> in the meantime.');
+      }, LOADING_TIMEOUT_MS);
     })();
   </script>
+  <script src="visit-counter.js"></script>
 </body>
 </html>
