@@ -77,6 +77,11 @@
         <div class="bible-ref" id="bible-ref"></div>
         <div class="bible-text" id="bible-text"></div>
       </div>
+      <div id="bible-iframe-wrap" style="display: none; margin-top: 1rem;">
+        <p class="bible-intro" style="margin-bottom: 0.5rem;">Reading from Bible Gateway (NIV):</p>
+        <iframe id="bible-iframe" title="Bible passage" style="width: 100%; min-height: 320px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: var(--surface);"></iframe>
+        <p class="bible-intro" style="margin-top: 0.5rem; font-size: 0.85rem;">If the box above is blank, use the link below to open the verse in a new tab.</p>
+      </div>
       <p class="bible-fallback" style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--muted);">Or open the verse in a new tab (always works): <a id="bible-gateway-link" href="https://www.biblegateway.com/passage/?version=NIV" target="_blank" rel="noopener" style="color: var(--accent);">Bible Gateway (NIV)</a></p>
     </section>
     <footer><p>A FAITH DRIVEN LIFE</p></footer>
@@ -92,7 +97,9 @@
       var refEl = document.getElementById('bible-ref');
       var textEl = document.getElementById('bible-text');
       var gatewayLink = document.getElementById('bible-gateway-link');
-      var TIMEOUT_MS = 5000;
+      var iframeWrap = document.getElementById('bible-iframe-wrap');
+      var bibleIframe = document.getElementById('bible-iframe');
+      var TIMEOUT_MS = 8000;
       var bookToOsis = { 'Genesis': 'GEN', 'Exodus': 'EXO', 'Leviticus': 'LEV', 'Numbers': 'NUM', 'Deuteronomy': 'DEU', 'Joshua': 'JOS', 'Judges': 'JDG', 'Ruth': 'RUT', '1 Samuel': '1SA', '2 Samuel': '2SA', '1 Kings': '1KI', '2 Kings': '2KI', '1 Chronicles': '1CH', '2 Chronicles': '2CH', 'Ezra': 'EZR', 'Nehemiah': 'NEH', 'Esther': 'EST', 'Job': 'JOB', 'Psalm': 'PSA', 'Psalms': 'PSA', 'Proverbs': 'PRO', 'Ecclesiastes': 'ECC', 'Song of Solomon': 'SNG', 'Song of Songs': 'SNG', 'Isaiah': 'ISA', 'Jeremiah': 'JER', 'Lamentations': 'LAM', 'Ezekiel': 'EZK', 'Daniel': 'DAN', 'Hosea': 'HOS', 'Joel': 'JOL', 'Amos': 'AMO', 'Obadiah': 'OBA', 'Jonah': 'JON', 'Micah': 'MIC', 'Nahum': 'NAH', 'Habakkuk': 'HAB', 'Zephaniah': 'ZEP', 'Haggai': 'HAG', 'Zechariah': 'ZEC', 'Malachi': 'MAL', 'Matthew': 'MAT', 'Mark': 'MRK', 'Luke': 'LUK', 'John': 'JHN', 'Acts': 'ACT', 'Romans': 'ROM', '1 Corinthians': '1CO', '2 Corinthians': '2CO', 'Galatians': 'GAL', 'Ephesians': 'EPH', 'Philippians': 'PHP', 'Colossians': 'COL', '1 Thessalonians': '1TH', '2 Thessalonians': '2TH', '1 Timothy': '1TI', '2 Timothy': '2TI', 'Titus': 'TIT', 'Philemon': 'PHM', 'Hebrews': 'HEB', 'James': 'JAS', '1 Peter': '1PE', '2 Peter': '2PE', '1 John': '1JN', '2 John': '2JN', '3 John': '3JN', 'Jude': 'JUD', 'Revelation': 'REV' };
       var abbrToBook = { gen: 'Genesis', ex: 'Exodus', lev: 'Leviticus', num: 'Numbers', deut: 'Deuteronomy', josh: 'Joshua', judg: 'Judges', ruth: 'Ruth', '1 sam': '1 Samuel', '2 sam': '2 Samuel', '1 kings': '1 Kings', '2 kings': '2 Kings', '1 chron': '1 Chronicles', '2 chron': '2 Chronicles', ezra: 'Ezra', neh: 'Nehemiah', est: 'Esther', job: 'Job', ps: 'Psalm', psalm: 'Psalm', psalms: 'Psalms', prov: 'Proverbs', eccl: 'Ecclesiastes', song: 'Song of Solomon', isa: 'Isaiah', jer: 'Jeremiah', lam: 'Lamentations', ezek: 'Ezekiel', dan: 'Daniel', hos: 'Hosea', joel: 'Joel', amos: 'Amos', obad: 'Obadiah', jonah: 'Jonah', mic: 'Micah', nah: 'Nahum', hab: 'Habakkuk', zeph: 'Zephaniah', hag: 'Haggai', zech: 'Zechariah', mal: 'Malachi', matt: 'Matthew', mk: 'Mark', lk: 'Luke', jn: 'John', jhn: 'John', acts: 'Acts', rom: 'Romans', '1 cor': '1 Corinthians', '2 cor': '2 Corinthians', gal: 'Galatians', eph: 'Ephesians', phil: 'Philippians', col: 'Colossians', '1 thess': '1 Thessalonians', '2 thess': '2 Thessalonians', '1 tim': '1 Timothy', '2 tim': '2 Timothy', titus: 'Titus', philem: 'Philemon', heb: 'Hebrews', jas: 'James', '1 pet': '1 Peter', '2 pet': '2 Peter', '1 jn': '1 John', '2 jn': '2 John', '3 jn': '3 John', jude: 'Jude', rev: 'Revelation' };
       function updateBibleGatewayLink() {
@@ -142,44 +149,60 @@
         resultEl.style.display = 'block';
         loadingEl.style.display = 'none';
       }
-      function showBSBFallback(parsed, path) {
+      function showBSBFallback(parsed, path, ref) {
         refEl.textContent = path + ' (BSB — for NIV use link below)';
         var apiUrl = 'https://bible.helloao.org/api/BSB/' + parsed.bookId + '/' + parsed.chapter + '.json';
-        var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl);
-        var controller = new AbortController();
-        var timeoutId = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
-        fetch(proxyUrl, { signal: controller.signal })
-          .then(function (res) {
-            clearTimeout(timeoutId);
-            if (!res.ok) throw new Error();
-            return res.json();
-          })
-          .then(function (data) {
-            clearTimeout(timeoutId);
-            var content = data.chapter && data.chapter.content;
-            if (!content || !content.length) throw new Error();
-            var verses = [];
-            content.forEach(function (item) {
-              if (item.type !== 'verse' || item.number == null) return;
-              var n = parseInt(item.number, 10);
-              if (n >= parsed.verseStart && n <= parsed.verseEnd) {
-                verses.push({ num: n, text: verseContentToText(item.content) });
-              }
+        var proxyList = [
+          'https://api.allorigins.win/raw?url=',
+          'https://corsproxy.io/?'
+        ];
+        function tryBSB(proxyIndex) {
+          if (proxyIndex >= proxyList.length) {
+            showBibleGatewayIframe(ref);
+            return;
+          }
+          var proxyUrl = proxyList[proxyIndex] + encodeURIComponent(apiUrl);
+          var controller = new AbortController();
+          var timeoutId = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
+          fetch(proxyUrl, { signal: controller.signal })
+            .then(function (res) {
+              clearTimeout(timeoutId);
+              if (!res.ok) throw new Error();
+              return res.json();
+            })
+            .then(function (data) {
+              clearTimeout(timeoutId);
+              var content = data.chapter && data.chapter.content;
+              if (!content || !content.length) throw new Error();
+              var verses = [];
+              content.forEach(function (item) {
+                if (item.type !== 'verse' || item.number == null) return;
+                var n = parseInt(item.number, 10);
+                if (n >= parsed.verseStart && n <= parsed.verseEnd) {
+                  verses.push({ num: n, text: verseContentToText(item.content) });
+                }
+              });
+              if (verses.length === 0) throw new Error();
+              var html = verses.map(function (v) {
+                return '<span class="verse-num">' + v.num + '</span> ' + (v.text || '');
+              }).join(' ');
+              textEl.innerHTML = html.trim();
+              resultEl.style.display = 'block';
+              loadingEl.style.display = 'none';
+            })
+            .catch(function () {
+              clearTimeout(timeoutId);
+              tryBSB(proxyIndex + 1);
             });
-            if (verses.length === 0) throw new Error();
-            var html = verses.map(function (v) {
-              return '<span class="verse-num">' + v.num + '</span> ' + (v.text || '');
-            }).join(' ');
-            textEl.innerHTML = html.trim();
-            resultEl.style.display = 'block';
-            loadingEl.style.display = 'none';
-          })
-          .catch(function () {
-            clearTimeout(timeoutId);
-            loadingEl.style.display = 'none';
-            errorEl.innerHTML = 'Verse could not be loaded here. <strong>Click the link below</strong> to open it on Bible Gateway (NIV).';
-            errorEl.style.display = 'block';
-          });
+        }
+        tryBSB(0);
+      }
+      function showBibleGatewayIframe(ref) {
+        loadingEl.style.display = 'none';
+        errorEl.style.display = 'none';
+        resultEl.style.display = 'none';
+        iframeWrap.style.display = 'block';
+        bibleIframe.src = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(ref) + '&version=NIV';
       }
       function runSearch() {
         var ref = input.value.trim();
@@ -190,27 +213,34 @@
           loadingEl.style.display = 'none';
           errorEl.textContent = 'Use a reference like John 3:16, Psalm 23:1, or Genesis 1:1.';
           errorEl.style.display = 'block';
+          resultEl.style.display = 'none';
+          iframeWrap.style.display = 'none';
           return;
         }
         loadingEl.style.display = 'block';
         errorEl.style.display = 'none';
         resultEl.style.display = 'none';
+        iframeWrap.style.display = 'none';
+        bibleIframe.src = '';
         var path = parsed.book + ' ' + parsed.chapter + ':' + parsed.verseStart + (parsed.verseEnd > parsed.verseStart ? '-' + parsed.verseEnd : '');
         var apiUrl = 'https://bible-api.com/' + path.replace(/\s+/g, '+') + '?translation=niv';
         var proxies = [
+          null,
           'https://api.allorigins.win/raw?url=',
           'https://corsproxy.io/?',
-          'https://api.cors.lol/?url='
+          'https://api.cors.lol/?url=',
+          'https://every-origin.vercel.app/raw?url='
         ];
         function tryProxy(index) {
           if (index >= proxies.length) {
-            showBSBFallback(parsed, path);
+            showBSBFallback(parsed, path, ref);
             return;
           }
-          var proxyUrl = proxies[index] + encodeURIComponent(apiUrl);
+          var proxy = proxies[index];
+          var fetchUrl = proxy ? proxy + encodeURIComponent(apiUrl) : apiUrl;
           var controller = new AbortController();
           var timeoutId = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
-          fetch(proxyUrl, { signal: controller.signal })
+          fetch(fetchUrl, { signal: controller.signal, mode: 'cors' })
             .then(function (res) {
               clearTimeout(timeoutId);
               return res.text();
