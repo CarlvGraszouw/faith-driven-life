@@ -176,7 +176,7 @@
       .visit-counter { margin-left: 0; padding-left: 0; font-size: 0.7rem; }
       .site-nav .nav-inner { gap: 0.5rem; }
       .site-nav .site-name-block { max-width: min(20em, 65vw); }
-      .site-nav .site-tagline { font-size: 0.65rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .site-nav .site-tagline { font-size: 0.65rem; line-height: 1.3; overflow-wrap: break-word; word-break: break-word; }
       .site-nav .site-logo { height: 4rem; max-width: 160px; }
       .site-nav .nav-links { gap: 0.15rem 0.5rem; }
       .site-nav .nav-links a { padding: 0.5rem 0.35rem; min-height: 2.75rem; display: inline-flex; align-items: center; font-size: 0.9rem; }
@@ -184,9 +184,9 @@
       header p { font-size: 0.9rem; }
       section { padding: 2rem 0; }
       section h2 { font-size: 1.35rem; margin-bottom: 1rem; }
-      .scripture-rotator { margin: 0 0 1.5rem; border-radius: 8px; max-width: 100%; min-width: 0; width: 100%; }
+      .scripture-rotator { margin: 0 0 1.5rem; border-radius: 8px; max-width: 100%; min-width: 0; width: 100%; overflow: visible; }
       .scripture-rotator-banner { padding: 0.35rem 0.75rem; font-size: 0.7rem; overflow-wrap: break-word; word-break: break-word; }
-      .scripture-rotator-verse { padding: 1rem 1rem; font-size: 0.95rem; min-height: 3.5em; width: 100%; max-width: 100%; min-width: 0; overflow-wrap: break-word; word-break: break-word; display: block; }
+      .scripture-rotator-verse { padding: 1rem 1rem; font-size: 0.95rem; min-height: 7em; max-height: none; width: 100%; max-width: 100%; min-width: 0; overflow-wrap: break-word; word-break: break-word; display: block; overflow: visible; }
       .intro-section { padding: 1.5rem 0 2rem; }
       .intro-title { font-size: 1.45rem; margin-bottom: 0.75rem; }
       .intro-content { font-size: 1rem; }
@@ -199,7 +199,6 @@
       footer { padding: 1.5rem 0 2rem; font-size: 0.85rem; }
     }
     @media (max-width: 380px) {
-      .site-nav .site-tagline { -webkit-line-clamp: 1; }
       .site-nav .site-name-block { max-width: 12em; }
       .site-nav .nav-links a { font-size: 0.85rem; padding: 0.4rem 0.25rem; }
     }
@@ -504,7 +503,8 @@
       font-size: 1.05rem;
       line-height: 1.7;
       color: var(--text);
-      min-height: 4.5em;
+      min-height: 8em;
+      max-height: none;
       width: 100%;
       max-width: 100%;
       min-width: 0;
@@ -520,6 +520,7 @@
       width: 100%;
       max-width: 100%;
       box-sizing: border-box;
+      overflow: visible;
     }
     .scripture-rotator-verse .ref {
       font-weight: 600;
