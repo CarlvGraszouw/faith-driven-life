@@ -34,6 +34,17 @@
     .post-header { margin-bottom: 2rem; }
     .post-title { font-family: 'Source Serif 4', serif; font-size: 1.75rem; font-weight: 600; color: var(--text); margin: 0 0 0.5rem; }
     .post-date { color: var(--muted); font-size: 0.9rem; }
+    .post-actions { margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .post-listen-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; font: inherit; font-size: 0.9rem; font-weight: 500;
+      color: var(--accent); background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px;
+      cursor: pointer; transition: background 0.2s, color 0.2s;
+    }
+    .post-listen-btn:hover { background: rgba(212, 175, 55, 0.25); color: var(--text); }
+    .post-listen-btn.playing { background: rgba(212, 175, 55, 0.25); border-color: var(--accent); }
+    .post-listen-btn .icon { font-size: 1.1rem; }
     .post-body { font-size: 1.05rem; }
     .post-body img { max-width: 100%; height: auto; border-radius: 8px; }
     .post-body p { margin: 0 0 1rem; }
@@ -87,6 +98,12 @@
       <header class="post-header">
         <h1 class="post-title" id="post-title"></h1>
         <p class="post-date" id="post-date"></p>
+        <div class="post-actions" id="post-actions" style="display: none;">
+          <button type="button" class="post-listen-btn" id="post-listen-btn" aria-label="Listen to this post">
+            <span class="icon" id="post-listen-icon">▶</span>
+            <span id="post-listen-label">Listen</span>
+          </button>
+        </div>
       </header>
       <div class="post-body" id="post-body"></div>
     </article>
@@ -131,6 +148,68 @@
         document.getElementById('post-body').innerHTML = content;
         loadingEl.style.display = 'none';
         contentEl.style.display = 'block';
+        var actionsEl = document.getElementById('post-actions');
+        if (actionsEl) {
+          actionsEl.style.display = 'flex';
+          initListenBtn();
+        }
+      }
+      function initListenBtn() {
+        var btn = document.getElementById('post-listen-btn');
+        var icon = document.getElementById('post-listen-icon');
+        var label = document.getElementById('post-listen-label');
+        if (!btn || !window.speechSynthesis) return;
+        function getSpeakText() {
+          var titleEl = document.getElementById('post-title');
+          var bodyEl = document.getElementById('post-body');
+          var dateEl = document.getElementById('post-date');
+          var title = titleEl ? titleEl.textContent.trim() : '';
+          var date = dateEl ? dateEl.textContent.trim() : '';
+          var body = bodyEl ? bodyEl.textContent.trim().replace(/\s+/g, ' ') : '';
+          return (title ? title + '. ' : '') + (date ? date + '. ' : '') + body;
+        }
+        function setPlaying(playing) {
+          btn.classList.toggle('playing', playing);
+          if (icon) icon.textContent = playing ? '⏸' : '▶';
+          if (label) label.textContent = playing ? 'Pause' : 'Listen';
+        }
+        function setStopped() {
+          btn.classList.remove('playing');
+          if (icon) icon.textContent = '▶';
+          if (label) label.textContent = 'Listen';
+        }
+        var currentUtterance = null;
+        btn.onclick = function () {
+          if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+            window.speechSynthesis.pause();
+            setPlaying(false);
+            if (label) label.textContent = 'Resume';
+            if (icon) icon.textContent = '▶';
+            return;
+          }
+          if (window.speechSynthesis.speaking && window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+            setPlaying(true);
+            if (label) label.textContent = 'Pause';
+            if (icon) icon.textContent = '⏸';
+            return;
+          }
+          if (window.speechSynthesis.speaking) return;
+          var text = getSpeakText();
+          if (!text) return;
+          var u = new SpeechSynthesisUtterance(text);
+          u.rate = 0.95;
+          u.pitch = 1;
+          var voices = window.speechSynthesis.getVoices();
+          var en = voices.filter(function (v) { return v.lang.startsWith('en'); });
+          if (en.length) u.voice = en[0];
+          u.onstart = function () { setPlaying(true); };
+          u.onend = u.onerror = function () { setStopped(); };
+          currentUtterance = u;
+          window.speechSynthesis.speak(u);
+        };
+        if (speechSynthesis.getVoices().length) return;
+        speechSynthesis.addEventListener('voiceschanged', function () {});
       }
       function showError() {
         loadingEl.style.display = 'none';
