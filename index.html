@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>A FAITH DRIVEN LIFE — Home</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,9 +44,11 @@
     .container {
       max-width: min(720px, 100%);
       width: 100%;
+      min-width: 0;
       margin: 0 auto;
       padding: 0 1.5rem;
       box-sizing: border-box;
+      overflow-wrap: break-word;
     }
 
     /* Top nav – proportional, logo prominent */
@@ -182,8 +184,8 @@
     /* Mobile / cellphone friendly – compact header so content isn't clipped */
     @media (max-width: 767px) {
       body { padding-top: 8rem; padding-bottom: max(env(safe-area-inset-bottom), 2rem); }
-      .container { padding-left: 1rem; padding-right: 1rem; }
-      .site-nav { padding: 0.5rem 0.75rem; min-height: 7.5rem; box-sizing: border-box; }
+      .container { padding-left: max(0.75rem, env(safe-area-inset-left)); padding-right: max(0.75rem, env(safe-area-inset-right)); }
+      .site-nav { padding: 0.5rem max(0.75rem, env(safe-area-inset-right)) 0.5rem max(0.75rem, env(safe-area-inset-left)); min-height: 7.5rem; box-sizing: border-box; }
       .site-nav .nav-inner { gap: 0.4rem 0.75rem; padding-right: 0; flex-direction: row; flex-wrap: wrap; }
       .site-nav .site-brand { width: 100%; flex: 1 1 100%; flex-direction: row; align-items: center; gap: 0.5rem; min-width: 0; }
       .site-nav .site-name { flex-shrink: 0; }
@@ -198,10 +200,10 @@
       header p { font-size: 0.9rem; }
       section { padding: 1.5rem 0; }
       section h2 { font-size: 1.35rem; margin-bottom: 1rem; }
-      .intro-section { padding: 1.25rem 0 1.5rem; }
+      .intro-section { padding: 1.25rem 0 1.5rem; min-width: 0; }
       .intro-title { font-size: 1.45rem; margin-bottom: 0.5rem; }
-      .intro-tagline { font-size: 0.9rem; margin-bottom: 1rem; }
-      .intro-content { font-size: 1rem; }
+      .intro-tagline { font-size: 0.8rem; line-height: 1.45; margin-bottom: 0.75rem; }
+      .intro-content { font-size: 1rem; min-width: 0; }
       .intro-verse { padding: 0.85rem 1rem; margin: 1rem 0; font-size: 0.95rem; }
       .page-links { padding: 1.5rem 0 2rem; }
       .page-links-list { gap: 0.5rem 1rem; font-size: 0.95rem; }
@@ -209,6 +211,15 @@
       .audio-card .play-btn { width: 44px; height: 44px; font-size: 1.1rem; }
       .submit-form input, .submit-form textarea { max-width: none; }
       footer { padding: 1.5rem 0 2rem; font-size: 0.85rem; }
+    }
+    @media (max-width: 400px) {
+      .container { padding-left: max(0.5rem, env(safe-area-inset-left)); padding-right: max(0.5rem, env(safe-area-inset-right)); }
+      .intro-section { padding: 0.75rem 0 1rem; }
+      .intro-title { font-size: 1.2rem; margin-bottom: 0.35rem; }
+      .intro-tagline { font-size: 0.75rem; line-height: 1.4; margin-bottom: 0.5rem; }
+      .intro-content { font-size: 0.9rem; }
+      .intro-content p { margin-bottom: 0.75rem; }
+      .intro-verse { padding: 0.6rem 0.75rem; font-size: 0.85rem; margin: 0.75rem 0; }
     }
     @media (max-width: 380px) {
       .site-nav .site-logo { max-width: 120px; }
@@ -460,8 +471,10 @@
       line-height: 1.5;
       margin: 0 0 1.25rem;
       max-width: 100%;
+      min-width: 0;
       overflow-wrap: break-word;
       word-break: break-word;
+      box-sizing: border-box;
     }
 
     .intro-content {
