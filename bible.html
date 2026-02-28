@@ -89,8 +89,7 @@
       var resultEl = document.getElementById('bible-result');
       var refEl = document.getElementById('bible-ref');
       var textEl = document.getElementById('bible-text');
-      var CORS_PROXIES = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
-        var bookNames = { gen: 'Genesis', ex: 'Exodus', lev: 'Leviticus', num: 'Numbers', deut: 'Deuteronomy', josh: 'Joshua', judg: 'Judges', ruth: 'Ruth', '1 sam': '1 Samuel', '2 sam': '2 Samuel', '1 kings': '1 Kings', '2 kings': '2 Kings', '1 chron': '1 Chronicles', '2 chron': '2 Chronicles', ezra: 'Ezra', neh: 'Nehemiah', est: 'Esther', job: 'Job', ps: 'Psalm', prov: 'Proverbs', eccl: 'Ecclesiastes', song: 'Song of Solomon', isa: 'Isaiah', jer: 'Jeremiah', lam: 'Lamentations', ezek: 'Ezekiel', dan: 'Daniel', hos: 'Hosea', joel: 'Joel', amos: 'Amos', obad: 'Obadiah', jonah: 'Jonah', mic: 'Micah', nah: 'Nahum', hab: 'Habakkuk', zeph: 'Zephaniah', hag: 'Haggai', zech: 'Zechariah', mal: 'Malachi', matt: 'Matthew', mk: 'Mark', lk: 'Luke', jn: 'John', jhn: 'John', acts: 'Acts', rom: 'Romans', '1 cor': '1 Corinthians', '2 cor': '2 Corinthians', gal: 'Galatians', eph: 'Ephesians', phil: 'Philippians', col: 'Colossians', '1 thess': '1 Thessalonians', '2 thess': '2 Thessalonians', '1 tim': '1 Timothy', '2 tim': '2 Timothy', titus: 'Titus', philem: 'Philemon', heb: 'Hebrews', jas: 'James', '1 pet': '1 Peter', '2 pet': '2 Peter', '1 jn': '1 John', '2 jn': '2 John', '3 jn': '3 John', jude: 'Jude', rev: 'Revelation' };
+      var bookNames = { gen: 'Genesis', ex: 'Exodus', lev: 'Leviticus', num: 'Numbers', deut: 'Deuteronomy', josh: 'Joshua', judg: 'Judges', ruth: 'Ruth', '1 sam': '1 Samuel', '2 sam': '2 Samuel', '1 kings': '1 Kings', '2 kings': '2 Kings', '1 chron': '1 Chronicles', '2 chron': '2 Chronicles', ezra: 'Ezra', neh: 'Nehemiah', est: 'Esther', job: 'Job', ps: 'Psalm', prov: 'Proverbs', eccl: 'Ecclesiastes', song: 'Song of Solomon', isa: 'Isaiah', jer: 'Jeremiah', lam: 'Lamentations', ezek: 'Ezekiel', dan: 'Daniel', hos: 'Hosea', joel: 'Joel', amos: 'Amos', obad: 'Obadiah', jonah: 'Jonah', mic: 'Micah', nah: 'Nahum', hab: 'Habakkuk', zeph: 'Zephaniah', hag: 'Haggai', zech: 'Zechariah', mal: 'Malachi', matt: 'Matthew', mk: 'Mark', lk: 'Luke', jn: 'John', jhn: 'John', acts: 'Acts', rom: 'Romans', '1 cor': '1 Corinthians', '2 cor': '2 Corinthians', gal: 'Galatians', eph: 'Ephesians', phil: 'Philippians', col: 'Colossians', '1 thess': '1 Thessalonians', '2 thess': '2 Thessalonians', '1 tim': '1 Timothy', '2 tim': '2 Timothy', titus: 'Titus', philem: 'Philemon', heb: 'Hebrews', jas: 'James', '1 pet': '1 Peter', '2 pet': '2 Peter', '1 jn': '1 John', '2 jn': '2 John', '3 jn': '3 John', jude: 'Jude', rev: 'Revelation' };
       function normalizeRef(ref) {
         var lower = ref.trim().toLowerCase();
         var parts = lower.match(/^(\d?\s*\w+(?:\s+\w+)?)\s+(\d+)(?::(\d+(?:-\d+)?))?$/);
@@ -99,42 +98,62 @@
         var expanded = bookNames[book] || book;
         return expanded + ' ' + parts[2] + (parts[3] ? ':' + parts[3] : '');
       }
+      function pathForApi(normalized) {
+        return normalized.replace(/\s+/g, '+');
+      }
+      function showVerse(data, ref) {
+        loadingEl.style.display = 'none';
+        if (data.error) {
+          errorEl.textContent = data.error || 'Verse not found. Try e.g. John 3:16, Psalm 23:1';
+          errorEl.style.display = 'block';
+          return;
+        }
+        refEl.textContent = (data.reference || ref) + ' (NIV)';
+        var html = '';
+        if (data.verses && data.verses.length) {
+          data.verses.forEach(function (v) {
+            html += '<span class="verse-num">' + (v.verse || '') + '</span> ' + (v.text || '').trim() + ' ';
+          });
+        } else if (data.text) {
+          html = data.text;
+        }
+        textEl.innerHTML = html.trim() || (data.reference || ref);
+        resultEl.style.display = 'block';
+      }
+      function handleError() {
+        loadingEl.style.display = 'none';
+        errorEl.textContent = 'Unable to load verse right now. Please try again in a moment or use a reference like John 3:16 or Psalm 23:1.';
+        errorEl.style.display = 'block';
+      }
+      function parseResponse(text) {
+        var data;
+        try { data = JSON.parse(text); } catch (e) { throw new Error('Invalid response'); }
+        return data;
+      }
       function tryFetch(proxyIndex) {
         var ref = input.value.trim();
         var normalized = normalizeRef(ref);
-        var apiUrl = 'https://bible-api.com/' + encodeURIComponent(normalized) + '?translation=niv';
-        var proxy = CORS_PROXIES[proxyIndex];
-        var url = proxy === 'https://corsproxy.io/?' ? proxy + encodeURIComponent(apiUrl) : proxy + encodeURIComponent(apiUrl);
-        fetch(url)
+        var path = pathForApi(normalized);
+        var apiUrl = 'https://bible-api.com/' + path + '?translation=niv';
+        var urlsToTry = [];
+        urlsToTry.push(apiUrl);
+        urlsToTry.push('https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl));
+        urlsToTry.push('https://corsproxy.io/?' + encodeURIComponent(apiUrl));
+        urlsToTry.push('https://api.cors.lol/?url=' + encodeURIComponent(apiUrl));
+        urlsToTry.push('https://thingproxy.freeboard.io/fetch/' + encodeURIComponent(apiUrl));
+        var url = urlsToTry[proxyIndex];
+        if (!url) { handleError(); return; }
+        fetch(url, { method: 'GET', mode: 'cors' })
           .then(function (res) { return res.text(); })
           .then(function (text) {
-            var data;
-            try { data = JSON.parse(text); } catch (e) { throw new Error('Invalid response'); }
-            loadingEl.style.display = 'none';
-            if (data.error) {
-              errorEl.textContent = data.error || 'Verse not found. Try e.g. John 3:16, Psalm 23:1';
-              errorEl.style.display = 'block';
-              return;
-            }
-            refEl.textContent = (data.reference || ref) + ' (NIV)';
-            var html = '';
-            if (data.verses && data.verses.length) {
-              data.verses.forEach(function (v) {
-                html += '<span class="verse-num">' + (v.verse || '') + '</span> ' + (v.text || '').trim() + ' ';
-              });
-            } else if (data.text) {
-              html = data.text;
-            }
-            textEl.innerHTML = html.trim() || (data.reference || ref);
-            resultEl.style.display = 'block';
+            var data = parseResponse(text);
+            showVerse(data, ref);
           })
           .catch(function () {
-            if (proxyIndex + 1 < CORS_PROXIES.length) {
+            if (proxyIndex + 1 < urlsToTry.length) {
               tryFetch(proxyIndex + 1);
             } else {
-              loadingEl.style.display = 'none';
-              errorEl.textContent = 'Could not load verse. Try "Genesis 3:2" or "John 3:16". If you\'re viewing from your computer (file://), open the site from GitHub Pages instead.';
-              errorEl.style.display = 'block';
+              handleError();
             }
           });
       }
