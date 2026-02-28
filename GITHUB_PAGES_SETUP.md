@@ -118,6 +118,16 @@ GitHub will rebuild the site; changes usually appear within a minute.
 
 ---
 
+## Bible search – make sure the right version is live
+
+After you push changes to `bible.html`, check:
+
+1. **Same folder** – You push from `c:\My Website`. Don’t push from a different copy of the site.
+2. **Same repo** – Your live URL is `https://carlvgraszouw.github.io/faith-driven-life/` (or `faith_driven_life`). In Git Bash, run `git remote -v` in `c:\My Website` and confirm it points to the repo that has that URL.
+3. **Hard refresh** – After pushing, wait 1–2 minutes, then open the Bible page and press **Ctrl+Shift+R** (or Cmd+Shift+R on Mac) to bypass cache. You should see **“Search the Bible”** and **“Berean Standard Bible”** (not “NIV”) and a link **“Or open the verse in a new tab… Bible Gateway (NIV)”**. If you still see “NIV” in the heading, the old page is cached or the wrong repo is deployed.
+
+---
+
 ## Summary
 
 | Step | Action |
