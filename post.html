@@ -45,6 +45,7 @@
     .post-listen-btn:hover { background: rgba(212, 175, 55, 0.25); color: var(--text); }
     .post-listen-btn.playing { background: rgba(212, 175, 55, 0.25); border-color: var(--accent); }
     .post-listen-btn .icon { font-size: 1.1rem; }
+    .post-listen-voice { font-size: 0.8rem; color: var(--muted); background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 0.35rem 0.5rem; color: var(--text); max-width: 10rem; }
     .post-body { font-size: 1.05rem; }
     .post-body img { max-width: 100%; height: auto; border-radius: 8px; }
     .post-body p { margin: 0 0 1rem; }
@@ -103,6 +104,7 @@
             <span class="icon" id="post-listen-icon">▶</span>
             <span id="post-listen-label">Listen</span>
           </button>
+          <select class="post-listen-voice" id="post-listen-voice" aria-label="Voice for reading"></select>
         </div>
       </header>
       <div class="post-body" id="post-body"></div>
@@ -158,6 +160,7 @@
         var btn = document.getElementById('post-listen-btn');
         var icon = document.getElementById('post-listen-icon');
         var label = document.getElementById('post-listen-label');
+        var voiceSelect = document.getElementById('post-listen-voice');
         if (!btn || !window.speechSynthesis) return;
         function getSpeakText() {
           var titleEl = document.getElementById('post-title');
@@ -178,7 +181,38 @@
           if (icon) icon.textContent = '▶';
           if (label) label.textContent = 'Listen';
         }
-        var currentUtterance = null;
+        function scoreVoice(v) {
+          var n = (v.name || '').toLowerCase();
+          var lang = (v.lang || '').toLowerCase();
+          if (!lang.startsWith('en')) return 0;
+          if (n.indexOf('google') !== -1) return 90;
+          if (n.indexOf('microsoft') !== -1 || n.indexOf('zira') !== -1 || n.indexOf('david') !== -1) return 85;
+          if (n.indexOf('samantha') !== -1 || n.indexOf('daniel') !== -1 || n.indexOf('alex') !== -1) return 88;
+          if (n.indexOf('natural') !== -1 || n.indexOf('premium') !== -1 || n.indexOf('enhanced') !== -1) return 82;
+          if (n.indexOf('karen') !== -1 || n.indexOf('moira') !== -1 || n.indexOf('victoria') !== -1) return 80;
+          return 50;
+        }
+        function fillVoices() {
+          var voices = window.speechSynthesis.getVoices();
+          var en = voices.filter(function (v) { return (v.lang || '').startsWith('en'); }).sort(function (a, b) { return scoreVoice(b) - scoreVoice(a); });
+          if (!voiceSelect) return en;
+          voiceSelect.innerHTML = '';
+          en.forEach(function (v, i) {
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = v.name || v.lang || 'Voice ' + (i + 1);
+            voiceSelect.appendChild(opt);
+          });
+          return en;
+        }
+        var voicesList = [];
+        function getVoicesList() {
+          if (voicesList.length) return voicesList;
+          voicesList = fillVoices();
+          return voicesList;
+        }
+        if (window.speechSynthesis.getVoices().length) getVoicesList();
+        else window.speechSynthesis.addEventListener('voiceschanged', function () { voicesList = []; getVoicesList(); });
         btn.onclick = function () {
           if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
             window.speechSynthesis.pause();
@@ -198,18 +232,15 @@
           var text = getSpeakText();
           if (!text) return;
           var u = new SpeechSynthesisUtterance(text);
-          u.rate = 0.95;
+          u.rate = 0.9;
           u.pitch = 1;
-          var voices = window.speechSynthesis.getVoices();
-          var en = voices.filter(function (v) { return v.lang.startsWith('en'); });
-          if (en.length) u.voice = en[0];
+          var list = getVoicesList();
+          var idx = voiceSelect ? parseInt(voiceSelect.value, 10) : 0;
+          if (list[idx]) u.voice = list[idx];
           u.onstart = function () { setPlaying(true); };
           u.onend = u.onerror = function () { setStopped(); };
-          currentUtterance = u;
           window.speechSynthesis.speak(u);
         };
-        if (speechSynthesis.getVoices().length) return;
-        speechSynthesis.addEventListener('voiceschanged', function () {});
       }
       function showError() {
         loadingEl.style.display = 'none';
