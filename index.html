@@ -257,7 +257,8 @@
       .site-nav .scripture-rotator { flex: 1; min-width: 0; max-width: none; border-radius: 6px; }
       .site-nav .scripture-rotator-banner { padding: 0.2rem 0.5rem; font-size: 0.6rem; }
       .site-nav .scripture-rotator-verse { padding: 0.35rem 0.5rem; font-size: 0.75rem; line-height: 1.35; min-height: 0; overflow-wrap: break-word; word-break: break-word; }
-      .visit-counter { margin-left: 0; padding-left: 0; font-size: 0.7rem; order: 2; flex-shrink: 0; }
+      .site-nav .promo-banner { white-space: normal; font-size: 0.7rem; padding: 0.35rem 0.6rem; order: 2; }
+      .visit-counter { margin-left: 0; padding-left: 0; font-size: 0.7rem; order: 3; flex-shrink: 0; }
       .site-nav .nav-links { gap: 0.15rem 0.5rem; order: 3; flex: 1 1 auto; }
       .site-nav .nav-links a { padding: 0.4rem 0.3rem; min-height: 0; display: inline-flex; align-items: center; font-size: 0.85rem; }
       .site-nav .nav-links a[href="blogs.html"],
@@ -636,6 +637,32 @@
       margin-bottom: 0.35rem;
     }
 
+    /* Header promo: free study guides & books */
+    .site-nav .promo-banner {
+      flex-shrink: 0;
+      padding: 0.4rem 0.85rem;
+      background: linear-gradient(135deg, var(--accent-dim) 0%, rgba(212, 175, 55, 0.08) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: center;
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.15);
+      white-space: nowrap;
+    }
+    .site-nav .promo-banner a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .site-nav .promo-banner a:hover {
+      text-decoration: underline;
+    }
+    .site-nav .promo-banner .promo-highlight {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
     .page-links {
       padding: 2rem 0 3rem;
       border-top: 1px solid rgba(255,255,255,0.06);
@@ -716,6 +743,9 @@
             <span id="scripture-text"></span>
           </div>
         </section>
+      </div>
+      <div class="promo-banner" role="complementary" aria-label="Free resources">
+        <span class="promo-highlight">FREE</span> study guides & books (kids & adults) — <a href="resources.html">Resources</a> · <a href="book.html">Book</a>
       </div>
       <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
       <ul class="nav-links">
