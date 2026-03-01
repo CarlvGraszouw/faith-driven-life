@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="A FAITH DRIVEN LIFE — Audio" description="Listen to teachings and audio content." sideBarActiveItemID="audio">
+  <section class="py-8">
+    <h1 class="text-2xl font-serif font-semibold text-primary mb-2">Audio</h1>
+    <p class="text-base-content/70 mb-8">Listen to teachings and encouragement.</p>
+
+    <div class="audio-list space-y-6">
+      <article class="bg-base-200 rounded-xl p-6 border border-base-content/10 flex flex-col sm:flex-row items-start gap-4">
+        <div class="flex-1 min-w-0">
+          <h2 class="text-lg font-semibold text-base-content m-0">The Supreme Commission</h2>
+          <p class="text-sm text-base-content/70 mt-1 mb-3">Teaching audio</p>
+          <audio class="w-full max-w-md" controls preload="metadata">
+            <source src="/audio/The%20Supreme%20Commission.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

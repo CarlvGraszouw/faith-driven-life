@@ -1,0 +1,35 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import SiteNav from "../components/SiteNav.astro";
+import { ViewTransitions } from "astro:transitions";
+import { SITE_TITLE, SITE_DESCRIPTION, TRANSITION_API } from "../config";
+
+const {
+  image,
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  sideBarActiveItemID = "home",
+  ogType,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="faith">
+  <head>
+    <BaseHead title={title} description={description} image={image} ogType={ogType} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0;600;1,400&display=swap" rel="stylesheet" />
+    {TRANSITION_API && <ViewTransitions />}
+  </head>
+  <body class="font-sans bg-base-100 text-base-content min-h-screen">
+    <SiteNav activeId={sideBarActiveItemID} />
+    <div class="pt-[14rem] md:pt-[16rem] pb-8">
+      <main class="container max-w-[720px] mx-auto px-4 md:px-6">
+        <slot />
+      </main>
+    </div>
+    <Footer />
+  </body>
+</html>

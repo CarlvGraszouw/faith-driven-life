@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import createSlug from "../lib/createSlug";
+
+const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const lastPosts = posts.slice(0, 3);
+---
+
+<BaseLayout sideBarActiveItemID="home">
+  <section class="intro-section pb-10">
+    <h1 class="intro-title font-serif text-2xl md:text-3xl font-semibold text-primary mb-2">Welcome to our Website</h1>
+    <p class="intro-tagline text-info text-base md:text-lg leading-relaxed mb-6">
+      Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will. — Romans 12:2 (NIV)
+    </p>
+    <div class="intro-content prose prose-invert max-w-none">
+      <p>Carl and Wilma here — we're so glad you've stopped by.</p>
+      <p>At this space, we leave our CVs (and all our titles, achievements, and labels) at the door. Whether you're a longtime believer, someone exploring faith, or even a complete skeptic or non-believer, you're warmly welcomed exactly as you are. Come as you are and experience God for yourself — the real, living God who's already at work and inviting you into the incredible journey He's taking us on.</p>
+      <p>God is deeply interested in your future. He offers complete freedom from the burdens and mistakes of your past. Every single day, He empowers us through His living Word and the presence of the Holy Spirit — guiding, strengthening, and transforming us step by step.</p>
+      <p>This is a place to connect and share:</p>
+      <ul>
+        <li>Feel free to leave comments</li>
+        <li>Share a prayer request</li>
+        <li>Write your testimony of what God has done (or is doing) in your life</li>
+      </ul>
+      <p>Audio has been added, and will be updated periodically. A valuable teaching section in Resources has been added that will teach you of God's Kingdom. The first 3 lessons are available for download now.</p>
+      <p>Wherever you are on your journey, know this with certainty: God loves you, and He cares about you so much.</p>
+      <blockquote class="border-l-4 border-primary pl-4 py-2 my-6 italic text-base-content/90">
+        "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."<br />— John 3:16 (NIV)
+      </blockquote>
+      <p>You're not here by accident. We're excited to see what God has in store — for you, for us, and for all of us together.</p>
+    </div>
+  </section>
+
+  <section class="page-links border-t border-base-content/10 pt-8">
+    <h2 class="sr-only">Explore</h2>
+    <ul class="flex flex-wrap gap-3 list-none p-0 m-0">
+      <li><a href="/blog/" class="px-3 py-2 rounded-md bg-primary/10 border border-primary/25 text-primary hover:bg-primary/20 hover:border-primary no-underline font-medium">Blogs</a></li>
+      <li><a href="/resources" class="px-3 py-2 rounded-md bg-primary/10 border border-primary/25 text-primary hover:bg-primary/20 hover:border-primary no-underline font-medium">Resources</a></li>
+      <li><a href="/audio" class="text-info hover:text-primary no-underline font-medium">Audio</a></li>
+      <li><a href="/bible" class="text-info hover:text-primary no-underline font-medium">Search the Bible</a></li>
+      <li><a href="/comments" class="text-info hover:text-primary no-underline font-medium">Comments</a></li>
+      <li><a href="/prayer-requests" class="text-info hover:text-primary no-underline font-medium">Prayer requests</a></li>
+      <li><a href="/testimonies" class="text-info hover:text-primary no-underline font-medium">Testimonies</a></li>
+    </ul>
+  </section>
+
+  {lastPosts.length > 0 && (
+    <section class="mt-12">
+      <h2 class="text-xl font-bold text-primary mb-4">Latest from blog</h2>
+      <ul class="space-y-4 list-none p-0 m-0">
+        {lastPosts.map((post) => (
+          <li class="border-b border-base-content/10 pb-4">
+            <a href={"/blog/" + createSlug(post.data.title, post.slug)} class="text-info hover:text-primary font-medium no-underline">
+              {post.data.title}
+            </a>
+            <p class="text-sm text-base-content/70 mt-1">{post.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+</style>

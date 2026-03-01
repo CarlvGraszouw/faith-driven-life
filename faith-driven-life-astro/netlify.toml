@@ -1,0 +1,9 @@
+# Netlify build config for A Faith Driven Life (Astro)
+# Deploy as a separate site so the current GitHub Pages site stays live until you switch.
+
+[build]
+  command = "pnpm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
