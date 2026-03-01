@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>A FAITH DRIVEN LIFE — Our Book</title>
+  <meta name="description" content="Buy our book. A Faith Driven Life.">
+  <meta name="theme-color" content="#0a1628">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0a1628; --surface: #132238; --text: #f0f4f8; --muted: #94a3b8; --accent: #d4af37; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; padding-top: 16rem; padding-bottom: env(safe-area-inset-bottom, 2rem); }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; min-height: 14rem; }
+    .site-nav .nav-inner { max-width: 100%; width: 100%; margin: 0 auto; padding: 0 0.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+    .site-nav .site-name { display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; font-weight: 700; flex-shrink: 0; }
+    .site-nav .site-name:hover { color: var(--accent); }
+    .site-nav .site-logo { height: 11rem; width: auto; max-width: 560px; display: block; object-fit: contain; filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2)); }
+    .site-nav .nav-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; list-style: none; margin: 0; padding: 0; }
+    .site-nav .nav-links a { color: #00d4ff; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+    .site-nav .nav-links a:hover { color: var(--accent); }
+    .site-nav .nav-links a[href="book.html"] { color: var(--accent); font-size: 1.05rem; }
+    .site-nav .nav-links a[href="blogs.html"], .site-nav .nav-links a[href="resources.html"] { padding: 0.4em 0.85em; border-radius: 999px; border: 1px solid rgba(212, 175, 55, 0.4); }
+    .visit-counter { font-size: 0.75rem; color: var(--muted); margin-left: auto; padding-left: 1rem; white-space: nowrap; }
+    .visit-counter::before { content: 'Site visits: '; }
+    @media (min-width: 768px) { .site-nav .site-logo { height: 13rem; max-width: 640px; } .site-nav .nav-links a { font-size: 1rem; } .site-nav .nav-links a[href="book.html"] { font-size: 1.125rem; } }
+    section { padding: 3rem 0; }
+    .book-hero { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; margin-bottom: 2rem; }
+    .book-cover-wrap { flex-shrink: 0; width: 220px; border-radius: 8px; overflow: hidden; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); }
+    .book-cover-wrap img { width: 100%; height: auto; display: block; }
+    .book-info { flex: 1; min-width: 0; }
+    .book-title { font-family: 'Source Serif 4', serif; font-size: 1.75rem; font-weight: 600; color: var(--accent); margin: 0 0 0.5rem; }
+    .book-meta { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; }
+    .book-desc { color: var(--text); margin-bottom: 1.5rem; }
+    .book-buy { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    .book-buy a { display: inline-block; padding: 0.65rem 1.25rem; background: var(--accent); color: var(--bg); font-weight: 600; text-decoration: none; border-radius: 8px; }
+    .book-buy a:hover { opacity: 0.9; }
+    .book-buy a.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .book-buy a.secondary:hover { background: rgba(212, 175, 55, 0.15); }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
+    @media (max-width: 767px) {
+      body { padding-top: 25vh; padding-top: 25dvh; }
+      .site-nav { max-height: 25vh; min-height: 0; overflow-y: auto; padding: 0.4rem 1rem; }
+      .site-nav .site-logo { height: 3.25rem; max-width: 120px; }
+      .site-nav .nav-links { gap: 0.2rem 0.5rem; }
+      .site-nav .nav-links a { padding: 0.35rem 0.25rem; font-size: 0.8rem; }
+      .book-hero { flex-direction: column; align-items: center; text-align: center; }
+      .book-cover-wrap { width: 180px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Main">
+    <div class="nav-inner">
+      <a href="index.html" class="site-name">
+        <img src="logo.png" alt="A Faith Driven Life" class="site-logo" onerror="this.style.display='none'">
+      </a>
+      <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blogs.html">Blogs</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="book.html">Book</a></li>
+        <li><a href="audio.html">Audio</a></li>
+        <li><a href="bible.html">Search the Bible</a></li>
+        <li><a href="comments.html">Comments</a></li>
+        <li><a href="prayer-requests.html">Prayer requests</a></li>
+        <li><a href="testimonies.html">Testimonies</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section>
+      <h1 class="book-title">Our Book</h1>
+      <p class="book-meta" style="margin-top: 0;">Replace the content below with your book title, cover, and buy links.</p>
+
+      <div class="book-hero">
+        <div class="book-cover-wrap">
+          <!-- Replace src with your cover image, e.g. book-cover.jpg in the same folder -->
+          <img src="book-cover.jpg" alt="Book cover" onerror="this.parentElement.style.minHeight='280px'; this.alt='Add book-cover.jpg';">
+        </div>
+        <div class="book-info">
+          <h2 class="book-title" style="font-size: 1.5rem;">Your Book Title Here</h2>
+          <p class="book-meta">By Carl and Wilma · Paperback / eBook</p>
+          <p class="book-desc">Add a short description of your book here. What is it about? Who is it for? Why did you write it?</p>
+          <div class="book-buy">
+            <!-- Replace # with your Gumroad, Payhip, or Amazon link -->
+            <a href="#" target="_blank" rel="noopener noreferrer">Buy now</a>
+            <!-- Optional: add a second link, e.g. Amazon -->
+            <a href="#" class="secondary" target="_blank" rel="noopener noreferrer">Also on Amazon</a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <footer>
+      <p>A FAITH DRIVEN LIFE</p>
+    </footer>
+  </div>
+
+  <script src="visit-counter.js"></script>
+</body>
+</html>
