@@ -1,6 +1,16 @@
 # Deploy A Faith Driven Life (Astro) on Netlify
 
+**→ For a full walkthrough, see [NETLIFY_STEP_BY_STEP.md](./NETLIFY_STEP_BY_STEP.md).**
+
 This folder is a **separate project** from your current site. Your existing site (e.g. on GitHub Pages) stays live until you are ready to switch.
+
+**Quick reference (same repo, build from this folder):**
+
+| Netlify setting   | Value                    |
+|-------------------|--------------------------|
+| Base directory    | `faith-driven-life-astro` |
+| Build command     | `pnpm run build` or `npm run build` |
+| Publish directory | `dist`                   |
 
 ## 1. Copy assets from your current site
 

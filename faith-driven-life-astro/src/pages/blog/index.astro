@@ -1,0 +1,11 @@
+---
+// In static mode Astro.redirect() is not available.
+// Redirect /blog/ to first page of blog list (/blog/1/) using meta refresh.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE_TITLE } from "../../config";
+---
+
+<BaseLayout title={`${SITE_TITLE} — Blogs`} sideBarActiveItemID="blogs">
+  <meta http-equiv="refresh" content="0;url=/blog/1/" />
+  <p class="text-base-content/80">Redirecting to <a href="/blog/1/" class="text-primary underline">blog</a>…</p>
+</BaseLayout>
