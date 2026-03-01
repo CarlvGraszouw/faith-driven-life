@@ -37,23 +37,23 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </section>
 </BaseLayout>
 
-<script>
+<script is:inline>
   (function () {
-    const form = document.getElementById('bible-form');
-    const input = document.getElementById('verse-input');
-    const loadingEl = document.getElementById('bible-loading');
-    const errorEl = document.getElementById('bible-error');
-    const resultEl = document.getElementById('bible-result');
-    const refEl = document.getElementById('bible-ref');
-    const textEl = document.getElementById('bible-text');
-    const gatewayLink = document.getElementById('bible-gateway-link');
-    const gatewayLinkFail = document.getElementById('bible-gateway-link-fail');
-    const errorNiv = document.getElementById('bible-error-niv');
-    const TIMEOUT_MS = 8000;
+    var form = document.getElementById('bible-form');
+    var input = document.getElementById('verse-input');
+    var loadingEl = document.getElementById('bible-loading');
+    var errorEl = document.getElementById('bible-error');
+    var resultEl = document.getElementById('bible-result');
+    var refEl = document.getElementById('bible-ref');
+    var textEl = document.getElementById('bible-text');
+    var gatewayLink = document.getElementById('bible-gateway-link');
+    var gatewayLinkFail = document.getElementById('bible-gateway-link-fail');
+    var errorNiv = document.getElementById('bible-error-niv');
+    var TIMEOUT_MS = 8000;
 
-    form.addEventListener('submit', function (e) {
+    if (form) form.addEventListener('submit', function (e) {
       e.preventDefault();
-      const ref = input.value.trim();
+      var ref = input && input.value ? input.value.trim() : '';
       if (!ref) return;
 
       loadingEl.classList.remove('hidden');
@@ -62,26 +62,26 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       resultEl.classList.add('hidden');
       errorEl.textContent = '';
 
-      const path = ref.replace(/\s+/g, ' ');
-      const gatewayUrl = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(path) + '&version=NIV';
+      var path = ref.replace(/\s+/g, ' ');
+      var gatewayUrl = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(path) + '&version=NIV';
       gatewayLinkFail.href = gatewayUrl;
 
-      const apiUrl = 'https://bible-api.com/' + encodeURIComponent(path) + '?translation=web';
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+      var apiUrl = 'https://bible-api.com/' + encodeURIComponent(path) + '?translation=web';
+      var controller = new AbortController();
+      var timeout = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
 
       fetch(apiUrl, { signal: controller.signal })
-        .then(res => {
+        .then(function (res) {
           clearTimeout(timeout);
           if (!res.ok) throw new Error('Not found');
           return res.json();
         })
-        .then(data => {
+        .then(function (data) {
           clearTimeout(timeout);
           if (data.verses && data.verses.length) {
-            const html = data.verses.map(v =>
-              '<span class="text-base-content/60 font-normal text-base">' + (v.verse || '') + '</span> ' + (v.text || '')
-            ).join(' ');
+            var html = data.verses.map(function (v) {
+              return '<span class="text-base-content/60 font-normal text-base">' + (v.verse || '') + '</span> ' + (v.text || '');
+            }).join(' ');
             refEl.textContent = (data.reference || path) + ' (WEB)';
             textEl.innerHTML = html;
             gatewayLink.href = gatewayUrl;
@@ -92,7 +92,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             throw new Error();
           }
         })
-        .catch(() => {
+        .catch(function () {
           clearTimeout(timeout);
           loadingEl.classList.add('hidden');
           errorEl.textContent = 'Could not load verse. Try again or open in NIV below.';
