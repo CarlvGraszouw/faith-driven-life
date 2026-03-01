@@ -120,7 +120,7 @@
         <li class="blog-skeleton"><a href="#"><span class="skeleton-img"></span><span class="blog-text"><span class="skeleton-title"></span><span class="skeleton-meta"></span></span></a></li>
       </ul>
       <p class="blog-loading-msg" id="blog-status-msg" style="margin-top: 1.25rem;">
-        Loading posts from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener">the blog</a>…
+        Loading posts from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer">the blog</a>…
       </p>
     </section>
 
@@ -170,8 +170,8 @@
       }
       function showError() {
         loadingDone = true;
-        listEl.innerHTML = '<li class="blog-fallback">Could not load posts. <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener" style="color: var(--accent);">View them on the blog</a>.</li>';
-        setStatus('Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener">the blog</a>.');
+        listEl.innerHTML = '<li class="blog-fallback">Could not load posts. <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">View them on the blog</a>.</li>';
+        setStatus('Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer">the blog</a>.');
       }
       function renderPosts(data) {
         if (loadingDone) return;
@@ -191,7 +191,7 @@
           li.innerHTML = '<a href="post.html?url=' + encodeURIComponent(url) + '">' + imgHtml + '<span class="blog-text"><span class="title">' + title.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span><span class="meta">' + meta.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span></span></a>';
           listEl.appendChild(li);
         });
-        setStatus('Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener">the blog</a>.');
+        setStatus('Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer">the blog</a>.');
       }
       function tryDirect() {
         var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
@@ -215,7 +215,7 @@
       setInterval(function () { if (!loadingDone) return; loadingDone = false; load(); }, REFRESH_MINUTES * 60 * 1000);
       setTimeout(function () {
         if (loadingDone || !statusMsg) return;
-        setStatus('Taking a moment… You can <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener">view posts on the blog</a> in the meantime.');
+        setStatus('Taking a moment… You can <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer">view posts on the blog</a> in the meantime.');
       }, LOADING_TIMEOUT_MS);
     })();
   </script>
