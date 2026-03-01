@@ -4,4 +4,8 @@
 .gradle/
 local.properties
 
+# Signing (never commit)
+keystore.properties
+*.keystore
+
 # Optional: add app/google-services.json here if you use a real Firebase project and want to keep it out of git

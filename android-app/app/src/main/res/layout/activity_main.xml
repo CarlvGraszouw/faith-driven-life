@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Phone-optimized layout: full-width WebView, minimal chrome, respects system bars and cutouts -->
+<!-- Phone-optimized layout: full-width WebView, minimal chrome, respects system bars and cutouts (Samsung, etc.) -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,13 +7,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!-- Minimal toolbar for menu only – same colour as site (#0a1628), compact for phone -->
+    <!-- Toolbar: app bar with menu, matches site colour -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="?attr/actionBarSize"
         android:background="#0a1628"
-        android:minHeight="48dp"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,17 +32,21 @@
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:focusable="true"
+            android:importantForAccessibility="yes" />
 
+        <!-- Progress bar: accent colour, top of content -->
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="3dp"
             android:layout_gravity="top"
             android:indeterminate="false"
             android:max="100"
             android:progress="0"
+            android:progressTint="#d4af37"
             android:visibility="visible" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
