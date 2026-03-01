@@ -1,11 +1,55 @@
 ---
-// In static mode Astro.redirect() is not available.
-// Redirect /blog/ to first page of blog list (/blog/1/) using meta refresh.
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import HorizontalCard from "../../components/HorizontalCard.astro";
+import { getCollection } from "astro:content";
+import createSlug from "../../lib/createSlug";
 import { SITE_TITLE } from "../../config";
+
+const allPosts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const pageSize = 10;
+const firstPagePosts = allPosts.slice(0, pageSize);
+const hasNextPage = allPosts.length > pageSize;
 ---
 
 <BaseLayout title={`${SITE_TITLE} — Blogs`} sideBarActiveItemID="blogs">
-  <meta http-equiv="refresh" content="0;url=/blog/1/" />
-  <p class="text-base-content/80">Redirecting to <a href="/blog/1/" class="text-primary underline">blog</a>…</p>
+  <div class="mb-5">
+    <h1 class="text-3xl font-bold">Blog</h1>
+  </div>
+
+  {firstPagePosts.length === 0 ? (
+    <div class="bg-base-200 border-l-4 border-secondary w-full p-4">
+      <p class="font-bold">Sorry!</p>
+      <p>There are no blog posts to show at the moment. Check back later!</p>
+    </div>
+  ) : (
+    <ul class="list-none p-0 m-0">
+      {firstPagePosts.map((post) => (
+        <li class="border-b border-base-content/10 last:border-0">
+          <HorizontalCard
+            title={post.data.title}
+            img={post.data.heroImage}
+            desc={post.data.description}
+            url={"/blog/" + createSlug(post.data.title, post.slug)}
+            target="_self"
+            badge={post.data.badge}
+            tags={post.data.tags}
+          />
+          <div class="divider my-0" />
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {hasNextPage && (
+    <div class="mt-8 flex justify-end">
+      <a href="/blog/2/" class="btn btn-ghost">
+        Older Posts
+        <svg class="h-6 w-6 fill-current inline-block ml-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+        </svg>
+      </a>
+    </div>
+  )}
 </BaseLayout>

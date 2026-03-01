@@ -8,12 +8,8 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# Ensure /blog and /blog/ show the first page of posts (Astro pagination uses /blog/1/, /blog/2/, ...)
+# Normalize /blog to /blog/ so the blog index loads
 [[redirects]]
   from = "/blog"
-  to = "/blog/1/"
-  status = 302
-[[redirects]]
-  from = "/blog/"
-  to = "/blog/1/"
+  to = "/blog/"
   status = 302
