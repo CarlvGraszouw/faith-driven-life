@@ -103,7 +103,7 @@
   <div class="container">
     <section id="bible">
       <h2>Search the Bible</h2>
-      <p class="bible-intro">Enter a verse (e.g. John 3:16) or a whole chapter (e.g. John 3, Psalm 23). The passage is displayed here on the page in the <strong>Berean Standard Bible (BSB)</strong>.</p>
+      <p class="bible-intro">Enter a verse (e.g. John 3:16) or a whole chapter (e.g. John 3, Psalm 23). Results load from the <strong>World English Bible (WEB)</strong> or <strong>Berean Standard Bible (BSB)</strong>.</p>
       <form class="bible-form" id="bible-form">
         <input type="text" id="verse-input" placeholder="e.g. John 3:16" required autocomplete="off">
         <button type="submit">Search</button>
@@ -172,15 +172,56 @@
         document.getElementById('bible-error-niv').style.display = 'none';
         resultEl.style.display = 'none';
         var path = parsed.book + ' ' + parsed.chapter + (parsed.wholeChapter ? '' : ':' + parsed.verseStart + (parsed.verseEnd > parsed.verseStart ? '-' + parsed.verseEnd : ''));
-        var apiUrl = 'https://bible.helloao.org/api/BSB/' + parsed.bookId + '/' + parsed.chapter + '.json';
-        var proxies = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
-        function tryProxy(i) {
+        var gatewayUrl = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(path) + '&version=NIV';
+
+        function showResult(refLabel, html, translation) {
+          refEl.textContent = refLabel;
+          textEl.innerHTML = html;
+          gatewayLink.href = gatewayUrl;
+          resultEl.style.display = 'block';
+          loadingEl.style.display = 'none';
+          document.getElementById('bible-error-niv').style.display = 'none';
+          resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        function showError() {
+          loadingEl.style.display = 'none';
+          errorEl.textContent = 'Could not load verse. Try again or open in NIV below.';
+          errorEl.style.display = 'block';
+          document.getElementById('bible-gateway-link-fail').href = gatewayUrl;
+          document.getElementById('bible-error-niv').style.display = 'block';
+        }
+
+        // 1) Try bible-api.com first (CORS-enabled, no proxy needed)
+        var bibleApiUrl = 'https://bible-api.com/' + encodeURIComponent(ref.replace(/\s+/g, ' ')) + '?translation=web';
+        var controller1 = new AbortController();
+        var timeout1 = setTimeout(function () { controller1.abort(); }, TIMEOUT_MS);
+        fetch(bibleApiUrl, { signal: controller1.signal })
+          .then(function (res) {
+            clearTimeout(timeout1);
+            if (!res.ok) throw new Error();
+            return res.json();
+          })
+          .then(function (data) {
+            clearTimeout(timeout1);
+            if (data.verses && data.verses.length) {
+              var html = data.verses.map(function (v) {
+                return '<span class="verse-num">' + (v.verse || '') + '</span> ' + (v.text || '');
+              }).join(' ');
+              showResult((data.reference || path) + ' (WEB)', html, 'WEB');
+              return;
+            }
+            throw new Error();
+          })
+          .catch(function () {
+            clearTimeout(timeout1);
+            tryBsbProxies(0);
+          });
+
+        function tryBsbProxies(i) {
+          var apiUrl = 'https://bible.helloao.org/api/BSB/' + parsed.bookId + '/' + parsed.chapter + '.json';
+          var proxies = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
           if (i >= proxies.length) {
-            loadingEl.style.display = 'none';
-            errorEl.textContent = 'Could not load verse. Try again or open in NIV below.';
-            errorEl.style.display = 'block';
-            document.getElementById('bible-gateway-link-fail').href = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(path) + '&version=NIV';
-            document.getElementById('bible-error-niv').style.display = 'block';
+            showError();
             return;
           }
           var controller = new AbortController();
@@ -202,21 +243,15 @@
                 if (n >= parsed.verseStart && n <= parsed.verseEnd) verses.push({ num: n, text: verseContentToText(item.content) });
               });
               if (verses.length === 0) throw new Error();
-              refEl.textContent = path + ' (BSB)';
-              textEl.innerHTML = verses.map(function (v) {
+              showResult(path + ' (BSB)', verses.map(function (v) {
                 return '<span class="verse-num">' + v.num + '</span> ' + (v.text || '');
-              }).join(' ');
-              gatewayLink.href = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(path) + '&version=NIV';
-              resultEl.style.display = 'block';
-              loadingEl.style.display = 'none';
-              resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }).join(' '), 'BSB');
             })
             .catch(function () {
               clearTimeout(t);
-              tryProxy(i + 1);
+              tryBsbProxies(i + 1);
             });
         }
-        tryProxy(0);
       });
     })();
   </script>

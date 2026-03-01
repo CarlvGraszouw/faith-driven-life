@@ -2,9 +2,103 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="A FAITH DRIVEN LIFE — Search the Bible" description="Search the Bible." sideBarActiveItemID="bible">
+<BaseLayout title="A FAITH DRIVEN LIFE — Search the Bible" description="Search the Bible. Enter a verse or chapter reference." sideBarActiveItemID="bible">
   <section class="py-8">
     <h1 class="text-2xl font-serif font-semibold text-primary mb-2">Search the Bible</h1>
-    <p class="text-base-content/70 mb-6">Use an external Bible search or your preferred Bible app. You can also visit <a href="https://www.biblegateway.com/" target="_blank" rel="noopener noreferrer" class="text-info hover:text-primary">Bible Gateway</a> or <a href="https://www.youversion.com/" target="_blank" rel="noopener noreferrer" class="text-info hover:text-primary">YouVersion</a> for reading and search.</p>
+    <p class="text-base-content/70 mb-6">Enter a verse (e.g. John 3:16) or a chapter (e.g. Psalm 23). Results use the <strong>World English Bible (WEB)</strong>.</p>
+
+    <form class="bible-form flex flex-wrap gap-3 mb-8" id="bible-form">
+      <input
+        type="text"
+        id="verse-input"
+        placeholder="e.g. John 3:16"
+        required
+        autocomplete="off"
+        class="flex-1 min-w-[200px] px-4 py-3 rounded-lg bg-base-200 border border-base-content/20 text-base-content placeholder-base-content/50 focus:outline-none focus:border-primary"
+      />
+      <button type="submit" class="px-5 py-3 font-semibold rounded-lg bg-primary text-primary-content hover:opacity-90">
+        Search
+      </button>
+    </form>
+
+    <div id="bible-loading" class="text-base-content/60 py-4 hidden">Loading…</div>
+    <div id="bible-error" class="text-error py-4 hidden"></div>
+    <p id="bible-error-niv" class="mt-2 text-sm hidden">
+      <a id="bible-gateway-link-fail" href="#" target="_blank" rel="noopener" class="text-primary underline">Open in NIV (Bible Gateway)</a>
+    </p>
+
+    <div id="bible-result" class="hidden rounded-xl p-6 bg-base-200 border border-base-content/10 mt-4">
+      <div id="bible-ref" class="font-semibold text-primary mb-3 text-lg"></div>
+      <div id="bible-text" class="text-base-content/90 text-lg leading-relaxed"></div>
+      <p class="mt-4 text-sm text-base-content/60">
+        Need NIV? <a id="bible-gateway-link" href="https://www.biblegateway.com/passage/?version=NIV" target="_blank" rel="noopener" class="text-primary hover:underline">Open this passage on Bible Gateway</a>
+      </p>
+    </div>
   </section>
 </BaseLayout>
+
+<script>
+  (function () {
+    const form = document.getElementById('bible-form');
+    const input = document.getElementById('verse-input');
+    const loadingEl = document.getElementById('bible-loading');
+    const errorEl = document.getElementById('bible-error');
+    const resultEl = document.getElementById('bible-result');
+    const refEl = document.getElementById('bible-ref');
+    const textEl = document.getElementById('bible-text');
+    const gatewayLink = document.getElementById('bible-gateway-link');
+    const gatewayLinkFail = document.getElementById('bible-gateway-link-fail');
+    const errorNiv = document.getElementById('bible-error-niv');
+    const TIMEOUT_MS = 8000;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const ref = input.value.trim();
+      if (!ref) return;
+
+      loadingEl.classList.remove('hidden');
+      errorEl.classList.add('hidden');
+      errorNiv.classList.add('hidden');
+      resultEl.classList.add('hidden');
+      errorEl.textContent = '';
+
+      const path = ref.replace(/\s+/g, ' ');
+      const gatewayUrl = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(path) + '&version=NIV';
+      gatewayLinkFail.href = gatewayUrl;
+
+      const apiUrl = 'https://bible-api.com/' + encodeURIComponent(path) + '?translation=web';
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+      fetch(apiUrl, { signal: controller.signal })
+        .then(res => {
+          clearTimeout(timeout);
+          if (!res.ok) throw new Error('Not found');
+          return res.json();
+        })
+        .then(data => {
+          clearTimeout(timeout);
+          if (data.verses && data.verses.length) {
+            const html = data.verses.map(v =>
+              '<span class="text-base-content/60 font-normal text-base">' + (v.verse || '') + '</span> ' + (v.text || '')
+            ).join(' ');
+            refEl.textContent = (data.reference || path) + ' (WEB)';
+            textEl.innerHTML = html;
+            gatewayLink.href = gatewayUrl;
+            resultEl.classList.remove('hidden');
+            loadingEl.classList.add('hidden');
+            resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } else {
+            throw new Error();
+          }
+        })
+        .catch(() => {
+          clearTimeout(timeout);
+          loadingEl.classList.add('hidden');
+          errorEl.textContent = 'Could not load verse. Try again or open in NIV below.';
+          errorEl.classList.remove('hidden');
+          errorNiv.classList.remove('hidden');
+        });
+    });
+  })();
+</script>
