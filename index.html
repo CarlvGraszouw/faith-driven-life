@@ -165,20 +165,49 @@
       content: 'Site visits: ';
     }
 
-    .site-nav .nav-links a.nav-blogs {
+    .site-nav .nav-links a.nav-blogs,
+    .site-nav .nav-links a.nav-resources {
       color: var(--accent);
       font-size: 1.05rem;
     }
 
-    .site-nav .nav-links a.nav-blogs:hover {
+    .site-nav .nav-links a.nav-blogs:hover,
+    .site-nav .nav-links a.nav-resources:hover {
       color: #00d4ff;
+    }
+
+    /* Accent: logo subtle glow */
+    .site-nav .site-logo {
+      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
+    }
+
+    /* Blogs & Resources: pill buttons with animated border glow */
+    .site-nav .nav-links a[href="blogs.html"],
+    .site-nav .nav-links a[href="resources.html"] {
+      position: relative;
+      padding: 0.4em 0.85em;
+      border-radius: 999px;
+      margin: 0 -0.15em;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+      animation: nav-glow-pulse 2.5s ease-in-out infinite;
+    }
+    .site-nav .nav-links a[href="blogs.html"]:hover,
+    .site-nav .nav-links a[href="resources.html"]:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+    }
+    @keyframes nav-glow-pulse {
+      0%, 100% { box-shadow: 0 0 12px rgba(212, 175, 55, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.35); }
     }
 
     @media (min-width: 768px) {
       .site-nav .site-logo { height: 13rem; max-width: 640px; }
       .site-nav .site-tagline { font-size: 0.8rem; }
       .site-nav .nav-links a { font-size: 1rem; }
-      .site-nav .nav-links a.nav-blogs { font-size: 1.125rem; }
+      .site-nav .nav-links a.nav-blogs,
+      .site-nav .nav-links a.nav-resources { font-size: 1.125rem; }
     }
 
     /* Mobile / cellphone – app menu + headings max 25% of screen, 75% for scrolling */
@@ -196,6 +225,8 @@
       .visit-counter { margin-left: 0; padding-left: 0; font-size: 0.7rem; order: 2; flex-shrink: 0; }
       .site-nav .nav-links { gap: 0.15rem 0.5rem; order: 3; flex: 1 1 auto; }
       .site-nav .nav-links a { padding: 0.4rem 0.3rem; min-height: 0; display: inline-flex; align-items: center; font-size: 0.85rem; }
+      .site-nav .nav-links a[href="blogs.html"],
+      .site-nav .nav-links a[href="resources.html"] { padding: 0.35em 0.6em; }
       header { padding: 1.25rem 0 1rem; }
       header p { font-size: 0.9rem; }
       section { padding: 1.5rem 0; }
@@ -225,6 +256,8 @@
       .site-nav .site-logo { max-width: 120px; }
       .site-nav .scripture-rotator-verse { font-size: 0.7rem; }
       .site-nav .nav-links a { font-size: 0.8rem; padding: 0.35rem 0.25rem; }
+      .site-nav .nav-links a[href="blogs.html"],
+      .site-nav .nav-links a[href="resources.html"] { padding: 0.3em 0.5em; }
     }
 
     /* Header (intro under nav) – clear separation from content */
@@ -250,6 +283,8 @@
       font-weight: 600;
       margin: 0 0 1.5rem;
       color: var(--accent);
+      padding-left: 0.75rem;
+      border-left: 3px solid var(--accent);
     }
 
     /* Audio section */
@@ -515,7 +550,9 @@
       padding: 0;
       background: var(--surface);
       border: 1px solid rgba(255,255,255,0.08);
+      border-left: 3px solid var(--accent);
       border-radius: 10px;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.08);
       max-width: min(420px, 100%);
       min-width: 0;
       flex: 1;
@@ -586,6 +623,19 @@
 
     .page-links-list a:hover {
       color: var(--accent);
+    }
+
+    .page-links-list a[href="blogs.html"],
+    .page-links-list a[href="resources.html"] {
+      padding: 0.35em 0.7em;
+      border-radius: 6px;
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+    }
+    .page-links-list a[href="blogs.html"]:hover,
+    .page-links-list a[href="resources.html"]:hover {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--accent);
     }
 
     .sr-only {
