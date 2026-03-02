@@ -1107,7 +1107,6 @@
       if (isIos() && !deferredPrompt) {
         installBtn.style.display = 'none';
         iosNote.style.display = 'inline';
-        showInstallPrompt();
       }
       if (dismissBtn) {
         dismissBtn.addEventListener('click', function () {
@@ -1115,6 +1114,8 @@
           localStorage.setItem('pwa-install-dismissed', '1');
         });
       }
+      // Show the install section on every visit (until dismissed) so it doesn't depend on beforeinstallprompt firing
+      showInstallPrompt();
     })();
   </script>
 </body>
