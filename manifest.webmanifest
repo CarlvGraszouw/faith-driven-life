@@ -1,0 +1,25 @@
+{
+  "name": "A Faith Driven Life",
+  "short_name": "Faith Driven Life",
+  "description": "Connect and share — comments, prayer requests, testimonies. God's Word, audio, and free study resources.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0a1628",
+  "theme_color": "#0a1628",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

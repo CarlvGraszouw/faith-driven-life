@@ -13,6 +13,11 @@ desktop.ini
 # Optional: uncomment if you don't want to track the logo
 # logo.png
 
+# Environment and secrets (never commit)
+.env
+.env.local
+*.env
+
 # Large binaries – host elsewhere, don’t commit
 downloads/
 *.exe

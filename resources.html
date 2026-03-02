@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
   <title>A FAITH DRIVEN LIFE — Resources</title>
   <meta name="description" content="Videos, free study material, and tools for your faith journey.">
   <meta name="theme-color" content="#0a1628">
@@ -218,5 +219,6 @@
     </footer>
   </div>
   <script src="visit-counter.js"></script>
+  <script>if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {}); });</script>
 </body>
 </html>

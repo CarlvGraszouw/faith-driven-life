@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
   <title>Search the Bible — A FAITH DRIVEN LIFE</title>
   <meta name="description" content="Search and read Bible verses. Enter a reference like John 3:16 or Psalm 23.">
   <meta name="theme-color" content="#0a1628">
@@ -259,5 +260,6 @@
     })();
   </script>
   <script src="visit-counter.js"></script>
+  <script>if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {}); });</script>
 </body>
 </html>
