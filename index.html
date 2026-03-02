@@ -527,19 +527,24 @@
     .intro-with-sidebar {
       display: grid;
       grid-template-columns: 240px 1fr;
-      gap: 2rem;
+      gap: 3rem;
       align-items: start;
       padding: 2.5rem 0 3rem;
     }
     .daily-devotional {
       background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
       border-left: 4px solid var(--accent);
       border-radius: 0 10px 10px 0;
       padding: 1.25rem 1rem;
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.06);
+      box-shadow: 0 0 24px rgba(0,0,0,0.25), 0 0 20px rgba(212, 175, 55, 0.06);
       position: sticky;
       top: 16rem;
+    }
+    .intro-with-sidebar > .intro-section {
+      border-left: 1px solid rgba(255,255,255,0.12);
+      padding-left: 2rem;
+      margin-left: -1px;
     }
     .daily-devotional h2 {
       font-family: 'Source Serif 4', serif;
@@ -571,6 +576,11 @@
       .intro-with-sidebar {
         grid-template-columns: 1fr;
         padding: 1.25rem 0 1.5rem;
+      }
+      .intro-with-sidebar > .intro-section {
+        border-left: none;
+        padding-left: 0;
+        margin-left: 0;
       }
       .daily-devotional {
         position: static;
