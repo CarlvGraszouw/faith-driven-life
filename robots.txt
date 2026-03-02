@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://carlvgraszouw.github.io/faith-driven-life/sitemap.xml
