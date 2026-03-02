@@ -16,6 +16,7 @@ desktop.ini
 # Environment and secrets (never commit)
 .env
 .env.local
+.env.txt
 *.env
 
 # Large binaries – host elsewhere, don’t commit
