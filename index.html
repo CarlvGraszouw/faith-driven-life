@@ -67,6 +67,43 @@
       outline-offset: 2px;
     }
 
+    /* PWA install prompt */
+    .pwa-install-wrap {
+      margin: 2rem 0;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 10px;
+      display: none;
+    }
+    .pwa-install-wrap.visible { display: block; }
+    .pwa-install-wrap h3 {
+      font-size: 1rem;
+      color: var(--accent);
+      margin: 0 0 0.5rem;
+    }
+    .pwa-install-wrap p { margin: 0 0 0.75rem; font-size: 0.9rem; color: var(--text); }
+    .pwa-install-wrap .pwa-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+    .pwa-install-wrap .pwa-btn {
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .pwa-install-wrap .pwa-btn:hover { opacity: 0.9; }
+    .pwa-install-wrap .pwa-dismiss {
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 0.35rem 0.75rem;
+    }
+    .pwa-install-wrap .pwa-ios-note { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
+
     body {
       margin: 0;
       max-width: 100vw;
@@ -874,6 +911,16 @@
       </ul>
     </section>
 
+    <section class="pwa-install-wrap" id="pwa-install" aria-label="Install app">
+      <h3>Install this app</h3>
+      <p>Add A Faith Driven Life to your home screen or install it like an app for quick access.</p>
+      <div class="pwa-actions">
+        <button type="button" class="pwa-btn" id="pwa-install-btn" style="display: none;">Install app</button>
+        <span class="pwa-ios-note" id="pwa-ios-note" style="display: none;">On iPhone/iPad: tap the <strong>Share</strong> button (square with arrow) at the bottom, then <strong>Add to Home Screen</strong>.</span>
+        <button type="button" class="pwa-btn pwa-dismiss" id="pwa-dismiss">Dismiss</button>
+      </div>
+    </section>
+
     <footer>
       <p>A FAITH DRIVEN LIFE</p>
       <p><a href="#main-content" class="back-to-top">Back to top</a></p>
@@ -916,6 +963,54 @@
         navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
       });
     }
+  </script>
+  <script>
+    (function () {
+      var wrap = document.getElementById('pwa-install');
+      var installBtn = document.getElementById('pwa-install-btn');
+      var iosNote = document.getElementById('pwa-ios-note');
+      var dismissBtn = document.getElementById('pwa-dismiss');
+      if (!wrap) return;
+      var dismissed = localStorage.getItem('pwa-install-dismissed') === '1';
+      var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (dismissed || isStandalone) { wrap.classList.remove('visible'); return; }
+      var deferredPrompt;
+      function showInstallPrompt() {
+        wrap.classList.add('visible');
+        if (installBtn.style.display !== 'none') installBtn.focus();
+      }
+      function isIos() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      }
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBtn.style.display = 'inline-block';
+        iosNote.style.display = 'none';
+        showInstallPrompt();
+      });
+      if (installBtn) {
+        installBtn.addEventListener('click', function () {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(function (result) {
+            if (result.outcome === 'accepted') wrap.classList.remove('visible');
+            deferredPrompt = null;
+          });
+        });
+      }
+      if (isIos() && !deferredPrompt) {
+        installBtn.style.display = 'none';
+        iosNote.style.display = 'inline';
+        showInstallPrompt();
+      }
+      if (dismissBtn) {
+        dismissBtn.addEventListener('click', function () {
+          wrap.classList.remove('visible');
+          localStorage.setItem('pwa-install-dismissed', '1');
+        });
+      }
+    })();
   </script>
 </body>
 </html>
