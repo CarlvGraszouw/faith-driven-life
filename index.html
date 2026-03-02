@@ -19,10 +19,26 @@
     :root {
       --bg: #0a1628;
       --surface: #132238;
+      --surface-hover: #1a2d47;
       --text: #f0f4f8;
       --muted: #94a3b8;
       --accent: #d4af37;
       --accent-dim: rgba(212, 175, 55, 0.2);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.15);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.2);
+      --shadow-glow: 0 0 24px rgba(212, 175, 55, 0.08);
+      --transition-fast: 0.2s ease;
+      --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :root {
+        --transition-fast: 0.01s;
+        --transition-smooth: 0.01s;
+      }
     }
 
     * {
@@ -46,8 +62,8 @@
       color: var(--bg);
       font-weight: 600;
       text-decoration: none;
-      border-radius: 6px;
-      transition: top 0.2s ease;
+      border-radius: var(--radius-sm);
+      transition: top var(--transition-fast), opacity var(--transition-fast);
     }
     .skip-link:focus {
       top: 0.75rem;
@@ -127,17 +143,39 @@
       overflow-wrap: break-word;
     }
 
-    /* Top nav – proportional, logo prominent */
+    /* Page load and scroll reveal (respects prefers-reduced-motion) */
+    #main-content {
+      transition: opacity var(--transition-smooth);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      body:not(.loaded) #main-content { opacity: 0; }
+      body.loaded #main-content { opacity: 1; }
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Top nav – proportional, logo prominent; subtle glass where supported */
     .site-nav {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 100;
-      background: var(--bg);
+      background: rgba(10, 22, 40, 0.92);
       border-bottom: 1px solid rgba(255,255,255,0.08);
       padding: 1rem 1.5rem;
       min-height: 14rem;
+      transition: background var(--transition-smooth), box-shadow var(--transition-smooth);
+    }
+    @supports (backdrop-filter: blur(12px)) {
+      .site-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     }
 
     .site-nav .nav-inner {
@@ -224,6 +262,7 @@
       text-decoration: none;
       font-size: 0.95rem;
       font-weight: 500;
+      transition: color var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
     }
 
     .site-nav .nav-links a:hover {
@@ -356,12 +395,13 @@
 
     section h2 {
       font-family: 'Source Serif 4', serif;
-      font-size: 1.5rem;
+      font-size: clamp(1.25rem, 2.5vw + 1rem, 1.5rem);
       font-weight: 600;
       margin: 0 0 1.5rem;
       color: var(--accent);
       padding-left: 0.75rem;
       border-left: 3px solid var(--accent);
+      letter-spacing: -0.01em;
     }
 
     /* Audio section */
@@ -372,12 +412,20 @@
 
     .audio-card {
       background: var(--surface);
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       padding: 1.25rem 1.5rem;
       border: 1px solid rgba(255,255,255,0.06);
       display: flex;
       align-items: center;
       gap: 1rem;
+      transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-fast), background var(--transition-fast);
+    }
+    .audio-card:hover {
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: var(--shadow-md), var(--shadow-glow);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .audio-card:hover { transform: translateY(-2px); }
     }
 
     .audio-card .play-btn {
@@ -393,11 +441,14 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
     }
-
     .audio-card .play-btn:hover {
       background: var(--accent);
       color: var(--bg);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .audio-card .play-btn:hover { transform: scale(1.05); }
     }
 
     .audio-card .info h3 {
@@ -445,6 +496,7 @@
       display: flex;
       gap: 1.25rem;
       align-items: flex-start;
+      transition: color var(--transition-fast);
     }
 
     .blog-list a:hover {
@@ -533,13 +585,18 @@
       background: var(--accent-dim);
       color: var(--accent);
       border: 1px solid var(--accent);
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
     }
 
     .submit-form button:hover {
       background: var(--accent);
       color: var(--bg);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .submit-form button:hover { transform: scale(1.02); }
+      .submit-form button:active { transform: scale(0.98); }
     }
 
     .approved-list {
@@ -548,10 +605,15 @@
 
     .approved-item {
       background: var(--surface);
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       padding: 1rem 1.25rem;
       margin-bottom: 0.75rem;
       border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-smooth), background var(--transition-fast);
+    }
+    .approved-item:hover {
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: var(--shadow-sm);
     }
 
     .approved-item p {
@@ -576,11 +638,15 @@
       background: var(--surface);
       border: 1px solid rgba(255,255,255,0.12);
       border-left: 4px solid var(--accent);
-      border-radius: 0 10px 10px 0;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
       padding: 1.25rem 1rem;
-      box-shadow: 0 0 24px rgba(0,0,0,0.25), 0 0 20px rgba(212, 175, 55, 0.06);
+      box-shadow: var(--shadow-md), var(--shadow-glow);
       position: sticky;
       top: 16rem;
+      transition: box-shadow var(--transition-smooth), border-color var(--transition-fast);
+    }
+    .daily-devotional:hover {
+      box-shadow: var(--shadow-md), 0 0 28px rgba(212, 175, 55, 0.12);
     }
     .intro-with-sidebar > .intro-section {
       border-left: 1px solid rgba(255,255,255,0.12);
@@ -636,10 +702,11 @@
 
     .intro-title {
       font-family: 'Source Serif 4', serif;
-      font-size: 1.75rem;
+      font-size: clamp(1.35rem, 3vw + 1rem, 1.75rem);
       font-weight: 600;
       color: var(--accent);
       margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
     }
 
     .intro-tagline {
@@ -681,9 +748,10 @@
       padding: 1rem 1.25rem;
       background: var(--surface);
       border-left: 4px solid var(--accent);
-      border-radius: 0 8px 8px 0;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       font-style: italic;
       color: var(--text);
+      box-shadow: var(--shadow-sm);
     }
 
     /* Live changing scriptures rotator – in nav next to logo */
@@ -787,10 +855,14 @@
       color: #00d4ff;
       text-decoration: none;
       font-weight: 500;
+      transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
     }
 
     .page-links-list a:hover {
       color: var(--accent);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .page-links-list a:hover { transform: translateX(4px); }
     }
 
     .page-links-list a[href="blogs.html"],
@@ -828,6 +900,7 @@
       color: var(--muted);
       text-decoration: none;
       font-size: 0.85rem;
+      transition: color var(--transition-fast);
     }
     footer .back-to-top:hover {
       color: var(--accent);
@@ -869,7 +942,7 @@
   </nav>
 
   <main id="main-content" class="container">
-    <div class="intro-with-sidebar">
+    <div class="intro-with-sidebar reveal">
       <aside class="daily-devotional" aria-label="Daily devotional">
         <h2>Daily devotional</h2>
         <p class="devotional-ref" id="devotional-ref"></p>
@@ -897,7 +970,7 @@
     </section>
     </div>
 
-    <section class="page-links">
+    <section class="page-links reveal">
       <h2 class="sr-only">Explore</h2>
       <ul class="page-links-list">
         <li><a href="blogs.html">Blogs</a></li>
@@ -963,6 +1036,20 @@
         navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
       });
     }
+  </script>
+  <script>
+    (function () {
+      requestAnimationFrame(function () { document.body.classList.add('loaded'); });
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var els = document.querySelectorAll('.reveal');
+      if (!els.length) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('visible'); }
+        });
+      }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
+      els.forEach(function (el) { io.observe(el); });
+    })();
   </script>
   <script>
     (function () {
