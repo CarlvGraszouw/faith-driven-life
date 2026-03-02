@@ -47,7 +47,7 @@ function doPost(e) {
       '<p>Choose:</p>' +
       '<p><a href="' + approveUrl + '" style="display:inline-block;padding:10px 20px;background:#0a0;color:#fff;text-decoration:none;border-radius:6px;margin-right:10px;">Approve – show on site</a> ' +
       '<a href="' + rejectUrl + '" style="display:inline-block;padding:10px 20px;background:#c00;color:#fff;text-decoration:none;border-radius:6px;">Reject</a></p>' +
-      '<p><small>If buttons don’t work, copy these links:<br>Approve: ' + approveUrl + '<br>Reject: ' + rejectUrl + '</small></p>';
+      '<p><small>If buttons don't work, copy these links:<br>Approve: ' + approveUrl + '<br>Reject: ' + rejectUrl + '</small></p>';
 
     GmailApp.sendEmail(CONFIG.OWNER_EMAIL, '[A Faith Driven Life] New submission – Approve or Reject', 'Please open in an HTML-capable email client.', { htmlBody: htmlBody });
 
