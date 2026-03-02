@@ -4,7 +4,7 @@ This guide walks you through publishing **A Faith Driven Life** to the Samsung G
 
 ## Prerequisites
 
-- **Samsung Seller Office account** (free): [seller.samsungmobile.com](https://seller.samsungmobile.com)
+- **Samsung Seller Portal account** (free): [seller.samsungapps.com](https://seller.samsungapps.com)
 - **Signed release build** of the app (AAB or APK)
 - **App icon** (512×512 px) and **screenshots** (phone; optional tablet)
 
@@ -85,7 +85,7 @@ Output: `app/build/outputs/apk/release/app-release.apk`
 
 ## 2. Register at Samsung Seller Office
 
-1. Go to [seller.samsungmobile.com](https://seller.samsungmobile.com).
+1. Go to [seller.samsungapps.com](https://seller.samsungapps.com).
 2. Sign in with a Samsung account or create one.
 3. Accept the developer agreement and complete registration (no fee).
 
@@ -138,4 +138,4 @@ Output: `app/build/outputs/apk/release/app-release.apk`
 - [ ] Privacy policy URL set (if required)
 - [ ] App submitted for review
 
-For the latest requirements and screens, always check the official [Samsung Galaxy Store developer pages](https://seller.samsungmobile.com) and their current submission guide.
+For the latest requirements and screens, always check the official [Samsung Seller Portal](https://seller.samsungapps.com) and [Galaxy Store developer docs](https://developer.samsung.com/galaxy-store).
