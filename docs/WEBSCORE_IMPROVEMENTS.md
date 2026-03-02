@@ -57,3 +57,25 @@ This doc summarizes changes made to improve your site’s audit score (e.g. WebS
    You already use a Content-Security-Policy meta tag. If you ever move to a server where you can set HTTP headers, adding headers like `X-Content-Type-Options: nosniff` and `Referrer-Policy` can improve security/audit checks.
 
 Deploy, re-run the audit, and then iterate on any remaining suggestions from the tool.
+
+---
+
+## Website Checker – follow-up fixes
+
+### Touch icon (Be online)
+- **Added:** `<link rel="apple-touch-icon" href="logo.png" sizes="180x180">` on all main pages (index, blogs, resources, book, audio, bible, comments, prayer-requests, testimonies, post, and blogs/first-post.html).
+- Satisfies “Create a touch icon” so mobile bookmarks and “Add to Home Screen” use your logo.
+
+### Expand page title (Being More Visible)
+- **Updated:** All page titles to be 50–60 characters and more descriptive for search (e.g. “A Faith Driven Life — Connect, Share and Grow in Faith | Home”).
+- Helps “Expand page title” and improves how your site appears in search results.
+
+### Expand page content / descriptions
+- **Updated:** Meta descriptions on key pages to be longer and more descriptive (e.g. blogs, resources, book, audio, bible, comments, prayer-requests, testimonies).
+- Supports “Expand page content” and gives search engines clearer summaries.
+
+### Sitemap discovery
+- **Added:** `<link rel="sitemap" type="application/xml" href=".../sitemap.xml">` in the index `<head>` so tools that look for a sitemap link can find it (in addition to `robots.txt`).
+
+### CDN (Be fast / Enable CDN)
+- **Doc:** `docs/CDN_AND_SPEED.md` explains that GitHub Pages already uses a CDN; why some checkers still say “Enable CDN”; and how to use Cloudflare with a custom domain if you want a “recognized” CDN.
