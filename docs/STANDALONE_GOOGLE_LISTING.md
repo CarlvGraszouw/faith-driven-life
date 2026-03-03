@@ -2,8 +2,7 @@
 
 ## Why it shows under "GitHub" or "GitHub Pages"
 
-Your site lives at **https://carlvgraszouw.github.io/faith-driven-life/** — that’s a **path** on the `github.io` domain.  
-Google treats the **host** (github.io) as the main site, so it often groups your pages under "GitHub" or "GitHub Pages" in search (e.g. under a parent result or as a sub-link). That’s normal for project sites on GitHub Pages.
+With a custom domain, your site lives at **https://www.afaithdrivenlife.com/**. Google treats it as its own site. (If you were still on **carlvgraszouw.github.io/faith-driven-life/**, Google would group it under "GitHub" or "GitHub Pages" in search.)
 
 Your pages already have strong identity (title "A Faith Driven Life", `og:site_name`, WebSite schema). The main thing that decides “standalone vs under GitHub” is the **domain**, not the meta tags.
 

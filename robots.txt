@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# Use full URL for checkers and Google: https://carlvgraszouw.github.io/faith-driven-life/
-Sitemap: https://carlvgraszouw.github.io/faith-driven-life/sitemap.xml
+# Use full URL for checkers and Google: https://www.afaithdrivenlife.com/
+Sitemap: https://www.afaithdrivenlife.com/sitemap.xml

@@ -13,11 +13,11 @@ If you haven’t done this yet, do it first. It’s required for Google to relia
 
 1. Go to **https://search.google.com/search-console**
 2. **Add property** → **URL prefix** → enter:  
-   **https://carlvgraszouw.github.io/faith-driven-life/**
+   **https://www.afaithdrivenlife.com/**
 3. **Verify** ownership (e.g. HTML file upload — you already have `googlec9064623c201ae26.html` in the repo; use the method that matches your verification).
 4. Open **Sitemaps** → add **sitemap.xml** → Submit.
 5. Use **URL inspection** (top search bar):
-   - Enter: `https://carlvgraszouw.github.io/faith-driven-life/`
+   - Enter: `https://www.afaithdrivenlife.com/`
    - Click **Request indexing** (or “Submit to index”) for the homepage.
    - Optionally request indexing for a few other important URLs (e.g. blogs.html, resources.html).
 
@@ -36,7 +36,7 @@ If the count is 0 or very low, Google hasn’t fully picked up your site yet. Af
 
 You can also test in Google:
 
-- Search: **site:carlvgraszouw.github.io/faith-driven-life**  
+- Search: **site:www.afaithdrivenlife.com**  
   If your pages appear here, you’re indexed; they may still not rank on page 1–2 for “A Faith driven life” because of competition.
 
 ---
@@ -47,7 +47,7 @@ Even when indexed, ranking for that exact phrase is hard because:
 
 - Other sites have **domain names** like faithdrivenlife.com, faithdrivenlife.org, faithdrivenlife.academy.
 - They often have more **history, backlinks, and content** than a new site.
-- Your site is under **carlvgraszouw.github.io/faith-driven-life** — Google doesn’t see “faith driven life” in the URL.
+- Your site is under **www.afaithdrivenlife.com** — Google doesn’t see “faith driven life” in the URL.
 
 What we’ve done on the site to help:
 
@@ -68,7 +68,7 @@ Over time, as Google recrawls and your content and (if any) backlinks grow, you 
 
 People who know your site or topic might search:
 
-- **“A Faith Driven Life” carlvgraszouw**  
+- **“A Faith Driven Life” afaithdrivenlife**  
 - **faith driven life github**  
 - **A Faith Driven Life connect share grow**
 
@@ -80,10 +80,10 @@ Once the site is indexed, these longer or more specific queries can surface your
 
 | Action | Where |
 |--------|--------|
-| Add property | GSC → Add property → URL prefix: `https://carlvgraszouw.github.io/faith-driven-life/` |
+| Add property | GSC → Add property → URL prefix: `https://www.afaithdrivenlife.com/` |
 | Verify | GSC → Verification (e.g. HTML file) |
 | Submit sitemap | GSC → Sitemaps → add `sitemap.xml` |
 | Request indexing | GSC → URL inspection → paste homepage URL → Request indexing |
-| Check if indexed | Google search: `site:carlvgraszouw.github.io/faith-driven-life` |
+| Check if indexed | Google search: `site:www.afaithdrivenlife.com` |
 
 After that, give indexing and ranking some time and consider a custom domain and more content/links for better visibility for “A Faith driven life”.

@@ -28,7 +28,7 @@ From the `android-app` folder you can run `gradlew.bat assembleDebug` if `JAVA_H
 
 ## App details
 
-- **URL loaded:** `https://carlvgraszouw.github.io/faith-driven-life/`
+- **URL loaded:** `https://www.afaithdrivenlife.com/`
 - **Package name:** `com.faithdrivenlife.app`
 - **Min Android:** 7.0 (API 24)  
 - **Target Android:** 14 (API 34)

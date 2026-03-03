@@ -6,7 +6,7 @@ Your site is hosted on **GitHub Pages as a project site**. That means it does **
 
 Use this exact address for everything (checkers, Google, links, sharing):
 
-**https://carlvgraszouw.github.io/faith-driven-life/**
+**https://www.afaithdrivenlife.com/**
 
 Not:
 - ~~carlvgraszouw.github.io~~
@@ -27,18 +27,18 @@ If you enter **carlvgraszouw.github.io**, they look at:
 
 Your real files are here:
 
-- **Sitemap:** https://carlvgraszouw.github.io/faith-driven-life/sitemap.xml  
-- **Robots:** https://carlvgraszouw.github.io/faith-driven-life/robots.txt  
+- **Sitemap:** https://www.afaithdrivenlife.com/sitemap.xml  
+- **Robots:** https://www.afaithdrivenlife.com/robots.txt  
 
 So the checker **must** be run with the **full** URL:
 
-**https://carlvgraszouw.github.io/faith-driven-life/**
+**https://www.afaithdrivenlife.com/**
 
 If the tool only has a “domain” field, try putting the full URL in that field, or use a checker that lets you enter the full page URL.
 
 If it still says “sitemap not found”, use the tool’s option: **“My sitemap.xml is Not Being Recognized”** and tell them the sitemap URL is:
 
-**https://carlvgraszouw.github.io/faith-driven-life/sitemap.xml**
+**https://www.afaithdrivenlife.com/sitemap.xml**
 
 ---
 
@@ -55,7 +55,7 @@ Google only shows sites it has **crawled and indexed**. For a new or project sit
 
 1. Click **“Add property”**.
 2. Choose **“URL prefix”**.
-3. Enter exactly: **https://carlvgraszouw.github.io/faith-driven-life/**
+3. Enter exactly: **https://www.afaithdrivenlife.com/**
 4. Click **Continue**.
 
 ### Step 3: Prove you own the site
@@ -70,18 +70,18 @@ After it says “Ownership verified”, you’re done with verification.
 
 ### Step 4: Submit the sitemap
 
-1. In Search Console, open your property: **https://carlvgraszouw.github.io/faith-driven-life/**
+1. In Search Console, open your property: **https://www.afaithdrivenlife.com/**
 2. In the left menu, go to **“Sitemaps”**.
 3. Under “Add a new sitemap”:
    - **First try:** enter **sitemap.xml** and click **Submit**.
    - **If you see “Couldn’t fetch”:** remove that sitemap, then in the same field paste the **full** URL and submit:
-     **https://carlvgraszouw.github.io/faith-driven-life/sitemap.xml**
-4. The property URL must be exactly **https://carlvgraszouw.github.io/faith-driven-life/** (with trailing slash). If you added a different property (e.g. without `/faith-driven-life/`), add a new property with the full URL above, verify it, then submit the sitemap again.
+     **https://www.afaithdrivenlife.com/sitemap.xml**
+4. The property URL must be exactly **https://www.afaithdrivenlife.com/** (with trailing slash). If you added a different property (e.g. without `/faith-driven-life/`), add a new property with the full URL above, verify it, then submit the sitemap again.
 
 ### Step 5: Ask Google to index the homepage (optional but useful)
 
 1. At the top of Search Console, use the **URL inspection** / “Inspect any URL” box.
-2. Enter: **https://carlvgraszouw.github.io/faith-driven-life/**
+2. Enter: **https://www.afaithdrivenlife.com/**
 3. Click **Request indexing** (or “Submit to index”) so Google queues the homepage for crawling.
 
 ---
@@ -97,9 +97,9 @@ After it says “Ownership verified”, you’re done with verification.
 
 | Task | Use this URL |
 |------|-------------------------------|
-| Website Checker / any audit | https://carlvgraszouw.github.io/faith-driven-life/ |
-| Google Search Console property | https://carlvgraszouw.github.io/faith-driven-life/ |
-| Sitemap (for “not recognized” forms) | https://carlvgraszouw.github.io/faith-driven-life/sitemap.xml |
-| Share your site with others | https://carlvgraszouw.github.io/faith-driven-life/ |
+| Website Checker / any audit | https://www.afaithdrivenlife.com/ |
+| Google Search Console property | https://www.afaithdrivenlife.com/ |
+| Sitemap (for “not recognized” forms) | https://www.afaithdrivenlife.com/sitemap.xml |
+| Share your site with others | https://www.afaithdrivenlife.com/ |
 
 Using the full URL everywhere is what fixes both “sitemap not found” and “site not in Google”.

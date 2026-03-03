@@ -10,7 +10,7 @@ admin.initializeApp();
 
 const BLOGGER_FEED_URL =
   "https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=1";
-const SITE_BLOGS_URL = "https://carlvgraszouw.github.io/faith-driven-life/blogs.html";
+const SITE_BLOGS_URL = "https://www.afaithdrivenlife.com/blogs.html";
 
 async function getLatestPost() {
   const res = await fetch(BLOGGER_FEED_URL);

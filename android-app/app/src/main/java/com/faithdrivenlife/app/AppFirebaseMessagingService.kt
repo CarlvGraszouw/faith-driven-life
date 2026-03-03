@@ -15,7 +15,7 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
         val title = message.notification?.title ?: "A Faith Driven Life"
         val body = message.notification?.body ?: "New blog post available"
         val data = message.data
-        val url = data["url"] ?: "https://carlvgraszouw.github.io/faith-driven-life/blogs.html"
+        val url = data["url"] ?: "https://www.afaithdrivenlife.com/blogs.html"
 
         showNotification(title, body, url)
     }

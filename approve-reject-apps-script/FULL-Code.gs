@@ -99,7 +99,7 @@ function handleApprove(id) {
     approved.appendRow([row[typeCol], row[nameCol], row[dateCol], row[messageCol]]);
     pending.deleteRow(rowIndex + 1);
 
-    return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="font-family:sans-serif;max-width:480px;margin:3rem auto;padding:1.5rem;text-align:center;"><h1 style="color:#0a0;">Approved</h1><p>This submission will appear on your site. Refresh the Comments, Prayer requests, or Testimonies page to see it.</p><p><a href="https://carlvgraszouw.github.io/faith-driven-life/">Back to site</a></p></body></html>';
+    return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="font-family:sans-serif;max-width:480px;margin:3rem auto;padding:1.5rem;text-align:center;"><h1 style="color:#0a0;">Approved</h1><p>This submission will appear on your site. Refresh the Comments, Prayer requests, or Testimonies page to see it.</p><p><a href="https://www.afaithdrivenlife.com/">Back to site</a></p></body></html>';
   } catch (err) {
     return errorHtml(err.toString());
   }
@@ -117,7 +117,7 @@ function handleReject(id) {
     for (var j = 1; j < data.length; j++) {
       if (String(data[j][idCol]) === id) {
         pending.deleteRow(j + 1);
-        return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="font-family:sans-serif;max-width:480px;margin:3rem auto;padding:1.5rem;text-align:center;"><h1 style="color:#666;">Rejected</h1><p>This submission will not appear on the site.</p><p><a href="https://carlvgraszouw.github.io/faith-driven-life/">Back to site</a></p></body></html>';
+        return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="font-family:sans-serif;max-width:480px;margin:3rem auto;padding:1.5rem;text-align:center;"><h1 style="color:#666;">Rejected</h1><p>This submission will not appear on the site.</p><p><a href="https://www.afaithdrivenlife.com/">Back to site</a></p></body></html>';
       }
     }
     return errorHtml('Submission not found or already processed.');

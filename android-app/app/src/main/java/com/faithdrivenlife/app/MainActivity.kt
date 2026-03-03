@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
 
     companion object {
-        private const val SITE_URL = "https://carlvgraszouw.github.io/faith-driven-life/"
+        private const val SITE_URL = "https://www.afaithdrivenlife.com/"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
