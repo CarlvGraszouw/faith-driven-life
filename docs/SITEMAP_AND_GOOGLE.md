@@ -72,10 +72,11 @@ After it says “Ownership verified”, you’re done with verification.
 
 1. In Search Console, open your property: **https://carlvgraszouw.github.io/faith-driven-life/**
 2. In the left menu, go to **“Sitemaps”**.
-3. Under “Add a new sitemap”, enter: **sitemap.xml**  
-   (they will use your property URL + this, so it becomes  
-   `https://carlvgraszouw.github.io/faith-driven-life/sitemap.xml`)
-4. Click **Submit**.
+3. Under “Add a new sitemap”:
+   - **First try:** enter **sitemap.xml** and click **Submit**.
+   - **If you see “Couldn’t fetch”:** remove that sitemap, then in the same field paste the **full** URL and submit:
+     **https://carlvgraszouw.github.io/faith-driven-life/sitemap.xml**
+4. The property URL must be exactly **https://carlvgraszouw.github.io/faith-driven-life/** (with trailing slash). If you added a different property (e.g. without `/faith-driven-life/`), add a new property with the full URL above, verify it, then submit the sitemap again.
 
 ### Step 5: Ask Google to index the homepage (optional but useful)
 
