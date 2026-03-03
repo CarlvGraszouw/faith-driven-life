@@ -1142,7 +1142,7 @@
       var deferredPrompt;
       function showInstallPrompt() {
         wrap.classList.add('visible');
-        if (installBtn.style.display !== 'none') installBtn.focus();
+        /* Do not focus the install button on load — it would scroll the page to the bottom */
       }
       function isIos() {
         return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
