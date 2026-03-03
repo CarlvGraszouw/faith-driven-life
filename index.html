@@ -317,6 +317,17 @@
       filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
     }
 
+    /* Logo: one-time 360° rotation on page load */
+    @keyframes logo-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .site-nav .site-logo {
+        animation: logo-spin 2s ease-in-out 1;
+      }
+    }
+
     /* Blogs & Resources: pill buttons with animated border glow */
     .site-nav .nav-links a[href="blogs.html"],
     .site-nav .nav-links a[href="resources.html"] {
