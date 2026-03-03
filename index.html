@@ -266,7 +266,6 @@
       display: block;
       object-fit: contain;
     }
-
     .site-nav .nav-links {
       display: flex;
       flex-wrap: wrap;
@@ -327,7 +326,7 @@
       to { transform: rotateY(360deg); }
     }
     @media (prefers-reduced-motion: no-preference) {
-      .site-nav .site-logo {
+      .site-nav img.site-logo {
         animation: logo-spin-3d 6s linear infinite;
         transform-style: preserve-3d;
         backface-visibility: visible;
@@ -988,7 +987,7 @@
     <div class="nav-inner">
       <div class="site-brand">
         <a href="index.html" class="site-name">
-          <img src="logo.png" alt="A Faith Driven Life" class="site-logo" onerror="this.style.display='none'">
+          <video src="logo-video.mp4" class="site-logo" autoplay loop muted playsinline controls aria-label="A Faith Driven Life logo" title="Logo video – use controls to unmute for sound"></video>
         </a>
         <section class="scripture-rotator" aria-live="polite">
           <div class="scripture-rotator-banner">Live changing scriptures</div>
