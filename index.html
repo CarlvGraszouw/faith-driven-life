@@ -317,14 +317,20 @@
       filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
     }
 
-    /* Logo: one-time 360° rotation on page load */
-    @keyframes logo-spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    /* Logo: continuous 3D rotation, 10 turns per minute (6s per turn) */
+    .site-nav .site-name {
+      perspective: 1200px;
+      display: inline-block;
+    }
+    @keyframes logo-spin-3d {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
     }
     @media (prefers-reduced-motion: no-preference) {
       .site-nav .site-logo {
-        animation: logo-spin 2s ease-in-out 1;
+        animation: logo-spin-3d 6s linear infinite;
+        transform-style: preserve-3d;
+        backface-visibility: visible;
       }
     }
 
