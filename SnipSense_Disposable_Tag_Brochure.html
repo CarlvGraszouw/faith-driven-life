@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnipSense Disposable Tag – Product Brochure</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 11pt; line-height: 1.4; color: #000; }
+    .brochure { max-width: 210mm; margin: 0 auto; padding: 12mm; }
+    .page { break-after: page; page-break-after: always; }
+    .page:last-child { break-after: auto; page-break-after: auto; }
+    h1 { font-size: 16pt; font-weight: 700; margin: 0 0 2px; letter-spacing: 0.02em; color: #000; }
+    .company-name { font-size: 18pt; font-weight: 700; color: #000; font-family: Arial, Helvetica, sans-serif; }
+    .product-name { font-size: 16pt; font-weight: 700; margin: 4px 0 8px; letter-spacing: 0.03em; color: #000; }
+    .section-title { font-size: 9pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin: 10px 0 4px; color: #000; border-bottom: 1px solid #ccc; padding-bottom: 2px; }
+    ul { margin: 4px 0; padding-left: 18px; }
+    li { margin: 2px 0; }
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; font-size: 10pt; margin: 6px 0; color: #000; }
+    .specs-grid span:first-child { font-weight: 600; color: #000; }
+    .contact-block { margin-top: 16px; font-size: 10pt; color: #000; }
+    .contact-block a { color: #000; text-decoration: none; }
+    .tagline { font-size: 10pt; font-style: italic; margin-top: 6px; color: #000; }
+    .panel p { margin: 0 0 8px; text-align: justify; }
+    .features-list { margin: 6px 0; padding-left: 18px; }
+    .features-list li { margin: 4px 0; }
+    .gmatrix-brand { margin-bottom: 12px; text-align: center; }
+    .gmatrix-logo { max-height: 112px; max-width: 560px; width: auto; height: auto; display: block; margin: 0 auto 4px; object-fit: contain; }
+    .gmatrix-contact { font-size: 9pt; color: #000; line-height: 1.5; margin-top: 12px; }
+    .gmatrix-contact .phones { letter-spacing: 0.05em; }
+    .gmatrix-contact .website { margin: 4px 0; }
+    .gmatrix-contact a { color: #000; text-decoration: none; }
+    .gmatrix-tagline { font-size: 9pt; font-weight: 600; margin-top: 4px; color: #000; }
+    .gmatrix-services { font-size: 8pt; color: #000; margin-top: 2px; line-height: 1.4; }
+    .company-name { display: block; text-align: center; }
+    .product-image { width: 100%; max-width: 160mm; height: auto; display: block; margin: 8px 0 12px; border: 1px solid #ddd; }
+    .print-hint { font-size: 9pt; color: #888; margin: 12px 0; padding: 8px 12px; background: #f5f5f5; border-radius: 4px; max-width: 210mm; }
+    .page-tight .gmatrix-brand { margin-bottom: 6px; }
+    .page-tight .product-name { margin: 2px 0 6px; }
+    .page-tight .section-title { margin: 6px 0 2px; }
+    .page-tight .features-list { margin: 2px 0; padding-left: 18px; }
+    .page-tight .features-list li { margin: 2px 0; }
+    .page-tight ul { margin: 2px 0; padding-left: 18px; }
+    .page-tight li { margin: 1px 0; }
+    .page-tight .tagline { margin-top: 4px; }
+    .page-tight .contact-block { margin-top: 8px; }
+    .page-tight .gmatrix-contact { margin-top: 8px; }
+    .no-break { break-inside: avoid; page-break-inside: avoid; }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { break-after: page; page-break-after: always; }
+      .page:last-child { break-after: auto; page-break-after: auto; }
+      .print-hint { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <p class="print-hint">When saving as PDF: in the Print dialog, turn <strong>off</strong> &quot;Headers and footers&quot; so the date, title and file path do not appear on the PDF.</p>
+  <div class="brochure">
+    <!-- Page 1: Intro + product image + Portal text only -->
+    <div class="page">
+      <div class="gmatrix-brand">
+        <img src="G-MATRIX-Logo.png" alt="G-Matrix Systems" class="gmatrix-logo">
+      </div>
+      <div class="product-name">SnipSense™ Disposable Tag</div>
+
+      <img src="SnipSense-Tag-Product.png" alt="SnipSense disposable tag – advanced radio, temperature sensor, seal tamper detection, status LED, patented activation" class="product-image">
+
+      <div class="section-title">Portal &amp; integration</div>
+      <p>
+        SnipSense is a unique product designed for applications where the state of a seal and/or temperature must be monitored over a defined period, but where retrieval of the device is generally unfeasible or impossible. SnipSense uses an innovative, patented system so the end user can activate and configure the device intuitively—no specialised tools or training required.
+      </p>
+      <p>
+        Environmental friendliness is at the heart of the SnipSense design: every aspect of the device is recyclable, reusable, or disposable with regular household waste. Activate by tearing or cutting the line for your chosen threshold temperature; the device then monitors for over-temperature, return-to-normal, and seal-break events, with status and temperature in every message.
+      </p>
+      <p>
+        Protect your shipments and assets the easy way with SnipSense.
+      </p>
+    </div>
+
+    <!-- Page 2: Features + Device states + contact (no break in the middle) -->
+    <div class="page page-tight">
+      <div class="gmatrix-brand">
+        <img src="G-MATRIX-Logo.png" alt="G-Matrix Systems" class="gmatrix-logo">
+      </div>
+      <div class="product-name">SnipSense™ Disposable Tag</div>
+
+      <div class="section-title">Seal &amp; temperature monitoring</div>
+      <div class="section-title">SnipSense features</div>
+      <ul class="features-list">
+        <li><strong>Event messages</strong> — Generated on seal tamper, threshold temperature exceeded, or return to normal.</li>
+        <li><strong>Periodic messages</strong> — Routine status every 60 minutes (temperature, threshold state, seal state).</li>
+        <li><strong>Historic temperature</strong> — Each message includes the latest plus 3 previous readings for reconstruction if messages are missed.</li>
+        <li><strong>60-second arming</strong> — After activation, an arming window allows attachment without affecting readings.</li>
+        <li><strong>LED status</strong> — Indicates activation success, arming, and over-temperature state.</li>
+        <li><strong>Development unit</strong> — Available for evaluation and payload integration (shorter arming and message interval).</li>
+      </ul>
+
+      <div class="section-title">Device states</div>
+      <ul>
+        <li><strong>Sleep</strong> — Factory state; up to 2 years before activation.</li>
+        <li><strong>Activation</strong> — User tears/cuts threshold line; LED confirms.</li>
+        <li><strong>Arming</strong> — 60 s window to attach to asset.</li>
+        <li><strong>Temperature monitoring</strong> — Measures every 8 s; alerts at ±1°C vs threshold.</li>
+        <li><strong>Seal break</strong> — Final state; seal-break event sent; temperature still reported in periodic messages.</li>
+      </ul>
+
+      <p class="tagline">SnipSense — Seal and temperature monitoring without retrieval. Patented configuration. No tools. Fully disposable.</p>
+      <div class="gmatrix-contact" style="margin-top:12px;">
+        <div class="phones">+27 87 803 9987 | +27 72 594 8408</div>
+        <div class="website"><a href="https://www.g-matrixsystems.com">www.g-matrixsystems.com</a></div>
+        <div class="gmatrix-tagline">Turnkey IoT Solutions</div>
+      </div>
+    </div>
+
+    <!-- Page 3: Data sheet style -->
+    <div class="page page-tight">
+      <div class="gmatrix-brand">
+        <img src="G-MATRIX-Logo.png" alt="G-Matrix Systems" class="gmatrix-logo">
+      </div>
+      <h1>DATA SHEET</h1>
+      <div class="product-name">SnipSense™ Disposable Tag</div>
+
+      <div class="section-title">Connectivity</div>
+      <ul>
+        <li>Sigfox Radio Class 2u · RC1</li>
+        <li>Event &amp; Periodic Messages (60 min interval)</li>
+        <li>Payload: 8-byte telemetry (temperature, seal state, threshold)</li>
+      </ul>
+
+      <div class="section-title">Monitoring</div>
+      <ul>
+        <li>Seal integrity &amp; temperature in one device</li>
+        <li>User-configurable temperature threshold (no tools)</li>
+        <li>Over-temperature &amp; Normal-return alerts (±1°C)</li>
+        <li>Seal-break alert (tamper / acceptance)</li>
+      </ul>
+
+      <div class="section-title">Battery &amp; Life</div>
+      <ul>
+        <li>Zn/MnO2 (lithium-free, disposable with household waste)</li>
+        <li>30 mAh · Up to 1 year / 200 messages*</li>
+        <li>Sleep state: up to 2 years before activation</li>
+      </ul>
+
+      <div class="section-title">Specifications</div>
+      <div class="specs-grid">
+        <span>Dimensions (seal variant)</span><span>185 × 67 × 1.5 mm</span>
+        <span>Dimensions (non-seal)</span><span>116 × 67 × 1.5 mm</span>
+        <span>Weight</span><span>12 g</span>
+        <span>Operating temperature</span><span>−15°C to +60°C</span>
+        <span>Temperature accuracy</span><span>±0.5°C</span>
+        <span>Enclosure</span><span>IP60 · Moisture-resistant paper</span>
+        <span>Mounting</span><span>Self-adhesive</span>
+      </div>
+
+      <div class="section-title">Design</div>
+      <ul>
+        <li>Recyclable / reusable / disposable (no retrieval required)</li>
+        <li>Activation by tear or cut (patented configuration)</li>
+        <li>No specialised tools or training</li>
+      </ul>
+
+      <div class="no-break">
+        <div class="contact-block gmatrix-contact">
+          <div class="phones">+27 87 803 9987 | +27 72 594 8408</div>
+          <div class="website"><a href="https://www.g-matrixsystems.com">www.g-matrixsystems.com</a></div>
+          <div class="gmatrix-tagline">Turnkey IoT Solutions</div>
+          <div class="gmatrix-services">Hardware Development, Prototyping, Firmware Development, Database Design, Testing Integration and Web Integration.</div>
+          <strong>Contact Us</strong>
+        </div>
+        <p class="tagline">Seal and temperature monitoring for applications where device retrieval is unfeasible.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
