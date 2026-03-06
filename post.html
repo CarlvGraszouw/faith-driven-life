@@ -131,7 +131,7 @@
     </article>
     <div id="post-error" class="post-error" style="display: none;">
       <p>Could not load this post.</p>
-      <p><a href="blogs.html">Back to Blogs</a> · <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer">Open on Blogger</a></p>
+      <p><a href="blogs.html">Back to Blogs</a> · <a id="post-error-open-blogger" href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer">Open on Blogger</a></p>
     </div>
     <footer><p>A FAITH DRIVEN LIFE</p></footer>
   </div>
@@ -143,12 +143,21 @@
       var loadingEl = document.getElementById('post-loading');
       var contentEl = document.getElementById('post-content');
       var errorEl = document.getElementById('post-error');
-      var BLOGGER_FEED = 'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=25';
+      var BLOGGER_FEED = 'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=50';
       var CORS_PROXIES = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
       function getPostUrl(entry) {
         var links = entry.link || [];
         for (var i = 0; i < links.length; i++) { if (links[i].rel === 'alternate') return links[i].href; }
         return '';
+      }
+      function normalizeUrl(u) {
+        if (!u || typeof u !== 'string') return '';
+        u = u.trim().replace(/\/+$/, '');
+        try { u = new URL(u).href.replace(/\/+$/, ''); } catch (e) {}
+        return u;
+      }
+      function urlsMatch(a, b) {
+        return normalizeUrl(a) === normalizeUrl(b);
       }
       function getDateString(entry) {
         var raw = (entry.published && (entry.published.$t != null ? entry.published.$t : entry.published)) || (entry.updated && (entry.updated.$t != null ? entry.updated.$t : entry.updated));
@@ -270,7 +279,24 @@
       }
       function showError() {
         loadingEl.style.display = 'none';
+        contentEl.style.display = 'none';
         errorEl.style.display = 'block';
+        var openLink = document.getElementById('post-error-open-blogger');
+        if (openLink && postUrl) openLink.href = postUrl;
+      }
+      function findAndShow(entries) {
+        entries = (entries && entries.length) ? entries : [];
+        for (var i = 0; i < entries.length; i++) {
+          if (urlsMatch(getPostUrl(entries[i]), postUrl)) { showPost(entries[i]); return true; }
+        }
+        return false;
+      }
+      function tryDirect() {
+        var feedUrl = BLOGGER_FEED + '&_=' + Date.now();
+        return fetch(feedUrl).then(function (res) { if (!res.ok) throw new Error(); return res.json(); }).then(function (data) {
+          var entries = (data.feed && data.feed.entry) || [];
+          return findAndShow(entries);
+        }).catch(function () { return false; });
       }
       function tryLoad(proxyIndex) {
         if (!postUrl) { showError(); return; }
@@ -280,15 +306,17 @@
         fetch(url).then(function (res) { if (!res.ok) throw new Error(); return res.text(); }).then(function (text) {
           var data; try { data = JSON.parse(text); } catch (e) { throw new Error(); }
           var entries = (data.feed && data.feed.entry) || [];
-          for (var i = 0; i < entries.length; i++) {
-            if (getPostUrl(entries[i]) === postUrl) { showPost(entries[i]); return; }
-          }
+          if (findAndShow(entries)) return;
           showError();
         }).catch(function () {
           if (proxyIndex + 1 < CORS_PROXIES.length) tryLoad(proxyIndex + 1); else showError();
         });
       }
-      tryLoad(0);
+      if (!postUrl) { showError(); } else {
+        tryDirect().then(function (found) {
+          if (!found) tryLoad(0);
+        });
+      }
     })();
   </script>
   <script src="visit-counter.js"></script>
