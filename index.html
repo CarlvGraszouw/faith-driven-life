@@ -316,21 +316,18 @@
       filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
     }
 
-    /* Logo: no spin on website */
+    /* Logo: vertical-axis (Y) spin on website and app – 10 turns per minute */
     .site-nav .site-name {
       display: inline-block;
+      perspective: 1200px;
     }
-    /* App only (body.in-app injected by app): logo spins on X axis, 10 turns per minute */
-    @keyframes logo-spin-x {
-      from { transform: rotateX(0deg); }
-      to { transform: rotateX(360deg); }
+    @keyframes logo-spin-y {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
     }
     @media (prefers-reduced-motion: no-preference) {
-      body.in-app .site-nav .site-name {
-        perspective: 1200px;
-      }
-      body.in-app .site-nav .site-logo {
-        animation: logo-spin-x 6s linear infinite;
+      .site-nav .site-logo {
+        animation: logo-spin-y 6s linear infinite;
         transform-style: preserve-3d;
       }
     }
