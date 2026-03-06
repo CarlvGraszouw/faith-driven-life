@@ -316,17 +316,22 @@
       filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
     }
 
-    /* Logo: continuous spin (10 turns per minute) – works on website and in app WebView */
+    /* Logo: no spin on website */
     .site-nav .site-name {
       display: inline-block;
     }
-    @keyframes logo-spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    /* App only (body.in-app injected by app): logo spins on X axis, 10 turns per minute */
+    @keyframes logo-spin-x {
+      from { transform: rotateX(0deg); }
+      to { transform: rotateX(360deg); }
     }
     @media (prefers-reduced-motion: no-preference) {
-      .site-nav .site-logo {
-        animation: logo-spin 6s linear infinite;
+      body.in-app .site-nav .site-name {
+        perspective: 1200px;
+      }
+      body.in-app .site-nav .site-logo {
+        animation: logo-spin-x 6s linear infinite;
+        transform-style: preserve-3d;
       }
     }
 

@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 // Viewport for phone: device-width, viewport-fit=cover for safe areas, no horizontal overflow
+                // Mark body as in-app so site can apply app-only styles (e.g. logo X-axis spin)
                 view?.evaluateJavascript(
                     """
                     (function(){
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
                       document.documentElement.style.overflowX='hidden';
                       document.body.style.overflowX='hidden';
                       document.body.style.maxWidth='100%';
+                      document.body.classList.add('in-app');
                     })();
                     """.trimIndent(),
                     null
