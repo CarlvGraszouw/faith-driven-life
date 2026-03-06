@@ -19,7 +19,10 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="A Faith Driven Life — Blogs">
   <meta name="twitter:description" content="Blog posts and reflections from A Faith Driven Life.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://awfgsa.blogspot.com https://api.allorigins.win https://corsproxy.io https://api.codetabs.com https://abacus.jasoncameron.dev; img-src 'self' data: https:;">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://corsproxy.io" crossorigin>
+  <link rel="preconnect" href="https://api.allorigins.win" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="prefetch" href="index.html">
@@ -155,7 +158,7 @@
   <script>
     (function () {
       var BLOGGER_FEED_BASE = 'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=25';
-      var REQUEST_TIMEOUT_MS = 8000;
+      var REQUEST_TIMEOUT_MS = 12000;
       var REFRESH_MINUTES = 10;
       var listEl = document.getElementById('blog-list');
       var statusMsg = document.getElementById('blog-status-msg');
@@ -192,8 +195,10 @@
       }
       function showError() {
         loadingDone = true;
-        listEl.innerHTML = '<li class="blog-fallback">Could not load posts. <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">View them on the blog</a>.</li>';
+        listEl.innerHTML = '<li class="blog-fallback">Could not load posts. <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">View them on the blog</a>. <button type="button" id="blog-retry-btn" style="margin-left:0.5rem;padding:0.25rem 0.6rem;background:var(--accent);color:var(--bg);border:none;border-radius:6px;cursor:pointer;font-weight:600;">Retry</button></li>';
         setStatus('Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer">the blog</a>.');
+        var retryBtn = document.getElementById('blog-retry-btn');
+        if (retryBtn) retryBtn.onclick = function () { loadingDone = false; listEl.innerHTML = '<li class="blog-skeleton"><a href="#"><span class="skeleton-img"></span><span class="blog-text"><span class="skeleton-title"></span><span class="skeleton-meta"></span></span></a></li>'; setStatus('Loading…'); load(); };
       }
       function renderPosts(data) {
         if (loadingDone) return;
@@ -218,7 +223,7 @@
       function fetchWithTimeout(url, isJson) {
         var ctrl = new AbortController();
         var t = setTimeout(function () { ctrl.abort(); }, REQUEST_TIMEOUT_MS);
-        return fetch(url, { signal: ctrl.signal }).then(function (res) {
+        return fetch(url, { signal: ctrl.signal, cache: 'no-store', mode: 'cors' }).then(function (res) {
           clearTimeout(t);
           if (!res.ok) throw new Error();
           return isJson ? res.json() : res.text();
@@ -237,6 +242,17 @@
           return true;
         }).catch(function () { return false; });
       }
+      function tryAllOriginsGet() {
+        var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
+        var url = 'https://api.allorigins.win/get?url=' + encodeURIComponent(feedUrl);
+        return fetchWithTimeout(url, true).then(function (wrapper) {
+          var raw = wrapper && wrapper.contents;
+          if (!raw || typeof raw !== 'string') throw new Error();
+          var d = JSON.parse(raw);
+          renderPosts(d);
+          return true;
+        }).catch(function () { return false; });
+      }
       function load() {
         var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
         var proxies = [
@@ -246,7 +262,8 @@
         ];
         var direct = tryDirect();
         var proxyPromises = proxies.map(function (url) { return fetchWithTimeout(url, false).then(function (text) { var d; try { d = JSON.parse(text); } catch (e) { throw new Error(); } renderPosts(d); return true; }).catch(function () { return false; }); });
-        var all = [direct].concat(proxyPromises);
+        var allOriginsGet = tryAllOriginsGet();
+        var all = [direct].concat(proxyPromises).concat([allOriginsGet]);
         var resolved = 0;
         function onDone(ok) {
           if (ok) return;
