@@ -155,9 +155,8 @@
   <script>
     (function () {
       var BLOGGER_FEED_BASE = 'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=25';
-      var CORS_PROXIES = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
+      var REQUEST_TIMEOUT_MS = 8000;
       var REFRESH_MINUTES = 10;
-      var LOADING_TIMEOUT_MS = 5000;
       var listEl = document.getElementById('blog-list');
       var statusMsg = document.getElementById('blog-status-msg');
       var loadingDone = false;
@@ -216,30 +215,48 @@
         });
         setStatus('Posts are loaded from <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer">the blog</a>.');
       }
+      function fetchWithTimeout(url, isJson) {
+        var ctrl = new AbortController();
+        var t = setTimeout(function () { ctrl.abort(); }, REQUEST_TIMEOUT_MS);
+        return fetch(url, { signal: ctrl.signal }).then(function (res) {
+          clearTimeout(t);
+          if (!res.ok) throw new Error();
+          return isJson ? res.json() : res.text();
+        }).catch(function () { clearTimeout(t); throw new Error(); });
+      }
       function tryDirect() {
         var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
-        return fetch(feedUrl).then(function (res) { if (!res.ok) throw new Error(); return res.json(); }).then(renderPosts).catch(function () { return false; });
+        return fetchWithTimeout(feedUrl, true).then(function (data) { renderPosts(data); return true; }).catch(function () { return false; });
       }
-      function tryProxy(proxyIndex) {
-        var proxy = CORS_PROXIES[proxyIndex];
+      function tryProxy(proxyUrl) {
         var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
-        var url = proxy === 'https://corsproxy.io/?' ? proxy + encodeURIComponent(feedUrl) : proxy + encodeURIComponent(feedUrl);
-        return fetch(url).then(function (res) { if (!res.ok) throw new Error(); return res.text(); }).then(function (text) {
+        var url = proxyUrl.indexOf('?') !== -1 ? proxyUrl + encodeURIComponent(feedUrl) : proxyUrl + encodeURIComponent(feedUrl);
+        return fetchWithTimeout(url, false).then(function (text) {
           var data; try { data = JSON.parse(text); } catch (e) { throw new Error(); }
           renderPosts(data);
-        }).catch(function () {
-          if (proxyIndex + 1 < CORS_PROXIES.length) return tryProxy(proxyIndex + 1); else showError();
-        });
+          return true;
+        }).catch(function () { return false; });
       }
       function load() {
-        tryDirect().then(function (ok) { if (ok === false && !loadingDone) tryProxy(0); });
+        var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
+        var proxies = [
+          'https://corsproxy.io/?' + encodeURIComponent(feedUrl),
+          'https://api.allorigins.win/raw?url=' + encodeURIComponent(feedUrl),
+          'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(feedUrl)
+        ];
+        var direct = tryDirect();
+        var proxyPromises = proxies.map(function (url) { return fetchWithTimeout(url, false).then(function (text) { var d; try { d = JSON.parse(text); } catch (e) { throw new Error(); } renderPosts(d); return true; }).catch(function () { return false; }); });
+        var all = [direct].concat(proxyPromises);
+        var resolved = 0;
+        function onDone(ok) {
+          if (ok) return;
+          resolved++;
+          if (resolved === all.length && !loadingDone) showError();
+        }
+        all.forEach(function (p) { p.then(onDone).catch(function () { onDone(false); }); });
       }
       load();
       setInterval(function () { if (!loadingDone) return; loadingDone = false; load(); }, REFRESH_MINUTES * 60 * 1000);
-      setTimeout(function () {
-        if (loadingDone || !statusMsg) return;
-        setStatus('Taking a moment… You can <a href="https://awfgsa.blogspot.com/" target="_blank" rel="noopener noreferrer">view posts on the blog</a> in the meantime.');
-      }, LOADING_TIMEOUT_MS);
     })();
   </script>
   <script src="visit-counter.js"></script>
