@@ -316,20 +316,17 @@
       filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
     }
 
-    /* Logo: continuous 3D rotation, 10 turns per minute (6s per turn) */
+    /* Logo: continuous spin (10 turns per minute) – works on website and in app WebView */
     .site-nav .site-name {
-      perspective: 1200px;
       display: inline-block;
     }
-    @keyframes logo-spin-3d {
-      from { transform: rotateY(0deg); }
-      to { transform: rotateY(360deg); }
+    @keyframes logo-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
     @media (prefers-reduced-motion: no-preference) {
       .site-nav .site-logo {
-        animation: logo-spin-3d 6s linear infinite;
-        transform-style: preserve-3d;
-        backface-visibility: visible;
+        animation: logo-spin 6s linear infinite;
       }
     }
 
@@ -987,7 +984,7 @@
     <div class="nav-inner">
       <div class="site-brand">
         <a href="index.html" class="site-name">
-          <video src="logo-video.mp4" class="site-logo" autoplay loop muted playsinline controls aria-label="A Faith Driven Life logo" title="Logo video – use controls to unmute for sound"></video>
+          <video src="logo-video.mp4" class="site-logo" autoplay loop muted playsinline preload="auto" controls aria-label="A Faith Driven Life logo" title="Logo video – use controls to unmute for sound"></video>
         </a>
         <section class="scripture-rotator" aria-live="polite">
           <div class="scripture-rotator-banner">Live changing scriptures</div>
@@ -1175,6 +1172,19 @@
       }
       // Show the install section on every visit (until dismissed) so it doesn't depend on beforeinstallprompt firing
       showInstallPrompt();
+    })();
+  </script>
+  <script>
+    (function () {
+      function playLogoVideo() {
+        var v = document.querySelector('.site-nav .site-logo');
+        if (v && v.play) { v.muted = true; v.play().catch(function () {}); }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', playLogoVideo);
+      } else {
+        playLogoVideo();
+      }
     })();
   </script>
 </body>
