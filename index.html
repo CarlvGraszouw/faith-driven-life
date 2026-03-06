@@ -316,17 +316,31 @@
       filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
     }
 
-    /* Logo: vertical-axis (Y) spin on website and app – 10 turns per minute */
+    /* Logo: vertical-axis (Y) spin – wrapper div rotates (video doesn’t animate reliably in all browsers) */
     .site-nav .site-name {
       display: inline-block;
+      overflow: visible;
+    }
+    .site-nav .logo-spin-wrap {
+      display: inline-block;
       perspective: 1200px;
+      height: 11rem;
+      max-width: 560px;
+      overflow: visible;
+    }
+    .site-nav .logo-spin-wrap .site-logo {
+      display: block;
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
     }
     @keyframes logo-spin-y {
       from { transform: rotateY(0deg); }
       to { transform: rotateY(360deg); }
     }
     @media (prefers-reduced-motion: no-preference) {
-      .site-nav .site-logo {
+      .site-nav .logo-spin-wrap {
         animation: logo-spin-y 6s linear infinite;
         transform-style: preserve-3d;
       }
@@ -354,6 +368,7 @@
     }
 
     @media (min-width: 768px) {
+      .site-nav .logo-spin-wrap { height: 13rem; max-width: 640px; }
       .site-nav .site-logo { height: 13rem; max-width: 640px; }
       .site-nav .site-tagline { font-size: 0.8rem; }
       .site-nav .nav-links a { font-size: 1rem; }
@@ -369,6 +384,7 @@
       .site-nav .nav-inner { gap: 0.4rem 0.75rem; padding-right: 0; flex-direction: row; flex-wrap: wrap; }
       .site-nav .site-brand { width: 100%; flex: 1 1 100%; flex-direction: row; align-items: center; gap: 0.5rem; min-width: 0; }
       .site-nav .site-name { flex-shrink: 0; }
+      .site-nav .logo-spin-wrap { height: 3.25rem; max-width: 120px; }
       .site-nav .site-logo { height: 3.25rem; max-width: 120px; }
       .site-nav .scripture-rotator { flex: 1; min-width: 0; max-width: none; border-radius: 6px; }
       .site-nav .scripture-rotator-banner { padding: 0.2rem 0.5rem; font-size: 0.6rem; }
@@ -405,6 +421,7 @@
       .intro-verse { padding: 0.6rem 0.75rem; font-size: 0.85rem; margin: 0.75rem 0; }
     }
     @media (max-width: 380px) {
+      .site-nav .logo-spin-wrap { max-width: 120px; }
       .site-nav .site-logo { max-width: 120px; }
       .site-nav .scripture-rotator-verse { font-size: 0.7rem; }
       .site-nav .nav-links a { font-size: 0.8rem; padding: 0.35rem 0.25rem; }
@@ -986,7 +1003,9 @@
     <div class="nav-inner">
       <div class="site-brand">
         <a href="index.html" class="site-name">
-          <video src="logo-video.mp4" class="site-logo" autoplay loop muted playsinline preload="auto" controls aria-label="A Faith Driven Life logo" title="Logo video – use controls to unmute for sound"></video>
+          <div class="logo-spin-wrap">
+            <video src="logo-video.mp4" class="site-logo" autoplay loop muted playsinline preload="auto" controls aria-label="A Faith Driven Life logo" title="Logo video – use controls to unmute for sound"></video>
+          </div>
         </a>
         <section class="scripture-rotator" aria-live="polite">
           <div class="scripture-rotator-banner">Live changing scriptures</div>
