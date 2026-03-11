@@ -229,6 +229,9 @@
           return isJson ? res.json() : res.text();
         }).catch(function () { clearTimeout(t); throw new Error(); });
       }
+      function tryApiRoute() {
+        return fetchWithTimeout('/api/blog-feed', true).then(function (data) { renderPosts(data); return true; }).catch(function () { return false; });
+      }
       function tryDirect() {
         var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
         return fetchWithTimeout(feedUrl, true).then(function (data) { renderPosts(data); return true; }).catch(function () { return false; });
@@ -260,10 +263,11 @@
           'https://api.allorigins.win/raw?url=' + encodeURIComponent(feedUrl),
           'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(feedUrl)
         ];
+        var apiRoute = tryApiRoute();
         var direct = tryDirect();
         var proxyPromises = proxies.map(function (url) { return fetchWithTimeout(url, false).then(function (text) { var d; try { d = JSON.parse(text); } catch (e) { throw new Error(); } renderPosts(d); return true; }).catch(function () { return false; }); });
         var allOriginsGet = tryAllOriginsGet();
-        var all = [direct].concat(proxyPromises).concat([allOriginsGet]);
+        var all = [apiRoute, direct].concat(proxyPromises).concat([allOriginsGet]);
         var resolved = 0;
         function onDone(ok) {
           if (ok) return;
