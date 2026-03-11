@@ -1,0 +1,32 @@
+# Update blog-feed.json from Blogger so the static site always has fresh posts.
+# Runs on schedule and on push to main (so deploys get the latest feed).
+name: Update blog feed
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # Every 6 hours
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'blog-feed.json'
+      - '**.md'
+      - '.github/**'
+  workflow_dispatch:
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Fetch and write blog feed
+        run: node scripts/update-blog-feed.js
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog-feed.json
+          git diff --staged --quiet || (git commit -m "chore: update blog-feed.json from Blogger" && git push)

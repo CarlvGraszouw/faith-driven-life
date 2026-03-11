@@ -229,6 +229,9 @@
           return isJson ? res.json() : res.text();
         }).catch(function () { clearTimeout(t); throw new Error(); });
       }
+      function tryStaticFeed() {
+        return fetchWithTimeout('/blog-feed.json', true).then(function (data) { renderPosts(data); return true; }).catch(function () { return false; });
+      }
       function tryApiRoute() {
         return fetchWithTimeout('/api/blog-feed', true).then(function (data) { renderPosts(data); return true; }).catch(function () { return false; });
       }
@@ -267,7 +270,8 @@
         var direct = tryDirect();
         var proxyPromises = proxies.map(function (url) { return fetchWithTimeout(url, false).then(function (text) { var d; try { d = JSON.parse(text); } catch (e) { throw new Error(); } renderPosts(d); return true; }).catch(function () { return false; }); });
         var allOriginsGet = tryAllOriginsGet();
-        var all = [apiRoute, direct].concat(proxyPromises).concat([allOriginsGet]);
+        var staticFeed = tryStaticFeed();
+        var all = [staticFeed, apiRoute, direct].concat(proxyPromises).concat([allOriginsGet]);
         var resolved = 0;
         function onDone(ok) {
           if (ok) return;
