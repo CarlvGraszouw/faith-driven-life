@@ -335,7 +335,7 @@
       color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
-      padding-top: 8.5rem;
+      padding-top: 12rem;
       padding-bottom: env(safe-area-inset-bottom, 2rem);
     }
 
@@ -393,7 +393,8 @@
       grid-template-columns: auto auto minmax(220px, 1fr) auto auto;
       grid-template-areas:
         "hamburger brand search pills visits"
-        "scripture scripture scripture scripture scripture";
+        "scripture scripture scripture scripture scripture"
+        "promo promo promo promo promo";
       align-items: center;
       gap: 0.5rem 0.75rem;
       box-sizing: border-box;
@@ -405,6 +406,7 @@
     .nav-pills { grid-area: pills; }
     .visit-counter { grid-area: visits; }
     .scripture-banner-top { grid-area: scripture; }
+    .promo-banner-bar { grid-area: promo; }
 
     .site-nav .site-name {
       display: flex;
@@ -487,6 +489,30 @@
       margin-left: 0;
     }
 
+    /* Promo banner – inside fixed header (never clipped) */
+    .promo-banner-bar {
+      width: 100%;
+      padding: 0.25rem 0;
+      background: transparent;
+      border-bottom: none;
+      text-align: center;
+    }
+    .promo-banner-bar .promo-banner {
+      display: inline-block;
+      padding: 0.45rem 0.9rem;
+      background: linear-gradient(135deg, var(--accent-dim) 0%, rgba(212, 175, 55, 0.08) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.12);
+      white-space: normal;
+    }
+    .promo-banner-bar .promo-banner a { color: var(--accent); text-decoration: none; }
+    .promo-banner-bar .promo-banner a:hover { text-decoration: underline; }
+    .promo-banner-bar .promo-highlight { color: var(--accent); font-weight: 700; }
+
     .site-nav .nav-links a.nav-blogs,
     .site-nav .nav-links a.nav-resources {
       color: var(--accent);
@@ -530,7 +556,7 @@
 
     /* Mobile – compact header + drawer */
     @media (max-width: 767px) {
-      body { padding-top: 10rem; padding-bottom: max(env(safe-area-inset-bottom), 2rem); }
+      body { padding-top: 14rem; padding-bottom: max(env(safe-area-inset-bottom), 2rem); }
       .container { padding-left: max(0.75rem, env(safe-area-inset-left)); padding-right: max(0.75rem, env(safe-area-inset-right)); }
       .site-nav { min-height: 0; padding: 0.5rem max(0.75rem, env(safe-area-inset-right)) 0.6rem max(0.75rem, env(safe-area-inset-left)); box-sizing: border-box; }
       .site-nav .nav-inner {
@@ -539,6 +565,7 @@
           "hamburger brand pills"
           "search search search"
           "scripture scripture scripture"
+          "promo promo promo"
           "visits visits visits";
         gap: 0.5rem 0.5rem;
       }
@@ -1204,13 +1231,13 @@
       </section>
       <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
     </div>
-  </nav>
-
-  <div class="promo-banner-bar">
-    <div class="promo-banner" role="complementary" aria-label="Free resources">
-      <span class="promo-highlight">FREE</span> study guides & books (kids & adults) — <a href="resources.html">Resources</a> · <a href="book.html">Book</a>
+      <div class="promo-banner-bar">
+        <div class="promo-banner" role="complementary" aria-label="Free resources">
+          <span class="promo-highlight">FREE</span> study guides & books (kids & adults) — <a href="resources.html">Resources</a> · <a href="book.html">Book</a>
+        </div>
+      </div>
     </div>
-  </div>
+  </nav>
 
   <main id="main-content" class="container">
     <div class="intro-with-sidebar reveal">
