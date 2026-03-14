@@ -974,15 +974,9 @@
       margin: 0 0 1rem;
     }
 
-    /* Top introduction line – always visible, prominent */
+    /* Top introduction line – same as other intro text, no extra emphasis */
     .intro-content .intro-lead {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text);
-      margin: 0 0 1.25rem;
-      line-height: 1.5;
-      opacity: 1;
-      visibility: visible;
+      margin: 0 0 1rem;
     }
 
     .intro-content p:last-child {
@@ -1255,7 +1249,7 @@
   </nav>
 
   <main id="main-content" class="container">
-    <div class="intro-with-sidebar">
+    <div class="intro-with-sidebar reveal">
       <aside class="daily-devotional" aria-label="Daily devotional">
         <h2>Daily devotional</h2>
         <p class="devotional-ref" id="devotional-ref"></p>
@@ -1386,7 +1380,11 @@
           if (e.isIntersecting) { e.target.classList.add('visible'); }
         });
       }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
-      els.forEach(function (el) { io.observe(el); });
+      els.forEach(function (el) {
+        io.observe(el);
+        var r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight) el.classList.add('visible');
+      });
     })();
   </script>
   <script>
