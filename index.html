@@ -368,17 +368,17 @@
       }
     }
 
-    /* Top nav – proportional, logo prominent; subtle glass where supported */
+    /* Top nav – compact header (standard website layout) */
     .site-nav {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 100;
-      background: rgba(10, 22, 40, 0.92);
+      background: rgba(10, 22, 40, 0.96);
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 1rem 1.5rem;
-      min-height: 14rem;
+      padding: 0.5rem 1rem 0.65rem;
+      min-height: 0;
       transition: background var(--transition-smooth), box-shadow var(--transition-smooth);
     }
     @supports (backdrop-filter: blur(12px)) {
@@ -389,68 +389,54 @@
       max-width: 100%;
       width: 100%;
       margin: 0 auto;
-      padding: 0 0.5rem;
+      padding: 0 0.25rem;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
+      gap: 0.6rem 1rem;
       box-sizing: border-box;
     }
 
     .site-nav .site-name {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
       font-size: inherit;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: var(--text);
       text-decoration: none;
       flex-shrink: 0;
-    }
-
-    .site-nav .site-name:hover {
-      color: var(--accent);
-    }
-
-    .site-nav .site-brand {
-      display: flex;
-      align-items: center;
-      gap: 1rem 1.5rem;
-      flex-wrap: wrap;
       min-width: 0;
-      flex: 1;
     }
+    .site-nav .site-name:hover { color: var(--accent); }
+
     .site-nav .site-name-block {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 0.1rem;
-      max-width: min(28em, 50vw);
+      gap: 0.05rem;
+      max-width: 12em;
+      min-width: 0;
     }
-
+    .site-nav .site-name-text { font-size: 0.95rem; font-weight: 700; color: inherit; }
     .site-nav .site-tagline {
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       font-weight: 400;
-      color: #00d4ff;
+      color: var(--teal);
       letter-spacing: 0;
-      line-height: 1.35;
-      max-width: 100%;
-      overflow-wrap: break-word;
-      word-break: break-word;
+      line-height: 1.3;
     }
-
-    .site-nav .site-name:hover .site-tagline {
-      color: #00d4ff;
-    }
-
-    .site-nav .site-logo {
-      height: 11rem;
-      width: auto;
-      max-width: 560px;
-      display: block;
+    /* Header logo – small icon only (standard site header) */
+    .site-nav .site-logo-img {
+      width: 32px;
+      height: 32px;
+      max-width: 32px;
+      max-height: 32px;
       object-fit: contain;
+      display: block;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.2));
     }
     .site-nav .nav-links {
       display: flex;
@@ -505,40 +491,8 @@
       color: #00d4ff;
     }
 
-    /* Accent: logo subtle glow */
-    .site-nav .site-logo {
-      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
-    }
 
     /* Logo: vertical-axis (Y) spin – wrapper div rotates (video doesn’t animate reliably in all browsers) */
-    .site-nav .site-name {
-      display: inline-block;
-      overflow: visible;
-    }
-    .site-nav .logo-spin-wrap {
-      display: inline-block;
-      perspective: 1200px;
-      height: 11rem;
-      max-width: 560px;
-      overflow: visible;
-    }
-    .site-nav .logo-spin-wrap .site-logo {
-      display: block;
-      height: 100%;
-      width: auto;
-      max-width: 100%;
-      object-fit: contain;
-    }
-    @keyframes logo-spin-y {
-      from { transform: rotateY(0deg); }
-      to { transform: rotateY(360deg); }
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .site-nav .logo-spin-wrap {
-        animation: logo-spin-y 6s linear infinite;
-        transform-style: preserve-3d;
-      }
-    }
 
     /* Blogs & Resources: pill buttons with animated border glow */
     .site-nav .nav-links a[href="blogs.html"],
@@ -562,19 +516,16 @@
     }
 
     @media (min-width: 768px) {
-      .site-nav .logo-spin-wrap { height: 13rem; max-width: 640px; }
-      .site-nav .site-logo { height: 13rem; max-width: 640px; }
-      .site-nav .site-tagline { font-size: 0.8rem; }
-      .site-nav .nav-links a { font-size: 1rem; }
-      .site-nav .nav-links a.nav-blogs,
-      .site-nav .nav-links a.nav-resources { font-size: 1.125rem; }
+      .site-nav .site-name-text { font-size: 1rem; }
+      .site-nav .site-tagline { font-size: 0.7rem; }
+      .site-nav .site-logo-img { width: 36px; height: 36px; max-width: 36px; max-height: 36px; }
     }
 
     /* Mobile – compact header + drawer */
     @media (max-width: 767px) {
       body { padding-top: 5.5rem; padding-bottom: max(env(safe-area-inset-bottom), 2rem); }
       .container { padding-left: max(0.75rem, env(safe-area-inset-left)); padding-right: max(0.75rem, env(safe-area-inset-right)); }
-      .site-nav { max-height: 25vh; max-height: 25dvh; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 0.4rem max(0.75rem, env(safe-area-inset-right)) 0.4rem max(0.75rem, env(safe-area-inset-left)); box-sizing: border-box; }
+      .site-nav { min-height: 0; padding: 0.4rem max(0.75rem, env(safe-area-inset-right)) 0.4rem max(0.75rem, env(safe-area-inset-left)); box-sizing: border-box; }
       .site-nav .nav-inner { gap: 0.4rem 0.5rem; }
       .site-nav .header-search-wrap { max-width: none; flex: 1; }
       .site-nav .scripture-rotator { border-radius: 6px; }
@@ -608,8 +559,8 @@
       .intro-verse { padding: 0.6rem 0.75rem; font-size: 0.85rem; margin: 0.75rem 0; }
     }
     @media (max-width: 380px) {
-      .site-nav .site-logo-img { height: 2rem; max-width: 40px; }
-      .site-nav .site-name-text { font-size: 0.9rem; }
+      .site-nav .site-logo-img { width: 28px; height: 28px; max-width: 28px; max-height: 28px; }
+      .site-nav .site-name-text { font-size: 0.85rem; }
       .site-nav .scripture-rotator-verse { font-size: 0.7rem; }
     }
 
@@ -1215,7 +1166,7 @@
         <span></span><span></span><span></span>
       </button>
       <a href="index.html" class="site-name site-brand-compact">
-        <img src="logo.png" alt="A Faith Driven Life" class="site-logo-img">
+        <img src="logo.png" alt="A Faith Driven Life" class="site-logo-img" width="32" height="32">
         <span class="site-name-block">
           <span class="site-name-text">A Faith Driven Life</span>
           <span class="site-tagline">Walking Boldly in Truth</span>
