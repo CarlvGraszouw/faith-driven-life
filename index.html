@@ -395,10 +395,10 @@
     }
 
     .site-nav .nav-inner {
-      max-width: 1200px;
+      max-width: min(1000px, 100%);
       width: 100%;
       margin: 0 auto;
-      padding: 0;
+      padding: 0 1.5rem;
       padding-left: 3rem;
       display: grid;
       grid-template-columns: auto minmax(220px, 1fr) auto auto;
@@ -508,8 +508,11 @@
     /* Promo banner – inside fixed header (never clipped) */
     .promo-banner-bar {
       width: 100%;
-      padding: 0.25rem 0;
+      max-width: min(1000px, 100%);
+      margin: 0 auto;
+      padding: 0.25rem 1.5rem;
       background: transparent;
+      box-sizing: border-box;
       border-bottom: none;
       text-align: center;
     }
@@ -568,6 +571,9 @@
       .site-nav .site-name-text { font-size: 1rem; }
       .site-nav .site-tagline { font-size: 0.7rem; }
       .site-nav .site-logo-img { width: 96px !important; height: 96px !important; min-width: 96px !important; min-height: 96px !important; max-width: 96px !important; max-height: 96px !important; }
+    }
+    @media (min-width: 1048px) {
+      .site-nav .nav-inner { padding-left: 1.5rem; }
     }
 
     /* Mobile – compact header + drawer */
@@ -1090,13 +1096,16 @@
       font-weight: 700;
     }
 
-    /* Promo banner bar: below nav, above main content */
+    /* Promo banner bar: below nav, above main content; same width as container */
     .promo-banner-bar {
       width: 100%;
-      padding: 0.5rem 1rem;
+      max-width: min(1000px, 100%);
+      margin: 0 auto;
+      padding: 0.5rem 1.5rem;
       background: var(--bg);
       border-bottom: 1px solid rgba(255,255,255,0.08);
       text-align: center;
+      box-sizing: border-box;
     }
     .promo-banner-bar .promo-banner {
       display: inline-block;
