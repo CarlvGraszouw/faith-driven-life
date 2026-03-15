@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>A Faith Driven Life — Connect, Share &amp; Grow in Faith | Home</title>
+  <meta name="description" content="A place to connect and share — comments, prayer requests, testimonies. Experience God through His Word, audio teachings, and free study resources. Join our community.">
+  <meta name="theme-color" content="#0a1428">
+  <link rel="icon" href="logo.png" type="image/png" sizes="48x48">
+  <link rel="apple-touch-icon" href="logo.png" sizes="180x180">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="canonical" href="https://www.afaithdrivenlife.com/">
+
+  <!-- Google Fonts: Inter (body) + Playfair Display (scripture, headings) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+          },
+          colors: {
+            navy: { DEFAULT: '#0a1428', dark: '#060d18', light: '#132238' },
+            gold: { DEFAULT: '#d4af77', bright: '#e8b923', dim: 'rgba(212, 175, 119, 0.15)' },
+          },
+          backgroundImage: {
+            'hero-gradient': 'linear-gradient(180deg, #0a1428 0%, #0d1a2e 40%, rgba(212, 175, 119, 0.08) 100%)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { font-size: 1rem; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    .scripture-quote { font-family: 'Playfair Display', Georgia, serif; }
+    a:focus-visible, button:focus-visible { outline: 2px solid #d4af77; outline-offset: 2px; }
+    .resources-dropdown:hover .resources-menu,
+    .resources-dropdown:focus-within .resources-menu,
+    .resources-dropdown.is-open .resources-menu { opacity: 1; visibility: visible; }
+    /* Light mode when html has no .dark */
+    html:not(.dark) body { background: #f8fafc !important; color: #0f172a !important; }
+    html:not(.dark) header { background: rgba(248,250,252,0.98) !important; border-color: rgba(0,0,0,0.08); }
+    html:not(.dark) .bg-navy { background-color: #0a1428 !important; }
+    html:not(.dark) .bg-navy-light { background-color: #1e293b !important; }
+    html:not(.dark) .bg-hero-gradient { background-image: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%); }
+    html:not(.dark) .text-slate-100,
+    html:not(.dark) .text-slate-200,
+    html:not(.dark) .text-slate-300 { color: #334155 !important; }
+    html:not(.dark) .text-slate-400,
+    html:not(.dark) .text-slate-500 { color: #64748b !important; }
+    html:not(.dark) .border-white\/5,
+    html:not(.dark) .border-white\/10 { border-color: rgba(0,0,0,0.1); }
+    html:not(.dark) .bg-gold-dim { background-color: rgba(212, 175, 119, 0.12); }
+  </style>
+</head>
+<body class="bg-navy text-slate-100 font-sans min-h-screen">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-gold focus:text-navy focus:font-semibold focus:rounded">Skip to main content</a>
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 w-full bg-navy/98 border-b border-white/10 backdrop-blur-sm">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3 py-3">
+      <!-- Logo + Tagline -->
+      <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <img src="logo.png" alt="" class="w-10 h-10 sm:w-12 sm:h-12 object-contain" width="48" height="48">
+        <div>
+          <span class="font-serif font-semibold text-gold text-lg sm:text-xl tracking-tight">A Faith Driven Life</span>
+          <span class="block text-xs text-slate-400 font-sans">Walking Boldly in Truth</span>
+        </div>
+      </a>
+
+      <!-- Bible search bar -->
+      <a href="bible.html" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-navy-light border border-gold/30 text-slate-300 hover:border-gold/60 hover:text-slate-100 transition-colors text-sm">
+        <svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        Search the Bible…
+      </a>
+
+      <!-- Nav: Home, Blogs, Resources dropdown -->
+      <nav class="flex items-center gap-2 sm:gap-4" aria-label="Main">
+        <a href="index.html" class="text-slate-300 hover:text-gold font-medium text-sm transition-colors">Home</a>
+        <a href="blogs.html" class="text-slate-300 hover:text-gold font-medium text-sm transition-colors">Blogs</a>
+        <div class="resources-dropdown relative">
+          <button type="button" class="flex items-center gap-1 text-slate-300 hover:text-gold font-medium text-sm transition-colors py-1" aria-expanded="false" aria-haspopup="true" id="resources-btn">
+            Resources <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="resources-menu absolute right-0 top-full mt-1 py-2 w-52 rounded-lg bg-navy-light border border-white/10 shadow-xl opacity-0 invisible transition-all duration-200" role="menu">
+            <a href="resources.html" role="menuitem" class="block px-4 py-2 text-sm text-slate-300 hover:bg-gold-dim hover:text-gold">Free Study Guides</a>
+            <a href="resources.html#training" role="menuitem" class="block px-4 py-2 text-sm text-slate-300 hover:bg-gold-dim hover:text-gold">Training Courses</a>
+            <a href="book.html" role="menuitem" class="block px-4 py-2 text-sm text-slate-300 hover:bg-gold-dim hover:text-gold">Books</a>
+            <a href="index.html#daily-devotional" role="menuitem" class="block px-4 py-2 text-sm text-slate-300 hover:bg-gold-dim hover:text-gold">Devotionals</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Visit counter + Dark/Light toggle -->
+      <div class="flex items-center gap-3">
+        <span class="text-slate-500 text-sm" id="visit-counter" aria-label="Total site visits">—</span>
+        <button type="button" id="theme-toggle" class="p-2 rounded-lg text-slate-400 hover:text-gold hover:bg-gold-dim transition-colors" aria-label="Toggle light/dark mode">
+          <span class="dark-icon"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg></span>
+          <span class="light-icon hidden"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg></span>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile: Bible search link -->
+    <div class="sm:hidden px-4 pb-2">
+      <a href="bible.html" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-navy-light border border-gold/20 text-slate-400 text-sm">Search the Bible…</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero -->
+    <section class="relative bg-hero-gradient pt-12 pb-16 sm:pt-16 sm:pb-24 overflow-hidden">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 text-center">
+        <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-semibold text-gold tracking-tight mb-4">Walking Boldly in Truth</h1>
+        <p class="scripture-quote text-xl sm:text-2xl text-slate-200 italic max-w-2xl mx-auto leading-relaxed mb-8">
+          Do not conform to the pattern of this world, but be transformed by the renewing of your mind.
+        </p>
+        <p class="text-slate-400 text-sm font-serif mb-10">— Romans 12:2 (NIV)</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="#daily-devotional" class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-gold text-navy font-semibold hover:bg-gold-bright transition-colors">Read Today's Devotional</a>
+          <a href="resources.html" class="inline-flex items-center justify-center px-5 py-3 rounded-lg border-2 border-gold/60 text-gold hover:bg-gold-dim transition-colors font-medium">Explore Free Resources</a>
+          <a href="#welcome" class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-slate-500 text-slate-300 hover:border-gold/50 hover:text-gold transition-colors font-medium">Meet Carl &amp; Wilma</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Life-Changing Scriptures -->
+    <section class="py-12 sm:py-16 border-t border-white/5" aria-label="Life-changing scriptures">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6">
+        <h2 class="font-serif text-gold text-sm uppercase tracking-widest mb-6 text-center">Life-Changing Scriptures</h2>
+        <div class="rounded-xl border border-gold/30 bg-gold-dim/50 p-6 sm:p-8 text-center">
+          <p id="scripture-ref" class="font-serif text-gold font-semibold text-lg mb-2"></p>
+          <p id="scripture-text" class="scripture-quote text-slate-200 text-lg sm:text-xl leading-relaxed italic"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Daily Devotional -->
+    <section id="daily-devotional" class="py-12 sm:py-16 bg-navy-light/50 border-t border-white/5" aria-label="Daily devotional">
+      <div class="mx-auto max-w-3xl px-4 sm:px-6">
+        <h2 class="font-serif text-gold text-xl sm:text-2xl font-semibold mb-6">Daily devotional</h2>
+        <div class="rounded-xl border-l-4 border-gold bg-navy/80 p-6 sm:p-8 shadow-lg">
+          <p id="devotional-ref" class="font-serif text-gold font-semibold text-lg mb-3"></p>
+          <p id="devotional-text" class="scripture-quote text-slate-200 text-lg leading-relaxed mb-4"></p>
+          <p class="text-slate-400 text-sm italic">Take a moment to reflect on this truth.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Welcome from Carl & Wilma -->
+    <section id="welcome" class="py-12 sm:py-16 border-t border-white/5">
+      <div class="mx-auto max-w-3xl px-4 sm:px-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-semibold text-gold mb-6">Welcome</h2>
+        <blockquote class="scripture-quote text-slate-200 text-lg sm:text-xl leading-relaxed italic border-l-4 border-gold pl-6 py-2 mb-8">
+          Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is — his good, pleasing and perfect will.
+          <cite class="block text-gold not-italic text-base mt-2">— Romans 12:2 (NIV)</cite>
+        </blockquote>
+        <div class="prose prose-invert max-w-none">
+          <p class="text-slate-200 text-lg font-medium mb-4">We're so glad you've stopped by.</p>
+          <p class="text-slate-300 mb-4">This is a place where we leave our CVs, titles, achievements, and labels at the door. Whether you're a longtime believer, someone quietly exploring faith, or a complete skeptic or non-believer, you are warmly welcomed exactly as you are. Come as you are and encounter the real, living God — the One who is already at work in your life and inviting you into the beautiful journey He has prepared.</p>
+          <p class="text-slate-300 mb-4">God is deeply interested in your future. He offers complete freedom from the burdens and mistakes of your past. Every day, He strengthens and transforms us through His living Word and the presence of the Holy Spirit — guiding us step by step.</p>
+          <p class="text-slate-300 mb-2">This is a space to connect and share:</p>
+          <ul class="list-disc list-inside text-slate-300 space-y-1 mb-4">
+            <li>Feel free to leave comments</li>
+            <li>Share a prayer request</li>
+            <li>Write your testimony of what God has done (or is doing) in your life</li>
+          </ul>
+          <p class="text-slate-300 mb-4">We've recently added audio teachings, which will be updated regularly. You'll also find a new Resources section with valuable teachings on God's Kingdom — all 16 Level 1 lessons are now available for download.</p>
+          <p class="text-slate-300 mb-8">Wherever you are on your journey, know this with certainty: God loves you, and He cares about you more than you can imagine.</p>
+          <blockquote class="scripture-quote text-slate-200 text-lg leading-relaxed italic border-l-4 border-gold pl-6 py-2">
+            "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."
+            <cite class="block text-gold not-italic text-base mt-2">— John 3:16 (NIV)</cite>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Free Study Guides banner -->
+    <section class="py-10 sm:py-12 border-y border-gold/20 bg-gold-dim/30" aria-label="Free resources">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 text-center">
+        <p class="text-slate-200 text-lg sm:text-xl mb-4">
+          <span class="font-semibold text-gold">FREE</span> study guides &amp; books (kids &amp; adults)
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="resources.html" class="inline-flex items-center px-5 py-3 rounded-lg bg-gold text-navy font-semibold hover:bg-gold-bright transition-colors">Resources</a>
+          <a href="book.html" class="inline-flex items-center px-5 py-3 rounded-lg border-2 border-gold/60 text-gold hover:bg-gold-dim transition-colors font-medium">Book</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Explore links -->
+    <section class="py-12 sm:py-14 border-b border-white/5" aria-label="Explore">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6">
+        <h2 class="sr-only">Explore</h2>
+        <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
+          <li><a href="blogs.html" class="text-slate-400 hover:text-gold transition-colors">Blogs</a></li>
+          <li><a href="resources.html" class="text-slate-400 hover:text-gold transition-colors">Resources</a></li>
+          <li><a href="book.html" class="text-slate-400 hover:text-gold transition-colors">Book</a></li>
+          <li><a href="audio.html" class="text-slate-400 hover:text-gold transition-colors">Audio</a></li>
+          <li><a href="bible.html" class="text-slate-400 hover:text-gold transition-colors">Search the Bible</a></li>
+          <li><a href="comments.html" class="text-slate-400 hover:text-gold transition-colors">Comments</a></li>
+          <li><a href="prayer-requests.html" class="text-slate-400 hover:text-gold transition-colors">Prayer requests</a></li>
+          <li><a href="testimonies.html" class="text-slate-400 hover:text-gold transition-colors">Testimonies</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PWA Install -->
+    <section id="pwa-install" class="py-8 px-4 border-b border-white/5 hidden" aria-label="Install app">
+      <div class="mx-auto max-w-xl text-center">
+        <h3 class="font-serif text-gold font-semibold text-lg mb-2">Install this app</h3>
+        <p class="text-slate-400 text-sm mb-4">Add A Faith Driven Life to your home screen or install it like an app for quick access.</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <button type="button" id="pwa-install-btn" class="hidden px-4 py-2 rounded-lg bg-gold text-navy font-medium text-sm hover:bg-gold-bright transition-colors">Install app</button>
+          <span id="pwa-ios-note" class="hidden text-slate-500 text-sm">On iPhone/iPad: tap <strong>Share</strong> then <strong>Add to Home Screen</strong>.</span>
+          <button type="button" id="pwa-dismiss" class="px-4 py-2 rounded-lg border border-slate-500 text-slate-400 text-sm hover:text-gold transition-colors">Dismiss</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 px-4 text-center text-slate-500 text-sm border-t border-white/5">
+      <p class="mb-2">© 2026 A Faith Driven Life. Walking Boldly in Truth.</p>
+      <p>
+        <a href="#main-content" class="text-slate-400 hover:text-gold transition-colors">Back to top</a>
+        <span class="mx-2">·</span>
+        <a href="sitemap.xml" class="text-slate-400 hover:text-gold transition-colors">Sitemap</a>
+      </p>
+      <p class="mt-4 text-slate-600">Built with faith.</p>
+    </footer>
+  </main>
+
+  <script>
+    (function() {
+      var btn = document.getElementById('resources-btn');
+      var dropdown = btn && btn.closest('.resources-dropdown');
+      if (btn && dropdown) {
+        btn.addEventListener('click', function() { dropdown.classList.toggle('is-open'); btn.setAttribute('aria-expanded', dropdown.classList.contains('is-open')); });
+        document.addEventListener('click', function(e) {
+          if (dropdown && !dropdown.contains(e.target)) { dropdown.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); }
+        });
+      }
+    })();
+  </script>
+  <script src="visit-counter.js"></script>
+  <script src="scripture-rotator-data.js"></script>
+  <script>
+    (function() {
+      var list = window.SCRIPTURE_ROTATOR_LIST;
+      if (!list || !list.length) return;
+      var refEl = document.getElementById('scripture-ref');
+      var textEl = document.getElementById('scripture-text');
+      var devRefEl = document.getElementById('devotional-ref');
+      var devTextEl = document.getElementById('devotional-text');
+      var now = new Date();
+      var start = new Date(now.getFullYear(), 0, 0);
+      var dayOfYear = Math.floor((now - start) / (24 * 60 * 60 * 1000));
+      var dailyIndex = dayOfYear % list.length;
+      var daily = list[dailyIndex];
+      if (devRefEl && devTextEl && daily) {
+        devRefEl.textContent = daily.ref;
+        devTextEl.textContent = daily.text;
+      }
+      var index = Math.floor(Math.random() * list.length);
+      function show() {
+        var s = list[index];
+        if (refEl) refEl.textContent = s.ref + ' —';
+        if (textEl) textEl.textContent = s.text;
+        index = (index + 1) % list.length;
+      }
+      show();
+      setInterval(show, 15000);
+    })();
+  </script>
+  <script>
+    (function() {
+      var btn = document.getElementById('theme-toggle');
+      var darkIcon = document.querySelector('.dark-icon');
+      var lightIcon = document.querySelector('.light-icon');
+      function applyTheme(dark) {
+        document.documentElement.classList.toggle('dark', dark);
+        if (darkIcon) darkIcon.classList.toggle('hidden', !dark);
+        if (lightIcon) lightIcon.classList.toggle('hidden', dark);
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#0a1428' : '#f8fafc');
+      }
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var isDark = stored === 'light' ? false : (stored === 'dark' ? true : prefersDark);
+      applyTheme(isDark);
+      if (btn) btn.addEventListener('click', function() {
+        isDark = !isDark;
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        applyTheme(isDark);
+      });
+    })();
+  </script>
+  <script>
+    (function() {
+      var wrap = document.getElementById('pwa-install');
+      var installBtn = document.getElementById('pwa-install-btn');
+      var iosNote = document.getElementById('pwa-ios-note');
+      var dismissBtn = document.getElementById('pwa-dismiss');
+      if (!wrap) return;
+      var dismissed = localStorage.getItem('pwa-install-dismissed') === '1';
+      var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (dismissed || isStandalone) return;
+      var deferredPrompt;
+      function isIos() { return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); }
+      window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBtn) { installBtn.classList.remove('hidden'); installBtn.style.display = ''; }
+        wrap.classList.remove('hidden');
+      });
+      if (isIos() && iosNote) { iosNote.classList.remove('hidden'); wrap.classList.remove('hidden'); }
+      if (dismissBtn) dismissBtn.addEventListener('click', function() { localStorage.setItem('pwa-install-dismissed', '1'); wrap.classList.add('hidden'); });
+      if (installBtn) installBtn.addEventListener('click', function() {
+        if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(function() { wrap.classList.add('hidden'); }); }
+      });
+    })();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() { navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function() {}); });
+    }
+  </script>
+</body>
+</html>
