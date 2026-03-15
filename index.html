@@ -402,9 +402,10 @@
       padding-left: 3rem;
       display: grid;
       grid-template-columns: auto minmax(220px, 1fr) auto auto;
-      grid-template-rows: auto auto auto;
+      grid-template-rows: auto auto auto auto;
       grid-template-areas:
         "brand search pills visits"
+        "devotional devotional devotional devotional"
         "scripture scripture scripture scripture"
         "promo promo promo promo";
       align-items: center;
@@ -415,6 +416,10 @@
     .header-search-wrap { grid-area: search; }
     .nav-pills { grid-area: pills; }
     .visit-counter { grid-area: visits; }
+    .site-nav .daily-devotional { grid-area: devotional; padding: 0.75rem 1rem; }
+    .site-nav .daily-devotional h2 { font-size: 1rem; margin: 0 0 0.5rem; }
+    .site-nav .daily-devotional .devotional-text { font-size: 0.85rem; margin: 0 0 0.5rem; }
+    .site-nav .daily-devotional .devotional-hint { font-size: 0.7rem; }
     .scripture-banner-top { grid-area: scripture; }
     .promo-banner-bar { grid-area: promo; }
 
@@ -575,6 +580,7 @@
         grid-template-columns: 1fr auto;
         grid-template-areas:
           "brand pills"
+          "devotional devotional"
           "search search"
           "scripture scripture"
           "promo promo"
@@ -1230,6 +1236,13 @@
         <a href="blogs.html" class="pill-blogs">Blogs</a>
         <a href="resources.html" class="pill-resources">Resources</a>
       </div>
+      <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
+      <aside class="daily-devotional" aria-label="Daily devotional">
+        <h2>Daily devotional</h2>
+        <p class="devotional-ref" id="devotional-ref"></p>
+        <p class="devotional-text" id="devotional-text"></p>
+        <p class="devotional-hint">Take a moment to reflect on this truth.</p>
+      </aside>
       <section class="scripture-rotator scripture-banner-top" aria-live="polite">
         <div class="scripture-rotator-banner">LIFE CHANGING SCRIPTURES</div>
         <div class="scripture-rotator-verse" id="scripture-rotator-verse">
@@ -1237,7 +1250,6 @@
           <span id="scripture-text"></span>
         </div>
       </section>
-      <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
     </div>
       <div class="promo-banner-bar">
         <div class="promo-banner" role="complementary" aria-label="Free resources">
@@ -1249,12 +1261,6 @@
 
   <main id="main-content" class="container">
     <div class="intro-with-sidebar reveal">
-      <aside class="daily-devotional" aria-label="Daily devotional">
-        <h2>Daily devotional</h2>
-        <p class="devotional-ref" id="devotional-ref"></p>
-        <p class="devotional-text" id="devotional-text"></p>
-        <p class="devotional-hint">Take a moment to reflect on this truth.</p>
-      </aside>
       <section class="intro-section">
       <h1 class="intro-title">Welcome to our Website</h1>
       <blockquote class="intro-quote">Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is — his good, pleasing and perfect will.<cite>— Romans 12:2 (NIV)</cite></blockquote>
