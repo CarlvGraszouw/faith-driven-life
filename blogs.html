@@ -159,6 +159,7 @@
     (function () {
       var BLOGGER_FEED_BASE = 'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=25';
       var REQUEST_TIMEOUT_MS = 12000;
+      var STATIC_FEED_TIMEOUT_MS = 10000;
       var REFRESH_MINUTES = 10;
       var listEl = document.getElementById('blog-list');
       var statusMsg = document.getElementById('blog-status-msg');
@@ -230,7 +231,15 @@
         }).catch(function () { clearTimeout(t); throw new Error(); });
       }
       function tryStaticFeed() {
-        return fetchWithTimeout('/blog-feed.json', true).then(function (data) { renderPosts(data); return true; }).catch(function () { return false; });
+        var base = (typeof location !== 'undefined' && location.origin) ? location.origin : '';
+        var url = base + '/blog-feed.json?cb=' + (Math.floor(Date.now() / 60000));
+        var ctrl = new AbortController();
+        var t = setTimeout(function () { ctrl.abort(); }, STATIC_FEED_TIMEOUT_MS);
+        return fetch(url, { signal: ctrl.signal, cache: 'no-store' }).then(function (res) {
+          clearTimeout(t);
+          if (!res.ok) throw new Error();
+          return res.json();
+        }).then(function (data) { renderPosts(data); return true; }).catch(function () { clearTimeout(t); return false; });
       }
       function tryApiRoute() {
         return fetchWithTimeout('/api/blog-feed', true).then(function (data) { renderPosts(data); return true; }).catch(function () { return false; });
@@ -260,25 +269,27 @@
         }).catch(function () { return false; });
       }
       function load() {
-        var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
-        var proxies = [
-          'https://corsproxy.io/?' + encodeURIComponent(feedUrl),
-          'https://api.allorigins.win/raw?url=' + encodeURIComponent(feedUrl),
-          'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(feedUrl)
-        ];
-        var apiRoute = tryApiRoute();
-        var direct = tryDirect();
-        var proxyPromises = proxies.map(function (url) { return fetchWithTimeout(url, false).then(function (text) { var d; try { d = JSON.parse(text); } catch (e) { throw new Error(); } renderPosts(d); return true; }).catch(function () { return false; }); });
-        var allOriginsGet = tryAllOriginsGet();
-        var staticFeed = tryStaticFeed();
-        var all = [staticFeed, apiRoute, direct].concat(proxyPromises).concat([allOriginsGet]);
-        var resolved = 0;
-        function onDone(ok) {
+        tryStaticFeed().then(function (ok) {
           if (ok) return;
-          resolved++;
-          if (resolved === all.length && !loadingDone) showError();
-        }
-        all.forEach(function (p) { p.then(onDone).catch(function () { onDone(false); }); });
+          var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
+          var proxies = [
+            'https://corsproxy.io/?' + encodeURIComponent(feedUrl),
+            'https://api.allorigins.win/raw?url=' + encodeURIComponent(feedUrl),
+            'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(feedUrl)
+          ];
+          var apiRoute = tryApiRoute();
+          var direct = tryDirect();
+          var proxyPromises = proxies.map(function (url) { return fetchWithTimeout(url, false).then(function (text) { var d; try { d = JSON.parse(text); } catch (e) { throw new Error(); } renderPosts(d); return true; }).catch(function () { return false; }); });
+          var allOriginsGet = tryAllOriginsGet();
+          var all = [apiRoute, direct].concat(proxyPromises).concat([allOriginsGet]);
+          var resolved = 0;
+          function onDone(ok) {
+            if (ok) return;
+            resolved++;
+            if (resolved === all.length && !loadingDone) showError();
+          }
+          all.forEach(function (p) { p.then(onDone).catch(function () { onDone(false); }); });
+        });
       }
       load();
       setInterval(function () { if (!loadingDone) return; loadingDone = false; load(); }, REFRESH_MINUTES * 60 * 1000);

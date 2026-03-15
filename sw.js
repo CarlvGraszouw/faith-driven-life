@@ -1,5 +1,5 @@
 /* Service worker for A Faith Driven Life PWA */
-const CACHE_NAME = 'faith-driven-life-v3';
+const CACHE_NAME = 'faith-driven-life-v4';
 const STATIC_URLS = [
   'index.html',
   'blogs.html',
@@ -57,6 +57,22 @@ self.addEventListener('fetch', function (event) {
             return c || new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
           });
         });
+      })
+    );
+    return;
+  }
+
+  var pathname = url.pathname || '';
+  if (pathname === '/blog-feed.json' || pathname.indexOf('blog-feed.json') !== -1) {
+    event.respondWith(
+      fetch(event.request).then(function (res) {
+        var clone = res.clone();
+        if (res.type === 'basic' && res.status === 200) {
+          caches.open(CACHE_NAME).then(function (cache) { cache.put(event.request, clone); });
+        }
+        return res;
+      }).catch(function () {
+        return caches.match(event.request).then(function (cached) { return cached || new Response('{"feed":{"entry":[]}}', { status: 503, headers: { 'Content-Type': 'application/json' } }); });
       })
     );
     return;
