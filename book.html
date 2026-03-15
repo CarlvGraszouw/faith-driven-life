@@ -12,11 +12,11 @@
   <meta name="theme-color" content="#0a1628">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root { --bg: #0a1628; --surface: #132238; --text: #f0f4f8; --muted: #94a3b8; --accent: #d4af37; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; padding-top: 16rem; padding-bottom: env(safe-area-inset-bottom, 2rem); }
+    body { margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; padding-top: 16rem; padding-bottom: env(safe-area-inset-bottom, 2rem); }
     .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
     .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; min-height: 14rem; }
     .site-nav .nav-inner { max-width: 100%; width: 100%; margin: 0 auto; padding: 0 0.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
@@ -36,7 +36,7 @@
     .book-cover-wrap { flex-shrink: 0; width: 220px; border-radius: 8px; overflow: hidden; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); }
     .book-cover-wrap img { width: 100%; height: auto; display: block; }
     .book-info { flex: 1; min-width: 0; }
-    .book-title { font-family: 'Source Serif 4', serif; font-size: 1.75rem; font-weight: 600; color: var(--accent); margin: 0 0 0.5rem; }
+    .book-title { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; font-size: 1.75rem; font-weight: 600; color: var(--accent); margin: 0 0 0.5rem; }
     .book-meta { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; }
     .book-desc { color: var(--text); margin-bottom: 1.5rem; }
     .book-buy { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
@@ -46,7 +46,7 @@
     .book-buy a.secondary:hover { background: rgba(212, 175, 55, 0.15); }
     .book-coming-soon { display: inline-block; padding: 0.65rem 1.25rem; background: var(--surface); color: var(--muted); font-weight: 600; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
     .book-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); }
-    .book-section h2 { font-family: 'Source Serif 4', serif; font-size: 1.35rem; color: var(--accent); margin: 0 0 0.5rem; padding-left: 0.5rem; border-left: 3px solid var(--accent); }
+    .book-section h2 { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; font-size: 1.35rem; color: var(--accent); margin: 0 0 0.5rem; padding-left: 0.5rem; border-left: 3px solid var(--accent); }
     .book-section .section-desc { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.25rem; }
     .download-list { list-style: none; margin: 0; padding: 0; }
     .download-list li { margin-bottom: 0.75rem; padding: 0.75rem 1rem; background: var(--surface); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
