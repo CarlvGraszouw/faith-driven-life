@@ -402,11 +402,10 @@
       padding-left: 3rem;
       display: grid;
       grid-template-columns: auto minmax(220px, 1fr) auto auto;
-      grid-template-rows: auto auto auto auto;
+      grid-template-rows: auto auto auto;
       grid-template-areas:
         "brand search pills visits"
-        "devotional devotional devotional devotional"
-        "scripture scripture scripture scripture"
+        "devotional devotional scripture scripture"
         "promo promo promo promo";
       align-items: center;
       gap: 0.5rem 0.75rem;
@@ -416,11 +415,11 @@
     .header-search-wrap { grid-area: search; }
     .nav-pills { grid-area: pills; }
     .visit-counter { grid-area: visits; }
-    .site-nav .daily-devotional { grid-area: devotional; padding: 0.75rem 1rem; }
+    .site-nav .daily-devotional { grid-area: devotional; padding: 0.75rem 1rem; min-width: 0; align-self: start; }
     .site-nav .daily-devotional h2 { font-size: 1rem; margin: 0 0 0.5rem; }
     .site-nav .daily-devotional .devotional-text { font-size: 0.85rem; margin: 0 0 0.5rem; }
     .site-nav .daily-devotional .devotional-hint { font-size: 0.7rem; }
-    .scripture-banner-top { grid-area: scripture; }
+    .scripture-banner-top { grid-area: scripture; min-width: 0; align-self: start; }
     .promo-banner-bar { grid-area: promo; }
 
     .site-nav .site-name {
