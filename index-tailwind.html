@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" href="logo.png" type="image/png" sizes="48x48">
+  <link rel="apple-touch-icon" href="logo.png" sizes="180x180">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>A Faith Driven Life — Connect, Share & Grow in Faith | Home</title>
+  <meta name="description" content="A place to connect and share — comments, prayer requests, testimonies. Experience God through His Word, audio teachings, and free study resources.">
+  <meta name="theme-color" content="#0a1428">
+  <link rel="canonical" href="https://www.afaithdrivenlife.com/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0a1428', 800: '#0d1a2e', 900: '#061020' },
+            gold: { DEFAULT: '#d4af77', light: '#e8b923', dim: 'rgba(212, 175, 119, 0.15)' },
+            cream: '#f5f0e6',
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans: ['Outfit', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.6s ease-out forwards',
+            'slide-up': 'slideUp 0.5s ease-out forwards',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+          },
+        },
+      },
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-balance { text-wrap: balance; }
+    }
+  </style>
+  <style>
+    /* Hero background: replace with image — e.g. soft abstract cross, light rays, or open Bible gradient (dark navy to gold tint at bottom) */
+    .hero-bg {
+      background: linear-gradient(165deg, #0a1428 0%, #0d1a2e 40%, rgba(212, 175, 119, 0.08) 100%);
+    }
+    .dark .hero-bg { background: linear-gradient(165deg, #0a1428 0%, #0d1a2e 40%, rgba(212, 175, 119, 0.08) 100%); }
+    .light .hero-bg { background: linear-gradient(165deg, #f5f0e6 0%, #e8e2d5 50%, rgba(212, 175, 119, 0.12) 100%); }
+  </style>
+</head>
+<body class="dark:bg-navy-900 bg-cream font-sans text-gray-900 dark:text-cream antialiased min-h-screen">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-gold focus:text-navy focus:font-semibold focus:rounded-lg">Skip to main content</a>
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 w-full border-b border-white/10 dark:bg-navy/95 dark:backdrop-blur-md bg-cream/95 backdrop-blur-md" aria-label="Main navigation">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="flex h-16 sm:h-18 items-center justify-between gap-4">
+        <a href="index.html" class="flex items-center gap-2 sm:gap-3 shrink-0">
+          <img src="logo.png" alt="" class="h-10 w-10 sm:h-12 sm:w-12 object-contain" width="48" height="48">
+          <div class="hidden sm:block">
+            <span class="font-semibold text-navy dark:text-cream block leading-tight">A Faith Driven Life</span>
+            <span class="text-xs text-gold dark:text-gold-light block">Walking Boldly in Truth</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6" aria-label="Primary">
+          <a href="bible.html" class="text-sm text-navy/80 dark:text-cream/80 hover:text-gold dark:hover:text-gold-light transition-colors flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            Search the Bible
+          </a>
+          <a href="blogs.html" class="text-sm font-medium px-3 py-1.5 rounded-lg bg-amber-400/90 text-navy hover:bg-amber-400 transition-colors">Blogs</a>
+          <a href="resources.html" class="text-sm font-medium px-3 py-1.5 rounded-lg bg-teal-500/90 text-white hover:bg-teal-500 transition-colors">Resources</a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <span id="visit-counter" class="text-xs text-navy/70 dark:text-cream/70 tabular-nums" aria-label="Site visits">—</span>
+          <button type="button" id="theme-toggle" class="p-2 rounded-lg text-navy/70 dark:text-cream/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors" aria-label="Toggle light/dark mode">
+            <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          </button>
+          <button type="button" id="menu-btn" class="md:hidden p-2 rounded-lg text-navy dark:text-cream hover:bg-black/5 dark:hover:bg-white/10" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 dark:border-white/10 bg-cream dark:bg-navy px-4 py-3" aria-hidden="true">
+      <div class="flex flex-col gap-2">
+        <a href="bible.html" class="py-2 text-gold dark:text-gold-light font-medium">Search the Bible</a>
+        <a href="blogs.html" class="py-2">Blogs</a>
+        <a href="resources.html" class="py-2">Resources</a>
+        <a href="book.html" class="py-2">Book</a>
+        <a href="audio.html" class="py-2">Audio</a>
+        <a href="comments.html" class="py-2">Comments</a>
+        <a href="prayer-requests.html" class="py-2">Prayer Requests</a>
+        <a href="testimonies.html" class="py-2">Testimonies</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero -->
+    <section class="hero-bg relative overflow-hidden pt-12 pb-16 sm:pt-16 sm:pb-24 px-4 sm:px-6" aria-label="Welcome">
+      <div class="mx-auto max-w-4xl text-center">
+        <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-semibold text-cream dark:text-cream mb-2 animate-fade-in">A Faith Driven Life</h1>
+        <p class="text-gold dark:text-gold-light text-lg sm:text-xl font-medium mb-6 animate-fade-in" style="animation-delay: 0.1s;">Walking Boldly in Truth</p>
+        <blockquote class="font-serif text-cream/95 dark:text-cream/95 text-base sm:text-lg max-w-2xl mx-auto italic mb-8 animate-slide-up" style="animation-delay: 0.2s;">
+          Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is — his good, pleasing and perfect will.
+          <cite class="not-italic block mt-2 text-gold dark:text-gold-light text-sm">— Romans 12:2 (NIV)</cite>
+        </blockquote>
+        <div class="flex flex-wrap justify-center gap-3 sm:gap-4 animate-slide-up" style="animation-delay: 0.3s;">
+          <a href="index.html#daily-devotional" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gold dark:bg-gold text-navy font-semibold hover:opacity-90 transition-opacity shadow-lg">Read Today's Devotional</a>
+          <a href="resources.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border-2 border-gold dark:border-gold-light text-gold dark:text-gold-light font-semibold hover:bg-gold-dim transition-colors">Explore Free Resources</a>
+          <a href="index.html#welcome" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border-2 border-cream/50 dark:border-cream/30 text-cream dark:text-cream font-semibold hover:bg-white/10 transition-colors">Meet Carl & Wilma</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Life-Changing Scriptures -->
+    <section class="py-12 sm:py-16 px-4 sm:px-6" aria-labelledby="scriptures-heading">
+      <div class="mx-auto max-w-6xl">
+        <h2 id="scriptures-heading" class="text-xl sm:text-2xl font-semibold text-gold dark:text-gold-light mb-6 text-center">Life-Changing Scriptures</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <article class="rounded-xl border-l-4 border-gold dark:border-gold-light bg-white/5 dark:bg-navy-800/80 p-5 shadow-lg hover:shadow-gold/10 transition-shadow">
+            <p class="font-serif text-cream/90 dark:text-cream/90 italic text-sm sm:text-base leading-relaxed">Father, forgive them, for they know not what they do.</p>
+            <p class="mt-2 text-gold dark:text-gold-light text-sm font-medium">— Luke 23:34</p>
+          </article>
+          <article class="rounded-xl border-l-4 border-gold dark:border-gold-light bg-white/5 dark:bg-navy-800/80 p-5 shadow-lg hover:shadow-gold/10 transition-shadow">
+            <p class="font-serif text-cream/90 dark:text-cream/90 italic text-sm sm:text-base leading-relaxed">Do not conform to the pattern of this world, but be transformed by the renewing of your mind.</p>
+            <p class="mt-2 text-gold dark:text-gold-light text-sm font-medium">— Romans 12:2 (NIV)</p>
+          </article>
+          <article class="rounded-xl border-l-4 border-gold dark:border-gold-light bg-white/5 dark:bg-navy-800/80 p-5 shadow-lg hover:shadow-gold/10 transition-shadow sm:col-span-2 lg:col-span-1">
+            <p class="font-serif text-cream/90 dark:text-cream/90 italic text-sm sm:text-base leading-relaxed">Rise and be baptized and wash away your sins, calling on his name.</p>
+            <p class="mt-2 text-gold dark:text-gold-light text-sm font-medium">— Acts 22:16</p>
+          </article>
+        </div>
+        <p class="text-center mt-4 text-sm text-navy/70 dark:text-cream/60" id="scripture-rotator-label">More verses rotate in the header area.</p>
+      </div>
+    </section>
+
+    <!-- Daily Devotional -->
+    <section id="daily-devotional" class="py-12 sm:py-16 px-4 sm:px-6 bg-white/5 dark:bg-navy-800/50" aria-labelledby="devotional-heading">
+      <div class="mx-auto max-w-2xl">
+        <h2 id="devotional-heading" class="text-xl sm:text-2xl font-semibold text-gold dark:text-gold-light mb-4">Daily Devotional</h2>
+        <div class="rounded-xl bg-white/10 dark:bg-navy-800/80 border border-gold/20 dark:border-gold/20 p-6 sm:p-8 shadow-xl">
+          <p class="text-gold dark:text-gold-light font-medium mb-2" id="devotional-ref">Acts 22:16</p>
+          <p class="font-serif text-cream dark:text-cream text-base sm:text-lg leading-relaxed italic" id="devotional-text">And now why do you wait? Rise and be baptized and wash away your sins, calling on his name.</p>
+          <p class="mt-4 text-sm text-cream/80 dark:text-cream/80">Take a moment to reflect on this truth.</p>
+        </div>
+        <a href="bible.html" class="inline-block mt-4 text-gold dark:text-gold-light font-medium hover:underline">Search the Bible →</a>
+      </div>
+    </section>
+
+    <!-- Welcome from Carl & Wilma -->
+    <section id="welcome" class="py-12 sm:py-20 px-4 sm:px-6" aria-labelledby="welcome-heading">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="welcome-heading" class="text-2xl sm:text-3xl font-semibold text-gold dark:text-gold-light mb-6 font-serif">Welcome to our Website</h2>
+        <p class="text-lg sm:text-xl font-medium text-navy dark:text-cream mb-6">Carl and Wilma here — we're so glad you've stopped by.</p>
+        <div class="max-w-none text-navy/90 dark:text-cream/90 space-y-4 text-base sm:text-lg leading-relaxed">
+          <p>At this space, we leave our CVs (and all our titles, achievements, and labels) at the door. Whether you're a longtime believer, someone exploring faith, or even a complete skeptic or non-believer, you're warmly welcomed exactly as you are. Come as you are and experience God for yourself — the real, living God who's already at work and inviting you into the incredible journey He's taking us on.</p>
+          <p>God is deeply interested in your future. He offers complete freedom from the burdens and mistakes of your past. Every single day, He empowers us through His living Word and the presence of the Holy Spirit — guiding, strengthening, and transforming us step by step.</p>
+          <p>This is a place to connect and share:</p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>Feel free to leave comments</li>
+            <li>Share a prayer request</li>
+            <li>Write your testimony of what God has done (or is doing) in your life</li>
+          </ul>
+          <p>Audio has been added, and will be updated periodically. A valuable teaching section in Resources has been added that will teach you of God's Kingdom. All 16 Level 1 lessons are available for download now.</p>
+          <p>Wherever you are on your journey, know this with certainty: God loves you, and He cares about you so much.</p>
+        </div>
+        <blockquote class="mt-8 font-serif text-lg sm:text-xl italic text-cream/95 dark:text-cream/95 border-l-4 border-gold dark:border-gold-light pl-6 py-2">
+          "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."
+          <cite class="not-italic block mt-2 text-gold dark:text-gold-light text-base">— John 3:16 (NIV)</cite>
+        </blockquote>
+        <p class="mt-6 text-navy/90 dark:text-cream/90">You're not here by accident. We're excited to see what God has in store — for you, for us, and for all of us together.</p>
+      </div>
+    </section>
+
+    <!-- Free Study Guides Banner -->
+    <section class="py-8 px-4 sm:px-6" aria-label="Free resources">
+      <div class="mx-auto max-w-4xl">
+        <div class="rounded-xl bg-gold-dim dark:bg-gold-dim border border-gold/30 dark:border-gold/30 px-6 py-5 text-center shadow-lg">
+          <p class="text-navy dark:text-cream font-semibold text-base sm:text-lg">
+            <span class="text-gold dark:text-gold-light font-bold">FREE</span> study guides & books (kids & adults) — <a href="resources.html" class="text-gold dark:text-gold-light hover:underline font-medium">Resources</a> · <a href="book.html" class="text-gold dark:text-gold-light hover:underline font-medium">Book</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Explore / Page links -->
+    <section class="py-12 sm:py-16 px-4 sm:px-6 bg-white/5 dark:bg-navy-800/30" aria-labelledby="explore-heading">
+      <div class="mx-auto max-w-4xl">
+        <h2 id="explore-heading" class="sr-only">Explore</h2>
+        <ul class="flex flex-wrap justify-center gap-3 sm:gap-4">
+          <li><a href="blogs.html" class="px-4 py-2.5 rounded-lg bg-amber-400/90 text-navy font-medium hover:bg-amber-400 transition-colors">Blogs</a></li>
+          <li><a href="resources.html" class="px-4 py-2.5 rounded-lg bg-teal-500/90 text-white font-medium hover:bg-teal-500 transition-colors">Resources</a></li>
+          <li><a href="book.html" class="px-4 py-2.5 rounded-lg border-2 border-gold dark:border-gold text-gold dark:text-gold-light font-medium hover:bg-gold-dim transition-colors">Book</a></li>
+          <li><a href="audio.html" class="px-4 py-2.5 rounded-lg border-2 border-gold dark:border-gold text-gold dark:text-gold-light font-medium hover:bg-gold-dim transition-colors">Audio</a></li>
+          <li><a href="bible.html" class="px-4 py-2.5 rounded-lg border-2 border-gold dark:border-gold text-gold dark:text-gold-light font-medium hover:bg-gold-dim transition-colors">Search the Bible</a></li>
+          <li><a href="comments.html" class="px-4 py-2.5 rounded-lg border border-navy/20 dark:border-cream/20 text-navy dark:text-cream font-medium hover:bg-white/10 dark:hover:bg-white/10 transition-colors">Comments</a></li>
+          <li><a href="prayer-requests.html" class="px-4 py-2.5 rounded-lg border border-navy/20 dark:border-cream/20 text-navy dark:text-cream font-medium hover:bg-white/10 dark:hover:bg-white/10 transition-colors">Prayer requests</a></li>
+          <li><a href="testimonies.html" class="px-4 py-2.5 rounded-lg border border-navy/20 dark:border-cream/20 text-navy dark:text-cream font-medium hover:bg-white/10 dark:hover:bg-white/10 transition-colors">Testimonies</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PWA Install -->
+    <section id="pwa-install" class="hidden py-8 px-4 sm:px-6 border-t border-white/10" aria-label="Install app">
+      <div class="mx-auto max-w-xl text-center">
+        <h3 class="text-lg font-semibold text-navy dark:text-cream mb-2">Install this app</h3>
+        <p class="text-sm text-navy/80 dark:text-cream/80 mb-4">Add A Faith Driven Life to your home screen for quick access.</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <button type="button" id="pwa-install-btn" class="hidden px-4 py-2 rounded-lg bg-gold text-navy font-semibold hover:opacity-90">Install app</button>
+          <span id="pwa-ios-note" class="hidden text-sm text-navy/80 dark:text-cream/80">On iPhone/iPad: tap <strong>Share</strong> → <strong>Add to Home Screen</strong>.</span>
+          <button type="button" id="pwa-dismiss" class="px-4 py-2 rounded-lg border border-navy/30 dark:border-cream/30 text-navy dark:text-cream font-medium">Dismiss</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 px-4 sm:px-6 border-t border-white/10 dark:border-white/10 text-center text-sm text-navy/80 dark:text-cream/80">
+      <p class="font-medium text-navy dark:text-cream">© 2026 A Faith Driven Life. Walking Boldly in Truth.</p>
+      <p class="mt-2">Built with faith.</p>
+      <p class="mt-3">
+        <a href="#main-content" class="text-gold dark:text-gold-light hover:underline">Back to top</a>
+        <span class="mx-2">·</span>
+        <a href="sitemap.xml" class="text-gold dark:text-gold-light hover:underline">Sitemap</a>
+      </p>
+    </footer>
+  </main>
+
+  <script src="visit-counter.js"></script>
+  <script src="scripture-rotator-data.js"></script>
+  <script>
+    (function() {
+      var list = window.SCRIPTURE_ROTATOR_LIST;
+      if (list && list.length) {
+        var refEl = document.getElementById('devotional-ref');
+        var textEl = document.getElementById('devotional-text');
+        var start = new Date(new Date().getFullYear(), 0, 0);
+        var dayOfYear = Math.floor((Date.now() - start) / 86400000);
+        var daily = list[dayOfYear % list.length];
+        if (refEl && textEl && daily) { refEl.textContent = daily.ref; textEl.textContent = daily.text; }
+      }
+    })();
+  </script>
+  <script>
+    (function() {
+      var btn = document.getElementById('theme-toggle');
+      var html = document.documentElement;
+      if (!btn) return;
+      var stored = localStorage.getItem('theme');
+      if (stored === 'light') { html.classList.remove('dark'); html.classList.add('light'); }
+      else { html.classList.add('dark'); html.classList.remove('light'); }
+      btn.addEventListener('click', function() {
+        if (html.classList.contains('dark')) { html.classList.remove('dark'); html.classList.add('light'); localStorage.setItem('theme', 'light'); }
+        else { html.classList.add('dark'); html.classList.remove('light'); localStorage.setItem('theme', 'dark'); }
+      });
+    })();
+  </script>
+  <script>
+    (function() {
+      var menuBtn = document.getElementById('menu-btn');
+      var menu = document.getElementById('mobile-menu');
+      if (!menuBtn || !menu) return;
+      menuBtn.addEventListener('click', function() {
+        var open = !menu.classList.contains('hidden');
+        menu.classList.toggle('hidden', open);
+        menu.setAttribute('aria-hidden', open);
+        menuBtn.setAttribute('aria-expanded', !open);
+      });
+    })();
+  </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() { navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function(){}); });
+    }
+  </script>
+  <script>
+    (function() {
+      var wrap = document.getElementById('pwa-install');
+      var installBtn = document.getElementById('pwa-install-btn');
+      var iosNote = document.getElementById('pwa-ios-note');
+      var dismissBtn = document.getElementById('pwa-dismiss');
+      if (!wrap) return;
+      if (localStorage.getItem('pwa-install-dismissed') === '1' || window.matchMedia('(display-mode: standalone)').matches) return;
+      var isIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        if (installBtn) { installBtn.style.display = 'inline-block'; installBtn.onclick = function() { e.prompt(); }; }
+        wrap.classList.remove('hidden');
+      });
+      if (isIos && !window.deferredPrompt) { if (iosNote) iosNote.classList.remove('hidden'); wrap.classList.remove('hidden'); }
+      if (dismissBtn) dismissBtn.addEventListener('click', function() { wrap.classList.add('hidden'); localStorage.setItem('pwa-install-dismissed', '1'); });
+    })();
+  </script>
+</body>
+</html>
