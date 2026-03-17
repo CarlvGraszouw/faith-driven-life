@@ -16,7 +16,7 @@
   <style>
     :root { --bg: #0a1628; --surface: #132238; --text: #f0f4f8; --muted: #94a3b8; --accent: #d4af37; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; padding-top: 16rem; padding-bottom: env(safe-area-inset-bottom, 2rem); }
+    body { margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; padding-top: 16rem; padding-bottom: env(safe-area-inset-bottom, 2rem); }
     .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
     .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; min-height: 14rem; }
     .site-nav .nav-inner { max-width: 100%; width: 100%; margin: 0 auto; padding: 0 0.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
@@ -145,6 +145,7 @@
       var errorEl = document.getElementById('post-error');
       var BLOGGER_FEED = 'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=50';
       var CORS_PROXIES = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
+      var STATIC_FEED_TIMEOUT_MS = 10000;
       function getPostUrl(entry) {
         var links = entry.link || [];
         for (var i = 0; i < links.length; i++) { if (links[i].rel === 'alternate') return links[i].href; }
@@ -291,6 +292,20 @@
         }
         return false;
       }
+      function tryStaticFeed() {
+        var base = (typeof location !== 'undefined' && location.origin) ? location.origin : '';
+        var url = base + '/blog-feed.json?cb=' + (Math.floor(Date.now() / 60000));
+        var ctrl = new AbortController();
+        var t = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, STATIC_FEED_TIMEOUT_MS);
+        return fetch(url, { signal: ctrl.signal, cache: 'no-store' }).then(function (res) {
+          clearTimeout(t);
+          if (!res.ok) throw new Error();
+          return res.json();
+        }).then(function (data) {
+          var entries = (data && data.feed && data.feed.entry) || [];
+          return findAndShow(entries);
+        }).catch(function () { clearTimeout(t); return false; });
+      }
       function tryDirect() {
         var feedUrl = BLOGGER_FEED + '&_=' + Date.now();
         return fetch(feedUrl).then(function (res) { if (!res.ok) throw new Error(); return res.json(); }).then(function (data) {
@@ -313,8 +328,11 @@
         });
       }
       if (!postUrl) { showError(); } else {
-        tryDirect().then(function (found) {
-          if (!found) tryLoad(0);
+        tryStaticFeed().then(function (found) {
+          if (found) return;
+          tryDirect().then(function (found2) {
+            if (!found2) tryLoad(0);
+          });
         });
       }
     })();
