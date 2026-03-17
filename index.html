@@ -423,6 +423,17 @@
     .scripture-banner-top { grid-area: scripture; min-width: 0; align-self: start; }
     .promo-banner-bar { grid-area: promo; }
 
+    /* Desktop breathing room: avoid the top-left cluster looking squashed */
+    @media (min-width: 900px) {
+      .site-nav .nav-inner {
+        grid-template-columns: minmax(360px, 1.2fr) minmax(320px, 1fr) auto auto;
+        gap: 0.75rem 1rem;
+      }
+      .site-brand-compact { max-width: none; }
+      .site-nav .site-name-block { max-width: 20em; }
+      .header-search-wrap { margin-left: 1rem; }
+    }
+
     .site-nav .site-name {
       display: flex;
       align-items: center;
