@@ -1,0 +1,8 @@
+# Do not commit secrets or generated data
+.env
+.env.rapidapi
+.env.*
+best_deals_*.json
+grocery_prices.db
+venv/
+__pycache__/

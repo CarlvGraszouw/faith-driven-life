@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="logo.png" type="image/png" sizes="48x48">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="logo.png" sizes="180x180">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>Community | Prayer Requests &amp; Testimonies | A Faith Driven Life</title>
+  <meta name="description" content="Connect, share testimonies, and post prayer requests. A warm Christian community to grow in faith.">
+  <meta name="theme-color" content="#0a1628">
+  <link rel="canonical" href="https://www.afaithdrivenlife.com/community.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.afaithdrivenlife.com/community.html">
+  <meta property="og:title" content="Community | A Faith Driven Life">
+  <meta property="og:description" content="Prayer requests, testimonies, and saved verses — Connect, Share & Grow in Faith.">
+  <meta property="og:image" content="https://www.afaithdrivenlife.com/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Community | A Faith Driven Life">
+  <meta name="twitter:description" content="Prayer requests, testimonies, and saved verses — Connect, Share & Grow in Faith.">
+  <meta name="twitter:image" content="https://www.afaithdrivenlife.com/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0a1628; --surface:#132238; --text:#f0f4f8; --muted:#94a3b8; --accent:#d4af37; --accent-dim: rgba(212,175,55,0.15); }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; min-height:100vh; padding-top: 8.5rem; padding-bottom: env(safe-area-inset-bottom, 2rem); }
+    .container{ max-width: 980px; margin: 0 auto; padding: 0 1.25rem; }
+    .site-nav{ position:fixed; top:0; left:0; right:0; z-index:100; background: rgba(10,22,40,0.96); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0.9rem 1.25rem; }
+    .nav-inner{ max-width: 980px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; gap:0.75rem 1rem; }
+    .brand{ display:flex; align-items:center; gap:0.6rem; text-decoration:none; color:var(--text); font-weight:800; }
+    .brand:hover{ color:var(--accent); }
+    .brand img{ width:40px; height:40px; object-fit:contain; }
+    .tagline{ font-size:0.75rem; color:#00d4ff; font-weight:500; display:block; margin-top:0.05rem; }
+    .nav-links{ margin-left:auto; display:flex; flex-wrap:wrap; gap:0.25rem 0.9rem; list-style:none; padding:0; }
+    .nav-links a{ color:#00d4ff; text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .nav-links a:hover{ color:var(--accent); }
+    h1,h2,h3{ font-family:'Plus Jakarta Sans','Inter',sans-serif; letter-spacing:-0.01em; margin:0; }
+    h1{ color:var(--accent); font-size: clamp(1.7rem, 2.6vw + 1rem, 2.4rem); margin-top: 0.25rem; }
+    .sub{ color:var(--muted); margin: 0.35rem 0 1.25rem; }
+    .grid{ display:grid; grid-template-columns: 1fr; gap: 0.9rem; }
+    @media (min-width: 900px){ body{ padding-top: 7.5rem; } .grid{ grid-template-columns: 1fr 1fr; } }
+    .card{ background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1rem; }
+    .card h2{ color: var(--accent); font-size: 1.25rem; margin-bottom: 0.4rem; }
+    .muted{ color: var(--muted); }
+    label{ display:block; font-weight: 700; margin-top: 0.75rem; }
+    input, textarea{ width:100%; padding: 0.6rem 0.75rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); color: var(--text); font: inherit; }
+    textarea{ min-height: 120px; resize: vertical; }
+    input:focus, textarea:focus{ outline:none; border-color: rgba(212,175,55,0.75); }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; padding: 0.6rem 0.95rem; border-radius: 999px; border: 1px solid rgba(212,175,55,0.45); background: rgba(212,175,55,0.12); color: var(--accent); font-weight: 800; font-size: 0.95rem; cursor:pointer; text-decoration:none; margin-top: 0.9rem; }
+    .btn.alt{ border-color: rgba(255,255,255,0.16); background: rgba(255,255,255,0.06); color: var(--text); }
+    .btn:hover{ border-color: var(--accent); }
+    .cards{ display:grid; grid-template-columns: 1fr; gap: 0.75rem; margin-top: 0.75rem; }
+    @media (min-width: 900px){ .cards{ grid-template-columns: 1fr 1fr; } }
+    .story{ background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 0.85rem 0.85rem; }
+    .story .who{ color: var(--accent); font-weight: 800; }
+    .story p{ margin: 0.5rem 0 0; }
+    .saved-item{ background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 0.85rem 0.85rem; }
+    .saved-ref{ color: var(--accent); font-weight: 800; }
+    footer{ margin-top: 2rem; padding: 1.5rem 0 2.5rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Main">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <img src="logo.png" alt="A Faith Driven Life — Connect, Share &amp; Grow in Faith" width="40" height="40" decoding="async">
+        <span>A Faith Driven Life <span class="tagline">Connect, Share &amp; Grow in Faith</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="blogs.html">Blogs</a></li>
+        <li><a href="bible.html">Bible Search</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" id="main-content">
+    <header>
+      <h1>Community</h1>
+      <p class="sub">A place to connect and share — prayer requests, testimonies, and saved verses for offline encouragement.</p>
+    </header>
+
+    <section class="grid" aria-label="Community forms">
+      <div class="card" aria-label="Share your testimony">
+        <h2>Share Your Testimony</h2>
+        <p class="muted">We’ll review submissions before publishing (to keep this space safe and encouraging).</p>
+        <form action="https://formspree.io/f/yourFormId" method="POST" id="testimony-form">
+          <label for="t-name">Name (first name is fine)</label>
+          <input id="t-name" name="name" type="text" autocomplete="name" placeholder="Your name">
+          <label for="t-title">Title</label>
+          <input id="t-title" name="title" type="text" placeholder="A short title">
+          <label for="t-text">Your testimony</label>
+          <textarea id="t-text" name="message" required placeholder="What has God done (or is doing) in your life?"></textarea>
+          <input type="hidden" name="source" value="community-testimony">
+          <input type="hidden" name="_next" value="https://www.afaithdrivenlife.com/thanks.html">
+          <button class="btn" type="submit">Submit testimony</button>
+        </form>
+      </div>
+
+      <div class="card" aria-label="Post a prayer request">
+        <h2>Post a Prayer Request</h2>
+        <p class="muted">Share as much or as little as you like. We’ll review submissions before publishing.</p>
+        <form action="https://formspree.io/f/yourFormId" method="POST" id="prayer-form">
+          <label for="p-name">Name (optional)</label>
+          <input id="p-name" name="name" type="text" autocomplete="name" placeholder="Your name (optional)">
+          <label for="p-text">Prayer request</label>
+          <textarea id="p-text" name="message" required placeholder="How can we pray with you?"></textarea>
+          <input type="hidden" name="source" value="community-prayer">
+          <input type="hidden" name="_next" value="https://www.afaithdrivenlife.com/thanks.html">
+          <button class="btn" type="submit">Submit prayer request</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top: 1rem;" aria-label="Recent approved testimonies">
+      <h2>Recent approved testimonies</h2>
+      <p class="muted">These are examples for now (static). We can connect this to a review system later.</p>
+      <div class="cards">
+        <article class="story">
+          <div class="who">“Peace in a hard week”</div>
+          <p>“I was overwhelmed, but one verse helped me breathe again. I prayed one honest prayer, and peace came little by little.”</p>
+          <p class="muted" style="margin-top:0.6rem;">— Community member</p>
+        </article>
+        <article class="story">
+          <div class="who">“Forgiveness started as a prayer”</div>
+          <p>“I wasn’t ready, but I asked God to make me willing. Over time, the anger loosened and I felt freedom.”</p>
+          <p class="muted" style="margin-top:0.6rem;">— Community member</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top: 1rem;" aria-label="Saved verses gallery">
+      <h2>Saved Verses Gallery</h2>
+      <p class="muted">Saved on your device (PWA). Available offline.</p>
+      <div id="saved-verses" class="cards"></div>
+      <p id="saved-empty" class="muted" style="display:none;margin-top:0.75rem;">No saved verses yet. Go to the homepage and tap <strong>Save verse</strong> in the Daily Verse section.</p>
+      <a class="btn alt" href="index.html#main-content">Go to Daily Verse</a>
+    </section>
+
+    <footer>
+      <p>© 2026 A Faith Driven Life. Walking Boldly in Truth.</p>
+      <p>Follow: <a href="https://instagram.com/AFaithDrivenLife" style="color:var(--accent);">Instagram</a> · <a href="https://facebook.com/AFaithDrivenLife" style="color:var(--accent);">Facebook</a> · <a href="https://youtube.com/@AFaithDrivenLife" style="color:var(--accent);">YouTube</a></p>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      function readSaved() {
+        try { return JSON.parse(localStorage.getItem('saved_verses_v1') || '[]'); } catch (e) { return []; }
+      }
+      var list = readSaved();
+      var wrap = document.getElementById('saved-verses');
+      var empty = document.getElementById('saved-empty');
+      if (!wrap) return;
+      if (!list.length) { if (empty) empty.style.display = 'block'; return; }
+      wrap.innerHTML = '';
+      list.slice(0, 12).forEach(function (v) {
+        var div = document.createElement('div');
+        div.className = 'saved-item';
+        div.innerHTML = '<div class=\"saved-ref\">' + (v.ref || '') + '</div><div>' + (v.text || '') + '</div>';
+        wrap.appendChild(div);
+      });
+    })();
+  </script>
+  <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
+  <script>if ('serviceWorker' in navigator) window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function(){}); });</script>
+</body>
+</html>
+

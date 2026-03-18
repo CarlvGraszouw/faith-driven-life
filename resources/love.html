@@ -194,6 +194,7 @@
       <div class="actions">
         <a class="btn" href="../verse-pack.html">Get the free pack</a>
         <a class="btn alt" href="forgiveness.html">Next: Forgiveness</a>
+        <a class="btn alt" href="../community.html">Join the community</a>
       </div>
     </section>
 
@@ -223,6 +224,27 @@
           share({ title: ref, text: ref + ': ' + txt + ' — A Faith Driven Life', url: pageLink() });
         }
       });
+    })();
+  </script>
+  <script>
+    (function () {
+      var shown = false;
+      function onScroll() {
+        if (shown) return;
+        var y = (window.scrollY || window.pageYOffset || 0);
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        if (h > 0 && (y / h) > 0.72) {
+          shown = true;
+          try { localStorage.setItem('pwa_engagement_read_resource', '1'); } catch (e) {}
+          try { if (window.va) window.va('event', { name: 'read_resource' }); } catch (e) {}
+          setTimeout(function () {
+            if (!confirm('Would you like to share how this encouraged you?')) return;
+            location.href = '../community.html#testimony-form';
+          }, 350);
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
     })();
   </script>
   <script src="../visit-counter.js"></script>

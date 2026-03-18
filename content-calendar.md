@@ -6,6 +6,12 @@ Columns: **Day | Platform | Content Type | Topic/Link | CTA**
 > **“Full verses & community → afaithdrivenlife.com/resources/anxiety-verses Install for offline access!”**  
 > (Swap the link to match the topic.)
 
+### Weekly rhythm (3–5 posts/week, repeat weekly)
+- **Mon**: Verse + 1 practical step (15–25s)
+- **Wed**: Resource page highlight (carousel or short)
+- **Fri**: Community invite (prayer/testimony) + saved verses + install
+- **Sat/Sun (optional)**: 30‑Day Verse Pack invite + “Start Here”
+
 | Day | Platform | Content Type | Topic/Link | CTA |
 |---:|---|---|---|---|
 | 1 | Instagram | Reel | Anxiety: Philippians 4:6–7 → `https://www.afaithdrivenlife.com/resources/anxiety-verses` | Save verse + install |

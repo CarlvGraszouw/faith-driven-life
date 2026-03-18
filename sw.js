@@ -4,6 +4,7 @@ const STATIC_URLS = [
   'index.html',
   'blogs.html',
   'resources.html',
+  'community.html',
   'book.html',
   'audio.html',
   'bible.html',

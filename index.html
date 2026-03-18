@@ -1276,6 +1276,7 @@
       <li><a href="book.html">Book</a></li>
       <li><a href="audio.html">Audio</a></li>
       <li><a href="bible.html">Search the Bible</a></li>
+      <li><a href="community.html">Community</a></li>
       <li><a href="comments.html">Comments</a></li>
       <li><a href="prayer-requests.html">Prayer Requests</a></li>
       <li><a href="testimonies.html">Testimonies</a></li>
@@ -1462,6 +1463,40 @@
       </div>
     </section>
 
+    <!-- Community engine -->
+    <section class="reveal" aria-label="Community">
+      <h2>Join the Community</h2>
+      <p class="section-note" style="margin-top:-0.5rem;">Connect, share, and grow in faith together — prayer requests, testimonies, and saved verses.</p>
+      <div class="approved-grid" style="margin-top: 1.25rem;">
+        <div class="approved-item">
+          <strong>Post a prayer request</strong>
+          <p>Share what you’re carrying. We’ll pray with you.</p>
+          <div class="pwa-actions" style="margin-top:0.75rem;">
+            <a class="pwa-btn" href="community.html#prayer-form" style="text-decoration:none;">Post a prayer request</a>
+            <a class="pwa-btn pwa-dismiss" href="prayer-requests.html" style="text-decoration:none;">Prayer page</a>
+          </div>
+        </div>
+        <div class="approved-item">
+          <strong>Share your testimony</strong>
+          <p>Your story can bring hope to someone else today.</p>
+          <div class="pwa-actions" style="margin-top:0.75rem;">
+            <a class="pwa-btn" href="community.html#testimony-form" style="text-decoration:none;">Share testimony</a>
+            <a class="pwa-btn pwa-dismiss" href="testimonies.html" style="text-decoration:none;">Testimonies</a>
+          </div>
+        </div>
+        <div class="approved-item" style="grid-column: 1 / -1;">
+          <strong>Saved verses (your gallery)</strong>
+          <p class="approved-meta" style="margin-top:0;">Saved on this device. Available offline in the PWA.</p>
+          <div id="saved-verses-home" class="approved-grid" style="margin-top: 0.75rem; grid-template-columns: 1fr; gap: 0.6rem;"></div>
+          <p id="saved-verses-home-empty" class="approved-meta" style="display:none;margin-top:0.75rem;">No saved verses yet. Tap <strong>Save verse</strong> on the Daily Verse.</p>
+          <div class="pwa-actions" style="margin-top:0.75rem;">
+            <a class="pwa-btn" href="community.html#saved-verses" style="text-decoration:none;">Open gallery</a>
+            <a class="pwa-btn pwa-dismiss" href="#main-content" style="text-decoration:none;">Save today’s verse</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Get the free pack (email) -->
     <section class="reveal" aria-label="Free verse pack email signup">
       <h2>Get the Free 30‑Day Faith Verse Pack</h2>
@@ -1533,6 +1568,18 @@
       drawer.querySelectorAll('.drawer-links a').forEach(function (a) {
         a.addEventListener('click', closeDrawer);
       });
+    })();
+  </script>
+  <script>
+    (function () {
+      // Basic event tracking for email forms (Vercel Analytics custom events)
+      function track(name) { try { if (window.va) window.va('event', { name: name }); } catch (e) {} }
+      document.addEventListener('submit', function (e) {
+        var form = e.target;
+        if (!form || !form.getAttribute) return;
+        var action = (form.getAttribute('action') || '').toLowerCase();
+        if (action.indexOf('formspree') !== -1) track('email_form_submit');
+      }, true);
     })();
   </script>
   <script src="scripture-rotator-data.js"></script>
@@ -1645,6 +1692,7 @@
         list.unshift({ ref: v.ref, text: v.text, savedAt: Date.now() });
         localStorage.setItem(key, JSON.stringify(list.slice(0, 50)));
         try { localStorage.setItem('pwa_engagement_saved_verse', '1'); } catch (e) {}
+        try { if (window.va) window.va('event', { name: 'save_verse' }); } catch (e) {}
         // small visual confirmation
         if (typeof document !== 'undefined') {
           var msg = document.getElementById('offline-hint');
@@ -1850,6 +1898,7 @@
 
       // Only now surface the install UI prominently
       wrap.classList.add('visible');
+      try { if (window.va) window.va('event', { name: 'install_prompt_shown' }); } catch (e) {}
 
       function dismissAll() {
         try { localStorage.setItem(KEY_DISMISS, '1'); } catch (e) {}
@@ -1870,6 +1919,28 @@
       window.addEventListener('online', setHint);
       window.addEventListener('offline', setHint);
       setHint();
+    })();
+  </script>
+  <script>
+    (function () {
+      // Render saved verses gallery on homepage
+      function readSaved() {
+        try { return JSON.parse(localStorage.getItem('saved_verses_v1') || '[]'); } catch (e) { return []; }
+      }
+      var list = readSaved();
+      var wrap = document.getElementById('saved-verses-home');
+      var empty = document.getElementById('saved-verses-home-empty');
+      if (!wrap) return;
+      if (!list.length) { if (empty) empty.style.display = 'block'; return; }
+      wrap.innerHTML = '';
+      list.slice(0, 3).forEach(function (v) {
+        var card = document.createElement('div');
+        card.className = 'approved-item';
+        card.style.padding = '0.75rem 0.9rem';
+        card.innerHTML = '<div style="color:var(--accent);font-weight:800;">' + (v.ref || '') + '</div>' +
+          '<div style="margin-top:0.35rem;color:var(--text);font-size:0.95rem;line-height:1.6;">' + (v.text || '') + '</div>';
+        wrap.appendChild(card);
+      });
     })();
   </script>
   <script>
