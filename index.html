@@ -1261,6 +1261,7 @@
       <div class="nav-pills">
         <a href="blogs.html" class="pill-blogs">Blogs</a>
         <a href="resources.html" class="pill-resources">Resources</a>
+        <a href="resources.html#popular-faith-resources" class="pill-resources" style="border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); color: var(--text);">Bible Studies &amp; Verses</a>
       </div>
       <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
       <aside class="daily-devotional" aria-label="Daily devotional">
@@ -1331,6 +1332,7 @@
           <div class="pwa-actions" style="margin-top:0.9rem;">
             <button type="button" class="pwa-btn" data-share-verse="daily">Share this verse</button>
             <button type="button" class="pwa-btn pwa-dismiss" data-copy-verse="daily">Copy verse</button>
+            <a class="pwa-btn" href="resources/anxiety.html" style="text-decoration:none;">Daily devotional</a>
           </div>
         </div>
 
@@ -1354,6 +1356,71 @@
             <button type="button" class="pwa-btn pwa-dismiss" id="pwa-dismiss-hero">Dismiss</button>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Popular Faith Resources -->
+    <section class="reveal" id="popular-faith-resources" aria-label="Popular faith resources">
+      <h2>Popular Faith Resources</h2>
+      <p class="section-note" style="margin-top:-0.5rem;">Evergreen Bible studies and verse collections you can come back to anytime.</p>
+      <div class="approved-grid" style="margin-top: 1.25rem;">
+        <a class="approved-item" href="resources/anxiety.html">
+          <strong>Bible Verses About Anxiety</strong>
+          <p>Encouragement and a simple prayer for fear &amp; worry.</p>
+          <div class="approved-meta">Start here →</div>
+        </a>
+        <a class="approved-item" href="resources/peace.html">
+          <strong>Bible Verses About Peace</strong>
+          <p>God’s peace for your mind, your home, and your next step.</p>
+          <div class="approved-meta">Read →</div>
+        </a>
+        <a class="approved-item" href="resources/love.html">
+          <strong>Bible Verses About Love</strong>
+          <p>What love looks like in real life — from God to us and through us.</p>
+          <div class="approved-meta">Read →</div>
+        </a>
+        <a class="approved-item" href="resources/forgiveness.html">
+          <strong>What Does the Bible Say About Forgiveness?</strong>
+          <p>Healing for the heart, freedom for the future.</p>
+          <div class="approved-meta">Read →</div>
+        </a>
+        <a class="approved-item" href="resources/purpose.html">
+          <strong>Bible Verses About Purpose &amp; God’s Plan</strong>
+          <p>When you feel stuck, God is still writing a story.</p>
+          <div class="approved-meta">Read →</div>
+        </a>
+        <a class="approved-item" href="resources/healing.html">
+          <strong>Healing Scriptures</strong>
+          <p>Strength for your body, hope for your soul, courage for today.</p>
+          <div class="approved-meta">Read →</div>
+        </a>
+        <a class="approved-item" href="verse-pack.html">
+          <strong>Free 30‑Day Faith Verse Pack</strong>
+          <p>One verse per day with a short reflection. Print or save.</p>
+          <div class="approved-meta">Get it free →</div>
+        </a>
+        <a class="approved-item" href="resources.html#level-1">
+          <strong>Free Bible Study Downloads (Level 1)</strong>
+          <p>All 16 lessons — shareable PDFs for growing in faith.</p>
+          <div class="approved-meta">Download →</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Get the free pack (email) -->
+    <section class="reveal" aria-label="Free verse pack email signup">
+      <h2>Get the Free 30‑Day Faith Verse Pack</h2>
+      <p class="section-note" style="margin-top:-0.5rem;">One verse per day with a short reflection—built for real life and a warm faith journey.</p>
+      <div class="approved-item" style="margin-top: 1rem;">
+        <form class="submit-form" action="https://formspree.io/f/yourFormId" method="POST" style="margin-top:0;">
+          <label for="home-pack-name">Name</label>
+          <input id="home-pack-name" name="name" type="text" autocomplete="name" placeholder="Your name">
+          <label for="home-pack-email">Email</label>
+          <input id="home-pack-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+          <input type="hidden" name="source" value="homepage-verse-pack">
+          <button type="submit">Get the Free Pack</button>
+          <p class="section-note" style="margin-top: 0.75rem;">Prefer no email? <a href="verse-pack.html" style="color: var(--accent);">Open the pack here</a>.</p>
+        </form>
       </div>
     </section>
 
@@ -1418,6 +1485,43 @@
     (function () {
       var list = window.SCRIPTURE_ROTATOR_LIST;
       if (!list || !list.length) return;
+
+      // Curated Daily Verse list (30+ high-impact verses). Public-domain text is provided (WEB).
+      // We keep the random rotating banner as-is, but Daily Verse uses this curated set.
+      var DAILY_VERSES = [
+        { ref: 'Romans 12:2', text: 'Don’t be conformed to this world, but be transformed by the renewing of your mind…' },
+        { ref: 'Isaiah 41:10', text: 'Don’t you be afraid, for I am with you… I will strengthen you… I will help you…' },
+        { ref: 'Jeremiah 29:11', text: '“For I know the thoughts that I think toward you,” says Yahweh… “to give you hope and a future.”' },
+        { ref: 'Philippians 4:6–7', text: 'In nothing be anxious… and the peace of God… will guard your hearts and your thoughts in Christ Jesus.' },
+        { ref: '1 Peter 5:7', text: 'Casting all your worries on him, because he cares for you.' },
+        { ref: 'John 14:27', text: 'Peace I leave with you. My peace I give to you… Don’t let your heart be troubled.' },
+        { ref: 'Psalm 23:1', text: 'Yahweh is my shepherd: I shall lack nothing.' },
+        { ref: 'Psalm 46:10', text: 'Be still, and know that I am God.' },
+        { ref: 'Romans 8:28', text: 'We know that all things work together for good for those who love God…' },
+        { ref: 'Romans 8:38–39', text: 'Nothing… will be able to separate us from God’s love, which is in Christ Jesus our Lord.' },
+        { ref: 'Joshua 1:9', text: 'Be strong and courageous… for Yahweh your God is with you wherever you go.' },
+        { ref: '2 Timothy 1:7', text: 'God didn’t give us a spirit of fear, but of power, love, and self-control.' },
+        { ref: 'Matthew 11:28', text: 'Come to me, all you who labor and are heavily burdened, and I will give you rest.' },
+        { ref: 'Proverbs 3:5–6', text: 'Trust in Yahweh with all your heart… and he will make your paths straight.' },
+        { ref: 'Psalm 56:3–4', text: 'When I am afraid, I will put my trust in you… I will not be afraid.' },
+        { ref: 'Psalm 34:18', text: 'Yahweh is near to those who have a broken heart…' },
+        { ref: 'Psalm 103:2–3', text: 'Bless Yahweh… who forgives all your sins; who heals all your diseases.' },
+        { ref: 'Isaiah 53:5', text: '…by his wounds we are healed.' },
+        { ref: 'James 1:5', text: 'If any of you lacks wisdom, let him ask of God… and it will be given to him.' },
+        { ref: 'Ephesians 2:10', text: 'For we are his workmanship, created in Christ Jesus for good works…' },
+        { ref: 'John 3:16', text: 'For God so loved the world, that he gave his one and only Son…' },
+        { ref: 'Romans 5:8', text: 'While we were yet sinners, Christ died for us.' },
+        { ref: '1 Corinthians 13:4', text: 'Love is patient and is kind…' },
+        { ref: 'Colossians 3:13', text: 'Forgive each other… even as Christ forgave you, so you also do.' },
+        { ref: 'Ephesians 4:32', text: 'Be kind… forgiving each other, just as God also in Christ forgave you.' },
+        { ref: 'Psalm 121:1–2', text: 'My help comes from Yahweh, who made heaven and earth.' },
+        { ref: 'Romans 15:13', text: 'May the God of hope fill you with all joy and peace in believing…' },
+        { ref: 'Isaiah 26:3', text: 'You will keep whoever’s mind is steadfast in perfect peace…' },
+        { ref: 'Psalm 147:3', text: 'He heals the broken in heart, and binds up their wounds.' },
+        { ref: 'Matthew 6:33', text: 'Seek first God’s Kingdom and his righteousness…' },
+        { ref: 'Acts 22:16', text: 'Rise, be baptized, and wash away your sins, calling on his name.' },
+        { ref: 'Luke 23:34', text: 'Father, forgive them, for they don’t know what they are doing.' }
+      ];
       var refEl = document.getElementById('scripture-ref');
       var textEl = document.getElementById('scripture-text');
       var devRefEl = document.getElementById('devotional-ref');
@@ -1427,8 +1531,8 @@
       var now = new Date();
       var start = new Date(now.getFullYear(), 0, 0);
       var dayOfYear = Math.floor((now - start) / (24 * 60 * 60 * 1000));
-      var dailyIndex = dayOfYear % list.length;
-      var daily = list[dailyIndex];
+      var dailyIndex = dayOfYear % DAILY_VERSES.length;
+      var daily = DAILY_VERSES[dailyIndex];
       if (devRefEl && devTextEl && daily) {
         devRefEl.textContent = daily.ref;
         devTextEl.textContent = daily.text;
@@ -1599,5 +1703,74 @@
     })();
   </script>
   <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
+  <script>
+    (function () {
+      // Gentle, non-intrusive popup for the free verse pack (shows at most weekly).
+      var KEY = 'verse_pack_popup_last';
+      var now = Date.now();
+      var last = parseInt(localStorage.getItem(KEY) || '0', 10);
+      var week = 7 * 24 * 60 * 60 * 1000;
+      if (last && (now - last) < week) return;
+
+      function el(tag, attrs, html) {
+        var n = document.createElement(tag);
+        if (attrs) Object.keys(attrs).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+        if (html != null) n.innerHTML = html;
+        return n;
+      }
+
+      var overlay = el('div', { 'aria-hidden': 'true' });
+      overlay.style.position = 'fixed';
+      overlay.style.inset = '0';
+      overlay.style.background = 'rgba(0,0,0,0.55)';
+      overlay.style.zIndex = '250';
+      overlay.style.display = 'none';
+
+      var modal = el('div', { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Get the free verse pack' });
+      modal.style.position = 'fixed';
+      modal.style.left = '50%';
+      modal.style.top = '50%';
+      modal.style.transform = 'translate(-50%, -50%)';
+      modal.style.zIndex = '251';
+      modal.style.width = 'min(640px, calc(100vw - 2rem))';
+      modal.style.background = 'rgba(19,34,56,0.98)';
+      modal.style.border = '1px solid rgba(255,255,255,0.12)';
+      modal.style.borderRadius = '14px';
+      modal.style.boxShadow = '0 18px 60px rgba(0,0,0,0.45)';
+      modal.style.padding = '1rem 1rem';
+      modal.style.display = 'none';
+
+      modal.innerHTML =
+        '<div style=\"display:flex;gap:0.75rem;align-items:flex-start;justify-content:space-between;\">' +
+          '<div style=\"min-width:0;\">' +
+            '<div style=\"font-weight:800;color:var(--accent);font-size:1.15rem;\">Free 30‑Day Faith Verse Pack</div>' +
+            '<div style=\"color:var(--muted);margin-top:0.25rem;\">One verse per day with a short reflection—built for real life.</div>' +
+          '</div>' +
+          '<button type=\"button\" id=\"vp-close\" class=\"pwa-btn pwa-dismiss\" style=\"margin-left:auto;\">Close</button>' +
+        '</div>' +
+        '<div style=\"display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.9rem;\">' +
+          '<a class=\"pwa-btn\" href=\"verse-pack.html\" style=\"text-decoration:none;\">Open the pack</a>' +
+          '<a class=\"pwa-btn\" href=\"resources.html#verse-pack-signup\" style=\"text-decoration:none;\">Get it by email</a>' +
+          '<a class=\"pwa-btn pwa-dismiss\" href=\"thanks.html\" style=\"text-decoration:none;\">Already signed up</a>' +
+        '</div>';
+
+      function close() {
+        overlay.style.display = 'none';
+        modal.style.display = 'none';
+        localStorage.setItem(KEY, String(Date.now()));
+      }
+
+      overlay.addEventListener('click', close);
+      modal.addEventListener('click', function (e) { if (e.target && e.target.id === 'vp-close') close(); });
+
+      document.body.appendChild(overlay);
+      document.body.appendChild(modal);
+
+      setTimeout(function () {
+        overlay.style.display = 'block';
+        modal.style.display = 'block';
+      }, 3500);
+    })();
+  </script>
 </body>
 </html>

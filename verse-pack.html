@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="logo.png" type="image/png" sizes="48x48">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="logo.png" sizes="180x180">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>30 Days of Faith‑Driven Verses (Free Pack) | A Faith Driven Life</title>
+  <meta name="description" content="Free 30‑day Bible verse pack with short reflections. Print or save as PDF. Connect, Share & Grow in Faith.">
+  <meta name="theme-color" content="#0a1628">
+  <link rel="canonical" href="https://www.afaithdrivenlife.com/verse-pack.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0a1628; --surface:#132238; --text:#f0f4f8; --muted:#94a3b8; --accent:#d4af37; --accent-dim: rgba(212,175,55,0.15); }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; min-height:100vh; padding: 2rem 0 3rem; }
+    .container { max-width: 980px; margin: 0 auto; padding: 0 1.25rem; }
+    h1,h2,h3 { font-family:'Plus Jakarta Sans','Inter',sans-serif; letter-spacing:-0.01em; }
+    h1 { color: var(--accent); margin: 0 0 0.25rem; font-size: clamp(1.7rem, 2.7vw + 1rem, 2.4rem); }
+    .sub { margin: 0 0 1.25rem; color: var(--muted); }
+    .topbar { display:flex; flex-wrap:wrap; gap: 0.5rem; align-items:center; justify-content: space-between; margin: 1rem 0 1.25rem; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding: 0.6rem 0.95rem; border-radius: 999px; border: 1px solid rgba(212,175,55,0.45); background: rgba(212,175,55,0.12); color: var(--accent); font-weight: 800; font-size: 0.95rem; cursor:pointer; text-decoration:none; }
+    .btn:hover { border-color: var(--accent); }
+    .btn.alt { border-color: rgba(255,255,255,0.16); background: rgba(255,255,255,0.06); color: var(--text); }
+    .card { background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1rem; }
+    .form { display:grid; grid-template-columns: 1fr; gap: 0.75rem; margin-top: 0.75rem; }
+    @media (min-width: 720px) { .form { grid-template-columns: 1fr 1fr auto; align-items: end; } }
+    label { font-size: 0.9rem; color: var(--muted); display:block; margin-bottom: 0.25rem; }
+    input { width:100%; padding: 0.6rem 0.75rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); color: var(--text); font: inherit; }
+    input:focus { outline: none; border-color: rgba(212,175,55,0.7); }
+    .days { margin-top: 1.25rem; display:grid; grid-template-columns: 1fr; gap: 0.75rem; }
+    @media (min-width: 900px) { .days { grid-template-columns: 1fr 1fr; } }
+    .day { border-left: 4px solid var(--accent); }
+    .day h3 { margin: 0 0 0.25rem; color: var(--accent); font-size: 1.05rem; }
+    .ref { font-weight: 800; color: var(--text); }
+    .txt { color: var(--text); margin: 0.35rem 0 0; }
+    .reflect { color: var(--muted); margin: 0.5rem 0 0; font-size: 0.95rem; }
+    footer { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
+    @media print {
+      body { background: #fff; color: #111; }
+      .btn, .topbar, .signup { display:none !important; }
+      .card { border: 1px solid #ddd; }
+      .day { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container" id="main-content">
+    <a class="btn alt" href="index.html" style="margin-bottom:0.75rem;">← Back to Home</a>
+    <h1>30 Days of Faith‑Driven Verses</h1>
+    <p class="sub">Connect, Share &amp; Grow in Faith · Free verse pack (print or save as PDF)</p>
+
+    <div class="topbar">
+      <div class="card" style="flex: 1; min-width: 260px;">
+        <strong style="color:var(--text);">How to use this pack:</strong>
+        <span style="color:var(--muted);">Read one verse per day, reflect for one minute, then share it with someone who needs hope.</span>
+      </div>
+      <button class="btn" type="button" id="print-pack">Print / Save as PDF</button>
+      <button class="btn alt" type="button" id="share-pack">Share pack</button>
+    </div>
+
+    <section class="card signup" aria-label="Get the free pack by email">
+      <h2 style="margin:0 0 0.25rem; color:var(--accent); font-size: 1.25rem;">Get the free pack (email)</h2>
+      <p class="sub" style="margin:0 0 0.75rem;">We’ll send you the link and a gentle reminder to keep going. (Form integration can be swapped to Mailchimp later.)</p>
+
+      <form class="form" action="https://formspree.io/f/yourFormId" method="POST">
+        <div>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name">
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+        </div>
+        <div>
+          <input type="hidden" name="source" value="verse-pack">
+          <button class="btn" type="submit">Get the Free Pack</button>
+        </div>
+      </form>
+      <p class="sub" style="margin:0.75rem 0 0;">After signup, you can also <a href="prayer-requests.html" style="color:var(--accent);">post a prayer request</a> or <a href="testimonies.html" style="color:var(--accent);">share your testimony</a>.</p>
+    </section>
+
+    <section class="days" aria-label="30-day verse list">
+      <div class="card day"><h3>Day 1</h3><div class="ref">Romans 12:2</div><p class="txt">“Be transformed by the renewing of your mind…”</p><p class="reflect">Reflection: What thought do you want God to renew today?</p></div>
+      <div class="card day"><h3>Day 2</h3><div class="ref">Isaiah 41:10</div><p class="txt">“I will strengthen you… I will help you…”</p><p class="reflect">Reflection: Where do you need strength for one small step?</p></div>
+      <div class="card day"><h3>Day 3</h3><div class="ref">Philippians 4:6–7</div><p class="txt">“In nothing be anxious… and the peace of God… will guard your hearts…”</p><p class="reflect">Reflection: What request can you bring to God right now?</p></div>
+      <div class="card day"><h3>Day 4</h3><div class="ref">1 Peter 5:7</div><p class="txt">“Cast all your worries on him, because he cares for you.”</p><p class="reflect">Reflection: What worry are you ready to release?</p></div>
+      <div class="card day"><h3>Day 5</h3><div class="ref">John 14:27</div><p class="txt">“My peace I give to you…”</p><p class="reflect">Reflection: What would change if you received peace as a gift?</p></div>
+      <div class="card day"><h3>Day 6</h3><div class="ref">Psalm 23:1</div><p class="txt">“Yahweh is my shepherd: I shall lack nothing.”</p><p class="reflect">Reflection: What does it look like to trust God’s provision today?</p></div>
+      <div class="card day"><h3>Day 7</h3><div class="ref">Psalm 46:10</div><p class="txt">“Be still, and know that I am God.”</p><p class="reflect">Reflection: Take 60 seconds of stillness—what do you notice?</p></div>
+      <div class="card day"><h3>Day 8</h3><div class="ref">Jeremiah 29:11</div><p class="txt">“To give you hope and a future.”</p><p class="reflect">Reflection: Ask God for hope about one area of your future.</p></div>
+      <div class="card day"><h3>Day 9</h3><div class="ref">Romans 8:28</div><p class="txt">“All things work together for good…”</p><p class="reflect">Reflection: Where do you need to trust God’s “together” work?</p></div>
+      <div class="card day"><h3>Day 10</h3><div class="ref">Joshua 1:9</div><p class="txt">“Be strong and courageous… God is with you…”</p><p class="reflect">Reflection: What brave step is God asking of you?</p></div>
+      <div class="card day"><h3>Day 11</h3><div class="ref">2 Timothy 1:7</div><p class="txt">“Power, love, and self-control.”</p><p class="reflect">Reflection: Which of these do you need most today?</p></div>
+      <div class="card day"><h3>Day 12</h3><div class="ref">Matthew 11:28</div><p class="txt">“I will give you rest.”</p><p class="reflect">Reflection: What burden can you place in Jesus’ hands?</p></div>
+      <div class="card day"><h3>Day 13</h3><div class="ref">Proverbs 3:5–6</div><p class="txt">“Trust… and he will make your paths straight.”</p><p class="reflect">Reflection: What does trust look like for you today?</p></div>
+      <div class="card day"><h3>Day 14</h3><div class="ref">Psalm 56:3</div><p class="txt">“When I am afraid, I will trust in you.”</p><p class="reflect">Reflection: Say it out loud: “I choose trust.”</p></div>
+      <div class="card day"><h3>Day 15</h3><div class="ref">Psalm 34:18</div><p class="txt">“Yahweh is near to the brokenhearted…”</p><p class="reflect">Reflection: Invite God near to the place that hurts.</p></div>
+      <div class="card day"><h3>Day 16</h3><div class="ref">James 1:5</div><p class="txt">“Ask… and it will be given.”</p><p class="reflect">Reflection: Ask God for wisdom about one decision.</p></div>
+      <div class="card day"><h3>Day 17</h3><div class="ref">Ephesians 2:10</div><p class="txt">“Created… for good works.”</p><p class="reflect">Reflection: What good work can you do quietly today?</p></div>
+      <div class="card day"><h3>Day 18</h3><div class="ref">John 3:16</div><p class="txt">“God so loved… that he gave…”</p><p class="reflect">Reflection: Receive God’s love personally—not generally.</p></div>
+      <div class="card day"><h3>Day 19</h3><div class="ref">Romans 5:8</div><p class="txt">“Christ died for us.”</p><p class="reflect">Reflection: Thank God for grace you didn’t earn.</p></div>
+      <div class="card day"><h3>Day 20</h3><div class="ref">1 Corinthians 13:4</div><p class="txt">“Love is patient and kind…”</p><p class="reflect">Reflection: What does patience look like in your home today?</p></div>
+      <div class="card day"><h3>Day 21</h3><div class="ref">Colossians 3:13</div><p class="txt">“Forgive… as Christ forgave you.”</p><p class="reflect">Reflection: Is there a small forgiveness step you can take?</p></div>
+      <div class="card day"><h3>Day 22</h3><div class="ref">Ephesians 4:32</div><p class="txt">“Be kind… forgiving…”</p><p class="reflect">Reflection: Who can you bless with kindness today?</p></div>
+      <div class="card day"><h3>Day 23</h3><div class="ref">Psalm 121:1–2</div><p class="txt">“My help comes from Yahweh…”</p><p class="reflect">Reflection: Ask for help without shame—God welcomes it.</p></div>
+      <div class="card day"><h3>Day 24</h3><div class="ref">Romans 15:13</div><p class="txt">“Fill you with… joy and peace…”</p><p class="reflect">Reflection: What would “abounding hope” look like today?</p></div>
+      <div class="card day"><h3>Day 25</h3><div class="ref">Isaiah 26:3</div><p class="txt">“Perfect peace… because he trusts in you.”</p><p class="reflect">Reflection: What thought will you fix on God today?</p></div>
+      <div class="card day"><h3>Day 26</h3><div class="ref">Psalm 147:3</div><p class="txt">“He heals the brokenhearted…”</p><p class="reflect">Reflection: Where do you need gentle healing?</p></div>
+      <div class="card day"><h3>Day 27</h3><div class="ref">Matthew 6:33</div><p class="txt">“Seek first God’s Kingdom…”</p><p class="reflect">Reflection: Put God first in one decision today.</p></div>
+      <div class="card day"><h3>Day 28</h3><div class="ref">Acts 22:16</div><p class="txt">“Calling on his name.”</p><p class="reflect">Reflection: Call on Jesus by name—He hears you.</p></div>
+      <div class="card day"><h3>Day 29</h3><div class="ref">Luke 23:34</div><p class="txt">“Father, forgive them…”</p><p class="reflect">Reflection: Forgiveness starts as a prayer, even before feelings change.</p></div>
+      <div class="card day"><h3>Day 30</h3><div class="ref">Psalm 23:4</div><p class="txt">“I will fear no evil, for you are with me.”</p><p class="reflect">Reflection: Where do you need God’s presence to steady you?</p></div>
+    </section>
+
+    <footer>
+      <p>© 2026 A Faith Driven Life. Walking Boldly in Truth.</p>
+      <p><a href="resources.html#popular-faith-resources" style="color:var(--accent);">More verse collections</a> · <a href="prayer-requests.html" style="color:var(--accent);">Post a prayer request</a> · <a href="testimonies.html" style="color:var(--accent);">Share your testimony</a></p>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      var printBtn = document.getElementById('print-pack');
+      var shareBtn = document.getElementById('share-pack');
+      if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
+      if (shareBtn) shareBtn.addEventListener('click', function () {
+        var url = location.href;
+        var text = 'Free “30 Days of Faith‑Driven Verses” pack → ' + url;
+        if (navigator.share) { navigator.share({ title: document.title, text: text, url: url }).catch(function () {}); return; }
+        window.open('mailto:?subject=' + encodeURIComponent('Free 30‑Day Verse Pack') + '&body=' + encodeURIComponent(text), '_blank', 'noopener,noreferrer');
+      });
+    })();
+  </script>
+  <script defer src=\"https://va.vercel-scripts.com/v1/script.js\"></script>
+</body>
+</html>
+
