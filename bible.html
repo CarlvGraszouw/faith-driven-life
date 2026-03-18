@@ -161,6 +161,20 @@
           return '';
         }).join('').trim();
       }
+
+      // Allow quick links from the homepage: bible.html?q=Psalm%2023 or bible.html?q=John%203:16
+      (function initFromQuery() {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var q = params.get('q');
+          if (!q) return;
+          input.value = q;
+          // Trigger search after first paint so layout is stable on mobile
+          requestAnimationFrame(function () {
+            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+          });
+        } catch (e) {}
+      })();
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var ref = input.value.trim();

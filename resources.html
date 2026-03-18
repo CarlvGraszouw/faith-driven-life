@@ -77,6 +77,7 @@
     .study-level h4 { font-size: 1rem; font-weight: 600; color: var(--accent); margin: 0 0 0.75rem; padding-bottom: 0.25rem; border-bottom: 1px solid rgba(212, 175, 55, 0.3); }
     .study-lessons { list-style: none; padding: 0; margin: 0; }
     .study-lessons li { display: flex; align-items: baseline; gap: 0.5rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.95rem; }
+    .study-lessons li button { padding: 0.25rem 0.6rem; font-size: 0.8rem; }
     .study-lessons li:last-child { border-bottom: none; }
     .study-lesson-num { flex-shrink: 0; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 2.5rem; }
     .study-lesson-topic { color: var(--text); }
@@ -139,29 +140,30 @@
         </ul>
       </div>
 
-      <div class="resource-section">
+      <div class="resource-section" id="level-1">
         <h3>Self study material (free to share)</h3>
         <p class="resource-desc" style="margin-bottom: 1rem;">Curriculum overview. All 16 lessons of Level 1 are available to download below (PDF). More levels will be added later.</p>
+        <p class="resource-desc" style="margin-top:-0.25rem;">Tip: Share these with someone who needs encouragement today.</p>
         <div class="study-curriculum">
           <div class="study-level">
             <h4>Level 1</h4>
             <ol class="study-lessons" start="1">
-              <li><span class="study-lesson-num">1.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-1.pdf" download="Level 1 - Eternal Life.pdf">Eternal Life</a></li>
-              <li><span class="study-lesson-num">2.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-2.pdf" download="Level 1 - Salvation by Grace.pdf">Salvation by Grace</a></li>
-              <li><span class="study-lesson-num">3.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-3.pdf" download="Level 1 - Righteousness by Grace.pdf">Righteousness by Grace</a></li>
-              <li><span class="study-lesson-num">4.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-4.pdf" download="Level 1 - Relationship with God.pdf">Relationship with God</a></li>
-              <li><span class="study-lesson-num">5.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-5.pdf" download="Level 1 - The Nature of God.pdf">The Nature of God</a></li>
-              <li><span class="study-lesson-num">6.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-6.pdf" download="Level 1 - Repentance.pdf">Repentance</a></li>
-              <li><span class="study-lesson-num">7.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-7.pdf" download="Level 1 - Commitment.pdf">Commitment</a></li>
-              <li><span class="study-lesson-num">8.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-8.pdf" download="Level 1 - Water Baptism.pdf">Water Baptism</a></li>
-              <li><span class="study-lesson-num">9.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-9.pdf" download="Level 1 - Identity in Christ Part 1.pdf">Identity in Christ — Part 1</a></li>
-              <li><span class="study-lesson-num">10.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-10.pdf" download="Level 1 - Identity in Christ Part 2.pdf">Identity in Christ — Part 2</a></li>
-              <li><span class="study-lesson-num">11.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-11.pdf" download="Level 1 - What Happens When a Christian Sins.pdf">What Happens When a Christian Sins</a></li>
-              <li><span class="study-lesson-num">12.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-12.pdf" download="Level 1 - Integrity of God's Word.pdf">Integrity of God's Word</a></li>
-              <li><span class="study-lesson-num">13.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-13.pdf" download="Level 1 - God's Not Guilty.pdf">God's Not Guilty</a></li>
-              <li><span class="study-lesson-num">14.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-14.pdf" download="Level 1 - The Power of a Spirit Filled Life.pdf">The Power of a Spirit Filled Life</a></li>
-              <li><span class="study-lesson-num">15.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-15.pdf" download="Level 1 - How To Receive the Holy Spirit.pdf">How To Receive the Holy Spirit</a></li>
-              <li><span class="study-lesson-num">16.</span><a href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-16.pdf" download="Level 1 - The Benefits of Speaking in Tongues.pdf">The Benefits of Speaking in Tongues</a></li>
+              <li><span class="study-lesson-num">1.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-1.pdf" download="Level 1 - Eternal Life.pdf">Eternal Life</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-1.pdf" data-share-title="Level 1 — Eternal Life" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">2.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-2.pdf" download="Level 1 - Salvation by Grace.pdf">Salvation by Grace</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-2.pdf" data-share-title="Level 1 — Salvation by Grace" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">3.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-3.pdf" download="Level 1 - Righteousness by Grace.pdf">Righteousness by Grace</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-3.pdf" data-share-title="Level 1 — Righteousness by Grace" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">4.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-4.pdf" download="Level 1 - Relationship with God.pdf">Relationship with God</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-4.pdf" data-share-title="Level 1 — Relationship with God" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">5.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-5.pdf" download="Level 1 - The Nature of God.pdf">The Nature of God</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-5.pdf" data-share-title="Level 1 — The Nature of God" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">6.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-6.pdf" download="Level 1 - Repentance.pdf">Repentance</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-6.pdf" data-share-title="Level 1 — Repentance" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">7.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-7.pdf" download="Level 1 - Commitment.pdf">Commitment</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-7.pdf" data-share-title="Level 1 — Commitment" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">8.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-8.pdf" download="Level 1 - Water Baptism.pdf">Water Baptism</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-8.pdf" data-share-title="Level 1 — Water Baptism" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">9.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-9.pdf" download="Level 1 - Identity in Christ Part 1.pdf">Identity in Christ — Part 1</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-9.pdf" data-share-title="Level 1 — Identity in Christ (Part 1)" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">10.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-10.pdf" download="Level 1 - Identity in Christ Part 2.pdf">Identity in Christ — Part 2</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-10.pdf" data-share-title="Level 1 — Identity in Christ (Part 2)" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">11.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-11.pdf" download="Level 1 - What Happens When a Christian Sins.pdf">What Happens When a Christian Sins</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-11.pdf" data-share-title="Level 1 — What Happens When a Christian Sins" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">12.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-12.pdf" download="Level 1 - Integrity of God's Word.pdf">Integrity of God's Word</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-12.pdf" data-share-title="Level 1 — Integrity of God's Word" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">13.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-13.pdf" download="Level 1 - God's Not Guilty.pdf">God's Not Guilty</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-13.pdf" data-share-title="Level 1 — God's Not Guilty" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">14.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-14.pdf" download="Level 1 - The Power of a Spirit Filled Life.pdf">The Power of a Spirit Filled Life</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-14.pdf" data-share-title="Level 1 — The Power of a Spirit Filled Life" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">15.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-15.pdf" download="Level 1 - How To Receive the Holy Spirit.pdf">How To Receive the Holy Spirit</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-15.pdf" data-share-title="Level 1 — How To Receive the Holy Spirit" style="margin-left:auto;">Share</button></li>
+              <li><span class="study-lesson-num">16.</span><a data-share-download href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-16.pdf" download="Level 1 - The Benefits of Speaking in Tongues.pdf">The Benefits of Speaking in Tongues</a> <button type="button" class="pwa-btn pwa-dismiss" data-share-href="study-material/level1/discipleship-evangelism-study-guide-language-english-level-1-lesson-16.pdf" data-share-title="Level 1 — The Benefits of Speaking in Tongues" style="margin-left:auto;">Share</button></li>
             </ol>
           </div>
           <div class="study-level">
@@ -237,5 +239,30 @@
   <script src="visit-counter.js"></script>
   <script>if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {}); });</script>
   <script>(function(){ requestAnimationFrame(function(){ document.body.classList.add('loaded'); }); if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; var els=document.querySelectorAll('.reveal'); if(!els.length) return; var io=new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); }); }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 }); els.forEach(function(el){ io.observe(el); }); })();</script>
+  <script>
+    (function () {
+      function absUrl(href) {
+        try { return new URL(href, location.origin).href; } catch (e) { return href; }
+      }
+      function openShare(title, href) {
+        var link = absUrl(href);
+        var text = (title ? (title + ' — ') : '') + 'Free download from A Faith Driven Life → ' + link;
+        if (navigator.share) { navigator.share({ title: title || 'Free download', text: text, url: link }).catch(function () {}); return; }
+        var encoded = encodeURIComponent(text);
+        window.open('mailto:?subject=' + encodeURIComponent(title || 'Free download') + '&body=' + encoded, '_blank', 'noopener,noreferrer');
+      }
+      document.addEventListener('click', function (e) {
+        var el = e.target;
+        while (el && el !== document.body) {
+          if (el && el.getAttribute) {
+            var href = el.getAttribute('data-share-href');
+            if (href) { openShare(el.getAttribute('data-share-title') || 'Free Bible study download', href); return; }
+          }
+          el = el.parentNode;
+        }
+      });
+    })();
+  </script>
+  <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
 </body>
 </html>
