@@ -1,4 +1,12 @@
 {
+  "rewrites": [
+    { "source": "/resources/anxiety-verses", "destination": "/resources/anxiety.html" },
+    { "source": "/resources/peace-verses", "destination": "/resources/peace.html" },
+    { "source": "/resources/love-verses", "destination": "/resources/love.html" },
+    { "source": "/resources/forgiveness", "destination": "/resources/forgiveness.html" },
+    { "source": "/resources/purpose-gods-plan", "destination": "/resources/purpose.html" },
+    { "source": "/resources/healing-scriptures", "destination": "/resources/healing.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

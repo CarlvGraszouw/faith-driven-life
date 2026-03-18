@@ -1,5 +1,5 @@
 /* Service worker for A Faith Driven Life PWA */
-const CACHE_NAME = 'faith-driven-life-v4';
+const CACHE_NAME = 'faith-driven-life-v5';
 const STATIC_URLS = [
   'index.html',
   'blogs.html',
@@ -10,6 +10,15 @@ const STATIC_URLS = [
   'comments.html',
   'prayer-requests.html',
   'testimonies.html',
+  'verse-pack.html',
+  'thanks.html',
+  'offline.html',
+  'resources/anxiety.html',
+  'resources/peace.html',
+  'resources/love.html',
+  'resources/forgiveness.html',
+  'resources/purpose.html',
+  'resources/healing.html',
   'logo.png',
   'favicon.svg',
   'manifest.webmanifest'
@@ -53,7 +62,10 @@ self.addEventListener('fetch', function (event) {
       }).catch(function () {
         return caches.match(event.request).then(function (cached) {
           if (cached) return cached;
-          return caches.match('index.html').then(function (c) {
+          return caches.match('offline.html').then(function (offline) {
+            if (offline) return offline;
+            return caches.match('index.html');
+          }).then(function (c) {
             return c || new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
           });
         });

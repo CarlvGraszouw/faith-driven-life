@@ -1312,6 +1312,7 @@
     <section class="reveal" aria-label="Start here">
       <h2>Start Here – Your Faith Journey Begins</h2>
       <p class="section-note" style="margin-top:-0.5rem;">Bible verses about anxiety, online Bible study, healing scriptures, free devotional, God’s Kingdom lessons, and Christian community.</p>
+      <p class="section-note" id="offline-hint" style="display:none;margin-top:-0.25rem;">You’re offline — your saved verses are still here.</p>
 
       <div class="approved-grid" style="margin-top: 1.25rem;">
         <div class="approved-item" style="grid-column: 1 / -1;">
@@ -1332,7 +1333,8 @@
           <div class="pwa-actions" style="margin-top:0.9rem;">
             <button type="button" class="pwa-btn" data-share-verse="daily">Share this verse</button>
             <button type="button" class="pwa-btn pwa-dismiss" data-copy-verse="daily">Copy verse</button>
-            <a class="pwa-btn" href="resources/anxiety.html" style="text-decoration:none;">Daily devotional</a>
+            <button type="button" class="pwa-btn" data-save-verse="daily">Save verse</button>
+            <a class="pwa-btn" href="/resources/anxiety-verses" style="text-decoration:none;">Daily devotional</a>
           </div>
         </div>
 
@@ -1364,32 +1366,32 @@
       <h2>Popular Faith Resources</h2>
       <p class="section-note" style="margin-top:-0.5rem;">Evergreen Bible studies and verse collections you can come back to anytime.</p>
       <div class="approved-grid" style="margin-top: 1.25rem;">
-        <a class="approved-item" href="resources/anxiety.html">
+        <a class="approved-item" href="/resources/anxiety-verses">
           <strong>Bible Verses About Anxiety</strong>
           <p>Encouragement and a simple prayer for fear &amp; worry.</p>
           <div class="approved-meta">Start here →</div>
         </a>
-        <a class="approved-item" href="resources/peace.html">
+        <a class="approved-item" href="/resources/peace-verses">
           <strong>Bible Verses About Peace</strong>
           <p>God’s peace for your mind, your home, and your next step.</p>
           <div class="approved-meta">Read →</div>
         </a>
-        <a class="approved-item" href="resources/love.html">
+        <a class="approved-item" href="/resources/love-verses">
           <strong>Bible Verses About Love</strong>
           <p>What love looks like in real life — from God to us and through us.</p>
           <div class="approved-meta">Read →</div>
         </a>
-        <a class="approved-item" href="resources/forgiveness.html">
+        <a class="approved-item" href="/resources/forgiveness">
           <strong>What Does the Bible Say About Forgiveness?</strong>
           <p>Healing for the heart, freedom for the future.</p>
           <div class="approved-meta">Read →</div>
         </a>
-        <a class="approved-item" href="resources/purpose.html">
+        <a class="approved-item" href="/resources/purpose-gods-plan">
           <strong>Bible Verses About Purpose &amp; God’s Plan</strong>
           <p>When you feel stuck, God is still writing a story.</p>
           <div class="approved-meta">Read →</div>
         </a>
-        <a class="approved-item" href="resources/healing.html">
+        <a class="approved-item" href="/resources/healing-scriptures">
           <strong>Healing Scriptures</strong>
           <p>Strength for your body, hope for your soul, courage for today.</p>
           <div class="approved-meta">Read →</div>
@@ -1576,6 +1578,26 @@
         var encoded = encodeURIComponent(text);
         window.open('https://wa.me/?text=' + encoded, '_blank', 'noopener,noreferrer');
       }
+      function saveVerse(v) {
+        if (!v || !v.ref || !v.text) return;
+        var key = 'saved_verses_v1';
+        var list = [];
+        try { list = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { list = []; }
+        // de-dupe by ref+text
+        var sig = (v.ref + '|' + v.text).toLowerCase();
+        list = list.filter(function (x) {
+          var s = ((x && x.ref ? x.ref : '') + '|' + (x && x.text ? x.text : '')).toLowerCase();
+          return s !== sig;
+        });
+        list.unshift({ ref: v.ref, text: v.text, savedAt: Date.now() });
+        localStorage.setItem(key, JSON.stringify(list.slice(0, 50)));
+        try { localStorage.setItem('pwa_engagement_saved_verse', '1'); } catch (e) {}
+        // small visual confirmation
+        if (typeof document !== 'undefined') {
+          var msg = document.getElementById('offline-hint');
+          if (msg) { msg.textContent = 'Saved. Available offline in this PWA.'; msg.style.display = 'block'; }
+        }
+      }
       function copyText(v) {
         var text = buildShareText(v);
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1597,8 +1619,10 @@
           if (el && el.getAttribute) {
             var shareKind = el.getAttribute('data-share-verse');
             var copyKind = el.getAttribute('data-copy-verse');
+            var saveKind = el.getAttribute('data-save-verse');
             if (shareKind) { openShare(getVerse(shareKind)); return; }
             if (copyKind) { copyText(getVerse(copyKind)); return; }
+            if (saveKind) { saveVerse(getVerse(saveKind)); return; }
           }
           el = el.parentNode;
         }
@@ -1698,11 +1722,83 @@
           localStorage.setItem('pwa-install-dismissed', '1');
         });
       }
-      // Show the install section on every visit (until dismissed) so it doesn't depend on beforeinstallprompt firing
+      // Keep existing behavior, but Step 2 adds a smart install prompt gate below.
       showInstallPrompt();
     })();
   </script>
   <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
+  <script>
+    (function () {
+      // PWA-smart install prompt: show after 3 page views OR a saved verse.
+      var wrap = document.getElementById('pwa-install');
+      var heroBtn = document.getElementById('pwa-install-btn-hero');
+      var heroIos = document.getElementById('pwa-ios-note-hero');
+      var heroDismiss = document.getElementById('pwa-dismiss-hero');
+      if (!wrap) return;
+
+      var KEY_DISMISS = 'pwa-install-dismissed';
+      var KEY_VIEWS = 'pwa_engagement_views';
+      var KEY_SAVED = 'pwa_engagement_saved_verse';
+
+      function incViews() {
+        try {
+          var v = parseInt(localStorage.getItem(KEY_VIEWS) || '0', 10);
+          if (isNaN(v)) v = 0;
+          localStorage.setItem(KEY_VIEWS, String(v + 1));
+        } catch (e) {}
+      }
+      function getViews() {
+        try { return parseInt(localStorage.getItem(KEY_VIEWS) || '0', 10) || 0; } catch (e) { return 0; }
+      }
+      function hasSavedVerse() {
+        try { return localStorage.getItem(KEY_SAVED) === '1'; } catch (e) { return false; }
+      }
+      function dismissed() {
+        try { return localStorage.getItem(KEY_DISMISS) === '1'; } catch (e) { return false; }
+      }
+      function isStandalone() {
+        return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      }
+      function isIos() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      }
+
+      incViews();
+      if (dismissed() || isStandalone()) return;
+
+      var engaged = getViews() >= 3 || hasSavedVerse();
+      if (!engaged) return;
+
+      // iOS: show instruction (no beforeinstallprompt)
+      if (isIos() && heroIos) {
+        heroIos.style.display = '';
+        if (heroBtn) heroBtn.style.display = 'none';
+      }
+
+      // Only now surface the install UI prominently
+      wrap.classList.add('visible');
+
+      function dismissAll() {
+        try { localStorage.setItem(KEY_DISMISS, '1'); } catch (e) {}
+        wrap.classList.remove('visible');
+      }
+      if (heroDismiss) heroDismiss.addEventListener('click', dismissAll);
+    })();
+  </script>
+  <script>
+    (function () {
+      // Offline hint (for PWA: saved verses still available)
+      var hint = document.getElementById('offline-hint');
+      function setHint() {
+        if (!hint) return;
+        hint.style.display = navigator.onLine ? 'none' : 'block';
+        if (!navigator.onLine) hint.textContent = 'You’re offline — your saved verses are still here.';
+      }
+      window.addEventListener('online', setHint);
+      window.addEventListener('offline', setHint);
+      setHint();
+    })();
+  </script>
   <script>
     (function () {
       // Gentle, non-intrusive popup for the free verse pack (shows at most weekly).

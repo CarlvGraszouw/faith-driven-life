@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="logo.png" type="image/png" sizes="48x48">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="logo.png" sizes="180x180">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>You’re offline | A Faith Driven Life</title>
+  <meta name="theme-color" content="#0a1628">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0a1628; --surface:#132238; --text:#f0f4f8; --muted:#94a3b8; --accent:#d4af37; }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; min-height:100vh; display:flex; align-items:center; justify-content:center; padding: 1.25rem; }
+    .card{ max-width: 760px; width:100%; background: rgba(19,34,56,0.98); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 1rem 1rem; }
+    h1,h2{ font-family:'Plus Jakarta Sans','Inter',sans-serif; margin:0; letter-spacing:-0.01em; }
+    h1{ color: var(--accent); font-size: 1.6rem; }
+    p{ color: var(--muted); margin: 0.75rem 0 0; }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; padding: 0.6rem 0.95rem; border-radius: 999px; border: 1px solid rgba(212,175,55,0.45); background: rgba(212,175,55,0.12); color: var(--accent); font-weight: 800; font-size: 0.95rem; cursor:pointer; text-decoration:none; margin-top: 0.9rem; }
+    .saved{ margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); }
+    .saved-item{ background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 0.75rem 0.75rem; margin-top: 0.6rem; }
+    .saved-ref{ color: var(--accent); font-weight: 800; }
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-label="Offline">
+    <h1>You’re offline</h1>
+    <p>You can still read pages you’ve opened before. And your saved verses are still here.</p>
+    <a class="btn" href="index.html">Back to Home</a>
+
+    <section class="saved" aria-label="Saved verses">
+      <h2 style="color:var(--text); font-size:1.1rem;">Saved verses</h2>
+      <div id="saved-list" aria-live="polite"></div>
+      <p id="saved-empty" style="display:none;">No saved verses yet. When you’re back online, tap “Save verse” on the Daily Verse.</p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      function readSaved() {
+        try { return JSON.parse(localStorage.getItem('saved_verses_v1') || '[]'); } catch (e) { return []; }
+      }
+      var list = readSaved().slice(0, 10);
+      var wrap = document.getElementById('saved-list');
+      var empty = document.getElementById('saved-empty');
+      if (!wrap) return;
+      if (!list.length) { if (empty) empty.style.display = 'block'; return; }
+      wrap.innerHTML = '';
+      list.forEach(function (v) {
+        var div = document.createElement('div');
+        div.className = 'saved-item';
+        div.innerHTML = '<div class=\"saved-ref\">' + (v.ref || '') + '</div><div>' + (v.text || '') + '</div>';
+        wrap.appendChild(div);
+      });
+    })();
+  </script>
+  <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
+</body>
+</html>
+
