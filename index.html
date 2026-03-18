@@ -20,14 +20,14 @@
   <!-- Open Graph / social -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.afaithdrivenlife.com/">
-  <meta property="og:title" content="A Faith Driven Life — Connect, Share and Grow in Faith | Home">
-  <meta property="og:description" content="A place to connect and share — comments, prayer requests, testimonies. Experience God through His Word, audio teachings, and free study resources.">
+  <meta property="og:title" content="A Faith Driven Life | Bible Verses, Daily Devotionals &amp; Christian Community">
+  <meta property="og:description" content="Connect, share testimonies, post prayer requests and grow in faith. Daily verses, Bible studies, and a warm community—install for offline access.">
   <meta property="og:image" content="https://www.afaithdrivenlife.com/logo.png">
   <meta property="og:site_name" content="A Faith Driven Life">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="A Faith Driven Life — Connect, Share and Grow in Faith | Home">
-  <meta name="twitter:description" content="A place to connect and share — comments, prayer requests, testimonies. Experience God through His Word, audio, and free study resources.">
+  <meta name="twitter:title" content="A Faith Driven Life | Bible Verses, Daily Devotionals &amp; Christian Community">
+  <meta name="twitter:description" content="Daily Bible verses, studies, and community—Connect, Share &amp; Grow in Faith. Install for offline access.">
   <meta name="twitter:image" content="https://www.afaithdrivenlife.com/logo.png">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; worker-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://abacus.jasoncameron.dev https://bible-api.com https://api.allorigins.win https://corsproxy.io https://bible.helloao.org; img-src 'self' data: https:; frame-src https://www.youtube.com;">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -248,6 +248,43 @@
       gap: 0.5rem;
       flex-shrink: 0;
     }
+    .nav-follow {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav-follow a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.15rem;
+      height: 2.15rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+    }
+    .nav-follow a:hover { border-color: rgba(212,175,55,0.6); background: rgba(212,175,55,0.12); color: var(--accent); }
+    .nav-install-mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.45);
+      background: rgba(212,175,55,0.12);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .nav-install-mini:hover { border-color: var(--accent); }
     .nav-pills .pill-blogs {
       display: inline-flex;
       align-items: center;
@@ -614,6 +651,7 @@
       .site-nav .scripture-rotator-verse { padding: 0.35rem 0.5rem; font-size: 0.75rem; line-height: 1.35; min-height: 0; }
       .visit-counter { font-size: 0.7rem; margin-left: 0; padding-left: 0; }
       .nav-pills .pill-blogs, .nav-pills .pill-resources { padding: 0.35em 0.75em; font-size: 0.9rem; }
+      .nav-follow a { width: 2rem; height: 2rem; }
       header { padding: 1.25rem 0 1rem; }
       header p { font-size: 0.9rem; }
       section { padding: 1.5rem 0; }
@@ -1263,6 +1301,14 @@
         <a href="resources.html" class="pill-resources">Resources</a>
         <a href="resources.html#popular-faith-resources" class="pill-resources" style="border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); color: var(--text);">Bible Studies &amp; Verses</a>
       </div>
+      <div class="nav-follow" aria-label="Follow us">
+        <a href="https://instagram.com/AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on Instagram">IG</a>
+        <a href="https://facebook.com/AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on Facebook">FB</a>
+        <a href="https://youtube.com/@AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on YouTube">YT</a>
+        <a href="https://tiktok.com/@AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on TikTok">TT</a>
+        <a href="https://x.com/AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on X">X</a>
+        <button type="button" class="nav-install-mini" id="header-install-btn" style="display:none;" aria-label="Install app">Install</button>
+      </div>
       <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
       <aside class="daily-devotional" aria-label="Daily devotional">
         <h2>Daily devotional</h2>
@@ -1336,6 +1382,13 @@
             <button type="button" class="pwa-btn" data-save-verse="daily">Save verse</button>
             <a class="pwa-btn" href="/resources/anxiety-verses" style="text-decoration:none;">Daily devotional</a>
           </div>
+          <form class="submit-form" action="https://formspree.io/f/yourFormId" method="POST" style="margin-top: 1rem;">
+            <label for="daily-pack-email">Get the Free 30‑Day Faith Verse Pack + weekly encouragement</label>
+            <input id="daily-pack-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+            <input type="hidden" name="source" value="daily-verse-signup">
+            <input type="hidden" name="_next" value="https://www.afaithdrivenlife.com/thanks.html">
+            <button type="submit">Get the Free Pack</button>
+          </form>
         </div>
 
         <div class="approved-item">
@@ -1663,6 +1716,7 @@
       var installBtnHero = document.getElementById('pwa-install-btn-hero');
       var iosNoteHero = document.getElementById('pwa-ios-note-hero');
       var dismissBtnHero = document.getElementById('pwa-dismiss-hero');
+      var headerInstallBtn = document.getElementById('header-install-btn');
       if (!wrap) return;
       var dismissed = localStorage.getItem('pwa-install-dismissed') === '1';
       var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -1680,6 +1734,7 @@
         deferredPrompt = e;
         installBtn.style.display = 'inline-block';
         if (installBtnHero) installBtnHero.style.display = 'inline-block';
+        if (headerInstallBtn) headerInstallBtn.style.display = 'inline-flex';
         iosNote.style.display = 'none';
         if (iosNoteHero) iosNoteHero.style.display = 'none';
         showInstallPrompt();
@@ -1704,11 +1759,26 @@
           });
         });
       }
+      if (headerInstallBtn) {
+        headerInstallBtn.addEventListener('click', function () {
+          // If we have the native prompt, use it; otherwise scroll to the install section.
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function (result) {
+              if (result.outcome === 'accepted') wrap.classList.remove('visible');
+              deferredPrompt = null;
+            });
+            return;
+          }
+          try { wrap.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+        });
+      }
       if (isIos() && !deferredPrompt) {
         installBtn.style.display = 'none';
         iosNote.style.display = 'inline';
         if (installBtnHero) installBtnHero.style.display = 'none';
         if (iosNoteHero) iosNoteHero.style.display = 'inline';
+        if (headerInstallBtn) headerInstallBtn.style.display = 'inline-flex';
       }
       if (dismissBtn) {
         dismissBtn.addEventListener('click', function () {
@@ -1753,6 +1823,9 @@
       function hasSavedVerse() {
         try { return localStorage.getItem(KEY_SAVED) === '1'; } catch (e) { return false; }
       }
+      function hasReadResource() {
+        try { return localStorage.getItem('pwa_engagement_read_resource') === '1'; } catch (e) { return false; }
+      }
       function dismissed() {
         try { return localStorage.getItem(KEY_DISMISS) === '1'; } catch (e) { return false; }
       }
@@ -1766,7 +1839,7 @@
       incViews();
       if (dismissed() || isStandalone()) return;
 
-      var engaged = getViews() >= 3 || hasSavedVerse();
+      var engaged = getViews() >= 3 || hasSavedVerse() || hasReadResource();
       if (!engaged) return;
 
       // iOS: show instruction (no beforeinstallprompt)

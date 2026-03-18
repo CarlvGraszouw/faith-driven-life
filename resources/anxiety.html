@@ -10,12 +10,15 @@
   <title>Bible Verses About Anxiety | Encouragement &amp; Prayer | A Faith Driven Life</title>
   <meta name="description" content="Bible verses about anxiety and fear, with warm encouragement, practical steps, and a short prayer. Connect, share, and grow in faith.">
   <meta name="theme-color" content="#0a1628">
-  <link rel="canonical" href="https://www.afaithdrivenlife.com/resources/anxiety.html">
+  <link rel="canonical" href="https://www.afaithdrivenlife.com/resources/anxiety-verses">
   <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.afaithdrivenlife.com/resources/anxiety-verses">
   <meta property="og:title" content="Bible Verses About Anxiety | A Faith Driven Life">
   <meta property="og:description" content="8–12 verses to steady your heart, plus practical steps and a prayer.">
   <meta property="og:image" content="https://www.afaithdrivenlife.com/logo.png">
   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bible Verses About Anxiety | Encouragement &amp; Prayer | A Faith Driven Life">
+  <meta name="twitter:description" content="Warm encouragement, practical steps, and a short prayer for fear &amp; worry. Install for offline access.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
@@ -57,6 +60,11 @@
     .cta h3 { margin:0 0 0.35rem; color: #00d4ff; font-size: 1.05rem; }
     .cta p { margin: 0 0 0.75rem; color: var(--text); }
     footer { margin-top: 2rem; padding: 1.5rem 0 2.5rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
+    .email-cta { margin-top: 1rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10); border-radius: 14px; padding: 1rem 1rem; }
+    .email-cta label { display:block; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
+    .email-cta input { width:100%; padding: 0.6rem 0.75rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); color: var(--text); font: inherit; }
+    .email-cta input:focus { outline:none; border-color: rgba(212,175,55,0.75); }
+    .email-cta .row { display:flex; flex-wrap:wrap; gap: 0.5rem; margin-top: 0.6rem; }
   </style>
   <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -239,6 +247,18 @@
         <a class="btn" href="../verse-pack.html">Get the free pack</a>
         <a class="btn alt" href="peace.html">Next: Bible verses about peace</a>
       </div>
+      <div class="email-cta" aria-label="Email signup">
+        <label for="pack-email-anxiety">Get the Free 30‑Day Faith Verse Pack + weekly encouragement</label>
+        <form action="https://formspree.io/f/yourFormId" method="POST">
+          <input id="pack-email-anxiety" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+          <input type="hidden" name="source" value="resource-anxiety">
+          <input type="hidden" name="_next" value="https://www.afaithdrivenlife.com/thanks.html">
+          <div class="row">
+            <button class="btn" type="submit">Get the Free Pack</button>
+            <a class="btn alt" href="../thanks.html">Already signed up</a>
+          </div>
+        </form>
+      </div>
     </section>
 
     <footer>
@@ -249,6 +269,8 @@
 
   <script>
     (function () {
+      // Mark that a full resource page was read (install prompt can use this signal).
+      try { localStorage.setItem('pwa_engagement_read_resource', '1'); } catch (e) {}
       function pageLink() { try { return location.href; } catch (e) { return 'https://www.afaithdrivenlife.com/resources/anxiety.html'; } }
       function shareText(text) { return text + ' — A Faith Driven Life → ' + pageLink(); }
       function share(payload) {
