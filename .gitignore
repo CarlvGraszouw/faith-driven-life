@@ -24,3 +24,4 @@ downloads/
 *.exe
 *.dmg
 *.pkg
+.vercel
