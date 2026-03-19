@@ -269,6 +269,8 @@
       transition: border-color var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
     }
     .nav-follow a:hover { border-color: rgba(212,175,55,0.6); background: rgba(212,175,55,0.12); color: var(--accent); }
+    .nav-follow a svg { width: 1.1rem; height: 1.1rem; display:block; }
+    .nav-follow a svg path, .nav-follow a svg circle, .nav-follow a svg rect { fill: currentColor; }
     .nav-install-mini {
       display: inline-flex;
       align-items: center;
@@ -1303,11 +1305,31 @@
         <a href="resources.html#popular-faith-resources" class="pill-resources" style="border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); color: var(--text);">Bible Studies &amp; Verses</a>
       </div>
       <div class="nav-follow" aria-label="Follow us">
-        <a href="https://instagram.com/AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on Instagram">IG</a>
-        <a href="https://facebook.com/AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on Facebook">FB</a>
-        <a href="https://youtube.com/@AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on YouTube">YT</a>
-        <a href="https://tiktok.com/@AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on TikTok">TT</a>
-        <a href="https://x.com/AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on X">X</a>
+        <a href="https://instagram.com/AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm5.25-.85a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3Z"/>
+          </svg>
+        </a>
+        <a href="https://facebook.com/AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M13.5 22v-8h2.6l.4-3H13.5V9.1c0-.9.3-1.6 1.7-1.6H16.6V4.8c-.2 0-1.2-.1-2.4-.1-2.4 0-4 1.4-4 4v2.3H7.6v3h2.6v8h3.3Z"/>
+          </svg>
+        </a>
+        <a href="https://youtube.com/@AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.6 7.2a3.1 3.1 0 0 0-2.2-2.2C17.5 4.5 12 4.5 12 4.5s-5.5 0-7.4.5A3.1 3.1 0 0 0 2.4 7.2 32.1 32.1 0 0 0 2 12s.1 3 .4 4.8a3.1 3.1 0 0 0 2.2 2.2c1.9.5 7.4.5 7.4.5s5.5 0 7.4-.5a3.1 3.1 0 0 0 2.2-2.2c.3-1.8.4-4.8.4-4.8s0-3-.4-4.8ZM10 15.5v-7l6 3.5-6 3.5Z"/>
+          </svg>
+        </a>
+        <a href="https://tiktok.com/@AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15.2 3h2.4c.2 2 1.6 3.7 3.4 4.2v2.6c-1.6-.1-3.1-.7-4.3-1.7v7c0 3.3-2.7 5.9-6 5.9s-6-2.6-6-5.9 2.7-5.9 6-5.9c.4 0 .9.1 1.3.2v2.7c-.4-.2-.8-.3-1.3-.3-1.8 0-3.3 1.4-3.3 3.2s1.5 3.2 3.3 3.2 3.3-1.4 3.3-3.2V3Z"/>
+          </svg>
+        </a>
+        <a href="https://x.com/AFaithDrivenLife" target="_blank" rel="noopener noreferrer" aria-label="Follow on X">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18.6 2H21l-6.6 7.5L22 22h-6.2l-4.8-6.2L5.6 22H3l7.2-8.2L2 2h6.3l4.3 5.6L18.6 2Zm-1.1 18h1.3L7.9 3.9H6.5L17.5 20Z"/>
+          </svg>
+        </a>
         <button type="button" class="nav-install-mini" id="header-install-btn" style="display:none;" aria-label="Install app">Install</button>
       </div>
       <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
