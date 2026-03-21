@@ -8,6 +8,8 @@ Push to **`main`** runs **`.github/workflows/deploy-cloudflare-pages.yml`**, whi
 
 **One-time:** add **`CLOUDFLARE_API_TOKEN`** and **`CLOUDFLARE_ACCOUNT_ID`** to GitHub **Actions secrets** — see **`README.md`** (repo homepage).
 
+The token must be a **Custom API token** with **Account → Cloudflare Pages → Edit**. If `wrangler pages deploy` fails with **`Unable to authenticate` (code 10001)**, the token is missing that permission, is for the wrong account, or the **Account ID** secret does not match the account the token can access. See **`SETUP.txt`** for step-by-step token creation.
+
 Do **not** set a Cloudflare Pages **build command** to `npx wrangler deploy` (that is for Workers). If you use **only** GitHub Actions to deploy, **disconnect** Cloudflare’s **Git** integration for this repo to avoid double deploys.
 
 ## What was migrated from Vercel

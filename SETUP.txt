@@ -11,14 +11,33 @@ no extra spaces or line breaks — or the workflow now strips them automatically
 
   Name:  CLOUDFLARE_API_TOKEN
   Value: Create at https://dash.cloudflare.com/profile/api-tokens
-         (Custom token - Account - Cloudflare Pages - Edit)
+         Use "Create Custom Token" (not a DNS-only or read-only token).
+         Required permission (exact): Account -> Cloudflare Pages -> Edit
+         Under "Account Resources", include the account that owns the Pages project
+         (often "All accounts" is fine if you only have one).
 
   Name:  CLOUDFLARE_ACCOUNT_ID
   Value: In Cloudflare: Workers and Pages - look at RIGHT sidebar for Account ID
-         (32 letters and numbers, hex)
+         (32 letters and numbers, hex). Must be the SAME account the token can access.
 
 STEP 3 - Go to your repo Actions tab and check "Deploy Cloudflare Pages" is green:
 https://github.com/CarlvGraszouw/faith-driven-life/actions
+
+================================================================================
+IF DEPLOY FAILS: "Unable to authenticate" / API code 10001
+================================================================================
+
+That error means Cloudflare rejected the token or account pairing — not a newline bug.
+
+1) Recreate CLOUDFLARE_API_TOKEN with Account -> Cloudflare Pages -> Edit (see above).
+   Do not use the Global API Key here; use an API Token from Profile -> API Tokens.
+
+2) Confirm CLOUDFLARE_ACCOUNT_ID is copied from the same Cloudflare account (sidebar on
+   Workers & Pages). A token for Account A will fail if the ID is for Account B.
+
+3) In Cloudflare: Workers & Pages -> Create -> Pages -> Create a project (name can be
+   faith-driven-life) OR let the first successful deploy create it — but the token must
+   still have Pages Edit on that account.
 
 ================================================================================
 WHERE TO READ INSTRUCTIONS ON GITHUB (not the commit page)
