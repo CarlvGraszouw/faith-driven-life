@@ -1,4 +1,6 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "ignoreCommand": "git diff HEAD^ HEAD --quiet -- . ':(exclude)android-app'",
   "rewrites": [
     { "source": "/resources/anxiety-verses", "destination": "/resources/anxiety.html" },
     { "source": "/resources/peace-verses", "destination": "/resources/peace.html" },

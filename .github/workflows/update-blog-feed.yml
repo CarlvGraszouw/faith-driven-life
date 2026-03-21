@@ -10,6 +10,7 @@ on:
       - 'blog-feed.json'
       - '**.md'
       - '.github/**'
+      - 'android-app/**'
   workflow_dispatch:
 jobs:
   update:

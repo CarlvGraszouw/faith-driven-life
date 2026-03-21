@@ -1,0 +1,40 @@
+# Android app — runs only when android-app/ changes (separate from Vercel website deploy).
+# Website: Vercel project with Root = repo root + ignoreCommand in vercel.json (skips build if only android-app changed).
+name: Android app CI
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'android-app/**'
+      - '.github/workflows/android-app-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'android-app/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android-app
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # Repo has gradlew.bat but not Unix gradlew; generate wrapper then build.
+      - name: Gradle wrapper + assembleDebug
+        run: |
+          set -e
+          curl -fsSL "https://services.gradle.org/distributions/gradle-8.13-bin.zip" -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /tmp
+          /tmp/gradle-8.13/bin/gradle wrapper --gradle-version 8.13
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace
