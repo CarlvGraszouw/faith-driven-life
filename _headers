@@ -10,15 +10,15 @@
 **/*.html
   Cache-Control: public, max-age=0, must-revalidate
 
-# Service worker must update quickly for PWA
-/sw.js
-  Cache-Control: public, max-age=0, must-revalidate
-
-# Long cache for static assets (not sw.js — see above)
+# Long cache for static assets (sw.js excluded — rule below overrides **/*.js)
 **/*.css
   Cache-Control: public, max-age=31536000, immutable
 **/*.js
   Cache-Control: public, max-age=31536000, immutable
+
+# Service worker must update quickly (must come after **/*.js so it wins on Pages)
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
 **/*.png
   Cache-Control: public, max-age=31536000, immutable
 **/*.jpg
