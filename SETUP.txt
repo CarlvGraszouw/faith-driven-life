@@ -1,0 +1,34 @@
+================================================================================
+CLOUDFLARE DEPLOY - DO THIS ONCE (about 2 minutes)
+================================================================================
+
+STEP 1 - Open this exact page (copy the whole line into your browser):
+
+https://github.com/CarlvGraszouw/faith-driven-life/settings/secrets/actions
+
+STEP 2 - Click the green button "New repository secret" and add TWO secrets:
+
+  Name:  CLOUDFLARE_API_TOKEN
+  Value: Create at https://dash.cloudflare.com/profile/api-tokens
+         (Custom token - Account - Cloudflare Pages - Edit)
+
+  Name:  CLOUDFLARE_ACCOUNT_ID
+  Value: In Cloudflare: Workers and Pages - look at RIGHT sidebar for Account ID
+         (32 letters and numbers, hex)
+
+STEP 3 - Go to your repo Actions tab and check "Deploy Cloudflare Pages" is green:
+https://github.com/CarlvGraszouw/faith-driven-life/actions
+
+================================================================================
+WHERE TO READ INSTRUCTIONS ON GITHUB (not the commit page)
+================================================================================
+
+Do NOT use the "commit" URL to read files. Use the main branch file view:
+
+https://github.com/CarlvGraszouw/faith-driven-life/blob/main/SETUP.txt
+
+Or open the repo home and click SETUP.txt or README.md in the file list.
+
+Username is CarlvGraszouw (no "on" in the middle).
+
+================================================================================

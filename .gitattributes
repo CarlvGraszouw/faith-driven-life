@@ -1,0 +1,8 @@
+# Force text diffs on GitHub (avoids "Binary file not shown" for .md on Windows)
+* text=auto
+*.md text eol=lf
+*.txt text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
