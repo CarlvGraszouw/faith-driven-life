@@ -6,53 +6,18 @@
 -->
 <html lang="en">
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBP9QSSCBY"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-SBP9QSSCBY');
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <link rel="icon" href="logo.png" type="image/png" sizes="48x48">
-  <link rel="icon" href="logo.png" type="image/png" sizes="192x192">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="logo.png" sizes="180x180">
+  <meta name="theme-color" content="#FAF6EF">
   <link rel="manifest" href="manifest.webmanifest">
   <title>A Faith Driven Life | Bible Verses, Daily Devotionals &amp; Christian Community</title>
-  <meta name="description" content="Connect, share testimonies, post prayer requests and grow in faith. Free Bible search, daily verses, audio teachings and downloadable studies. Start your faith-driven life today.">
-  <meta name="theme-color" content="#FAF6EF">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Faith Driven Life">
-  <link rel="canonical" href="https://www.afaithdrivenlife.com/">
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="https://www.afaithdrivenlife.com/sitemap.xml">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.afaithdrivenlife.com/">
-  <meta property="og:title" content="A Faith Driven Life | Bible Verses, Daily Devotionals &amp; Christian Community">
-  <meta property="og:description" content="Connect, share testimonies, post prayer requests and grow in faith. Daily verses, Bible studies, and a warm community—install for offline access.">
-  <meta property="og:image" content="https://www.afaithdrivenlife.com/logo.png">
-  <meta property="og:site_name" content="A Faith Driven Life">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="A Faith Driven Life | Bible Verses, Daily Devotionals &amp; Christian Community">
-  <meta name="twitter:description" content="Daily Bible verses, studies, and community—Connect, Share &amp; Grow in Faith. Install for offline access.">
-  <meta name="twitter:image" content="https://www.afaithdrivenlife.com/logo.png">
+  <meta name="description" content="Connect, share testimonies, post prayer requests and grow in faith. Free Bible search, daily verses, audio teachings and downloadable studies.">
+  <link rel="icon" href="logo.png" type="image/png" sizes="48x48">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" crossorigin>
-  <link rel="prefetch" href="resources.html">
-  <link rel="prefetch" href="blogs.html">
-  <link rel="prefetch" href="book.html">
-  <link rel="prefetch" href="audio.html">
-  <link rel="prefetch" href="bible.html">
-  <link rel="prefetch" href="comments.html">
-  <link rel="prefetch" href="prayer-requests.html">
-  <link rel="prefetch" href="testimonies.html">
-  <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebSite","name":"A Faith Driven Life","url":"https://www.afaithdrivenlife.com/","description":"A place to connect and share — comments, prayer requests, testimonies. Experience God through His Word, audio teachings, and free study resources.","publisher":{"@type":"Organization","name":"A Faith Driven Life","url":"https://www.afaithdrivenlife.com/"}}
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="faith-theme.css">
+  <!-- PWA + install UI use theme colors from manifest; sand background matches splash feel. -->
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -60,14 +25,14 @@
   <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
   <aside class="nav-drawer" id="nav-drawer" aria-label="Navigation menu">
     <div class="drawer-header">
-      <a href="index.html" class="drawer-brand">
+      <a href="homepage-faith-theme.html" class="drawer-brand">
         <img src="logo-official.png" alt="" width="28" height="28" style="width:28px;height:28px;object-fit:contain;">
         <span>A Faith Driven Life</span>
       </a>
       <button type="button" class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
     </div>
     <ul class="drawer-links">
-      <li><a href="index.html">Home</a></li>
+      <li><a href="homepage-faith-theme.html">Home</a></li>
       <li><a href="book.html">Book</a></li>
       <li><a href="audio.html">Audio</a></li>
       <li><a href="bible.html">Search the Bible</a></li>
@@ -84,7 +49,7 @@
         <span></span><span></span><span></span>
       </button>
 
-      <a href="index.html" class="site-brand">
+      <a href="homepage-faith-theme.html" class="site-brand">
         <img src="logo-official.png" alt="A Faith Driven Life — Walking Boldly in Truth" class="site-logo-img" width="512" height="512" decoding="async" fetchpriority="high">
       </a>
 
@@ -505,13 +470,6 @@
         if (ios2) { ios2.hidden = false; ios2.style.display = 'block'; }
       }
     })();
-  </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
-      });
-    }
   </script>
 </body>
 </html>

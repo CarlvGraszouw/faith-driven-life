@@ -17,7 +17,7 @@
   <link rel="manifest" href="../manifest.webmanifest">
   <title>Healing Scriptures | Bible Verses for Strength | A Faith Driven Life</title>
   <meta name="description" content="Healing scriptures and Bible verses for strength, with warm encouragement, practical steps, and a short prayer.">
-  <meta name="theme-color" content="#0a1628">
+  <meta name="theme-color" content="#FAF6EF">
   <link rel="canonical" href="https://www.afaithdrivenlife.com/resources/healing.html">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Healing Scriptures | A Faith Driven Life">
@@ -28,42 +28,44 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#0a1628; --surface:#132238; --text:#f0f4f8; --muted:#94a3b8; --accent:#d4af37; --accent-dim: rgba(212,175,55,0.15); }
+    :root { --bg:#ede4d9; --surface:#faf6ef; --text:#2c2118; --muted:#5c4a3d; --accent:#c96a3d; --accent-dim: rgba(201,106,61,0.18); }
     * { box-sizing: border-box; }
     body { margin:0; font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; min-height:100vh; padding-top: 8.5rem; padding-bottom: env(safe-area-inset-bottom, 2rem); }
     .container { max-width: 900px; margin: 0 auto; padding: 0 1.25rem; }
-    .site-nav { position: fixed; top:0; left:0; right:0; z-index:100; background: rgba(10, 22, 40, 0.96); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0.9rem 1.25rem; }
+    .site-nav { position: fixed; top:0; left:0; right:0; z-index:100; background: rgba(250, 246, 239, 0.96); border-bottom: 1px solid rgba(44, 33, 24, 0.1); padding: 0.9rem 1.25rem; }
     .nav-inner { max-width: 900px; margin: 0 auto; display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; }
     .brand { display:flex; align-items:center; gap:0.6rem; text-decoration:none; color:var(--text); font-weight:800; }
     .brand:hover { color: var(--accent); }
     .brand img { width: 40px; height: 40px; object-fit: contain; }
-    .tagline { font-size: 0.75rem; color:#00d4ff; font-weight: 500; display:block; margin-top:0.05rem; }
+    .tagline { font-size: 0.75rem; color:#c96a3d; font-weight: 500; display:block; margin-top:0.05rem; }
     .nav-links { margin-left:auto; display:flex; flex-wrap:wrap; gap:0.25rem 0.9rem; list-style:none; padding:0; }
-    .nav-links a { color:#00d4ff; text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .nav-links a { color:#c96a3d; text-decoration:none; font-weight:600; font-size:0.95rem; }
     .nav-links a:hover { color: var(--accent); }
     h1,h2,h3 { font-family:'Plus Jakarta Sans','Inter',sans-serif; letter-spacing:-0.01em; }
     h1 { font-size: clamp(1.6rem, 2.7vw + 1rem, 2.25rem); margin: 0 0 0.25rem; color: var(--accent); }
     .sub { color: var(--muted); margin: 0 0 1.5rem; }
-    .hero { background: linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(255,255,255,0.04) 65%); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.25rem 1.25rem; }
+    .hero { background: linear-gradient(135deg, rgba(201,106,61,0.12) 0%, rgba(250, 246, 239, 0.65) 65%); border: 1px solid rgba(44, 33, 24, 0.1); border-radius: 14px; padding: 1.25rem 1.25rem; }
     .cards { display:grid; grid-template-columns: 1fr; gap: 0.9rem; margin-top: 1rem; }
     @media (min-width: 840px) { body { padding-top: 7.5rem; } .cards { grid-template-columns: 1fr 1fr; } }
-    .verse { background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-left: 4px solid var(--accent); border-radius: 12px; padding: 1rem 1rem; }
+    .verse { background: var(--surface); border: 1px solid rgba(44, 33, 24, 0.1); border-left: 4px solid var(--accent); border-radius: 12px; padding: 1rem 1rem; }
     .verse .ref { color: var(--accent); font-weight: 800; }
     .verse .txt { margin-top: 0.45rem; font-size: 1.02rem; line-height: 1.75; }
     .verse .meta { margin-top: 0.5rem; font-size: 0.85rem; color: var(--muted); }
     .actions { display:flex; flex-wrap:wrap; gap: 0.5rem; margin-top: 0.75rem; }
-    .btn { display:inline-flex; align-items:center; gap:0.45rem; padding: 0.55rem 0.85rem; border-radius: 999px; border: 1px solid rgba(212,175,55,0.45); background: rgba(212,175,55,0.12); color: var(--accent); font-weight: 800; font-size: 0.9rem; cursor:pointer; text-decoration:none; }
+    .btn { display:inline-flex; align-items:center; gap:0.45rem; padding: 0.55rem 0.85rem; border-radius: 999px; border: 1px solid rgba(201,106,61,0.45); background: rgba(201,106,61,0.12); color: var(--accent); font-weight: 800; font-size: 0.9rem; cursor:pointer; text-decoration:none; }
     .btn:hover { border-color: var(--accent); }
-    .btn.alt { border-color: rgba(255,255,255,0.16); background: rgba(255,255,255,0.06); color: var(--text); }
-    .section { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .btn.alt { border-color: rgba(44, 33, 24, 0.16); background: rgba(44, 33, 24, 0.08); color: var(--text); }
+    .section { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(44, 33, 24, 0.08); }
     .section h2 { color: var(--accent); margin: 0 0 0.75rem; font-size: 1.25rem; }
     .section .muted { color: var(--muted); }
     .list { margin: 0.5rem 0 0; padding-left: 1.2rem; }
-    .cta { margin-top: 1.25rem; background: rgba(0,180,180,0.12); border: 1px solid rgba(0, 180, 180, 0.25); border-radius: 14px; padding: 1rem 1rem; }
-    .cta h3 { margin:0 0 0.35rem; color: #00d4ff; font-size: 1.05rem; }
-    footer { margin-top: 2rem; padding: 1.5rem 0 2.5rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
+    .cta { margin-top: 1.25rem; background: rgba(0,180,180,0.12); border: 1px solid rgba(201, 106, 61, 0.2); border-radius: 14px; padding: 1rem 1rem; }
+    .cta h3 { margin:0 0 0.35rem; color: #c96a3d; font-size: 1.05rem; }
+    footer { margin-top: 2rem; padding: 1.5rem 0 2.5rem; border-top: 1px solid rgba(44, 33, 24, 0.08); color: var(--muted); font-size: 0.9rem; }
   </style>
-  <script type="application/ld+json">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" crossorigin>
+  <link rel="stylesheet" href="../faith-theme.css">
+<script type="application/ld+json">
     {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
       {"@type":"Question","name":"Are healing scriptures a replacement for medical care?","acceptedAnswer":{"@type":"Answer","text":"No. Scripture brings faith, peace, and hope. We can pray and also seek wise, appropriate medical care. God can work through many means."}},
       {"@type":"Question","name":"How do I pray for healing?","acceptedAnswer":{"@type":"Answer","text":"Pray honestly, ask God for mercy and strength, and keep your heart anchored in His character. A short prayer is included below."}}
@@ -74,7 +76,7 @@
   <nav class="site-nav" aria-label="Main">
     <div class="nav-inner">
       <a class="brand" href="../index.html">
-        <img src="../logo.png" alt="A Faith Driven Life — Connect, Share &amp; Grow in Faith" width="40" height="40" decoding="async">
+        <img src="../logo-official.png" alt="A Faith Driven Life — Connect, Share &amp; Grow in Faith" width="40" height="40" decoding="async">
         <span>
           A Faith Driven Life
           <span class="tagline">Connect, Share &amp; Grow in Faith</span>

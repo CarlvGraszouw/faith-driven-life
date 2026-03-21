@@ -1,0 +1,988 @@
+/**
+ * A Faith Driven Life — Faith Theme (desert sand / official logo palette)
+ * -----------------------------------------------------------------------
+ * Visual authority: logo-official.png + desert-sand-bg.png (warm sand ripples,
+ * terracotta fabric, golden ochre cross glow, deep brown type).
+ *
+ * Typography: headings → Playfair Display | body, nav, UI → Lato
+ * (Load Google Fonts on each page before this stylesheet.)
+ *
+ * Usage on inner pages:
+ *   <link rel="stylesheet" href="faith-theme.css">
+ * Optional: wrap content in <body class="faith-theme"> (hooks reserved).
+ */
+
+/* ------------------------------------------------------------------------- */
+/* 1. Design tokens — match logo & UI spec                                   */
+/* ------------------------------------------------------------------------- */
+:root {
+  --faith-cream: #FAF6EF;
+  --faith-cream-muted: #EDE4D9;
+  --faith-terracotta: #C96A3D;
+  --faith-terracotta-dim: rgba(201, 106, 61, 0.18);
+  --faith-terracotta-border: rgba(201, 106, 61, 0.35);
+  --faith-ochre: #F4A261;
+  --faith-text: #2C2118;
+  --faith-muted: #5c4a3d;
+  --faith-radius: 10px;
+  --faith-radius-pill: 999px;
+  --faith-shadow: 0 8px 28px rgba(44, 33, 24, 0.12);
+  --faith-shadow-soft: 0 4px 16px rgba(44, 33, 24, 0.08);
+  --faith-font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
+  --faith-font-body: "Lato", system-ui, -apple-system, sans-serif;
+  --faith-bg-image: url("desert-sand-bg.png");
+  --faith-nav-pad-top: 0.5rem;
+
+  /* Aliases used by homepage markup (backward compatible with index-desert-sand) */
+  --cream: var(--faith-cream);
+  --cream-muted: var(--faith-cream-muted);
+  --terracotta: var(--faith-terracotta);
+  --terracotta-dim: var(--faith-terracotta-dim);
+  --ochre: var(--faith-ochre);
+  --text: var(--faith-text);
+  --muted: var(--faith-muted);
+  --radius: var(--faith-radius);
+  --shadow: var(--faith-shadow);
+  --shadow-soft: var(--faith-shadow-soft);
+  --font-serif: var(--faith-font-heading);
+  --font-sans: var(--faith-font-body);
+  --nav-pad-top: var(--faith-nav-pad-top);
+}
+
+/* ------------------------------------------------------------------------- */
+/* 2. Base — sand background + readable overlay (golden hour)                 */
+/* ------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body.faith-theme,
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--cream-muted);
+  background-image:
+    linear-gradient(180deg, rgba(250, 246, 239, 0.88) 0%, rgba(237, 228, 217, 0.82) 45%, rgba(232, 220, 205, 0.85) 100%),
+    var(--faith-bg-image);
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+}
+
+/* Headings: Playfair only */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--terracotta);
+  font-weight: 500;
+}
+
+a:hover {
+  color: #a85532;
+}
+
+/* Focus visibility (keyboard / a11y) */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+.nav-follow a:focus-visible,
+.nav-pills a:focus-visible,
+.header-search-link:focus-visible {
+  box-shadow: 0 0 0 3px var(--terracotta-dim);
+}
+
+/* ------------------------------------------------------------------------- */
+/* 3. Utilities                                                              */
+/* ------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0.75rem;
+  z-index: 300;
+  padding: 0.5rem 1rem;
+  background: var(--terracotta);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: top 0.2s;
+  font-family: var(--font-sans);
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+  outline: 2px solid var(--text);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 4. Mobile drawer                                                          */
+/* ------------------------------------------------------------------------- */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 33, 24, 0.45);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+body.drawer-open .drawer-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: min(280px, 88vw);
+  height: 100vh;
+  background: var(--cream);
+  border-right: 1px solid var(--terracotta-dim);
+  z-index: 210;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+}
+
+body.drawer-open .nav-drawer {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--terracotta-dim);
+}
+
+.drawer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.drawer-close {
+  border: none;
+  background: transparent;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text);
+  padding: 0.25rem;
+}
+
+.drawer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 0;
+}
+
+.drawer-links a {
+  display: block;
+  padding: 0.75rem 1.25rem;
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-sans);
+}
+
+.drawer-links a:hover {
+  background: var(--cream-muted);
+}
+
+/* ------------------------------------------------------------------------- */
+/* 5. Site header / nav                                                      */
+/* ------------------------------------------------------------------------- */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 246, 239, 0.94);
+  border-bottom: 1px solid var(--terracotta-dim);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: var(--nav-pad-top) 0 0.65rem;
+}
+
+.nav-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem 0 3rem;
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr) auto;
+  grid-template-areas:
+    "brand search pills"
+    "devotional devotional scripture"
+    "visits visits visits";
+  gap: 0.6rem 0.75rem;
+  align-items: start;
+}
+
+.hamburger-btn {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.75rem;
+  z-index: 102;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  background: rgba(237, 228, 217, 0.9);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 1.25rem;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+}
+
+.site-brand {
+  grid-area: brand;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.site-logo-img {
+  width: auto;
+  max-width: min(140px, 36vw);
+  max-height: 120px;
+  height: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(244, 162, 97, 0.25));
+}
+
+.header-search-wrap {
+  grid-area: search;
+  align-self: center;
+}
+
+.header-search-link {
+  display: block;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--faith-radius-pill);
+  border: 1px solid var(--faith-terracotta-border);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--muted);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.header-search-link:hover {
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 3px var(--terracotta-dim);
+  color: var(--text);
+}
+
+.pills-row {
+  grid-area: pills;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.nav-follow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.nav-follow a {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(107, 122, 94, 0.2);
+  color: #4a5a42;
+}
+
+.nav-follow a:hover {
+  background: var(--terracotta-dim);
+  color: var(--terracotta);
+}
+
+.nav-follow svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+.nav-install-mini {
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--terracotta);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(244, 162, 97, 0.4);
+}
+
+.nav-install-mini:hover {
+  filter: brightness(1.05);
+}
+
+.nav-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.nav-pills a {
+  padding: 0.4em 0.85em;
+  border-radius: var(--faith-radius-pill);
+  border: 1px solid rgba(201, 106, 61, 0.45);
+  background: rgba(255, 255, 255, 0.45);
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.nav-pills a:hover {
+  background: rgba(244, 162, 97, 0.22);
+  box-shadow: 0 0 14px rgba(244, 162, 97, 0.35);
+}
+
+.visit-counter {
+  grid-area: visits;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+}
+
+.visit-counter::before {
+  content: "Site visits: ";
+}
+
+/* ------------------------------------------------------------------------- */
+/* 6. Header widgets — devotional + scripture strip + promo                  */
+/* ------------------------------------------------------------------------- */
+.daily-devotional {
+  grid-area: devotional;
+  padding: 0.85rem 1rem;
+  background: var(--cream);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.daily-devotional h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--terracotta);
+  display: inline-block;
+}
+
+.devotional-ref {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--terracotta);
+  margin: 0 0 0.35rem;
+  font-family: var(--font-sans);
+}
+
+.devotional-text {
+  font-size: 0.88rem;
+  margin: 0 0 0.5rem;
+  font-family: var(--font-sans);
+}
+
+.devotional-hint {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-style: italic;
+  margin: 0;
+  font-family: var(--font-sans);
+}
+
+.scripture-banner-top {
+  grid-area: scripture;
+}
+
+.scripture-rotator {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(244, 162, 97, 0.35);
+}
+
+.scripture-rotator-banner {
+  background: linear-gradient(90deg, rgba(244, 162, 97, 0.35), rgba(201, 106, 61, 0.25));
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-align: center;
+  padding: 0.35rem 0.5rem;
+}
+
+.scripture-rotator-verse {
+  background: var(--cream);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  font-family: var(--font-sans);
+}
+
+.scripture-rotator-verse .ref {
+  font-weight: 700;
+  color: var(--terracotta);
+}
+
+.promo-banner-bar {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0.35rem 1rem 0.65rem;
+  text-align: center;
+}
+
+.promo-banner {
+  display: inline-block;
+  padding: 0.45rem 1rem;
+  border-radius: var(--faith-radius-pill);
+  background: linear-gradient(135deg, rgba(244, 162, 97, 0.22), rgba(255, 255, 255, 0.65));
+  border: 1px solid var(--faith-terracotta-border);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.promo-highlight {
+  color: var(--terracotta);
+}
+
+.promo-banner a {
+  color: var(--terracotta);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.promo-banner a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 7. Main content — intro, sections, cards, forms                             */
+/* ------------------------------------------------------------------------- */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.intro-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.45rem, 4vw, 2.05rem);
+  line-height: 1.25;
+  margin: 0 0 1rem;
+}
+
+.intro-quote {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.15rem;
+  background: var(--cream);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--terracotta);
+  box-shadow: var(--shadow-soft);
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.intro-quote cite {
+  display: block;
+  margin-top: 0.65rem;
+  font-size: 0.92rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--terracotta);
+}
+
+.intro-content p,
+.intro-content li {
+  font-family: var(--font-sans);
+}
+
+.intro-lead {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.intro-list {
+  margin: 0.5rem 0 1rem;
+  padding-left: 1.35rem;
+}
+
+.intro-verse {
+  margin: 1.25rem 0;
+  padding: 1rem 1.15rem;
+  background: rgba(244, 162, 97, 0.12);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  border: 1px solid rgba(201, 106, 61, 0.25);
+}
+
+section {
+  padding: 2.5rem 0;
+}
+
+section h2 {
+  font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+  margin: 0 0 0.75rem;
+  padding-left: 0.65rem;
+  border-left: 3px solid var(--terracotta);
+}
+
+.section-note {
+  font-family: var(--font-sans);
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+}
+
+.approved-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.approved-item {
+  background: var(--cream);
+  border: 1px solid rgba(201, 106, 61, 0.12);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-soft);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+a.approved-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.approved-item strong {
+  font-family: var(--font-serif);
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 1.05rem;
+}
+
+.approved-item p {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.approved-meta {
+  font-size: 0.85rem;
+  color: var(--terracotta);
+  margin-top: 0.5rem;
+  font-family: var(--font-sans);
+}
+
+.pwa-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pwa-btn {
+  font-family: var(--font-sans);
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--terracotta);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--terracotta);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.pwa-btn:hover {
+  background: rgba(244, 162, 97, 0.2);
+}
+
+.submit-form label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.submit-form input,
+.submit-form textarea,
+.submit-form button[type="submit"] {
+  font-family: var(--font-sans);
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--faith-terracotta-border);
+  max-width: 100%;
+}
+
+.submit-form textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.submit-form button[type="submit"],
+.btn-primary {
+  background: var(--terracotta);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  margin-top: 0.75rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(244, 162, 97, 0.35);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.03);
+}
+
+.page-links-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  font-family: var(--font-sans);
+}
+
+.pwa-install-wrap {
+  background: var(--cream-muted);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+  border: 1px solid var(--terracotta-dim);
+}
+
+.pwa-install-wrap h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+}
+
+.pwa-install-wrap p {
+  font-family: var(--font-sans);
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+}
+
+footer {
+  padding: 2rem 0;
+  border-top: 1px solid var(--terracotta-dim);
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+footer a {
+  color: var(--terracotta);
+}
+
+/* ------------------------------------------------------------------------- */
+/* 8. Optional modal layer (structure only — wire with JS on inner pages)    */
+/* ------------------------------------------------------------------------- */
+.faith-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(44, 33, 24, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.faith-modal-backdrop[aria-hidden="false"] {
+  display: flex;
+}
+
+.faith-modal {
+  background: var(--cream);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: min(480px, 100%);
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--terracotta-dim);
+  font-family: var(--font-sans);
+}
+
+/* ------------------------------------------------------------------------- */
+/* 9. Responsive                                                             */
+/* ------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .nav-inner {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "brand"
+      "pills"
+      "search"
+      "devotional"
+      "scripture"
+      "visits";
+    padding-left: 3rem;
+  }
+
+  .pills-row {
+    grid-area: pills;
+    justify-content: flex-start;
+  }
+
+  .site-logo-img {
+    max-height: 100px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .approved-item {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/* 10. Legacy subpage overrides (was faith-subpage-bridge.css)               */
+/* ------------------------------------------------------------------------- */
+/* Inner pages ship a large inline <style> block (legacy dark palette). These */
+/* rules load with faith-theme.css and win via !important where needed.      */
+/* Background image path is relative to this stylesheet (site root).         */
+
+:root {
+  --bg: #ede4d9 !important;
+  --surface: #faf6ef !important;
+  --text: #2c2118 !important;
+  --muted: #5c4a3d !important;
+  --accent: #c96a3d !important;
+  --accent-dim: rgba(201, 106, 61, 0.18) !important;
+}
+
+html {
+  font-family: "Lato", system-ui, sans-serif;
+}
+
+body {
+  background-image:
+    linear-gradient(180deg, rgba(250, 246, 239, 0.88) 0%, rgba(237, 228, 217, 0.82) 45%, rgba(232, 220, 205, 0.85) 100%),
+    url("desert-sand-bg.png") !important;
+  background-size: cover !important;
+  background-position: center top !important;
+  background-attachment: fixed !important;
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+section h2 {
+  font-family: "Playfair Display", Georgia, serif !important;
+  color: var(--text) !important;
+}
+
+/* Fixed nav used on inner pages */
+.site-nav {
+  background: rgba(250, 246, 239, 0.94) !important;
+  border-bottom: 1px solid rgba(201, 106, 61, 0.2) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.site-nav .site-name,
+.site-nav .site-name:hover {
+  color: var(--text) !important;
+}
+
+.site-nav .site-name:hover {
+  color: var(--accent) !important;
+}
+
+.site-nav .site-tagline {
+  color: #a85a38 !important;
+}
+
+.site-nav .nav-links a {
+  color: var(--accent) !important;
+}
+
+.site-nav .nav-links a:hover {
+  color: #a85532 !important;
+}
+
+.site-nav .nav-links a.nav-blogs,
+.site-nav .nav-links a.nav-resources {
+  color: var(--accent) !important;
+  border-color: rgba(201, 106, 61, 0.45) !important;
+  box-shadow: 0 0 12px rgba(244, 162, 97, 0.25) !important;
+}
+
+.site-nav .nav-links a.nav-blogs:hover,
+.site-nav .nav-links a.nav-resources:hover {
+  color: #a85532 !important;
+}
+
+.site-nav .site-logo {
+  filter: drop-shadow(0 2px 8px rgba(244, 162, 97, 0.3)) !important;
+}
+
+.visit-counter {
+  color: var(--muted) !important;
+}
+
+/* Blog / list */
+.blog-list li {
+  border-bottom-color: rgba(44, 33, 24, 0.1) !important;
+}
+
+.blog-list a {
+  color: var(--text) !important;
+}
+
+.blog-list a:hover {
+  color: var(--accent) !important;
+}
+
+.blog-list .meta {
+  color: var(--muted) !important;
+}
+
+.blog-list .blog-img-wrap,
+.blog-skeleton .skeleton-img,
+.blog-skeleton .skeleton-title,
+.blog-skeleton .skeleton-meta {
+  background: var(--surface) !important;
+}
+
+/* Bible */
+.bible-form input {
+  background: var(--surface) !important;
+  border-color: rgba(201, 106, 61, 0.35) !important;
+  color: var(--text) !important;
+}
+
+.bible-form button {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+.bible-result {
+  background: var(--surface) !important;
+  border-color: rgba(201, 106, 61, 0.15) !important;
+}
+
+.bible-ref {
+  color: var(--accent) !important;
+}
+
+.bible-error {
+  color: #b91c1c !important;
+}
+
+/* Generic sections */
+section h2 {
+  color: var(--accent) !important;
+  border-left: 3px solid var(--accent);
+  padding-left: 0.65rem;
+}
+
+footer {
+  border-top-color: rgba(201, 106, 61, 0.2) !important;
+  color: var(--muted) !important;
+}
+
+footer a {
+  color: var(--accent) !important;
+}
+
+/* Forms / inputs site-wide */
+input, textarea, select, button {
+  font-family: "Lato", system-ui, sans-serif !important;
+}
+
+@media (max-width: 767px) {
+  body {
+    background-attachment: scroll !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .nav-links a[href="blogs.html"],
+  .site-nav .nav-links a[href="resources.html"] {
+    animation: none !important;
+  }
+}

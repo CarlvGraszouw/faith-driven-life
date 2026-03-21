@@ -17,31 +17,31 @@
   <link rel="manifest" href="manifest.webmanifest">
   <title>A Faith Driven Life — Books, eBooks &amp; Free Downloads</title>
   <meta name="description" content="eBook by Carl von Graszouw (coming soon). Free children's and adult books to download. A Faith Driven Life.">
-  <meta name="theme-color" content="#0a1628">
+  <meta name="theme-color" content="#FAF6EF">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg: #0a1628; --surface: #132238; --text: #f0f4f8; --muted: #94a3b8; --accent: #d4af37; }
+    :root { --bg: #ede4d9; --surface: #faf6ef; --text: #2c2118; --muted: #5c4a3d; --accent: #c96a3d; }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; padding-top: 16rem; padding-bottom: env(safe-area-inset-bottom, 2rem); }
     .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
-    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 1.5rem; min-height: 14rem; }
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid rgba(44, 33, 24, 0.1); padding: 1rem 1.5rem; min-height: 14rem; }
     .site-nav .nav-inner { max-width: 100%; width: 100%; margin: 0 auto; padding: 0 0.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
     .site-nav .site-name { display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; font-weight: 700; flex-shrink: 0; }
     .site-nav .site-name:hover { color: var(--accent); }
-    .site-nav .site-logo { height: 11rem; width: auto; max-width: 560px; display: block; object-fit: contain; filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.2)); }
+    .site-nav .site-logo { height: 11rem; width: auto; max-width: 560px; display: block; object-fit: contain; filter: drop-shadow(0 0 12px rgba(201, 106, 61, 0.18)); }
     .site-nav .nav-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; list-style: none; margin: 0; padding: 0; }
-    .site-nav .nav-links a { color: #00d4ff; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+    .site-nav .nav-links a { color: #c96a3d; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
     .site-nav .nav-links a:hover { color: var(--accent); }
     .site-nav .nav-links a[href="book.html"] { color: var(--accent); font-size: 1.05rem; }
-    .site-nav .nav-links a[href="blogs.html"], .site-nav .nav-links a[href="resources.html"] { padding: 0.4em 0.85em; border-radius: 999px; border: 1px solid rgba(212, 175, 55, 0.4); }
+    .site-nav .nav-links a[href="blogs.html"], .site-nav .nav-links a[href="resources.html"] { padding: 0.4em 0.85em; border-radius: 999px; border: 1px solid rgba(201, 106, 61, 0.4); }
     .visit-counter { font-size: 0.75rem; color: var(--muted); margin-left: auto; padding-left: 1rem; white-space: nowrap; }
     .visit-counter::before { content: 'Site visits: '; }
     @media (min-width: 768px) { .site-nav .site-logo { height: 13rem; max-width: 640px; } .site-nav .nav-links a { font-size: 1rem; } .site-nav .nav-links a[href="book.html"] { font-size: 1.125rem; } }
     section { padding: 3rem 0; }
     .book-hero { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; margin-bottom: 2rem; }
-    .book-cover-wrap { flex-shrink: 0; width: 220px; border-radius: 8px; overflow: hidden; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); }
+    .book-cover-wrap { flex-shrink: 0; width: 220px; border-radius: 8px; overflow: hidden; background: var(--surface); border: 1px solid rgba(44, 33, 24, 0.1); }
     .book-cover-wrap img { width: 100%; height: auto; display: block; }
     .book-info { flex: 1; min-width: 0; }
     .book-title { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; font-size: 1.75rem; font-weight: 600; color: var(--accent); margin: 0 0 0.5rem; }
@@ -51,19 +51,19 @@
     .book-buy a { display: inline-block; padding: 0.65rem 1.25rem; background: var(--accent); color: var(--bg); font-weight: 600; text-decoration: none; border-radius: 8px; }
     .book-buy a:hover { opacity: 0.9; }
     .book-buy a.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-    .book-buy a.secondary:hover { background: rgba(212, 175, 55, 0.15); }
-    .book-coming-soon { display: inline-block; padding: 0.65rem 1.25rem; background: var(--surface); color: var(--muted); font-weight: 600; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
-    .book-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); }
+    .book-buy a.secondary:hover { background: rgba(201, 106, 61, 0.15); }
+    .book-coming-soon { display: inline-block; padding: 0.65rem 1.25rem; background: var(--surface); color: var(--muted); font-weight: 600; border-radius: 8px; border: 1px solid rgba(44, 33, 24, 0.12); }
+    .book-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(44, 33, 24, 0.12); }
     .book-section h2 { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; font-size: 1.35rem; color: var(--accent); margin: 0 0 0.5rem; padding-left: 0.5rem; border-left: 3px solid var(--accent); }
     .book-section .section-desc { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.25rem; }
     .download-list { list-style: none; margin: 0; padding: 0; }
-    .download-list li { margin-bottom: 0.75rem; padding: 0.75rem 1rem; background: var(--surface); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
+    .download-list li { margin-bottom: 0.75rem; padding: 0.75rem 1rem; background: var(--surface); border-radius: 8px; border: 1px solid rgba(44, 33, 24, 0.08); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
     .download-list a { color: var(--accent); font-weight: 600; text-decoration: none; }
     .download-list a:hover { text-decoration: underline; }
     .download-list a.dl-btn { padding: 0.4rem 0.9rem; background: var(--accent); color: var(--bg); border-radius: 6px; font-size: 0.9rem; }
     .download-list a.dl-btn:hover { opacity: 0.9; text-decoration: none; }
     .download-list .no-items { color: var(--muted); font-style: italic; padding: 0.75rem 0; }
-    footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.9rem; }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid rgba(44, 33, 24, 0.08); color: var(--muted); font-size: 0.9rem; }
     @media (max-width: 767px) {
       body { padding-top: 25vh; padding-top: 25dvh; }
       .site-nav { max-height: 25vh; min-height: 0; overflow-y: auto; padding: 0.4rem 1rem; }
@@ -74,12 +74,14 @@
       .book-cover-wrap { width: 180px; margin: 0 auto; }
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" crossorigin>
+  <link rel="stylesheet" href="faith-theme.css">
 </head>
 <body>
   <nav class="site-nav" aria-label="Main">
     <div class="nav-inner">
       <a href="index.html" class="site-name">
-        <img src="logo.png" alt="A Faith Driven Life" class="site-logo" onerror="this.style.display='none'">
+        <img src="logo-official.png" alt="A Faith Driven Life" class="site-logo" onerror="this.style.display='none'">
       </a>
       <span class="visit-counter" id="visit-counter" aria-label="Total site visits">—</span>
       <ul class="nav-links">

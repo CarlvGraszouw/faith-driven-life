@@ -1,58 +1,714 @@
 <!DOCTYPE html>
-<!--
-  Faith theme homepage — official logo palette (logo-official.png, desert-sand-bg.png).
-  Styles: faith-theme.css (shared design system for all pages). For one file with no
-  external CSS, paste faith-theme.css into a <style> block and remove the stylesheet link.
--->
+<!-- Desert sand theme homepage. Assets: desert-sand-bg.png, logo-official-desert.png (same folder). To go live: rename this file to index.html and replace hrefs "index-desert-sand.html" with "index.html". -->
 <html lang="en">
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBP9QSSCBY"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-SBP9QSSCBY');
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <link rel="icon" href="logo.png" type="image/png" sizes="48x48">
-  <link rel="icon" href="logo.png" type="image/png" sizes="192x192">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="logo.png" sizes="180x180">
-  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#EDE4D9">
   <title>A Faith Driven Life | Bible Verses, Daily Devotionals &amp; Christian Community</title>
-  <meta name="description" content="Connect, share testimonies, post prayer requests and grow in faith. Free Bible search, daily verses, audio teachings and downloadable studies. Start your faith-driven life today.">
-  <meta name="theme-color" content="#FAF6EF">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Faith Driven Life">
-  <link rel="canonical" href="https://www.afaithdrivenlife.com/">
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="https://www.afaithdrivenlife.com/sitemap.xml">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.afaithdrivenlife.com/">
-  <meta property="og:title" content="A Faith Driven Life | Bible Verses, Daily Devotionals &amp; Christian Community">
-  <meta property="og:description" content="Connect, share testimonies, post prayer requests and grow in faith. Daily verses, Bible studies, and a warm community—install for offline access.">
-  <meta property="og:image" content="https://www.afaithdrivenlife.com/logo.png">
-  <meta property="og:site_name" content="A Faith Driven Life">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="A Faith Driven Life | Bible Verses, Daily Devotionals &amp; Christian Community">
-  <meta name="twitter:description" content="Daily Bible verses, studies, and community—Connect, Share &amp; Grow in Faith. Install for offline access.">
-  <meta name="twitter:image" content="https://www.afaithdrivenlife.com/logo.png">
+  <meta name="description" content="Connect, share testimonies, post prayer requests and grow in faith. Free Bible search, daily verses, audio teachings and downloadable studies.">
+  <link rel="icon" href="logo.png" type="image/png" sizes="48x48">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" crossorigin>
-  <link rel="prefetch" href="resources.html">
-  <link rel="prefetch" href="blogs.html">
-  <link rel="prefetch" href="book.html">
-  <link rel="prefetch" href="audio.html">
-  <link rel="prefetch" href="bible.html">
-  <link rel="prefetch" href="comments.html">
-  <link rel="prefetch" href="prayer-requests.html">
-  <link rel="prefetch" href="testimonies.html">
-  <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebSite","name":"A Faith Driven Life","url":"https://www.afaithdrivenlife.com/","description":"A place to connect and share — comments, prayer requests, testimonies. Experience God through His Word, audio teachings, and free study resources.","publisher":{"@type":"Organization","name":"A Faith Driven Life","url":"https://www.afaithdrivenlife.com/"}}
-  </script>
-  <link rel="stylesheet" href="faith-theme.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* === Desert sand theme — single-file homepage (Playfair + Lato) === */
+    :root {
+      --cream: #FAF6EF;
+      --cream-muted: #EDE4D9;
+      --terracotta: #C96A3D;
+      --terracotta-dim: rgba(201, 106, 61, 0.18);
+      --ochre: #F4A261;
+      --text: #2C2118;
+      --muted: #5c4a3d;
+      --radius: 10px;
+      --shadow: 0 8px 28px rgba(44, 33, 24, 0.12);
+      --shadow-soft: 0 4px 16px rgba(44, 33, 24, 0.08);
+      --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+      --font-sans: "Lato", system-ui, -apple-system, sans-serif;
+      --nav-pad-top: 0.5rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--text);
+      background-color: var(--cream-muted);
+      /* Sand texture + golden-hour gradient for readability */
+      background-image:
+        linear-gradient(180deg, rgba(250, 246, 239, 0.88) 0%, rgba(237, 228, 217, 0.82) 45%, rgba(232, 220, 205, 0.85) 100%),
+        url("desert-sand-bg.png");
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed;
+    }
+
+    /* Headings: Playfair only */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      color: var(--terracotta);
+      font-weight: 500;
+    }
+
+    a:hover {
+      color: #a85532;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 0.75rem;
+      z-index: 300;
+      padding: 0.5rem 1rem;
+      background: var(--terracotta);
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: top 0.2s;
+    }
+
+    .skip-link:focus {
+      top: 0.75rem;
+      outline: 2px solid var(--text);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* Drawer */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 33, 24, 0.45);
+      z-index: 200;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    body.drawer-open .drawer-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(280px, 88vw);
+      height: 100vh;
+      background: var(--cream);
+      border-right: 1px solid var(--terracotta-dim);
+      z-index: 210;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      box-shadow: var(--shadow);
+    }
+
+    body.drawer-open .nav-drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--terracotta-dim);
+    }
+
+    .drawer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .drawer-close {
+      border: none;
+      background: transparent;
+      font-size: 1.75rem;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--text);
+      padding: 0.25rem;
+    }
+
+    .drawer-links {
+      list-style: none;
+      margin: 0;
+      padding: 0.75rem 0;
+    }
+
+    .drawer-links a {
+      display: block;
+      padding: 0.75rem 1.25rem;
+      color: var(--text);
+      text-decoration: none;
+      font-family: var(--font-sans);
+    }
+
+    .drawer-links a:hover {
+      background: var(--cream-muted);
+    }
+
+    /* Top navigation */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 246, 239, 0.94);
+      border-bottom: 1px solid var(--terracotta-dim);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: var(--nav-pad-top) 0 0.65rem;
+    }
+
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1rem 0 3rem;
+      display: grid;
+      grid-template-columns: auto minmax(160px, 1fr) auto;
+      grid-template-areas:
+        "brand search pills"
+        "devotional devotional scripture"
+        "visits visits visits";
+      gap: 0.6rem 0.75rem;
+      align-items: start;
+    }
+
+    .hamburger-btn {
+      position: absolute;
+      left: 0.5rem;
+      top: 0.75rem;
+      z-index: 102;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: none;
+      background: rgba(237, 228, 217, 0.9);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 0;
+    }
+
+    .hamburger-btn span {
+      display: block;
+      width: 1.25rem;
+      height: 2px;
+      background: var(--text);
+      border-radius: 1px;
+    }
+
+    .site-brand {
+      grid-area: brand;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .site-logo-img {
+      width: auto;
+      max-width: min(140px, 36vw);
+      max-height: 120px;
+      height: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 8px rgba(244, 162, 97, 0.25));
+    }
+
+    .header-search-wrap {
+      grid-area: search;
+      align-self: center;
+    }
+
+    .header-search-link {
+      display: block;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(201, 106, 61, 0.35);
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--muted);
+      text-decoration: none;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .header-search-link:hover {
+      border-color: var(--terracotta);
+      box-shadow: 0 0 0 3px var(--terracotta-dim);
+      color: var(--text);
+    }
+
+    .pills-row {
+      grid-area: pills;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.45rem;
+    }
+
+    .nav-follow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+    }
+
+    .nav-follow a {
+      display: flex;
+      width: 2rem;
+      height: 2rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(107, 122, 94, 0.2);
+      color: #4a5a42;
+    }
+
+    .nav-follow a:hover {
+      background: var(--terracotta-dim);
+      color: var(--terracotta);
+    }
+
+    .nav-follow svg {
+      width: 1rem;
+      height: 1rem;
+      fill: currentColor;
+    }
+
+    .nav-install-mini {
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      border: none;
+      background: var(--terracotta);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(244, 162, 97, 0.4);
+    }
+
+    .nav-install-mini:hover {
+      filter: brightness(1.05);
+    }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .nav-pills a {
+      padding: 0.4em 0.85em;
+      border-radius: 999px;
+      border: 1px solid rgba(201, 106, 61, 0.45);
+      background: rgba(255, 255, 255, 0.45);
+      color: var(--text);
+      text-decoration: none;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .nav-pills a:hover {
+      background: rgba(244, 162, 97, 0.22);
+      box-shadow: 0 0 14px rgba(244, 162, 97, 0.35);
+    }
+
+    .visit-counter {
+      grid-area: visits;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: var(--font-sans);
+    }
+
+    .visit-counter::before {
+      content: "Site visits: ";
+    }
+
+    .daily-devotional {
+      grid-area: devotional;
+      padding: 0.85rem 1rem;
+      background: var(--cream);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .daily-devotional h2 {
+      font-size: 1.05rem;
+      margin: 0 0 0.5rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid var(--terracotta);
+      display: inline-block;
+    }
+
+    .devotional-ref {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--terracotta);
+      margin: 0 0 0.35rem;
+      font-family: var(--font-sans);
+    }
+
+    .devotional-text {
+      font-size: 0.88rem;
+      margin: 0 0 0.5rem;
+      font-family: var(--font-sans);
+    }
+
+    .devotional-hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-style: italic;
+      margin: 0;
+      font-family: var(--font-sans);
+    }
+
+    .scripture-banner-top {
+      grid-area: scripture;
+    }
+
+    .scripture-rotator {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(244, 162, 97, 0.35);
+    }
+
+    .scripture-rotator-banner {
+      background: linear-gradient(90deg, rgba(244, 162, 97, 0.35), rgba(201, 106, 61, 0.25));
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-align: center;
+      padding: 0.35rem 0.5rem;
+    }
+
+    .scripture-rotator-verse {
+      background: var(--cream);
+      padding: 0.65rem 0.85rem;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      font-family: var(--font-sans);
+    }
+
+    .scripture-rotator-verse .ref {
+      font-weight: 700;
+      color: var(--terracotta);
+    }
+
+    .promo-banner-bar {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0.35rem 1rem 0.65rem;
+      text-align: center;
+    }
+
+    .promo-banner {
+      display: inline-block;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(244, 162, 97, 0.22), rgba(255, 255, 255, 0.65));
+      border: 1px solid rgba(201, 106, 61, 0.35);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .promo-highlight {
+      color: var(--terracotta);
+    }
+
+    .promo-banner a {
+      color: var(--terracotta);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .promo-banner a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main content */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+    }
+
+    .intro-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.45rem, 4vw, 2.05rem);
+      line-height: 1.25;
+      margin: 0 0 1rem;
+    }
+
+    .intro-quote {
+      margin: 0 0 1.5rem;
+      padding: 1rem 1.15rem;
+      background: var(--cream);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--terracotta);
+      box-shadow: var(--shadow-soft);
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+
+    .intro-quote cite {
+      display: block;
+      margin-top: 0.65rem;
+      font-size: 0.92rem;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--terracotta);
+    }
+
+    .intro-content p,
+    .intro-content li {
+      font-family: var(--font-sans);
+    }
+
+    .intro-lead {
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .intro-list {
+      margin: 0.5rem 0 1rem;
+      padding-left: 1.35rem;
+    }
+
+    .intro-verse {
+      margin: 1.25rem 0;
+      padding: 1rem 1.15rem;
+      background: rgba(244, 162, 97, 0.12);
+      border-radius: var(--radius);
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      border: 1px solid rgba(201, 106, 61, 0.25);
+    }
+
+    section {
+      padding: 2.5rem 0;
+    }
+
+    section h2 {
+      font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+      margin: 0 0 0.75rem;
+      padding-left: 0.65rem;
+      border-left: 3px solid var(--terracotta);
+    }
+
+    .section-note {
+      font-family: var(--font-sans);
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0 0 1rem;
+    }
+
+    .approved-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .approved-item {
+      background: var(--cream);
+      border: 1px solid rgba(201, 106, 61, 0.12);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      box-shadow: var(--shadow-soft);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    a.approved-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .approved-item strong {
+      font-family: var(--font-serif);
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 1.05rem;
+    }
+
+    .approved-item p {
+      margin: 0;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .approved-meta {
+      font-size: 0.85rem;
+      color: var(--terracotta);
+      margin-top: 0.5rem;
+      font-family: var(--font-sans);
+    }
+
+    .pwa-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pwa-btn {
+      font-family: var(--font-sans);
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid var(--terracotta);
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--terracotta);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .pwa-btn:hover {
+      background: rgba(244, 162, 97, 0.2);
+    }
+
+    .submit-form label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      margin: 0.5rem 0 0.25rem;
+    }
+
+    .submit-form input,
+    .submit-form button[type="submit"] {
+      font-family: var(--font-sans);
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(201, 106, 61, 0.35);
+      max-width: 100%;
+    }
+
+    .submit-form button[type="submit"] {
+      background: var(--terracotta);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      margin-top: 0.75rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(244, 162, 97, 0.35);
+    }
+
+    .page-links-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      font-family: var(--font-sans);
+    }
+
+    .pwa-install-wrap {
+      background: var(--cream-muted);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin: 2rem 0;
+      border: 1px solid var(--terracotta-dim);
+    }
+
+    .pwa-install-wrap h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.15rem;
+    }
+
+    .pwa-install-wrap p {
+      font-family: var(--font-sans);
+      margin: 0 0 0.75rem;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 2rem 0;
+      border-top: 1px solid var(--terracotta-dim);
+      text-align: center;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--terracotta);
+    }
+
+    @media (max-width: 767px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      .nav-inner {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "brand"
+          "pills"
+          "search"
+          "devotional"
+          "scripture"
+          "visits";
+        padding-left: 3rem;
+      }
+
+      .pills-row {
+        grid-area: pills;
+        justify-content: flex-start;
+      }
+
+      .site-logo-img {
+        max-height: 100px;
+      }
+    }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -60,14 +716,14 @@
   <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
   <aside class="nav-drawer" id="nav-drawer" aria-label="Navigation menu">
     <div class="drawer-header">
-      <a href="index.html" class="drawer-brand">
-        <img src="logo-official.png" alt="" width="28" height="28" style="width:28px;height:28px;object-fit:contain;">
+      <a href="index-desert-sand.html" class="drawer-brand">
+        <img src="logo.png" alt="" width="28" height="28" style="width:28px;height:28px;object-fit:contain;">
         <span>A Faith Driven Life</span>
       </a>
       <button type="button" class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
     </div>
     <ul class="drawer-links">
-      <li><a href="index.html">Home</a></li>
+      <li><a href="index-desert-sand.html">Home</a></li>
       <li><a href="book.html">Book</a></li>
       <li><a href="audio.html">Audio</a></li>
       <li><a href="bible.html">Search the Bible</a></li>
@@ -84,8 +740,8 @@
         <span></span><span></span><span></span>
       </button>
 
-      <a href="index.html" class="site-brand">
-        <img src="logo-official.png" alt="A Faith Driven Life — Walking Boldly in Truth" class="site-logo-img" width="512" height="512" decoding="async" fetchpriority="high">
+      <a href="index-desert-sand.html" class="site-brand">
+        <img src="logo-official-desert.png" alt="A Faith Driven Life — Walking Boldly in Truth" class="site-logo-img" width="512" height="512" decoding="async" fetchpriority="high">
       </a>
 
       <div class="header-search-wrap">
@@ -505,13 +1161,6 @@
         if (ios2) { ios2.hidden = false; ios2.style.display = 'block'; }
       }
     })();
-  </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
-      });
-    }
   </script>
 </body>
 </html>

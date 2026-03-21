@@ -1,5 +1,5 @@
 /* Service worker for A Faith Driven Life PWA */
-const CACHE_NAME = 'faith-driven-life-v10';
+const CACHE_NAME = 'faith-driven-life-v12';
 const STATIC_URLS = [
   'index.html',
   'blogs.html',
@@ -20,7 +20,10 @@ const STATIC_URLS = [
   'resources/forgiveness.html',
   'resources/purpose.html',
   'resources/healing.html',
+  'faith-theme.css',
   'logo.png',
+  'logo-official.png',
+  'desert-sand-bg.png',
   'favicon.svg',
   'manifest.webmanifest'
 ];
