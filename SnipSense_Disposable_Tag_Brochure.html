@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBP9QSSCBY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SBP9QSSCBY');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SnipSense Disposable Tag – Product Brochure</title>
@@ -25,7 +33,7 @@
     .features-list { margin: 6px 0; padding-left: 18px; }
     .features-list li { margin: 4px 0; }
     .gmatrix-brand { margin-bottom: 12px; text-align: center; }
-    .gmatrix-logo { max-height: 112px; max-width: 560px; width: auto; height: auto; display: block; margin: 0 auto 4px; object-fit: contain; }
+    .gmatrix-logo { max-height: 224px; max-width: 1120px; width: auto; height: auto; display: block; margin: 0 auto 4px; object-fit: contain; }
     .gmatrix-contact { font-size: 9pt; color: #000; line-height: 1.5; margin-top: 12px; }
     .gmatrix-contact .phones { letter-spacing: 0.05em; }
     .gmatrix-contact .website { margin: 4px 0; }
@@ -33,7 +41,9 @@
     .gmatrix-tagline { font-size: 9pt; font-weight: 600; margin-top: 4px; color: #000; }
     .gmatrix-services { font-size: 8pt; color: #000; margin-top: 2px; line-height: 1.4; }
     .company-name { display: block; text-align: center; }
-    .product-image { width: 100%; max-width: 160mm; height: auto; display: block; margin: 8px 0 12px; border: 1px solid #ddd; }
+    .product-diagram { margin: 8px 0 14px; break-inside: avoid; page-break-inside: avoid; }
+    .product-diagram img { width: 100%; max-width: 180mm; height: auto; display: block; margin: 0 auto; border: 1px solid #ddd; object-fit: contain; }
+    .product-diagram figcaption { font-size: 8.5pt; color: #333; margin-top: 8px; line-height: 1.35; text-align: center; max-width: 180mm; margin-left: auto; margin-right: auto; }
     .print-hint { font-size: 9pt; color: #888; margin: 12px 0; padding: 8px 12px; background: #f5f5f5; border-radius: 4px; max-width: 210mm; }
     .page-tight .gmatrix-brand { margin-bottom: 6px; }
     .page-tight .product-name { margin: 2px 0 6px; }
@@ -57,14 +67,24 @@
 <body>
   <p class="print-hint">When saving as PDF: in the Print dialog, turn <strong>off</strong> &quot;Headers and footers&quot; so the date, title and file path do not appear on the PDF.</p>
   <div class="brochure">
-    <!-- Page 1: Intro + product image + Portal text only -->
+    <!-- SnipSense brochure assets (keep beside this HTML): G-MATRIX-Logo.png | SnipSense-Product-Diagram.png (product feature diagram) -->
+    <!-- Page 1: Intro + product diagram + Portal text -->
     <div class="page">
       <div class="gmatrix-brand">
         <img src="G-MATRIX-Logo.png" alt="G-Matrix Systems" class="gmatrix-logo">
       </div>
       <div class="product-name">SnipSense™ Disposable Tag</div>
 
-      <img src="SnipSense-Tag-Product.png" alt="SnipSense disposable tag – advanced radio, temperature sensor, seal tamper detection, status LED, patented activation" class="product-image">
+      <div class="section-title">Product diagram</div>
+      <figure class="product-diagram">
+        <img
+          src="SnipSense-Product-Diagram.png"
+          alt="SnipSense disposable tag on wood surface with callouts: advanced radio technology; calibrated digital temperature sensor; seal tamper detection; ultra-thin label design; patented activation and configuration (T0–T5); temperature status indicator LED. Branding shows SNIPSENSE, STATUS light, TEMP ID ACTIVATE, SEAL TEST."
+        >
+        <figcaption>
+          Feature overview: radio, temperature sensing, seal tamper, ultra-thin label, user activation (tear/cut threshold), and status LED—see labels on diagram.
+        </figcaption>
+      </figure>
 
       <div class="section-title">Portal &amp; integration</div>
       <p>
