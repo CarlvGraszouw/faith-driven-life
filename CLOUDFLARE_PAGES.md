@@ -43,6 +43,11 @@ Cloudflare Pages rejects uploads where **any single file is larger than 25 MiB**
 
 **Step-by-step:** create an R2 bucket, upload the MP3, enable a public URL, optional CORS — see **`docs/HOST_AUDIO_R2.md`**. Then set **`REMOTE_SUPREME_COMMISSION_MP3_URL`** in **`audio.html`** to the public `https://…` URL (or leave it empty for local-only playback from `audio/`).
 
+## Security (CSP + API CORS)
+
+- **Content-Security-Policy** is sent on **all** `**/*.html` via **`_headers`** (single policy: GA, fonts, Bible APIs, Blogger, visit counter, Formspree, YouTube embeds, R2 audio `https://*.r2.dev`). Inline `meta` CSP was removed from **`index.html`** and **`blogs.html`** to avoid duplicate/conflicting policies.
+- **`/api/blog-feed`** (Pages Function) allows **CORS** only from **`https://www.afaithdrivenlife.com`**, **`https://afaithdrivenlife.com`**, **`https://faith-driven-life.pages.dev`**, and **`http://localhost` / `127.0.0.1`** for local dev. Other origins do not get `Access-Control-Allow-Origin`. **`OPTIONS`** is supported for preflight.
+
 ## Site layout (Cloudflare)
 
 | Concern | How it’s handled |
@@ -101,7 +106,7 @@ Optional: **add the site to Cloudflare** (same account as Pages) by changing **n
 ## PWA
 
 - **`manifest.webmanifest`**, **`sw.js`**, and **`/sw.js`** cache rules in `_headers` are set so the service worker can update after deploys.
-- After go-live, open the site once; users get **`faith-driven-life-v9`** cache from `sw.js`.
+- After go-live, open the site once; users get **`faith-driven-life-v10`** cache from `sw.js`.
 
 ## Optional: Cloudflare Web Analytics
 

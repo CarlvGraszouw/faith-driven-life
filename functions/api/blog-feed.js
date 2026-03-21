@@ -1,9 +1,74 @@
 /**
- * Cloudflare Pages Function: proxy Blogger JSON so blogs.html can fetch same-origin /api/blog-feed (no CORS).
+ * Cloudflare Pages Function: proxy Blogger JSON for same-origin /api/blog-feed.
+ * CORS: allowlisted production origins + localhost for dev only.
  */
-export async function onRequestGet() {
-  const BLOGGER_FEED =
-    'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=50';
+const BLOGGER_FEED =
+  'https://awfgsa.blogspot.com/feeds/posts/default?alt=json&max-results=50';
+
+const ALLOWED_ORIGINS = new Set([
+  'https://www.afaithdrivenlife.com',
+  'https://afaithdrivenlife.com',
+  'https://faith-driven-life.pages.dev',
+]);
+
+function corsHeaders(request) {
+  const origin = request.headers.get('Origin');
+  if (!origin) return {};
+  if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+    return {
+      'Access-Control-Allow-Origin': origin,
+      Vary: 'Origin',
+    };
+  }
+  if (ALLOWED_ORIGINS.has(origin)) {
+    return {
+      'Access-Control-Allow-Origin': origin,
+      Vary: 'Origin',
+    };
+  }
+  return {};
+}
+
+function jsonBody(body, status, cacheControl, request) {
+  const c = corsHeaders(request);
+  return new Response(body, {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': cacheControl,
+      ...c,
+    },
+  });
+}
+
+export async function onRequest(context) {
+  const { request } = context;
+
+  if (request.method === 'OPTIONS') {
+    const c = corsHeaders(request);
+    if (!c['Access-Control-Allow-Origin']) {
+      return new Response(null, { status: 204 });
+    }
+    return new Response(null, {
+      status: 204,
+      headers: {
+        ...c,
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Accept, Content-Type',
+        'Access-Control-Max-Age': '86400',
+      },
+    });
+  }
+
+  if (request.method !== 'GET') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders(request),
+      },
+    });
+  }
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -16,37 +81,23 @@ export async function onRequestGet() {
     clearTimeout(timeoutId);
 
     if (!response.ok) {
-      return new Response(JSON.stringify({ error: 'Blog feed unavailable' }), {
-        status: 502,
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'public, max-age=60',
-          'Access-Control-Allow-Origin': '*',
-        },
-      });
+      return jsonBody(
+        JSON.stringify({ error: 'Blog feed unavailable' }),
+        502,
+        'public, max-age=60',
+        request
+      );
     }
 
     const data = await response.json();
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=300, must-revalidate',
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    return jsonBody(JSON.stringify(data), 200, 'public, max-age=300, must-revalidate', request);
   } catch (err) {
     clearTimeout(timeoutId);
-    return new Response(
+    return jsonBody(
       JSON.stringify({ error: 'Could not load blog feed' }),
-      {
-        status: 502,
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'public, max-age=60',
-          'Access-Control-Allow-Origin': '*',
-        },
-      }
+      502,
+      'public, max-age=60',
+      request
     );
   }
 }
