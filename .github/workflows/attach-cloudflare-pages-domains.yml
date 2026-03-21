@@ -1,0 +1,41 @@
+# Attach production hostnames to Cloudflare Pages (same API as dashboard Custom domains).
+# Run from Actions tab after removing these hostnames from any previous host if required.
+name: Attach Cloudflare Pages custom domains
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  attach:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Attach domains via Cloudflare API
+        env:
+          RAW_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          RAW_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          CF_TOKEN=$(printf '%s' "$RAW_TOKEN" | tr -d '\r\n')
+          CF_ACCOUNT=$(printf '%s' "$RAW_ACCOUNT" | tr -d '\r\n')
+          PROJECT="faith-driven-life"
+          for domain in "www.afaithdrivenlife.com" "afaithdrivenlife.com"; do
+            echo "::group::Add $domain"
+            resp=$(curl -sS -w "\n%{http_code}" -X POST \
+              "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/${PROJECT}/domains" \
+              -H "Authorization: Bearer ${CF_TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d "{\"name\":\"${domain}\"}")
+            body=$(echo "$resp" | head -n -1)
+            code=$(echo "$resp" | tail -n 1)
+            echo "$body" | jq .
+            if [ "$code" != "200" ]; then
+              echo "::warning::HTTP $code for $domain"
+            fi
+            echo "::endgroup::"
+          done
+          echo "::group::List domains"
+          curl -sS "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/${PROJECT}/domains" \
+            -H "Authorization: Bearer ${CF_TOKEN}" | jq .
+          echo "::endgroup::"
