@@ -30,13 +30,22 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Sanitize Cloudflare secrets (strip newlines — fixes Wrangler header errors)
+      - name: Sanitize Cloudflare secrets (strip newlines/BOM/quotes — fixes Wrangler headers)
         env:
           RAW_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           RAW_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          T=$(printf '%s' "$RAW_TOKEN" | tr -d '\r\n')
-          A=$(printf '%s' "$RAW_ACCOUNT" | tr -d '\r\n')
+          strip_token() {
+            local s
+            s=$(printf '%s' "$1" | tr -d '\r\n')
+            s="${s#\"}"
+            s="${s%\"}"
+            s="${s#\'}"
+            s="${s%\'}"
+            printf '%s' "$s" | sed $'s/^\xef\xbb\xbf//'
+          }
+          T=$(strip_token "$RAW_TOKEN")
+          A=$(strip_token "$RAW_ACCOUNT")
           echo "::add-mask::$T"
           echo "::add-mask::$A"
           {
@@ -60,8 +69,8 @@ jobs:
             exit 1
           fi
 
-      - name: Verify Cloudflare token
-        run: npx wrangler@4 whoami
+      # Note: do not run `wrangler whoami` here — it uses /user/tokens/verify and fails for
+      # Account API tokens. Pages deploy accepts Account tokens (see Cloudflare Pages CI docs).
 
       - name: Deploy to Cloudflare Pages
         id: deploy
