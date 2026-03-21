@@ -77,6 +77,17 @@ jobs:
         continue-on-error: true
         run: npx wrangler@4 pages project create faith-driven-life --production-branch=main
 
+      # Cloudflare Pages rejects any single file > 25 MiB. Stage a copy without oversized assets.
+      - name: Stage site for upload
+        run: |
+          mkdir -p deploy-upload
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='deploy-upload/' \
+            --exclude='android-app/' \
+            --exclude='audio/The Supreme Commission.mp3' \
+            ./ deploy-upload/
+
       - name: Deploy to Cloudflare Pages
         id: deploy
         uses: cloudflare/wrangler-action@v3
@@ -84,7 +95,7 @@ jobs:
           apiToken: ${{ env.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4"
-          command: pages deploy . --project-name=faith-driven-life --branch=main
+          command: pages deploy deploy-upload --project-name=faith-driven-life --branch=main --commit-dirty=true
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deployment URL

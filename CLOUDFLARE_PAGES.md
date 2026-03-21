@@ -12,6 +12,10 @@ The token must be a **Custom API token** with **Account → Cloudflare Pages →
 
 Do **not** set a Cloudflare Pages **build command** to `npx wrangler deploy` (that is for Workers). If you use **only** GitHub Actions to deploy, **disconnect** Cloudflare’s **Git** integration for this repo to avoid double deploys.
 
+## File size limit (25 MiB per asset)
+
+Cloudflare Pages rejects uploads where **any single file is larger than 25 MiB**. The workflow stages the site into `deploy-upload/` and **does not upload** `audio/The Supreme Commission.mp3` (~70&nbsp;MB). Update **`audio.html`** with a public URL where that file is hosted (for example **Cloudflare R2** with public access, or another file host), then replace the `example.com` placeholder `src` and link.
+
 ## What was migrated from Vercel
 
 | Vercel | Cloudflare |
