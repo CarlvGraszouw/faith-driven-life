@@ -2,6 +2,14 @@
 
 This repo is configured for **Cloudflare Pages** with **Pages Functions** (Workers runtime) for `/api/blog-feed`.
 
+## Automated deploy (no Cloudflare “build” dashboard)
+
+Push to **`main`** runs **`.github/workflows/deploy-cloudflare-pages.yml`**, which runs **`wrangler pages deploy .`** (correct for static Pages + `functions/`).
+
+**One-time:** add **`CLOUDFLARE_API_TOKEN`** and **`CLOUDFLARE_ACCOUNT_ID`** to GitHub **Actions secrets** — see **`SECRETS_ONE_TIME.md`**.
+
+Do **not** set a Cloudflare Pages **build command** to `npx wrangler deploy` (that is for Workers). If you use **only** GitHub Actions to deploy, **disconnect** Cloudflare’s **Git** integration for this repo to avoid double deploys.
+
 ## What was migrated from Vercel
 
 | Vercel | Cloudflare |
