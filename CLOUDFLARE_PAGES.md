@@ -43,9 +43,21 @@ That is wrong. Open the project → **Settings** → **Builds & deployments** �
 
 ## Custom domain & SSL
 
-1. In the Pages project → **Custom domains** → add **`www.afaithdrivenlife.com`** and **`afaithdrivenlife.com`**.
-2. Follow Cloudflare’s DNS instructions (often CNAME `www` → `*.pages.dev` or your assigned Pages hostname).
-3. SSL is automatic once the domain validates.
+1. In **Workers & Pages** → your **`faith-driven-life`** project → **Custom domains** → **Set up a domain** → add **`www.afaithdrivenlife.com`** and **`afaithdrivenlife.com`** (add both if you use apex + www).
+2. If the domain’s DNS is already in **this Cloudflare account**, Cloudflare can often attach the records automatically. If not, add the **CNAME** / **A** records the wizard shows (commonly `www` → `faith-driven-life.pages.dev` as CNAME target).
+3. SSL certificates issue automatically after DNS validates.
+
+### If the site still shows errors or “Vercel” in response headers
+
+DNS or an old integration can still send traffic to **another host**. Check from your PC: `curl -sI https://www.afaithdrivenlife.com` — if you see **`Server: Vercel`**, the name is not yet routed to Pages.
+
+**Fix:**
+
+1. **Cloudflare:** Ensure the domain **`afaithdrivenlife.com`** uses the DNS records Cloudflare Pages shows for this project (no leftover `A`/`CNAME` records pointing at old providers).
+2. **Remove the domain from any previous host** (e.g. delete **`www`** / apex from old dashboard projects) so only Cloudflare Pages owns the hostname.
+3. Wait a few minutes for DNS/SSL, then hard-refresh or try a private window.
+
+The live Pages URL without a custom domain is always: **`https://faith-driven-life.pages.dev`**.
 
 ## PWA
 
