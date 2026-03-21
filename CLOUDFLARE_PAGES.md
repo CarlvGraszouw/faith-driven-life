@@ -14,7 +14,9 @@ Do **not** set a Cloudflare Pages **build command** to `npx wrangler deploy` (th
 
 ## File size limit (25 MiB per asset)
 
-Cloudflare Pages rejects uploads where **any single file is larger than 25 MiB**. The workflow stages the site into `deploy-upload/` and **does not upload** `audio/The Supreme Commission.mp3` (~70&nbsp;MB). Update **`audio.html`** with a public URL where that file is hosted (for example **Cloudflare R2** with public access, or another file host), then replace the `example.com` placeholder `src` and link.
+Cloudflare Pages rejects uploads where **any single file is larger than 25 MiB**. The workflow stages the site into `deploy-upload/` and **does not upload** `audio/The Supreme Commission.mp3` (~70&nbsp;MB).
+
+**Step-by-step:** create an R2 bucket, upload the MP3, enable a public URL, optional CORS — see **`docs/HOST_AUDIO_R2.md`**. Then set **`REMOTE_SUPREME_COMMISSION_MP3_URL`** in **`audio.html`** to the public `https://…` URL (or leave it empty for local-only playback from `audio/`).
 
 ## What was migrated from Vercel
 

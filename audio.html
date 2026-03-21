@@ -149,14 +149,14 @@
     <section id="audio">
       <h2>Audio</h2>
       <div class="audio-list">
-        <div class="audio-item">
+        <div class="audio-item" id="supreme-commission-block">
           <div class="audio-info">
             <h3>The Supreme Commission</h3>
-            <p class="audio-note">On the <strong>live</strong> site, this MP3 is not bundled (Cloudflare Pages limit: 25&nbsp;MB per file). For production playback, host the file elsewhere and set the <code>&lt;source&gt;</code> and download link to that <strong>https://…</strong> URL. Local preview can keep the path below if the file exists in <code>audio/</code>.</p>
+            <p class="audio-note">The live site does not bundle this MP3 (Cloudflare Pages limit: 25&nbsp;MB per file). Upload it to <strong>Cloudflare R2</strong> (see <code>docs/HOST_AUDIO_R2.md</code>), then paste the public <strong>https://…</strong> URL in the script below. Leave the URL empty to use the file under <code>audio/</code> on your computer only.</p>
           </div>
-          <audio controls preload="metadata" title="Play The Supreme Commission">
-            <source src="audio/The%20Supreme%20Commission.mp3" type="audio/mpeg">
-            Your browser does not support the audio element. <a href="audio/The%20Supreme%20Commission.mp3" download>Download</a> the file.
+          <audio id="supreme-commission-audio" controls preload="metadata" title="Play The Supreme Commission">
+            <source id="supreme-commission-source" src="audio/The%20Supreme%20Commission.mp3" type="audio/mpeg">
+            Your browser does not support the audio element. <a id="supreme-commission-download" href="audio/The%20Supreme%20Commission.mp3" download>Download</a> the file.
           </audio>
         </div>
       </div>
@@ -166,6 +166,20 @@
     </footer>
   </div>
   <script src="visit-counter.js"></script>
+  <script>
+    (function () {
+      var REMOTE_SUPREME_COMMISSION_MP3_URL = '';
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!REMOTE_SUPREME_COMMISSION_MP3_URL) return;
+        var s = document.getElementById('supreme-commission-source');
+        var a = document.getElementById('supreme-commission-download');
+        var audio = document.getElementById('supreme-commission-audio');
+        if (s) s.setAttribute('src', REMOTE_SUPREME_COMMISSION_MP3_URL);
+        if (a) a.setAttribute('href', REMOTE_SUPREME_COMMISSION_MP3_URL);
+        if (audio) audio.load();
+      });
+    })();
+  </script>
   <script>if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {}); });</script>
 </body>
 </html>

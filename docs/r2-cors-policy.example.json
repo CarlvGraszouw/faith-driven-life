@@ -1,0 +1,11 @@
+[
+  {
+    "AllowedOrigins": [
+      "https://faith-driven-life.pages.dev",
+      "https://afaithdrivenlife.com",
+      "https://www.afaithdrivenlife.com"
+    ],
+    "AllowedMethods": ["GET", "HEAD"],
+    "AllowedHeaders": ["*"]
+  }
+]
