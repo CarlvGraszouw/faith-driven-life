@@ -59,6 +59,20 @@ DNS or an old integration can still send traffic to **another host**. Check from
 
 The live Pages URL without a custom domain is always: **`https://faith-driven-life.pages.dev`**.
 
+### If your domain is **not** in this Cloudflare account (DNS still goes to Vercel)
+
+The GitHub Action **Point DNS to Cloudflare Pages** only works when **`afaithdrivenlife.com`** exists as a **zone** under the **same** Cloudflare account as your Pages project (nameservers pointed at Cloudflare). If the API returns “no zone,” DNS is managed **elsewhere** (registrar, another Cloudflare account, or only Vercel).
+
+**Fix (must be done where DNS is controlled):**
+
+1. **Remove** `www` and apex from any **Vercel** project (**Settings → Domains**), or Vercel will keep answering for that hostname.
+2. At your **DNS host** (registrar or DNS panel), replace old records with what Cloudflare Pages expects. Typical values:
+   - **`www`** → **CNAME** → **`faith-driven-life.pages.dev`** (often **proxied** if using Cloudflare DNS).
+   - **Apex** `afaithdrivenlife.com` → follow the **Custom domains** wizard in **Workers & Pages → faith-driven-life → Custom domains** (apex may use CNAME flattening or the targets Cloudflare shows).
+3. Wait for propagation, then check: `curl -sI https://www.afaithdrivenlife.com` — you want **`server: cloudflare`**, not **`Server: Vercel`**.
+
+Optional: **add the site to Cloudflare** (same account as Pages) by changing **nameservers** at the registrar to the pair Cloudflare gives you; then DNS can be edited in one place and the **Point DNS to Cloudflare Pages** workflow can work on future runs.
+
 ## PWA
 
 - **`manifest.webmanifest`**, **`sw.js`**, and **`/sw.js`** cache rules in `_headers` are set so the service worker can update after deploys.
