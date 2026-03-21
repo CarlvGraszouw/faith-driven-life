@@ -1,5 +1,5 @@
 /* Service worker for A Faith Driven Life PWA */
-const CACHE_NAME = 'faith-driven-life-v13';
+const CACHE_NAME = 'faith-driven-life-v15';
 const STATIC_URLS = [
   'index.html',
   'blogs.html',
@@ -23,6 +23,7 @@ const STATIC_URLS = [
   'faith-theme.css',
   'logo.png',
   'logo-official.png',
+  'favicon.ico',
   'desert-sand-bg.png',
   'favicon.svg',
   'manifest.webmanifest'

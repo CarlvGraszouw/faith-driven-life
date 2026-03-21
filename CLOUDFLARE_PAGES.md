@@ -106,7 +106,7 @@ Optional: **add the site to Cloudflare** (same account as Pages) by changing **n
 ## PWA
 
 - **`manifest.webmanifest`**, **`sw.js`**, and **`/sw.js`** cache rules in `_headers` are set so the service worker can update after deploys.
-- After go-live, open the site once; users get **`faith-driven-life-v13`** cache from `sw.js`.
+- After go-live, open the site once; users get **`faith-driven-life-v15`** cache from `sw.js`.
 
 ## Optional: Cloudflare Web Analytics
 
