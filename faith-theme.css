@@ -8,7 +8,7 @@
  * (Load Google Fonts on each page before this stylesheet.)
  *
  * Usage on inner pages:
- *   <link rel="stylesheet" href="faith-theme.css">
+ *   <link rel="stylesheet" href="faith-theme.css?v=6">  (bump ?v= when this file changes)
  * Optional: wrap content in <body class="faith-theme"> (hooks reserved).
  */
 
@@ -30,7 +30,7 @@
   --faith-shadow-soft: 0 4px 16px rgba(44, 33, 24, 0.08);
   --faith-font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
   --faith-font-body: "Lato", system-ui, -apple-system, sans-serif;
-  --faith-bg-image: url("desert-sand-bg.png");
+  --faith-bg-image: url("desert-sand-bg.png?v=6");
   --faith-nav-pad-top: 0.5rem;
 
   /* Aliases used by homepage markup (backward compatible with index-desert-sand) */
@@ -841,7 +841,7 @@ html {
 body {
   background-image:
     linear-gradient(180deg, rgba(250, 246, 239, 0.88) 0%, rgba(237, 228, 217, 0.82) 45%, rgba(232, 220, 205, 0.85) 100%),
-    url("desert-sand-bg.png") !important;
+    url("desert-sand-bg.png?v=6") !important;
   background-size: cover !important;
   background-position: center top !important;
   background-attachment: fixed !important;

@@ -1,5 +1,5 @@
 /* Service worker for A Faith Driven Life PWA */
-const CACHE_NAME = 'faith-driven-life-v15';
+const CACHE_NAME = 'faith-driven-life-v16';
 const STATIC_URLS = [
   'index.html',
   'blogs.html',
@@ -20,11 +20,11 @@ const STATIC_URLS = [
   'resources/forgiveness.html',
   'resources/purpose.html',
   'resources/healing.html',
-  'faith-theme.css',
+  'faith-theme.css?v=6',
   'logo.png',
   'logo-official.png',
   'favicon.ico',
-  'desert-sand-bg.png',
+  'desert-sand-bg.png?v=6',
   'favicon.svg',
   'manifest.webmanifest'
 ];
@@ -90,6 +90,22 @@ self.addEventListener('fetch', function (event) {
         return res;
       }).catch(function () {
         return caches.match(event.request).then(function (cached) { return cached || new Response('{"feed":{"entry":[]}}', { status: 503, headers: { 'Content-Type': 'application/json' } }); });
+      })
+    );
+    return;
+  }
+
+  // Stylesheets: network-first so theme/CSS updates apply (CDN uses immutable long cache).
+  if ((url.pathname || '').toLowerCase().endsWith('.css')) {
+    event.respondWith(
+      fetch(event.request).then(function (res) {
+        var clone = res.clone();
+        if (res.type === 'basic' && res.status === 200) {
+          caches.open(CACHE_NAME).then(function (cache) { cache.put(event.request, clone); });
+        }
+        return res;
+      }).catch(function () {
+        return caches.match(event.request);
       })
     );
     return;
