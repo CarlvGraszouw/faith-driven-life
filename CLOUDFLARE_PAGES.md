@@ -15,11 +15,15 @@ This repo is configured for **Cloudflare Pages** with **Pages Functions** (Worke
 
 1. [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
 2. Select **`CarlvonGraszouw/faith-driven-life`**, branch **`main`**.
-3. **Build settings:**
+3. **Build settings (critical):**
    - **Framework preset:** None
-   - **Build command:** *(leave empty)*
+   - **Build command:** **leave completely empty** — do **not** use `npx wrangler deploy` (that is for **Workers**, not static **Pages**; it will fail with “Missing entry-point”).
    - **Build output directory:** `/` or `.` (repository root — same folder as `index.html`)
 4. **Save and Deploy.**
+
+### If the build log shows `Executing user deploy command: npx wrangler deploy`
+
+That is wrong. Open the project → **Settings** → **Builds & deployments** → **Edit configuration** → clear **Build command** (and **Deploy command** if present) → save → **Retry deployment**. This repo does **not** commit `wrangler.toml` so Cloudflare won’t treat the site as a Worker bundle.
 
 ## Custom domain & SSL
 
@@ -49,5 +53,7 @@ The repo cannot remove your Vercel account. In [Vercel](https://vercel.com):
 ```bash
 npx wrangler pages dev . --compatibility-date=2024-11-01
 ```
+
+Use **`wrangler pages dev`** (Pages), not `wrangler deploy` (Workers). Optionally copy `wrangler.toml.example` to `wrangler.toml` locally only; do not set the dashboard build step to wrangler deploy.
 
 Requires Node and a Cloudflare login (`npx wrangler login`).
