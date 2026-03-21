@@ -72,6 +72,11 @@ jobs:
       # Note: do not run `wrangler whoami` here — it uses /user/tokens/verify and fails for
       # Account API tokens. Pages deploy accepts Account tokens (see Cloudflare Pages CI docs).
 
+      # First push: project may not exist yet (API 8000007). Create once; ignore "already exists".
+      - name: Ensure Cloudflare Pages project exists
+        continue-on-error: true
+        run: npx wrangler@4 pages project create faith-driven-life --production-branch=main
+
       - name: Deploy to Cloudflare Pages
         id: deploy
         uses: cloudflare/wrangler-action@v3

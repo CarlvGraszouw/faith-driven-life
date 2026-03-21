@@ -35,9 +35,8 @@ That error means Cloudflare rejected the token or account pairing — not a newl
 2) Confirm CLOUDFLARE_ACCOUNT_ID is copied from the same Cloudflare account (sidebar on
    Workers & Pages). A token for Account A will fail if the ID is for Account B.
 
-3) In Cloudflare: Workers & Pages -> Create -> Pages -> Create a project (name can be
-   faith-driven-life) OR let the first successful deploy create it — but the token must
-   still have Pages Edit on that account.
+3) The GitHub workflow runs `wrangler pages project create faith-driven-life` once if the
+   project does not exist yet. You can also create the project manually in Workers & Pages.
 
 ================================================================================
 WHERE TO READ INSTRUCTIONS ON GITHUB (not the commit page)
