@@ -1,4 +1,12 @@
 ================================================================================
+CLOUDFLARE: DOMAIN vs PAGES (read CLOUDFLARE_PAGES.md "Dashboard UI" section)
+================================================================================
+
+  "Domains" in Cloudflare = DNS for a domain you onboarded (nameservers).
+  "Workers & Pages" -> faith-driven-life = your website project (can work while
+  Domains is empty; public URL is faith-driven-life.pages.dev until DNS is fixed).
+
+================================================================================
 CLOUDFLARE DEPLOY - DO THIS ONCE (about 2 minutes)
 ================================================================================
 

@@ -2,9 +2,34 @@
 
 This repo is configured for **Cloudflare Pages** with **Pages Functions** (Workers runtime) for `/api/blog-feed`.
 
+## Dashboard UI (exact labels — do not mix these up)
+
+### Cloudflare (`https://dash.cloudflare.com`)
+
+Select your **account** (top bar) if you have more than one.
+
+| Where | What it is |
+|--------|------------|
+| **Account home** → card **Domains** with button **Onboard a domain** | **DNS zones only** — domains whose **nameservers** you set to Cloudflare. **If this list is empty, Cloudflare is not yet your DNS provider for `afaithdrivenlife.com`.** This is **not** the Pages project list. |
+| Left sidebar → **Domains** | Same: **DNS** (records per domain/zone). |
+| Left sidebar → **Workers & Pages** | **Deployed projects.** Your site is **`faith-driven-life`** (Pages). This can show updates **even when Domains is empty** — the site still lives at **`https://faith-driven-life.pages.dev`**. |
+| **Workers & Pages** → **`faith-driven-life`** → **Custom domains** | Attach **`www.afaithdrivenlife.com`** / apex to **this** project. The wizard shows **exact DNS records** to add. |
+
+**In short:** **Domains** = “we host DNS for this domain.” **Workers & Pages → faith-driven-life** = “the website files deploy here.” You need **onboarding + DNS** for the public domain, **and** the **Custom domains** tab on the project.
+
+### Namecheap
+
+**Domain List** → **Manage** → **Nameservers** → **Custom DNS** → paste **only** Cloudflare’s **two** nameservers (from onboarding). Remove **Vercel** `*.vercel-dns.com` entries.
+
+### Vercel
+
+**Domains** (account) or **Project → Settings → Domains**. If delete says nameservers must change: fix **Namecheap** first, then delete again.
+
+---
+
 ## Automated deploy (no Cloudflare “build” dashboard)
 
-Push to **`main`** runs **`.github/workflows/deploy-cloudflare-pages.yml`**, which runs **`wrangler pages deploy .`** (correct for static Pages + `functions/`).
+Push to **`main`** runs **`.github/workflows/deploy-cloudflare-pages.yml`**, which stages into **`deploy-upload/`** and runs **`wrangler pages deploy deploy-upload …`** (static site + `functions/`).
 
 **One-time:** add **`CLOUDFLARE_API_TOKEN`** and **`CLOUDFLARE_ACCOUNT_ID`** to GitHub **Actions secrets** — see **`README.md`** (repo homepage).
 
