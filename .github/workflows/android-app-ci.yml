@@ -1,5 +1,4 @@
-# Android app — runs only when android-app/ changes (separate from Vercel website deploy).
-# Website: Vercel project with Root = repo root + ignoreCommand in vercel.json (skips build if only android-app changed).
+# Android app — runs only when android-app/ changes (separate from Cloudflare Pages website deploy).
 name: Android app CI
 on:
   push:

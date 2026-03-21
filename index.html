@@ -1618,8 +1618,8 @@
   </script>
   <script>
     (function () {
-      // Basic event tracking for email forms (Vercel Analytics custom events)
-      function track(name) { try { if (window.va) window.va('event', { name: name }); } catch (e) {} }
+      // Email form events (GA4)
+      function track(name) { try { if (typeof gtag !== 'undefined') gtag('event', name); } catch (e) {} }
       document.addEventListener('submit', function (e) {
         var form = e.target;
         if (!form || !form.getAttribute) return;
@@ -1890,7 +1890,6 @@
       showInstallPrompt();
     })();
   </script>
-  <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
   <script>
     (function () {
       // PWA-smart install prompt: show after 3 page views OR a saved verse.

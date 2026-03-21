@@ -1,5 +1,5 @@
 /* Service worker for A Faith Driven Life PWA */
-const CACHE_NAME = 'faith-driven-life-v7';
+const CACHE_NAME = 'faith-driven-life-v8';
 const STATIC_URLS = [
   'index.html',
   'blogs.html',
