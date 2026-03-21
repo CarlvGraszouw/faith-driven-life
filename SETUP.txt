@@ -6,7 +6,11 @@ STEP 1 - Open this exact page (copy the whole line into your browser):
 
 https://github.com/CarlvGraszouw/faith-driven-life/settings/secrets/actions
 
-STEP 2 - Click the green button "New repository secret" and add TWO secrets:
+STEP 2 - Click the green button "New repository secret" and add TWO secrets.
+Paste the values carefully: no extra spaces or line breaks before/after (if deploy fails with
+"invalid header value", edit the secret and paste again on one line).
+
+STEP 2b - Add TWO secrets:
 
   Name:  CLOUDFLARE_API_TOKEN
   Value: Create at https://dash.cloudflare.com/profile/api-tokens
