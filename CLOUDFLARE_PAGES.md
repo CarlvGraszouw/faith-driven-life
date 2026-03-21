@@ -6,7 +6,7 @@ This repo is configured for **Cloudflare Pages** with **Pages Functions** (Worke
 
 Push to **`main`** runs **`.github/workflows/deploy-cloudflare-pages.yml`**, which runs **`wrangler pages deploy .`** (correct for static Pages + `functions/`).
 
-**One-time:** add **`CLOUDFLARE_API_TOKEN`** and **`CLOUDFLARE_ACCOUNT_ID`** to GitHub **Actions secrets** — see **`SECRETS_ONE_TIME.md`**.
+**One-time:** add **`CLOUDFLARE_API_TOKEN`** and **`CLOUDFLARE_ACCOUNT_ID`** to GitHub **Actions secrets** — see **`README.md`** (repo homepage).
 
 Do **not** set a Cloudflare Pages **build command** to `npx wrangler deploy` (that is for Workers). If you use **only** GitHub Actions to deploy, **disconnect** Cloudflare’s **Git** integration for this repo to avoid double deploys.
 
@@ -22,7 +22,7 @@ Do **not** set a Cloudflare Pages **build command** to `npx wrangler deploy` (th
 ## Connect GitHub → Pages
 
 1. [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Select **`CarlvonGraszouw/faith-driven-life`**, branch **`main`**.
+2. Select **`CarlvGraszouw/faith-driven-life`**, branch **`main`**.
 3. **Build settings (critical):**
    - **Framework preset:** None
    - **Build command:** **leave completely empty** — do **not** use `npx wrangler deploy` (that is for **Workers**, not static **Pages**; it will fail with “Missing entry-point”).
