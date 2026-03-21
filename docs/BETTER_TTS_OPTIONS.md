@@ -20,7 +20,7 @@ If you want a **professional AI voice** (e.g. for all visitors, same quality eve
 ## Option 2: API via a small backend (on-demand AI voice)
 
 1. Sign up for **Play.ht** or **ElevenLabs** and get an API key.
-2. Add a **serverless function** (e.g. [Netlify](https://www.netlify.com), [Vercel](https://vercel.com), or [Cloudflare Workers](https://workers.cloudflare.com)) that:
+2. Add a **serverless function** (e.g. [Netlify](https://www.netlify.com) or [Cloudflare Workers](https://workers.cloudflare.com)) that:
    - Accepts the post text (or post URL).
    - Calls the TTS API with your key.
    - Returns or streams the audio.

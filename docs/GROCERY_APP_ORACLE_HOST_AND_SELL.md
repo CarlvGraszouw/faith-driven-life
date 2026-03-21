@@ -180,7 +180,7 @@ Visit **http://YOUR_PUBLIC_IP/api/deals** – you should get the same JSON. The 
 ### Step 3.1 – Add a simple frontend (optional but good for selling)
 
 - Build a small **web app** (e.g. React, Vue, or plain HTML/JS) that calls `GET /api/deals` and shows “Best deals today” with a clear disclaimer.
-- Host the frontend: either on the **same Oracle server** (Nginx serves static files or a build) or on **Vercel/Netlify** pointing to your Oracle API.
+- Host the frontend: either on the **same Oracle server** (Nginx serves static files or a build) or on **Cloudflare Pages** or **Netlify** pointing to your Oracle API.
 - This gives you something visible to show and sell (e.g. “See where each item is cheapest”).
 
 ### Step 3.2 – Add user accounts (auth)

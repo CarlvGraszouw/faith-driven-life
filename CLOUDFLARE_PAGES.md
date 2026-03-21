@@ -18,14 +18,14 @@ Cloudflare Pages rejects uploads where **any single file is larger than 25 MiB**
 
 **Step-by-step:** create an R2 bucket, upload the MP3, enable a public URL, optional CORS — see **`docs/HOST_AUDIO_R2.md`**. Then set **`REMOTE_SUPREME_COMMISSION_MP3_URL`** in **`audio.html`** to the public `https://…` URL (or leave it empty for local-only playback from `audio/`).
 
-## What was migrated from Vercel
+## Site layout (Cloudflare)
 
-| Vercel | Cloudflare |
-|--------|------------|
-| `vercel.json` headers | Root `_headers` |
-| `vercel.json` rewrites | Root `_redirects` (200 rewrites) |
-| `api/blog-feed.js` (Node serverless) | `functions/api/blog-feed.js` (Pages Function) |
-| Vercel Analytics script | Removed — use **Google Analytics** (already in pages) and/or **Cloudflare Web Analytics** in the dashboard |
+| Concern | How it’s handled |
+|--------|------------------|
+| HTTP headers | Root `_headers` |
+| Pretty URLs | Root `_redirects` (200 rewrites) |
+| `/api/blog-feed` | `functions/api/blog-feed.js` (Pages Function) |
+| Analytics | **Google Analytics** (in pages) and/or **Cloudflare Web Analytics** (dashboard) |
 
 ## Connect GitHub → Pages
 
@@ -55,14 +55,6 @@ That is wrong. Open the project → **Settings** → **Builds & deployments** �
 ## Optional: Cloudflare Web Analytics
 
 Dashboard → **Web Analytics** → add site → paste the lightweight beacon snippet into `index.html` `<head>` if you want Cloudflare’s privacy-friendly metrics alongside GA4.
-
-## Delete Vercel (manual)
-
-The repo cannot remove your Vercel account. In [Vercel](https://vercel.com):
-
-1. Remove **Git** integration from duplicate projects (`faith-driven-life`, `faith-driven-life-hlzj`).
-2. **Domains** → remove `afaithdrivenlife.com` / `www` from Vercel (after Cloudflare serves production).
-3. **Delete** unused projects or the whole team if you no longer need Vercel.
 
 ## Local preview (optional)
 

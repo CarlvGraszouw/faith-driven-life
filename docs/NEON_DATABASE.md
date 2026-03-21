@@ -97,7 +97,7 @@ The connection string must stay only on your computer and **never** be committed
 
 ### Option C: Use from a backend later
 
-When you add a backend (e.g. serverless functions on Vercel/Netlify), set **DATABASE_URL** in that platform’s environment variables (dashboard → Settings → Environment variables) and use the same connection string there. Do not put it in front-end code or in the HTML/JS that runs in the browser.
+When you add a backend (e.g. serverless functions on Cloudflare Workers or Netlify), set **DATABASE_URL** in that platform’s environment variables (dashboard → Settings → Environment variables) and use the same connection string there. Do not put it in front-end code or in the HTML/JS that runs in the browser.
 
 ---
 

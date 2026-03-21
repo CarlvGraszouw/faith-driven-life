@@ -71,7 +71,7 @@ Once you have enough traffic:
 ---
 
 ## Analytics & dashboard note
-- Use **Vercel Analytics** for page views.
+- Use **Google Analytics** or **Cloudflare Web Analytics** for page views.
 - Watch these pages weekly:
   - `/resources/anxiety-verses`, `/resources/peace-verses`, `/verse-pack.html`, `/community.html`
 - Track these events (implemented on homepage):

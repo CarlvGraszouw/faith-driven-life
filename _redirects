@@ -1,4 +1,4 @@
-# Pretty URLs -> HTML (200 rewrite; same as former vercel.json rewrites)
+# Pretty URLs -> HTML (200 rewrite)
 /resources/anxiety-verses  /resources/anxiety.html  200
 /resources/peace-verses  /resources/peace.html  200
 /resources/love-verses  /resources/love.html  200

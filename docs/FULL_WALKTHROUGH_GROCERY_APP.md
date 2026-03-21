@@ -311,7 +311,7 @@ Do these when you’re ready to charge users. Order is flexible; many people do:
 - Build a small page (HTML/JS or React/Vue) that calls `GET http://YOUR_PUBLIC_IP/api/deals` and shows “Best deals today” with a short disclaimer.
 - Host that page either:
   - On the **same server** (e.g. put the built files in `/var/www/html` or a folder and point Nginx at it), or
-  - On **Vercel/Netlify** and have the frontend call your Oracle API URL.
+  - On **Cloudflare Pages** or **Netlify** and have the frontend call your Oracle API URL.
 
 This gives you something to show and sell (“see where each item is cheapest”).
 

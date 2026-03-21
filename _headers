@@ -1,4 +1,4 @@
-# Global security (replaces vercel.json headers)
+# Global security headers
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
