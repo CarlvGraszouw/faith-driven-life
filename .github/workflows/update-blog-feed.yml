@@ -7,9 +7,8 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - 'blog-feed.json'
+      # Do not list blog-feed.json here — otherwise pushes that only refresh the feed skip this workflow.
       - '**.md'
-      - '.github/**'
       - 'android-app/**'
   workflow_dispatch:
 jobs:
