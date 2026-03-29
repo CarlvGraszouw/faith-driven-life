@@ -25,3 +25,6 @@ downloads/
 *.dmg
 *.pkg
 .vercel/
+
+# Standalone repo: github.com/CarlvGraszouw/ipengaconsulting
+boilerplate-vercel-next/
