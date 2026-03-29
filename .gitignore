@@ -26,5 +26,5 @@ downloads/
 *.pkg
 .vercel/
 
-# Standalone repo: github.com/CarlvGraszouw/ipengaconsulting
-boilerplate-vercel-next/
+# Standalone Next.js site — own repo + Vercel (github.com/CarlvGraszouw/ipengaconsulting)
+ipengaconsulting/
