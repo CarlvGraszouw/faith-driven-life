@@ -317,6 +317,18 @@
           return findAndShow(entries);
         }).catch(function () { clearTimeout(t); return false; });
       }
+      function tryApiRoute() {
+        var ctrl = new AbortController();
+        var t = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 15000);
+        return fetch('/api/blog-feed', { signal: ctrl.signal, cache: 'no-store' }).then(function (res) {
+          clearTimeout(t);
+          if (!res.ok) throw new Error();
+          return res.json();
+        }).then(function (data) {
+          var entries = (data && data.feed && data.feed.entry) || [];
+          return findAndShow(entries);
+        }).catch(function () { clearTimeout(t); return false; });
+      }
       function tryDirect() {
         var feedUrl = BLOGGER_FEED + '&_=' + Date.now();
         return fetch(feedUrl).then(function (res) { if (!res.ok) throw new Error(); return res.json(); }).then(function (data) {
@@ -335,14 +347,16 @@
           if (findAndShow(entries)) return;
           showError();
         }).catch(function () {
-          if (proxyIndex + 1 < CORS_PROXIES.length) tryLoad(proxyIndex + 1); else showError();
+          if (proxyIndex + 1 < CORS_PROXIES.length) tryLoad(proxyIndex + 1);
+          else tryStaticFeed().then(function (found) { if (!found) showError(); });
         });
       }
       if (!postUrl) { showError(); } else {
-        tryStaticFeed().then(function (found) {
+        tryApiRoute().then(function (found) {
           if (found) return;
           tryDirect().then(function (found2) {
-            if (!found2) tryLoad(0);
+            if (found2) return;
+            tryLoad(0);
           });
         });
       }

@@ -280,7 +280,7 @@
         }).catch(function () { return false; });
       }
       function load() {
-        tryStaticFeed().then(function (ok) {
+        tryApiRoute().then(function (ok) {
           if (ok) return;
           var feedUrl = BLOGGER_FEED_BASE + '&_=' + Date.now();
           var proxies = [
@@ -288,16 +288,19 @@
             'https://api.allorigins.win/raw?url=' + encodeURIComponent(feedUrl),
             'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(feedUrl)
           ];
-          var apiRoute = tryApiRoute();
           var direct = tryDirect();
           var proxyPromises = proxies.map(function (url) { return fetchWithTimeout(url, false).then(function (text) { var d; try { d = JSON.parse(text); } catch (e) { throw new Error(); } renderPosts(d); return true; }).catch(function () { return false; }); });
           var allOriginsGet = tryAllOriginsGet();
-          var all = [apiRoute, direct].concat(proxyPromises).concat([allOriginsGet]);
+          var all = [direct].concat(proxyPromises).concat([allOriginsGet]);
           var resolved = 0;
           function onDone(ok) {
             if (ok) return;
             resolved++;
-            if (resolved === all.length && !loadingDone) showError();
+            if (resolved === all.length) {
+              tryStaticFeed().then(function (ok2) {
+                if (!ok2 && !loadingDone) showError();
+              });
+            }
           }
           all.forEach(function (p) { p.then(onDone).catch(function () { onDone(false); }); });
         });
