@@ -42,7 +42,9 @@ class FigDraw:
         self.pieces = []
         self.extra_detail = []            # free detail strokes drawn last (not clipped inside the figure)
         self.min_edge = 16.0              # piece edges shorter than this (authoring units) become hatch
+        self.close = 1.2                  # morphological closing of the silhouette (authoring units)
         self.extra_hatch = []
+        self.clip_hatch = False           # clip each piece's hatch strokes to its own outline
 
     def piece(self, name, pts, rigid=False, **kw):
         if rigid:
@@ -67,11 +69,12 @@ class FigDraw:
                 return g if not g.is_empty else Point(x, y).buffer(0.01)
             return to_poly(T(p.outline))
         polys = [G(p) for p in self.pieces]
-        sil = unary_union([g for g, p in zip(polys, self.pieces) if p.sil]).buffer(0.25).buffer(-0.25)
+        sil = unary_union([g for g, p in zip(polys, self.pieces) if p.sil]).buffer(self.close * s).buffer(-self.close * s)
         it = board.item(z, group, name)
         it.occlude(sil)
-        for r in rings(sil, 2.0):
-            it.add(sil_cls, r)
+        rs = rings(sil, 2.0)
+        for k, r in enumerate(rs):
+            it.add(sil_cls if (k == 0 or plen(r) > 220 * s) else 'detail', r)
         silb = sil.exterior.buffer(gap * 0.9) if hasattr(sil, 'exterior') else unary_union([q.exterior for q in _polys_of(sil)]).buffer(gap * 0.9)
         n = len(self.pieces)
         fronts = []
@@ -117,6 +120,8 @@ class FigDraw:
                         it.add(inner_cls, ln)
             for q in p.hatch:
                 ls = LineString(T(q))
+                if self.clip_hatch:
+                    ls = ls.intersection(g.buffer(-0.8 * s))
                 if frb is not None:
                     ls = ls.difference(fr)
                 for ln in _lines_of(ls):
@@ -135,6 +140,20 @@ class FigDraw:
                 for q in _polys_of(reg):
                     if q.area > 6:
                         it.fill(list(q.exterior.coords), p.fill or accent[p.name], cls='hatch')
+        allp = unary_union(polys)
+        for q in getattr(self, 'extra_line', []):
+            ls = LineString(T(q))
+            # the shaft passes behind the fist/hand pieces drawn later: clip by pieces whose name contains fist/hand
+            hands = [g for g, p in zip(polys, self.pieces) if any(k in p.name for k in ('fist', 'hand'))]
+            if hands:
+                ls = ls.difference(unary_union(hands).buffer(gap))
+            for ln in _lines_of(ls):
+                if plen(ln) > 2:
+                    it.add(sil_cls, ln)
+        for p, g in zip(self.pieces, polys):
+            if not p.sil and not isinstance(p, RawPiece):
+                for r in rings(g, 1.0):
+                    it.add(inner_cls, r)
         for q in self.extra_detail:
             it.add(inner_cls, T(q))
         for q in self.extra_hatch:
@@ -632,12 +651,12 @@ def helmet_head(F, ox, oy, s=1.0, tilt=0.0, name='rhead', mouth=-0.4, lod=2):
     # helmet: dome over the skull, small brow peak in front, ribbed neck guard projecting back almost level
     bowl = [(16, -5.0), (26, -6.4), (33, -4.0), (38.6, 1.0), (41.2, 6.4), (42.0, 10.6), (44.6, 12.2, C), (43.0, 14.2),
             (38.0, 13.4), (32.0, 13.2), (26.0, 14.0), (20.6, 16.4), (14.0, 17.0), (9.0, 19.0), (6.0, 26.0), (3.0, 31.0),
-            (-2.0, 33.6), (-12.0, 35.0), (-19.0, 35.8, C), (-19.6, 32.2), (-12.0, 30.4), (-5.4, 28.4), (-3.4, 20.0),
+            (-2.0, 34.2), (-9.6, 37.6), (-16.8, 41.6, C), (-18.4, 38.0), (-11.0, 33.2), (-5.4, 28.4), (-3.4, 20.0),
             (-2.4, 10.0), (2.0, 2.0), (8.0, -2.8)]
     F.piece(name + '_helmet', T(bowl),
             inner=[T([(41.0, 9.6), (34.0, 8.6), (26.0, 8.8), (17.0, 10.6), (9.6, 14.6)]),
-                   T([(-3.2, 29.0), (-11.0, 31.8), (-18.4, 33.0)])],
-            hatch=[T([(30.0, -1.6), (22.0, -2.6), (12.0, 0.0), (5.0, 7.0)]), T([(-4.0, 31.6), (-12.0, 33.4)]),
+                   T([(-3.2, 29.6), (-10.4, 34.0), (-17.0, 38.6)])],
+            hatch=[T([(30.0, -1.6), (22.0, -2.6), (12.0, 0.0), (5.0, 7.0)]), T([(-4.0, 32.2), (-11.0, 35.6)]),
                    T([(24.0, 3.0), (16.0, 4.0), (9.0, 8.6), (5.0, 15.0)]), T([(36.0, 10.8), (39.0, 11.6)])])
     F.piece(name + '_knob', T([(20.0, -5.6), (20.4, -10.6), (25.6, -11.0), (26.0, -6.2)]), rigid=True)
     # hinged cheek piece covering the cheek down to the jaw; the ear shows in the cut-out behind it
@@ -669,107 +688,6 @@ def mail_rows(x0, x1, y0, y1, step=7.0, amp=2.2, w=4.4):
     return rows
 
 
-def legionary_a(lod=2):
-    """Legionary standing guard facing us (weight on his right leg), head turned to watch the people on the right:
-    pilum planted at his right, curved scutum grounded at his left with his hand over its rim."""
-    F = FigDraw()
-    F.min_edge = 10.0
-    # ---------- relaxed left leg (viewer's right), knee a little bent, foot turned out
-    F.piece('l_leg', [(12, -134), (38, -134), (39, -112), (41, -100), (45, -82), (46, -66), (43, -50), (40, -32), (41, -24),
-                      (48, -14), (58, -6), (60, 0, C), (22, 0, C), (20, -6), (22, -16), (24, -30), (20, -50), (16, -76),
-                      (15, -96), (13, -112)],
-            inner=[[(20, -108), (27, -98), (35, -104)]],
-            hatch=[[(23, -24), (42, -24)], [(22, -15), (48, -12)], [(21, -6), (56, -4)], [(31, -28), (33, -2)], [(40, -26), (44, -4)],
-                   [(36, -70), (34, -46)]],
-            shade=[([(32, -130), (40, -130), (44, -84), (40, -40), (34, -44), (36, -84)], 80, 2.4)])
-    # ---------- weight-bearing right leg (viewer's left), straight, foot turned out to the left
-    F.piece('r_leg', [(-38, -134), (-12, -134), (-12, -114), (-13, -100), (-16, -82), (-18, -64), (-18, -46), (-20, -30),
-                      (-18, -22), (-16, -12), (-14, -4), (-14, 0, C), (-52, 0, C), (-50, -6), (-42, -14), (-36, -22), (-37, -30),
-                      (-40, -48), (-42, -70), (-40, -88), (-37, -104), (-38, -118)],
-            inner=[[(-33, -110), (-26, -100), (-19, -106)], [(-24, -80), (-23, -60), (-25, -40)]],
-            hatch=[[(-36, -24), (-19, -24)], [(-42, -14), (-16, -14)], [(-48, -6), (-15, -6)], [(-30, -28), (-30, -2)],
-                   [(-22, -28), (-21, -2)]],
-            shade=[([(-40, -110), (-34, -110), (-36, -60), (-38, -34), (-42, -50)], 80, 2.4)])
-    # ---------- tunic skirt
-    F.piece('tunic', [(-48, -174), (48, -174), (52, -152), (56, -130, C), (40, -126), (22, -130), (4, -126), (-14, -130),
-                      (-34, -126), (-56, -130, C), (-52, -152)],
-            hatch=[[(-42, -166), (-44, -132)], [(-28, -164), (-30, -130)], [(14, -164), (16, -130)], [(30, -164), (32, -130)],
-                   [(44, -166), (46, -134)]],
-            shade=[([(-56, -158), (56, -158), (56, -128), (-56, -128)], 75, 3.2)])
-    # ---------- mail shirt: trapezius slope, deltoids, short sleeves, bloused over the belt, flared hem
-    mail = [(-16, -302), (-30, -297), (-44, -291), (-52, -285), (-57, -276), (-59.5, -264), (-60, -255, C), (-51, -252, C),
-            (-47, -246), (-45, -230), (-43.5, -212), (-44, -203), (-46.5, -196), (-48.5, -186), (-50, -176), (-52, -169, C),
-            (-30, -167), (0, -166), (30, -167), (52, -169, C), (50, -176), (48.5, -186), (46.5, -196), (44, -203), (43.5, -212),
-            (45, -230), (47, -246), (51, -252, C), (60, -255, C), (59.5, -264), (57, -276), (52, -285), (44, -291), (30, -297),
-            (16, -302)]
-    F.piece('mail', mail,
-            hatch=mail_rows(-42, 43, -246, -206, 8.0) + mail_rows(-48, 49, -184, -170, 7.0),
-            shade=[([(-48, -250), (-38, -250), (-36, -170), (-52, -170)], 76, 2.8), ([(36, -250), (48, -250), (52, -170), (38, -170)], 76, 3.8)])
-    # shoulder doubling (humeralia) with its S-hooks
-    F.piece('humeral', [(-16, -302), (-30, -297), (-44, -291), (-52, -285), (-57, -276), (-58, -268), (-44, -263), (-26, -260),
-                        (-8, -257), (0, -258), (8, -257), (26, -260), (44, -263), (58, -268), (57, -276), (52, -285), (44, -291),
-                        (30, -297), (16, -302)],
-            inner=[[(-7, -268), (-4, -264), (-7, -260)], [(7, -268), (4, -264), (7, -260)]],
-            hatch=mail_rows(-50, 52, -286, -266, 7.0))
-    # crossed belts with plates, and the studded apron
-    F.piece('belt', [(-47, -201), (0, -197), (47, -201), (47, -192), (0, -188), (-47, -192)],
-            hatch=[[(-39, -196), (-33, -196)], [(-24, -194.4), (-18, -194.4)], [(-9, -193), (-3, -193)], [(8, -193.4), (14, -193.4)],
-                   [(23, -194.8), (29, -194.8)], [(36, -196), (42, -196)]])
-    F.piece('belt2', [(-48, -191), (-6, -180), (46, -186), (46, -177), (-6, -171), (-49, -182)],
-            hatch=[[(-34, -184), (-28, -182)], [(-20, -180), (-14, -178.6)], [(14, -178), (20, -178.8)], [(30, -180), (36, -181)]])
-    F.piece('apron', [(-17, -174), (9, -174), (11, -128, C), (-19, -128, C)],
-            inner=[[(-11, -172), (-11, -130)], [(-4, -172), (-4, -130)], [(3, -172), (3, -130)]],
-            hatch=[[(-17, -160), (-15, -160)], [(-11, -152), (-9.4, -152)], [(-4, -162), (-2.4, -162)], [(3, -148), (4.6, -148)],
-                   [(-16, -140), (-14, -140)], [(-10, -136), (-8, -136)], [(5, -136), (7, -136)], [(-18, -129), (10, -129)]])
-    # gladius on the right hip
-    F.piece('scabbard', [(-58, -190), (-48, -190), (-49, -128), (-53, -119, C), (-57, -128)],
-            inner=[[(-58, -180), (-48, -180)], [(-58, -158), (-49, -158)]])
-    F.piece('hilt', [(-60, -194), (-46, -194), (-48, -200), (-50, -212), (-48, -217), (-53, -223, C), (-58, -217), (-56, -212),
-                     (-58, -200)])
-    F.piece('focale', [(-17, -300), (0, -306), (17, -300), (14, -290), (0, -286), (-14, -290)],
-            hatch=[[(-10, -298), (0, -294), (10, -298)]])
-    F.piece('neck', [(-13, -322), (12, -322), (14, -300), (0, -296), (-14, -300)], edge=False)
-    helmet_head(F, -21, -366, 1.0, tilt=0, name='head', mouth=-0.7)
-    # ---------- right arm (viewer's left), held a little away from the body, fist round the pilum
-    F.piece('r_arm', [(-60, -256), (-51, -253), (-54, -240), (-57, -230), (-61, -222), (-67, -213), (-74, -205), (-80, -208),
-                      (-77, -218), (-73, -229), (-68, -242), (-65, -252)],
-            inner=[[(-63, -236), (-60, -230)]],
-            hatch=[[(-62, -248), (-64, -238)], [(-70, -226), (-74, -216)]],
-            shade=[([(-66, -252), (-61, -252), (-68, -214), (-74, -216)], 72, 2.2)])
-    # ---------- the scutum, face on, grounded at his left; his left arm over its rim
-    x0 = 62
-    sh = [(x0, -238), (x0 + 30, -232), (x0 + 58, -230), (x0 + 86, -232), (x0 + 112, -238, C), (x0 + 114, -120),
-          (x0 + 112, -6, C), (x0 + 86, 0), (x0 + 58, 2), (x0 + 30, 0), (x0, -6, C), (x0 - 2, -120)]
-    F.piece('l_arm', [(51, -252), (60, -255), (63, -244), (66, -236), (72, -240), (64, -228), (58, -232), (54, -242)])
-    F.piece('shield', sh,
-            inner=[[(x0 + 6, -230), (x0 + 32, -224.6), (x0 + 58, -222.6), (x0 + 84, -224.6), (x0 + 106, -230)],
-                   [(x0 + 6, -12), (x0 + 32, -7), (x0 + 58, -5), (x0 + 84, -7), (x0 + 106, -12)],
-                   [(x0 + 6, -230), (x0 + 5, -12)], [(x0 + 106, -230), (x0 + 107, -12)]],
-            hatch=[[(x0 + 57, -222), (x0 + 57, -138)], [(x0 + 57, -100), (x0 + 57, -8)]],
-            fill=RUST)
-    F.piece('boss', [(x0 + 44, -130), (x0 + 50, -140), (x0 + 58, -142), (x0 + 66, -140), (x0 + 72, -130), (x0 + 72, -108),
-                     (x0 + 66, -98), (x0 + 58, -96), (x0 + 50, -98), (x0 + 44, -108)],
-            inner=[[(x0 + 50, -128), (x0 + 58, -134), (x0 + 66, -128)]],
-            hatch=[[(x0 + 48, -114), (x0 + 56, -106), (x0 + 66, -108)]])
-    F.extra_detail += [[(x0 + 44, -124), (x0 + 32, -128), (x0 + 36, -136), (x0 + 16, -152)],
-                       [(x0 + 72, -124), (x0 + 84, -128), (x0 + 80, -136), (x0 + 100, -152)],
-                       [(x0 + 44, -112), (x0 + 32, -108), (x0 + 36, -100), (x0 + 16, -84)],
-                       [(x0 + 72, -112), (x0 + 84, -108), (x0 + 80, -100), (x0 + 100, -84)]]
-    F.extra_hatch += [[(x0 + 24, -176), (x0 + 36, -186), (x0 + 50, -188), (x0 + 66, -188), (x0 + 80, -186), (x0 + 92, -176)],
-                      [(x0 + 24, -62), (x0 + 36, -52), (x0 + 50, -50), (x0 + 66, -50), (x0 + 80, -52), (x0 + 92, -62)],
-                      [(x0 + 28, -182), (x0 + 31, -192)], [(x0 + 40, -186), (x0 + 42, -196)], [(x0 + 76, -186), (x0 + 74, -196)],
-                      [(x0 + 88, -182), (x0 + 85, -192)]]
-    F.piece('l_hand', [(64, -238), (70, -247), (80, -249), (88, -246), (92, -238), (86, -231), (74, -230), (66, -232)],
-            inner=[[(74, -246), (75, -233)], [(80, -247), (81, -234)], [(86, -244), (86, -236)]])
-    # ---------- pilum planted beside his right foot, fist round the shaft
-    F.piece('pilum', [(-85.4, 0), (-82.6, 0), (-82.8, -330), (-81.0, -334), (-81.0, -346), (-83.0, -350), (-83.2, -456),
-                      (-82.0, -462), (-84.0, -476, C), (-86.0, -462), (-84.8, -456), (-85.0, -350), (-87.0, -346), (-87.0, -334),
-                      (-85.2, -330)], rigid=True, edge=False)
-    F.piece('r_fist', [(-92, -216), (-84, -220), (-76, -218), (-72, -210), (-74, -200), (-82, -196), (-92, -200), (-94, -208)],
-            inner=[[(-86, -218), (-86, -200)], [(-80, -217), (-80, -199)]])
-    return F
-
-
 def limb(p0, p1, stations, n=None):
     """Organic limb outline along the bone p0->p1.  stations: list of (t, wl, wr) = position along the bone (0..1) and
     half-widths on the left/right of the direction of travel.  Returns a closed point list (smooth)."""
@@ -786,308 +704,125 @@ def limb(p0, p1, stations, n=None):
 
 
 def legionary_a(lod=2):
-    """Legionary standing guard facing us (weight on his right leg), head turned to watch the people on the right:
-    pilum planted at his right, curved scutum grounded at his left with his hand over its rim."""
+    """Legionary standing guard facing us, head turned to watch the people on the right: pilum planted at his right,
+    gripped at waist height; curved scutum grounded at his left with his hand resting on its rim."""
     F = FigDraw()
-    F.min_edge = 10.0
-    # landmarks (head 48 -> 7.5 heads)
-    # ---------- left leg (viewer's right): relaxed, slightly out
-    F.piece('l_thigh', limb((18, -176), (26, -100), [(0, 19, 18), (0.4, 18, 18), (0.8, 13, 14), (1.0, 11, 12)]), edge=False)
-    F.piece('l_shin', limb((26, -104), (32, -16), [(0, 11, 11), (0.12, 11, 12), (0.3, 10.5, 14.5), (0.55, 8, 11), (0.85, 6.5, 6.5),
+    F.min_edge = 18.0
+    F.close = 1.6
+    F.clip_hatch = True
+    # ---------- legs, bare below the tunic; caligae seen from the front, toes turned slightly out
+    F.piece('l_thigh', limb((17, -178), (24, -106), [(0, 19, 18), (0.4, 18, 17), (0.8, 13, 13), (1.0, 11.5, 11)]), edge=False)
+    F.piece('l_shin', limb((24, -110), (29, -14), [(0, 11.5, 11), (0.1, 12, 11.5), (0.28, 11, 15), (0.5, 9, 12.5), (0.8, 6.8, 7.4),
                                                   (1.0, 7, 7)]),
-            hatch=[[(30, -70), (34, -44)]])
-    sandal(F, 'l_foot', (31, -12), (58, 6), mirror=True)
-    F.extra_hatch += [[(24, -30), (38, -26)], [(24, -22), (38, -18)], [(25, -14), (37, -11)]]
-    # ---------- right leg (viewer's left): weight-bearing, straight
-    F.piece('r_thigh', limb((-18, -176), (-22, -100), [(0, 18, 19), (0.4, 18, 18), (0.8, 14, 13), (1.0, 12, 11)]), edge=False)
-    F.piece('r_shin', limb((-22, -104), (-26, -16), [(0, 11, 11), (0.12, 12, 11), (0.3, 14.5, 10.5), (0.55, 11, 8), (0.85, 6.5, 6.5),
+            hatch=[[(19.6, -104), (21.4, -99), (24.4, -97.4), (27.4, -99), (29.0, -104)], [(36, -80), (36.6, -58)]])
+    front_foot(F, 'l_foot', 29.4, -17.0, side=1)
+    F.piece('r_thigh', limb((-17, -178), (-20, -106), [(0, 18, 19), (0.4, 17, 18), (0.8, 13, 13), (1.0, 11, 11.5)]), edge=False)
+    F.piece('r_shin', limb((-20, -110), (-23, -14), [(0, 11, 11.5), (0.1, 11.5, 12), (0.28, 15, 11), (0.5, 12.5, 9), (0.8, 7.4, 6.8),
                                                     (1.0, 7, 7)]),
-            inner=[[(-30, -108), (-23, -101), (-16, -106)]],
-            hatch=[[(-30, -72), (-29, -46)]])
-    sandal(F, 'r_foot', (-25, -12), (-52, 6), mirror=False)
-    F.extra_hatch += [[(-32, -30), (-18, -26)], [(-32, -22), (-18, -18)], [(-31, -14), (-19, -11)]]
-    # ---------- tunic skirt (to just above the knee)
-    F.piece('tunic', [(-42, -176), (42, -176), (45, -150), (49, -116, C), (34, -112), (18, -116), (2, -112), (-14, -116),
-                      (-30, -112), (-48, -116, C), (-45, -150)],
-            hatch=[[(-36, -166), (-38, -118)], [(-22, -164), (-24, -114)], [(14, -164), (16, -116)], [(28, -164), (30, -114)],
-                   [(40, -166), (42, -120)]],
-            shade=[([(-49, -150), (49, -150), (49, -114), (-49, -114)], 75, 3.0)])
-    # ---------- arms (drawn before the mail so the short sleeves overlap them)
-    F.piece('r_upperarm', limb((-44, -284), (-56, -222), [(0, 11, 12), (0.25, 12, 12.5), (0.6, 10.5, 11), (1.0, 9, 9.5)]), edge=False)
-    F.piece('r_forearm', limb((-56, -226), (-74, -176), [(0, 9, 9.5), (0.2, 10, 10.5), (0.55, 8.5, 8.5), (1.0, 6.5, 6.5)]),
-            hatch=[[(-62, -214), (-66, -200)]])
-    F.piece('l_upperarm', limb((44, -284), (58, -226), [(0, 12, 11), (0.25, 12.5, 12), (0.6, 11, 10.5), (1.0, 9.5, 9)]), edge=False)
-    F.piece('l_forearm', limb((58, -230), (78, -238), [(0, 9.5, 9), (0.3, 10, 9.5), (1.0, 7, 7)]))
-    # ---------- mail shirt over the torso with short sleeves
-    mail = [(-14, -300), (-26, -296), (-38, -291), (-46, -286), (-52, -278), (-55, -266), (-56, -256, C), (-46, -252, C),
-            (-40, -246), (-37, -230), (-35, -214), (-35, -204), (-37, -196), (-40, -186), (-43, -176), (-45, -168, C), (-24, -166),
-            (0, -165), (24, -166), (45, -168, C), (43, -176), (40, -186), (37, -196), (35, -204), (35, -214), (37, -230),
-            (40, -246), (46, -252, C), (56, -256, C), (55, -266), (52, -278), (46, -286), (38, -291), (26, -296), (14, -300)]
+            hatch=[[(-25.0, -104), (-23.2, -99), (-20.2, -97.4), (-17.2, -99), (-15.6, -104)], [(-32, -80), (-32.6, -58)]])
+    front_foot(F, 'r_foot', -23.4, -17.0, side=-1)
+    # ---------- tunic skirt below the mail, a few soft folds
+    F.piece('tunic', [(-41, -176), (41, -176), (44, -150), (47, -118, C), (34, -114), (18, -118), (2, -114), (-14, -118),
+                      (-30, -114), (-46, -118, C), (-44, -150)],
+            hatch=[[(-34, -166), (-36, -120)], [(-22, -164), (-23, -118)], [(16, -164), (17, -120)], [(30, -164), (32, -118)]],
+            shade=[([(-47, -150), (47, -150), (47, -116), (-47, -116)], 75, 3.0)])
+    # ---------- arms (under the short mail sleeves): right forearm forward to the pilum, left up to the shield rim
+    F.piece('r_upperarm', limb((-45, -266), (-58, -222), [(0, 11, 11.5), (0.35, 12, 12), (0.75, 9.5, 10), (1.0, 8.5, 9)]), edge=False)
+    F.piece('r_forearm', limb((-57, -224), (-84, -216), [(0, 9.5, 9.5), (0.3, 10, 10), (1.0, 6.6, 6.6)]),
+            hatch=[[(-62, -228), (-74, -226)]])
+    F.piece('l_upperarm', limb((45, -266), (58, -224), [(0, 11.5, 11), (0.35, 12, 12), (0.75, 10, 9.5), (1.0, 9, 8.5)]), edge=False)
+    F.piece('l_forearm', limb((57, -226), (73, -243), [(0, 9, 8.5), (0.3, 9.5, 9.5), (1.0, 6.6, 6.6)]))
+    # ---------- mail shirt: V-shaped torso, short sleeves, bloused over the belt, flared hem
+    mail = [(-13, -306), (-24, -302), (-36, -296), (-45, -290), (-51, -280), (-54, -268), (-55, -254, C), (-43, -250, C),
+            (-38, -244), (-35, -230), (-33, -216), (-33, -206), (-36, -199), (-39, -190), (-41, -180), (-43, -170, C), (-22, -167),
+            (0, -166), (22, -167), (43, -170, C), (41, -180), (39, -190), (36, -199), (33, -206), (33, -216), (35, -230),
+            (38, -244), (43, -250, C), (55, -254, C), (54, -268), (51, -280), (45, -290), (36, -296), (24, -302), (13, -306)]
     F.piece('mail', mail,
-            hatch=mail_rows(-34, 35, -244, -208, 9.0, amp=1.6, w=3.6) + mail_rows(-42, 43, -182, -172, 9.0, amp=1.6, w=3.6),
-            shade=[([(-40, -250), (-30, -250), (-30, -168), (-46, -168)], 76, 2.6), ([(28, -250), (40, -250), (46, -168), (32, -168)], 76, 3.6)])
-    F.piece('humeral', [(-14, -300), (-26, -296), (-38, -291), (-46, -286), (-52, -278), (-54, -268), (-40, -262), (-22, -259),
-                        (-6, -256), (0, -257), (6, -256), (22, -259), (40, -262), (54, -268), (52, -278), (46, -286), (38, -291),
-                        (26, -296), (14, -300)],
-            inner=[[(-6, -268), (-3.5, -264), (-6, -260)], [(6, -268), (3.5, -264), (6, -260)]],
-            hatch=mail_rows(-46, 47, -286, -268, 8.0, amp=1.6, w=3.6))
-    # belts, apron, gladius
-    F.piece('belt', [(-37, -200), (0, -196), (37, -200), (37, -191), (0, -187), (-37, -191)],
-            hatch=[[(-30, -195.4), (-25, -195.4)], [(-17, -194), (-12, -194)], [(-5, -192.6), (0, -192.6)], [(8, -193), (13, -193)],
-                   [(20, -194.2), (25, -194.2)], [(30, -195.4), (34, -195.4)]])
-    F.piece('belt2', [(-40, -189), (-4, -179), (38, -184), (39, -175), (-4, -170), (-41, -180)],
-            hatch=[[(-28, -182), (-22, -180.4)], [(-16, -179), (-10, -177.6)], [(12, -176.6), (18, -177.4)], [(26, -178.6), (32, -179.6)]])
-    F.piece('apron', [(-14, -173), (8, -173), (10, -122, C), (-16, -122, C)],
-            inner=[[(-9, -171), (-9, -124)], [(-3, -171), (-3, -124)], [(3, -171), (3, -124)]],
-            hatch=[[(-14, -158), (-12, -158)], [(-9, -150), (-7.4, -150)], [(-3, -160), (-1.4, -160)], [(3, -146), (4.6, -146)],
-                   [(-13, -138), (-11, -138)], [(-8, -134), (-6, -134)], [(4, -134), (6, -134)]])
-    F.piece('scabbard', [(-50, -190), (-41, -190), (-42, -128), (-46, -119, C), (-50, -128)],
-            inner=[[(-50, -180), (-41, -180)], [(-50, -158), (-42, -158)]])
-    F.piece('hilt', [(-52, -194), (-39, -194), (-41, -200), (-43, -211), (-41, -216), (-45.5, -222, C), (-50, -216), (-48, -211),
-                     (-50, -200)])
-    # neck, scarf, head (turned to profile, a touch larger in the helmet)
-    F.piece('neck', [(-12, -320), (11, -320), (12, -300), (0, -296), (-12, -300)], edge=False)
-    F.piece('focale', [(-15, -301), (0, -307), (15, -301), (12, -291), (0, -287), (-12, -291)],
-            hatch=[[(-9, -299), (0, -295), (9, -299)]])
-    helmet_head(F, -23, -372, 1.08, tilt=0, name='head', mouth=-0.7)
-    # ---------- the scutum, face on, grounded at his left; his hand over its rim
+            hatch=[[(-52, -260), (-48, -258), (-44, -260)], [(48, -260), (52, -258)]] +
+                  mail_rows(-34, 35, -244, -208, 9.0, amp=1.5, w=3.4) + mail_rows(-42, 43, -184, -170, 9.0, amp=1.5, w=3.4),
+            shade=[([(-40, -248), (-31, -248), (-30, -168), (-44, -168)], 76, 2.6), ([(28, -248), (38, -248), (44, -168), (32, -168)], 76, 3.8)])
+    # shoulder doubling (humeralia) joined on the chest by S-hooks
+    F.piece('humeral', [(-13, -306), (-24, -302), (-36, -296), (-45, -290), (-51, -280), (-53, -270), (-44, -266), (-30, -264),
+                        (-14, -261), (-6, -264), (0, -268), (6, -264), (14, -261), (30, -264), (44, -266), (53, -270), (51, -280),
+                        (45, -290), (36, -296), (24, -302), (13, -306)],
+            inner=[[(-8, -270), (-5, -266), (-8, -262), (-5, -258)], [(8, -270), (5, -266), (8, -262), (5, -258)]],
+            hatch=mail_rows(-52, 53, -298, -266, 8.0, amp=1.5, w=3.4))
+    # belts with plates, studded apron, gladius on the right hip, dagger on the left
+    F.piece('belt', [(-35, -202), (0, -198), (35, -202), (36, -193), (0, -189), (-36, -193)],
+            hatch=[[(-29, -197.6), (-24, -197.6)], [(-17, -196), (-12, -196)], [(-5, -194.8), (0, -194.8)], [(8, -195), (13, -195)],
+                   [(20, -196.2), (25, -196.2)], [(29, -197.4), (33, -197.4)]])
+    F.piece('belt2', [(-39, -191), (-4, -181), (37, -186), (38, -177), (-4, -172), (-40, -182)],
+            hatch=[[(-28, -184), (-22, -182.4)], [(-16, -181), (-10, -179.6)], [(12, -178.6), (18, -179.4)], [(26, -180.6), (32, -181.6)]])
+    ap = [(-12.5, -176)]
+    for k in range(4):                               # four studded straps ending in small pendants
+        xa = -12.5 + k * 5.6
+        ap += [(xa, -131, C), (xa + 0.6, -127.2), (xa + 2.6, -124.6), (xa + 4.4, -127.2), (xa + 5.0, -131, C)]
+    ap += [(9.9, -176)]
+    studs = [[(xa + 2.6 - 0.8, yy), (xa + 2.6 + 0.8, yy)] for k in range(4) for xa in [-12.5 + k * 5.6]
+             for yy in (-166.0, -156.0, -146.0, -137.0)]
+    F.piece('apron', ap, rigid=False,
+            inner=[[(-6.9 + 0.3, -172), (-6.9 + 0.3, -132)], [(-1.3 + 0.3, -172), (-1.3 + 0.3, -132)], [(4.3 + 0.3, -172), (4.3 + 0.3, -132)]],
+            hatch=studs)
+    F.piece('scabbard', [(-49, -190), (-40, -190), (-41, -128), (-44.5, -119, C), (-48, -128)],
+            inner=[[(-49, -180), (-40, -180)]],
+            hatch=[[(-49, -158), (-41, -158)], [(-48.6, -134), (-41.4, -134)]])
+    F.piece('hilt', [(-51, -194), (-38, -194), (-40, -199), (-42, -210), (-40, -215), (-44.5, -221, C), (-49, -215), (-47, -210),
+                     (-49, -199)],
+            hatch=[[(-46.6, -202), (-42.4, -202)], [(-46.8, -206), (-42.2, -206)]])
+    F.piece('pugio', [(39, -188), (45, -188), (44, -150), (42, -144, C), (40, -150)])
+    F.piece('neck', [(-12, -322), (11, -322), (12, -304), (0, -300), (-12, -304)], edge=False,
+            hatch=[[(-6, -320), (6, -306)]])
+    F.piece('focale', [(-15, -306), (0, -311), (15, -306), (12, -297), (0, -293), (-12, -297)],
+            hatch=[[(-9, -304), (0, -300), (9, -304)]])
+    helmet_head(F, -21, -372, 1.09, tilt=0, name='head', mouth=-0.7)
+    # ---------- the scutum, face on, grounded at his left: boss with eagle wings and thunderbolts
     x0 = 64
-    sh = [(x0, -238), (x0 + 30, -232), (x0 + 58, -230), (x0 + 86, -232), (x0 + 112, -238, C), (x0 + 114, -120),
-          (x0 + 112, -6, C), (x0 + 86, 0), (x0 + 58, 2), (x0 + 30, 0), (x0, -6, C), (x0 - 2, -120)]
+    cx = x0 + 57
+    sh = [(x0, -238), (x0 + 30, -232), (x0 + 57, -230), (x0 + 84, -232), (x0 + 114, -238, C), (x0 + 116, -120),
+          (x0 + 114, -6, C), (x0 + 84, 0), (x0 + 57, 2), (x0 + 30, 0), (x0, -6, C), (x0 - 2, -120)]
     F.piece('shield', sh,
-            inner=[[(x0 + 6, -230), (x0 + 32, -224.6), (x0 + 58, -222.6), (x0 + 84, -224.6), (x0 + 106, -230)],
-                   [(x0 + 6, -12), (x0 + 32, -7), (x0 + 58, -5), (x0 + 84, -7), (x0 + 106, -12)],
-                   [(x0 + 6, -230), (x0 + 5, -12)], [(x0 + 106, -230), (x0 + 107, -12)]],
-            hatch=[[(x0 + 57, -222), (x0 + 57, -138)], [(x0 + 57, -100), (x0 + 57, -8)]],
+            hatch=[[(x0 + 6, -230), (x0 + 32, -224.6), (x0 + 57, -222.6), (x0 + 84, -224.6), (x0 + 108, -230), (x0 + 109, -12),
+                    (x0 + 84, -7), (x0 + 57, -5), (x0 + 30, -7), (x0 + 6, -12), (x0 + 6, -230)],
+                   [(cx, -222), (cx, -206)], [(cx, -30), (cx, -8)]],
             fill=RUST)
-    F.piece('boss', [(x0 + 44, -130), (x0 + 50, -140), (x0 + 58, -142), (x0 + 66, -140), (x0 + 72, -130), (x0 + 72, -108),
-                     (x0 + 66, -98), (x0 + 58, -96), (x0 + 50, -98), (x0 + 44, -108)],
-            inner=[[(x0 + 50, -128), (x0 + 58, -134), (x0 + 66, -128)]],
-            hatch=[[(x0 + 48, -114), (x0 + 56, -106), (x0 + 66, -108)]])
-    F.extra_detail += [[(x0 + 44, -124), (x0 + 32, -128), (x0 + 36, -136), (x0 + 16, -152)],
-                       [(x0 + 72, -124), (x0 + 84, -128), (x0 + 80, -136), (x0 + 100, -152)],
-                       [(x0 + 44, -112), (x0 + 32, -108), (x0 + 36, -100), (x0 + 16, -84)],
-                       [(x0 + 72, -112), (x0 + 84, -108), (x0 + 80, -100), (x0 + 100, -84)]]
-    F.extra_hatch += [[(x0 + 24, -176), (x0 + 36, -186), (x0 + 50, -188), (x0 + 66, -188), (x0 + 80, -186), (x0 + 92, -176)],
-                      [(x0 + 24, -62), (x0 + 36, -52), (x0 + 50, -50), (x0 + 66, -50), (x0 + 80, -52), (x0 + 92, -62)],
-                      [(x0 + 28, -182), (x0 + 31, -192)], [(x0 + 40, -186), (x0 + 42, -196)], [(x0 + 76, -186), (x0 + 74, -196)],
-                      [(x0 + 88, -182), (x0 + 85, -192)]]
-    F.piece('l_hand', [(70, -236), (76, -246), (86, -248), (94, -245), (98, -237), (92, -230), (80, -229), (72, -231)],
-            inner=[[(80, -245), (81, -232)], [(86, -246), (87, -233)], [(92, -243), (92, -235)]])
-    # ---------- pilum planted beside his right foot, fist round the shaft
-    px = -80.0
-    F.piece('pilum', [(px - 1.4, 0), (px + 1.4, 0), (px + 1.2, -330), (px + 3.0, -334), (px + 3.0, -346), (px + 1.0, -350),
-                      (px + 0.8, -456), (px + 2.0, -462), (px, -476, C), (px - 2.0, -462), (px - 0.8, -456), (px - 1.0, -350),
-                      (px - 3.0, -346), (px - 3.0, -334), (px - 1.2, -330)], rigid=True, edge=False)
-    F.piece('r_fist', [(px - 9, -188), (px - 1, -192), (px + 7, -190), (px + 10, -182), (px + 8, -172), (px, -168), (px - 9, -172),
-                       (px - 11, -180)],
-            inner=[[(px - 3, -190), (px - 3, -171)], [(px + 3, -189), (px + 3, -170)]])
+    F.piece('boss', [(cx - 13, -130), (cx - 8, -139), (cx, -142), (cx + 8, -139), (cx + 13, -130), (cx + 13, -108),
+                     (cx + 8, -99), (cx, -96), (cx - 8, -99), (cx - 13, -108)],
+            inner=[[(cx - 7, -128), (cx, -134), (cx + 7, -128)]],
+            hatch=[[(cx - 9, -114), (cx - 2, -106), (cx + 8, -108)]])
+    for sg in (-1, 1):
+        X = lambda u: cx + sg * u
+        F.extra_detail.append(sp([(X(14), -126), (X(24), -134), (X(36), -142), (X(50), -146, C), (X(44), -136), (X(47), -133, C),
+                                  (X(36), -126), (X(39), -122, C), (X(27), -118), (X(30), -114, C), (X(14), -112)], step=1.0))
+        F.extra_hatch += [[(X(44), -136), (X(28), -129)], [(X(36), -126), (X(24), -121)]]
+    for sg in (-1, 1):                               # thunderbolts up and down the spine
+        Y = lambda v: -119 + sg * v
+        F.extra_detail.append([(cx, Y(25)), (cx - 4, Y(42)), (cx + 4, Y(50)), (cx, Y(78)), (cx + 1.6, Y(70)), (cx - 1.6, Y(70)),
+                               (cx, Y(78))])
+        F.extra_hatch += [[(cx - 6, Y(46)), (cx - 12, Y(56))], [(cx + 6, Y(46)), (cx + 12, Y(56))]]
+    # his left hand resting on the rim, fingers curled over the front of the shield
+    hx, hy = x0 + 16.0, -234.4
+    F.piece('l_hand', [(hx - 12, hy - 7.5), (hx - 3, hy - 10.6), (hx + 7, hy - 9.6), (hx + 11.4, hy - 5.6), (hx + 12, hy + 1),
+                       (hx + 11.6, hy + 8.0), (hx + 9.4, hy + 10.6), (hx + 7.2, hy + 8.4, C), (hx + 5.0, hy + 11.2), (hx + 2.6, hy + 9.0, C),
+                       (hx + 0.2, hy + 11.6), (hx - 2.2, hy + 9.4, C), (hx - 4.6, hy + 10.8), (hx - 7.2, hy + 8.0), (hx - 7.8, hy + 2.0),
+                       (hx - 11.2, hy - 1.4)],
+            inner=[[(hx + 7.2, hy + 2.4), (hx + 7.2, hy + 8.0)], [(hx + 2.6, hy + 2.8), (hx + 2.6, hy + 8.6)],
+                   [(hx - 2.2, hy + 2.6), (hx - 2.2, hy + 9.0)]],
+            hatch=[[(hx - 7.0, hy + 0.2), (hx + 1.0, hy + 1.2), (hx + 11.0, hy + 0.2)]])
+    # ---------- pilum planted beside his right foot: shaft one stroke, block and iron head small shapes; fist round it
+    baked_hand(F, 'r_fist', 'grip', -84, -216, 0.0, 1.3, mirror=False)
+    px = -84.0 - 11.0 * 1.3
+    F.extra_line = [[(px, 0), (px, -331)], [(px, -349), (px, -457)]]
+    F.piece('pilum_block', [(px - 3.0, -331), (px + 3.0, -331), (px + 3.0, -346), (px + 1.0, -350), (px - 1.0, -350), (px - 3.0, -346)],
+            rigid=True, edge=False, sil=False)
+    F.piece('pilum_tip', [(px - 2.0, -456), (px + 2.0, -456), (px + 2.2, -462), (px, -477), (px - 2.2, -462)], rigid=True, edge=False,
+            sil=False)
     return F
-
-
-
-
-# ============================================================================ adapters to the shared batch-A figure kit
-_TOK = None
-
-
-def parse_d(d, step=1.0):
-    """absolute M/L/C/Q/Z path -> list of polylines"""
-    import re
-    toks = re.findall(r"[MLCQZ]|-?\d*\.?\d+(?:e-?\d+)?", d)
-    out, cur, start, i, cmd = [], None, None, 0, None
-    pts = None
-    def num():
-        nonlocal i
-        v = float(toks[i]); i += 1; return v
-    while i < len(toks):
-        if toks[i] in 'MLCQZ':
-            cmd = toks[i]; i += 1
-            if cmd == 'Z':
-                if pts and start:
-                    pts.append(start)
-                continue
-        if cmd == 'M':
-            if pts and len(pts) > 1:
-                out.append(pts)
-            cur = (num(), num()); start = cur; pts = [cur]; cmd = 'L'
-        elif cmd == 'L':
-            cur = (num(), num()); pts.append(cur)
-        elif cmd == 'C':
-            c = [num() for _ in range(6)]
-            x0, y0 = cur
-            n = max(3, int(math.hypot(c[4] - x0, c[5] - y0) / step) + 1)
-            for k in range(1, n + 1):
-                t = k / n; m = 1 - t
-                pts.append((m ** 3 * x0 + 3 * m * m * t * c[0] + 3 * m * t * t * c[2] + t ** 3 * c[4],
-                            m ** 3 * y0 + 3 * m * m * t * c[1] + 3 * m * t * t * c[3] + t ** 3 * c[5]))
-            cur = (c[4], c[5])
-        elif cmd == 'Q':
-            c = [num() for _ in range(4)]
-            x0, y0 = cur
-            n = max(3, int(math.hypot(c[2] - x0, c[3] - y0) / step) + 1)
-            for k in range(1, n + 1):
-                t = k / n; m = 1 - t
-                pts.append((m * m * x0 + 2 * m * t * c[0] + t * t * c[2], m * m * y0 + 2 * m * t * c[1] + t * t * c[3]))
-            cur = (c[2], c[3])
-        else:
-            i += 1
-    if pts and len(pts) > 1:
-        out.append(pts)
-    return out
-
-
-def foreign_head(F, hx, hy, s=0.48, rot=0.0, mirror=True, name='head', lv=2, **kw):
-    """Insert a 3/4 head from a_people.head34 (designed facing left; mirror=True faces it right).
-    (hx, hy) = eye-line centre of the head in figure units; s = figure units per head-space unit (head ~100*s tall)."""
-    import jesus as J
-    import a_people as AP
-    f = J.Fig()
-    AP.head34(f, 0.0, 0.0, rot, 1.0, **kw)
-    sg = -1.0 if mirror else 1.0
-    T = lambda q: [(hx + sg * px * s, hy + py * s) for px, py in q]
-    for part in sorted(f.parts, key=lambda q: q.order):
-        strokes = []
-        for st in part.strokes:
-            if st['lv'] > lv:
-                continue
-            for pl in parse_d(st['d'], step=1.4):
-                strokes.append((st['cls'], T(pl)))
-        occ = [T(q) for q in part.occ]
-        F.pieces.append(RawPiece(f'{name}_{part.name}', strokes, occ))
-    return F
-
-
-def baked_hand(F, name, kind, x, y, ang, s=2.0, mirror=True, flip=False):
-    """Hand from hands_data (baked by the shared hand rig; designed for left-facing figures).  Wrist at (x, y)."""
-    from hands_data import HANDS
-    h = HANDS[kind]
-    ca, sa = math.cos(math.radians(ang)), math.sin(math.radians(ang))
-    sg = -1.0 if mirror else 1.0
-    def T(pts):
-        out = []
-        for px, py in pts:
-            if flip:
-                py = -py
-            px, py = sg * px * s, py * s
-            out.append((x + px * ca - py * sa, y + px * sa + py * ca))
-        return out
-    inner = sorted(h['inner'], key=lambda q: -sum(math.dist(a, b) for a, b in zip(q, q[1:])))
-    keep = [T(q) for q in inner[:3]]
-    rest = [T(q) for q in inner[3:]]
-    return F.piece(name, T(h['outline']), inner=keep, hatch=rest)
-
-
-
-def sandal(F, name, ankle, toe, mirror=True):
-    """sandalled foot (shared design from jesus.foot) from the ankle point to the toe point"""
-    ax, ay = ankle
-    tx0, ty0 = toe
-    L = math.hypot(tx0 - ax, ty0 - ay)
-    # shared design points to the left; for a right-pointing foot we mirror the local x
-    ang = math.degrees(math.atan2(ty0 - ay, tx0 - ax)) - (0.0 if mirror else 180.0)
-    sc = L / 28.0
-    ca, sa = math.cos(math.radians(ang)), math.sin(math.radians(ang))
-    def T(pts):
-        out = []
-        for px, py in pts:
-            if mirror:
-                px = -px
-            px, py = px * sc, py * sc
-            out.append((ax + px * ca - py * sa, ay + px * sa + py * ca))
-        return out
-    o = [(-2.6, -6.6), (-9, -3.8), (-17, -0.6), (-23.6, 1.4), (-27.4, 3), (-28.4, 5.2), (-26.6, 6.6),
-         (-18, 6.8), (-8, 7), (2.6, 6.8), (6.4, 4.6), (6.6, -0.6), (5, -6)]
-    sole = [(7.4, 5.8), (6.6, 8.8), (-6, 9.2), (-20, 9), (-28.6, 8.2), (-29.6, 6.4)]
-    pc = F.piece(name, T(o + [(6.6, 8.8), (-29.6, 6.4)]),
-                 inner=[T(sole), T([(-15.6, -1.2), (-16.6, 2.6), (-15.6, 6.6)])],
-                 hatch=[T([(1.6, -6.2), (-0.6, 0.4), (0.4, 6.6)]), T([(-25.2, 2.6), (-24.6, 6.2)])])
-    return pc
-
-
-def elder_glancing(lod=2):
-    """Old man walking right on his staff, prayer mantle over his head, turning to look back at the soldiers."""
-    F = FigDraw()
-    F.min_edge = 12.0
-    # back foot pushing off, front foot flat
-    F.piece('backleg', [(-14, -78), (-4, -76), (-12, -52), (-22, -30), (-26, -22), (-34, -20), (-32, -34), (-24, -56)], edge=False)
-    sandal(F, 'backfoot', (-28, -16), (-6, -2))
-    # robe: stooped back, the robe swinging over the forward knee
-    F.piece('robe', [(-12, -300), (-24, -292), (-31, -274), (-31, -244), (-27, -214), (-30, -180), (-34, -130), (-37, -80),
-                     (-41, -28, C), (-14, -22), (14, -24), (42, -32, C), (40, -64), (36, -104), (31, -150), (28, -196),
-                     (30, -230), (28, -258), (22, -280), (10, -296)],
-            hatch=[[(34, -70), (38, -48), (40, -34)], [(22, -72), (24, -50), (25, -28)], [(-18, -70), (-21, -48), (-24, -26)],
-                   [(4, -76), (3, -50), (2, -26)]])
-    F.piece('frontleg', [(18, -40), (34, -40), (36, -24), (38, -16), (22, -14), (20, -24)], edge=False)
-    sandal(F, 'frontfoot', (30, -16), (66, -3))
-    # mantle wrapped across from the near hip to the far shoulder, hanging down the back with tasselled corners
-    F.piece('mantle', [(-22, -296), (-8, -300), (8, -296), (18, -286), (24, -268), (28, -244), (30, -214), (32, -182),
-                       (34, -152, C), (14, -142), (-8, -134), (-28, -124), (-44, -114, C), (-43, -150), (-40, -196),
-                       (-37, -240), (-36, -270), (-30, -288)],
-            inner=[[(18, -280), (8, -254), (-4, -226), (-16, -196), (-28, -162), (-42, -118)],
-                   [(-28, -282), (-32, -236), (-35, -190), (-38, -150), (-42, -118)]],
-            hatch=[[(10, -244), (-2, -214), (-14, -184), (-26, -152)], [(24, -232), (14, -206), (2, -176), (-10, -148)],
-                   [(-20, -268), (-24, -226), (-27, -184), (-31, -140)]],
-            shade=[([(-46, -284), (-30, -286), (-36, -120), (-46, -114)], 80, 2.6), ([(-12, -222), (6, -250), (-26, -150), (-36, -140)], 68, 3.6)])
-    for (tx_, ty_) in ((34, -152), (-44, -114)):
-        F.extra_detail.append([(tx_ - 1.4, ty_ + 1.0), (tx_, ty_ + 3.6), (tx_ + 1.4, ty_ + 1.0)])
-        F.extra_hatch += [[(tx_ + o * 0.5, ty_ + 3.4), (tx_ + o, ty_ + 16)] for o in (-1.6, 0.0, 1.6)]
-    # head turned back over his shoulder (3/4, facing left): long beard, mantle over the head, a wary frown
-    foreign_head(F, 6.0, -327.0, 0.44, rot=-4.0, mirror=False, name='head', beard='long', cover='hood', expr='frown',
-                 age=1, nose_kind='hooked')
-    # near arm forward to the staff
-    F.piece('arm', [(4, -282), (18, -278), (24, -258), (30, -236), (40, -222), (50, -216), (50, -204), (38, -206), (24, -216),
-                    (12, -238), (6, -260)],
-            hatch=[[(14, -258), (22, -236)], [(10, -264), (18, -240)]])
-    baked_hand(F, 'hand', 'grip', 40, -212, 0.0, 1.45, mirror=True)
-    F.extra_detail.append(sp([(56, -300), (56.4, -230), (57.2, -150), (58.2, -70), (59.4, -1)], step=1.0))
-    return F
-
-
-def mother_and_son(lod=2):
-    """Mother hurrying right, veiled, glancing back at the soldiers, her son by the hand; the boy stares back at them."""
-    F = FigDraw()
-    F.min_edge = 12.0
-    # ---------- the boy, a step behind (drawn first: she is nearer to us)
-    bx = -92
-    sandal(F, 'b_backfoot', (bx - 16, -12), (bx - 2, -1), mirror=True)
-    F.piece('b_tunic', [(bx - 10, -198), (bx - 19, -182), (bx - 21, -156), (bx - 19, -128), (bx - 24, -96, C), (bx - 2, -92),
-                        (bx + 20, -96, C), (bx + 17, -128), (bx + 18, -156), (bx + 17, -180), (bx + 9, -196)],
-            inner=[[(bx - 19, -146), (bx, -143), (bx + 18, -146)]],
-            hatch=[[(bx + 8, -138), (bx + 12, -104)], [(bx - 6, -138), (bx - 8, -100)]],
-            shade=[([(bx - 24, -146), (bx - 10, -146), (bx - 12, -94), (bx - 25, -96)], 76, 2.8)])
-    F.piece('b_leg1', limb((bx - 9, -98), (bx - 16, -14), [(0, 6.5, 6.5), (0.3, 6, 7.5), (0.55, 5, 5.5), (1.0, 4, 4)]), edge=False)
-    F.piece('b_leg2', limb((bx + 7, -98), (bx + 12, -14), [(0, 6.5, 6.5), (0.3, 7.5, 6), (0.55, 5.5, 5), (1.0, 4, 4)]), edge=False)
-    sandal(F, 'b_frontfoot', (bx + 10, -12), (bx + 34, -1), mirror=True)
-    foreign_head(F, bx - 2.0, -222.0, 0.38, rot=8.0, mirror=False, name='b_head', beard='none', cover='none', expr='stunned')
-    F.piece('b_arm', limb((bx + 10, -186), (bx + 40, -176), [(0, 6, 6), (0.4, 5.5, 5.5), (1.0, 4.4, 4.4)]))
-    # ---------- mother
-    sandal(F, 'm_backfoot', (-22, -14), (0, -1), mirror=True)
-    F.piece('m_dress', [(-14, -290), (-24, -270), (-26, -236), (-23, -200), (-27, -160), (-32, -110), (-35, -60), (-38, -22, C),
-                        (-10, -17), (16, -19), (38, -24, C), (33, -62), (28, -110), (24, -160), (24, -200), (26, -232), (24, -258),
-                        (18, -280), (8, -290)],
-            inner=[[(-23, -196), (0, -192), (24, -196)]],
-            hatch=[[(30, -62), (33, -40), (35, -26)], [(14, -100), (18, -60), (20, -22)], [(-6, -100), (-8, -60), (-10, -20)],
-                   [(-22, -110), (-26, -70), (-30, -24)]],
-            shade=[([(-38, -180), (-20, -180), (-26, -22), (-40, -22)], 78, 2.8)])
-    sandal(F, 'm_frontfoot', (20, -14), (48, -2), mirror=True)
-    F.piece('m_shawl', [(-20, -296), (-6, -300), (6, -294), (8, -270), (2, -240), (-6, -212), (-16, -186), (-30, -176, C),
-                        (-34, -206), (-32, -250), (-28, -282)],
-            hatch=[[(-24, -272), (-28, -232), (-31, -196)], [(-12, -262), (-18, -226), (-24, -196)]])
-    foreign_head(F, 4.0, -324.0, 0.42, rot=-6.0, mirror=False, name='m_head', beard='none', cover='veil', expr='frown')
-    # her arm reaching back to the boy's hand
-    F.piece('m_arm', [(-14, -262), (-2, -266), (-4, -240), (-12, -214), (-22, -196), (-32, -184), (-38, -192), (-28, -206),
-                      (-20, -226), (-14, -248)],
-            hatch=[[(-8, -246), (-14, -226)]])
-    baked_hand(F, 'm_hand', 'grip', -30, -186, 200.0, 1.25, mirror=True)
-    return F
-
 
 
 def legionary_b(lod=2):
     """Second legionary in profile facing right: pilum upright in his right hand, scutum on his left arm seen edge on."""
     F = FigDraw()
-    F.min_edge = 12.0
+    F.min_edge = 20.0
     # far leg, near leg (standing, slight stride)
     F.piece('far_leg', limb((-6, -176), (-12, -16), [(0, 17, 17), (0.25, 15, 15), (0.5, 9, 11), (0.68, 9, 13), (0.85, 7, 7.5),
                                                     (1.0, 7, 7)]), edge=False)
@@ -1130,8 +865,226 @@ def legionary_b(lod=2):
     F.piece('sleeve', [(-6, -288), (12, -292), (16, -268), (2, -262), (-8, -270)],
             hatch=[[(0, -270), (4, -274), (8, -270), (12, -274)]])
     px = 42.0
-    F.piece('pilum', [(px - 1.4, 0), (px + 1.4, 0), (px + 1.2, -330), (px + 3.0, -334), (px + 3.0, -346), (px + 1.0, -350),
-                      (px + 0.8, -456), (px + 2.0, -462), (px, -476, C), (px - 2.0, -462), (px - 0.8, -456), (px - 1.0, -350),
-                      (px - 3.0, -346), (px - 3.0, -334), (px - 1.2, -330)], rigid=True, edge=False)
+    F.extra_line = getattr(F, 'extra_line', []) + [[(px, 0), (px, -331)], [(px, -349), (px, -457)]]
+    F.piece('pilum_block', [(px - 3.0, -331), (px + 3.0, -331), (px + 3.0, -346), (px + 1.0, -350), (px - 1.0, -350), (px - 3.0, -346)],
+            rigid=True, edge=False, sil=False)
+    F.piece('pilum_tip', [(px - 2.0, -456), (px + 2.0, -456), (px + 2.2, -462), (px, -477), (px - 2.2, -462)], rigid=True, edge=False,
+            sil=False)
     baked_hand(F, 'fist', 'grip', 30, -214, 0.0, 1.35, mirror=True)
+    return F
+
+
+# ============================================================================ adapters to the shared batch-A figure kit
+def parse_d(d, step=1.0):
+    """absolute M/L/C/Q/Z path -> list of polylines"""
+    import re
+    toks = re.findall(r"[MLCQZ]|-?\d*\.?\d+(?:e-?\d+)?", d)
+    out, cur, start, i, cmd = [], None, None, 0, None
+    pts = None
+
+    def num():
+        nonlocal i
+        v = float(toks[i]); i += 1
+        return v
+    while i < len(toks):
+        if toks[i] in 'MLCQZ':
+            cmd = toks[i]; i += 1
+            if cmd == 'Z':
+                if pts and start:
+                    pts.append(start)
+                continue
+        if cmd == 'M':
+            if pts and len(pts) > 1:
+                out.append(pts)
+            cur = (num(), num()); start = cur; pts = [cur]; cmd = 'L'
+        elif cmd == 'L':
+            cur = (num(), num()); pts.append(cur)
+        elif cmd == 'C':
+            c = [num() for _ in range(6)]
+            x0, y0 = cur
+            n = max(3, int(math.hypot(c[4] - x0, c[5] - y0) / step) + 1)
+            for k in range(1, n + 1):
+                t = k / n; m = 1 - t
+                pts.append((m ** 3 * x0 + 3 * m * m * t * c[0] + 3 * m * t * t * c[2] + t ** 3 * c[4],
+                            m ** 3 * y0 + 3 * m * m * t * c[1] + 3 * m * t * t * c[3] + t ** 3 * c[5]))
+            cur = (c[4], c[5])
+        elif cmd == 'Q':
+            c = [num() for _ in range(4)]
+            x0, y0 = cur
+            n = max(3, int(math.hypot(c[2] - x0, c[3] - y0) / step) + 1)
+            for k in range(1, n + 1):
+                t = k / n; m = 1 - t
+                pts.append((m * m * x0 + 2 * m * t * c[0] + t * t * c[2], m * m * y0 + 2 * m * t * c[1] + t * t * c[3]))
+            cur = (c[2], c[3])
+        else:
+            i += 1
+    if pts and len(pts) > 1:
+        out.append(pts)
+    return out
+
+
+def foreign_head(F, hx, hy, s=0.48, rot=0.0, mirror=True, name='head', lv=2, **kw):
+    """Insert a 3/4 head from a_people.head34 (designed facing left; mirror=True faces it right).
+    (hx, hy) = eye-line centre of the head in figure units; s = figure units per head-space unit."""
+    import jesus as J
+    import a_people as AP
+    f = J.Fig()
+    AP.head34(f, 0.0, 0.0, rot, 1.0, **kw)
+    sg = -1.0 if mirror else 1.0
+    T = lambda q: [(hx + sg * px * s, hy + py * s) for px, py in q]
+    for part in sorted(f.parts, key=lambda q: q.order):
+        strokes = []
+        for st in part.strokes:
+            if st['lv'] > lv:
+                continue
+            for pl in parse_d(st['d'], step=1.4):
+                strokes.append((st['cls'], T(pl)))
+        occ = [T(q) for q in part.occ]
+        F.pieces.append(RawPiece(f'{name}_{part.name}', strokes, occ))
+    return F
+
+
+def baked_hand(F, name, kind, x, y, ang, s=2.0, mirror=True, flip=False):
+    """Hand from hands_data (baked by the shared hand rig; designed for left-facing figures).  Wrist at (x, y)."""
+    from hands_data import HANDS
+    h = HANDS[kind]
+    ca, sa = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+    sg = -1.0 if mirror else 1.0
+
+    def T(pts):
+        out = []
+        for px, py in pts:
+            if flip:
+                py = -py
+            px, py = sg * px * s, py * s
+            out.append((x + px * ca - py * sa, y + px * sa + py * ca))
+        return out
+    inner = sorted(h['inner'], key=lambda q: -sum(math.dist(a, b) for a, b in zip(q, q[1:])))
+    keep = [T(q) for q in inner[:3]]
+    rest = [T(q) for q in inner[3:]]
+    return F.piece(name, T(h['outline']), inner=keep, hatch=rest)
+
+
+def sandal(F, name, ankle, toe, mirror=True):
+    """sandalled foot in profile (shared design from jesus.foot): design ankle -> `ankle`, design toe tip -> `toe`
+    (mirror=True faces right)."""
+    ax, ay = ankle
+    tx0, ty0 = toe
+    L = math.hypot(tx0 - ax, ty0 - ay)
+    dtx = 28.4 if mirror else -28.4
+    ang = math.degrees(math.atan2(ty0 - ay, tx0 - ax) - math.atan2(5.2, dtx))
+    sc = L / math.hypot(28.4, 5.2)
+    ca, sa = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+
+    def T(pts):
+        out = []
+        for px, py in pts:
+            if mirror:
+                px = -px
+            px, py = px * sc, py * sc
+            out.append((ax + px * ca - py * sa, ay + px * sa + py * ca))
+        return out
+    o = [(-2.6, -6.6), (-9, -3.8), (-17, -0.6), (-23.6, 1.4), (-27.4, 3), (-28.4, 5.2), (-26.6, 6.6),
+         (-18, 6.8), (-8, 7), (2.6, 6.8), (6.4, 4.6), (6.6, -0.6), (5, -6)]
+    sole = [(7.4, 5.8), (6.6, 8.8), (-6, 9.2), (-20, 9), (-28.6, 8.2), (-29.6, 6.4)]
+    return F.piece(name, T(o + [(6.6, 8.8), (-29.6, 6.4)]),
+                   inner=[T([(6.0, 6.4), (-8, 7.4), (-27.0, 6.8)]), T([(-15.6, -1.2), (-16.6, 2.6), (-15.6, 6.6)])],
+                   hatch=[T([(1.6, -6.2), (-0.6, 0.4), (0.4, 6.6)]), T([(-21.2, 0.6), (-21.6, 4.0)])])
+
+
+def foot(F, name, toe, right=True, lift=0.0, sc=1.25):
+    """profile sandalled foot placed by its toe tip (the sole's lowest point lands ~4*sc lower);
+    lift = heel raised by this many degrees (pushing off)."""
+    rot = math.radians(lift if right else -lift)
+    dx, dy = (-28.4 if right else 28.4) * sc, -5.2 * sc
+    ca, sa = math.cos(rot), math.sin(rot)
+    ankle = (toe[0] + dx * ca - dy * sa, toe[1] + dx * sa + dy * ca)
+    return sandal(F, name, ankle, toe, mirror=right)
+
+
+def front_foot(F, name, ax, ay, side=1, w=7.0):
+    """caliga seen from the front: ankle centre (ax, ay) (~18 units above the ground y=0), toes splayed to `side`
+    (+1 = viewer's right).  Open-work boot: laced instep, toes showing, thick hobnailed sole."""
+    s = side
+    X = lambda u: ax + s * u
+    h = -ay                     # ankle height above the ground
+    o = [(X(-w), ay), (X(-w - 0.8), ay + h * 0.45), (X(-w - 1.6), -3.6), (X(-w - 2.4), -1.2), (X(-w - 1.8), 0.6),
+         (X(-2), 1.2), (X(6), 1.0), (X(13), 0.2), (X(w + 9.6), -1.0), (X(w + 9.8), -3.0), (X(w + 7.0), -6.0),
+         (X(w + 3.2), -9.5), (X(w + 0.8), ay + h * 0.5), (X(w), ay)]
+    F.piece(name, o,
+            inner=[[(X(-w - 2.2), -3.2), (X(2), -2.4), (X(w + 9.2), -3.4)],
+                   [(X(0.6), ay + 1.5), (X(2.2), ay + h * 0.45), (X(4.4), -6.5)]],
+            hatch=[[(X(-2.2), ay + 4.0), (X(3.4), ay + 5.2)], [(X(-2.6), ay + 8.4), (X(4.6), ay + 9.4)],
+                   [(X(-2.0), ay + 12.6), (X(6.0), ay + 13.2)],
+                   [(X(-4.0), -3.6), (X(-3.6), -5.8)], [(X(1.0), -3.4), (X(1.6), -5.8)], [(X(6.4), -3.6), (X(7.4), -6.0)],
+                   [(X(-w - 1.4), -0.4), (X(w + 8.8), -0.6)]])
+
+
+def elder_glancing(lod=2):
+    """Old man walking right on his staff, prayer mantle over his head, turning to look back at the soldiers."""
+    F = FigDraw()
+    F.min_edge = 12.0
+    F.piece('backleg', [(-14, -78), (-4, -76), (-12, -52), (-22, -30), (-26, -22), (-34, -20), (-32, -34), (-24, -56)], edge=False)
+    sandal(F, 'backfoot', (-28, -16), (-6, -2))
+    F.piece('robe', [(-12, -300), (-24, -292), (-31, -274), (-31, -244), (-27, -214), (-30, -180), (-34, -130), (-37, -80),
+                     (-41, -28, C), (-14, -22), (14, -24), (42, -32, C), (40, -64), (36, -104), (31, -150), (28, -196),
+                     (30, -230), (28, -258), (22, -280), (10, -296)],
+            hatch=[[(34, -70), (38, -48), (40, -34)], [(22, -72), (24, -50), (25, -28)], [(-18, -70), (-21, -48), (-24, -26)],
+                   [(4, -76), (3, -50), (2, -26)]])
+    F.piece('frontleg', [(18, -40), (34, -40), (36, -24), (38, -16), (22, -14), (20, -24)], edge=False)
+    sandal(F, 'frontfoot', (30, -16), (66, -3))
+    F.piece('mantle', [(-22, -296), (-8, -300), (8, -296), (18, -286), (24, -268), (28, -244), (30, -214), (32, -182),
+                       (34, -152, C), (14, -142), (-8, -134), (-28, -124), (-44, -114, C), (-43, -150), (-40, -196),
+                       (-37, -240), (-36, -270), (-30, -288)],
+            inner=[[(18, -280), (8, -254), (-4, -226), (-16, -196), (-28, -162), (-42, -118)],
+                   [(-28, -282), (-32, -236), (-35, -190), (-38, -150), (-42, -118)]],
+            hatch=[[(10, -244), (-2, -214), (-14, -184), (-26, -152)], [(24, -232), (14, -206), (2, -176), (-10, -148)],
+                   [(-20, -268), (-24, -226), (-27, -184), (-31, -140)]],
+            shade=[([(-46, -284), (-30, -286), (-36, -120), (-46, -114)], 80, 2.6), ([(-12, -222), (6, -250), (-26, -150), (-36, -140)], 68, 3.6)])
+    for (tx_, ty_) in ((34, -152), (-44, -114)):
+        F.extra_detail.append([(tx_ - 1.4, ty_ + 1.0), (tx_, ty_ + 3.6), (tx_ + 1.4, ty_ + 1.0)])
+        F.extra_hatch += [[(tx_ + o * 0.5, ty_ + 3.4), (tx_ + o, ty_ + 16)] for o in (-1.6, 0.0, 1.6)]
+    foreign_head(F, 6.0, -327.0, 0.44, rot=-4.0, mirror=False, name='head', beard='long', cover='hood', expr='frown',
+                 age=1, nose_kind='hooked', lv=1)
+    F.piece('arm', [(4, -282), (18, -278), (24, -258), (30, -236), (40, -222), (50, -216), (50, -204), (38, -206), (24, -216),
+                    (12, -238), (6, -260)],
+            hatch=[[(14, -258), (22, -236)], [(10, -264), (18, -240)]])
+    baked_hand(F, 'hand', 'grip', 40, -212, 0.0, 1.45, mirror=True)
+    F.extra_detail.append(sp([(56, -300), (56.4, -230), (57.2, -150), (58.2, -70), (59.4, -1)], step=1.0))
+    return F
+
+
+def mother_and_son(lod=2):
+    """Mother hurrying right, veiled, glancing back at the soldiers, her son by the hand; the boy stares back at them."""
+    F = FigDraw()
+    F.min_edge = 12.0
+    bx = -92
+    sandal(F, 'b_backfoot', (bx - 16, -12), (bx - 2, -1), mirror=True)
+    F.piece('b_tunic', [(bx - 10, -198), (bx - 19, -182), (bx - 21, -156), (bx - 19, -128), (bx - 24, -96, C), (bx - 2, -92),
+                        (bx + 20, -96, C), (bx + 17, -128), (bx + 18, -156), (bx + 17, -180), (bx + 9, -196)],
+            inner=[[(bx - 19, -146), (bx, -143), (bx + 18, -146)]],
+            hatch=[[(bx + 8, -138), (bx + 12, -104)], [(bx - 6, -138), (bx - 8, -100)]],
+            shade=[([(bx - 24, -146), (bx - 10, -146), (bx - 12, -94), (bx - 25, -96)], 76, 2.8)])
+    F.piece('b_leg1', limb((bx - 9, -98), (bx - 16, -14), [(0, 6.5, 6.5), (0.3, 6, 7.5), (0.55, 5, 5.5), (1.0, 4, 4)]), edge=False)
+    F.piece('b_leg2', limb((bx + 7, -98), (bx + 12, -14), [(0, 6.5, 6.5), (0.3, 7.5, 6), (0.55, 5.5, 5), (1.0, 4, 4)]), edge=False)
+    sandal(F, 'b_frontfoot', (bx + 10, -12), (bx + 34, -1), mirror=True)
+    foreign_head(F, bx - 2.0, -222.0, 0.38, rot=8.0, mirror=False, name='b_head', beard='none', cover='none', expr='stunned', lv=1)
+    F.piece('b_arm', limb((bx + 10, -186), (bx + 40, -176), [(0, 6, 6), (0.4, 5.5, 5.5), (1.0, 4.4, 4.4)]))
+    sandal(F, 'm_backfoot', (-22, -14), (0, -1), mirror=True)
+    F.piece('m_dress', [(-14, -290), (-24, -270), (-26, -236), (-23, -200), (-27, -160), (-32, -110), (-35, -60), (-38, -22, C),
+                        (-10, -17), (16, -19), (38, -24, C), (33, -62), (28, -110), (24, -160), (24, -200), (26, -232), (24, -258),
+                        (18, -280), (8, -290)],
+            inner=[[(-23, -196), (0, -192), (24, -196)]],
+            hatch=[[(30, -62), (33, -40), (35, -26)], [(14, -100), (18, -60), (20, -22)], [(-6, -100), (-8, -60), (-10, -20)],
+                   [(-22, -110), (-26, -70), (-30, -24)]],
+            shade=[([(-38, -180), (-20, -180), (-26, -22), (-40, -22)], 78, 2.8)])
+    sandal(F, 'm_frontfoot', (20, -14), (48, -2), mirror=True)
+    F.piece('m_shawl', [(-20, -296), (-6, -300), (6, -294), (8, -270), (2, -240), (-6, -212), (-16, -186), (-30, -176, C),
+                        (-34, -206), (-32, -250), (-28, -282)],
+            hatch=[[(-24, -272), (-28, -232), (-31, -196)], [(-12, -262), (-18, -226), (-24, -196)]])
+    foreign_head(F, 4.0, -324.0, 0.42, rot=-6.0, mirror=False, name='m_head', beard='none', cover='veil', expr='frown', lv=1)
+    F.piece('m_arm', [(-14, -262), (-2, -266), (-4, -240), (-12, -214), (-22, -196), (-32, -184), (-38, -192), (-28, -206),
+                      (-20, -226), (-14, -248)],
+            hatch=[[(-8, -246), (-14, -226)]])
+    baked_hand(F, 'm_hand', 'grip', -30, -186, 200.0, 1.25, mirror=True)
     return F

@@ -188,7 +188,7 @@ def part_a():
     b += person_svg()
     hat, contour = coin_hatch()
     b += D(COIN.pd(contour))
-    b += "".join(H(h) for h in hat)
+    b += H(" ".join(hat))
     b += H(" ".join(poly_d(s, eps=0) for s in person_hatch()))
     return b
 
