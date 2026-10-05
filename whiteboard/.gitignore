@@ -6,4 +6,3 @@ node_modules/
 *.mp4
 *.mov
 frames/
-test/out/
