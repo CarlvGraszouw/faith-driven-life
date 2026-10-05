@@ -22,6 +22,7 @@ def art(p):
 # {scene id: {"parts": {part index: at}, "text": {text index: t}}}
 OVERRIDES = {
     'a06-trap': {'parts': {1: 3.15, 2: 5.75}, 'text': {1: 5.0}},   # part b, part c, "NO"
+    'b03-image-belongs': {'parts': {3: 7.45}},                     # part d, so "God" finishes first
 }
 
 scenes = []

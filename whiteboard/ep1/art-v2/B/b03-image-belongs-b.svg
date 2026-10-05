@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <!-- b03 b -->
+  <style>
+    .line{stroke:#1f1f1f;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+    .detail{stroke:#1f1f1f;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .hatch{stroke:#1f1f1f;stroke-width:0.9;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+    .line:not([fill]),.detail:not([fill]),.hatch:not([fill]){fill:none}
+  </style>
+  <path class="line" d="M 700 230 L 736.8 222.1 L 756.2 218.6 L 775.2 216.3 L 784 216 L 792.8 216.3 L 811.8 218.6 L 831.2 222.1 L 868 230 L 851.7 235 L 868 230 L 855 219"/>
+  <path class="hatch" d="M 494.9 180 L 479.3 171 M 515.4 154.7 L 503.4 141.3 M 542.7 137 L 535.4 120.5"/>
+</svg>

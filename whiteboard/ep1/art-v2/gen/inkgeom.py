@@ -332,3 +332,39 @@ def hatch(polys, angle, spacing, inset=0.0, jitter=0.0, seed=3, min_len=3.0, sho
 def segs_d(segs):
     """many short segments -> one path data string (several sub-paths)."""
     return " ".join(f"M {f1(s[0][0])} {f1(s[0][1])} L {f1(s[-1][0])} {f1(s[-1][1])}" for s in segs)
+
+
+# ------------------------------------------------------------------ clipping to the frame
+FRAME = [(0.0, 0.0), (1600.0, 0.0), (1600.0, 900.0), (0.0, 900.0)]
+
+
+def clip_poly_rect(poly, x0=0.0, y0=0.0, x1=1600.0, y1=900.0):
+    """Sutherland-Hodgman: a closed polygon clipped to an axis-aligned rectangle."""
+    def clip(P, inside_fn, inter):
+        out = []
+        for i in range(len(P)):
+            a, b = P[i - 1], P[i]
+            ia, ib = inside_fn(a), inside_fn(b)
+            if ib:
+                if not ia:
+                    out.append(inter(a, b))
+                out.append(b)
+            elif ia:
+                out.append(inter(a, b))
+        return out
+    def ix(xc):
+        return lambda a, b: (xc, a[1] + (b[1] - a[1]) * (xc - a[0]) / ((b[0] - a[0]) or 1e-9))
+    def iy(yc):
+        return lambda a, b: (a[0] + (b[0] - a[0]) * (yc - a[1]) / ((b[1] - a[1]) or 1e-9), yc)
+    P = list(poly)
+    P = clip(P, lambda p: p[0] >= x0, ix(x0)) if P else P
+    P = clip(P, lambda p: p[0] <= x1, ix(x1)) if P else P
+    P = clip(P, lambda p: p[1] >= y0, iy(y0)) if P else P
+    P = clip(P, lambda p: p[1] <= y1, iy(y1)) if P else P
+    return P
+
+
+def clip_frame(pts, margin=0.0):
+    """open polyline -> runs inside the frame"""
+    R = [(margin, margin), (1600 - margin, margin), (1600 - margin, 900 - margin), (margin, 900 - margin)]
+    return clip_inside(pts, R, step=1.5, min_len=3)

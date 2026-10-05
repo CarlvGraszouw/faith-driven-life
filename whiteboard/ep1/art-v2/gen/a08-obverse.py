@@ -28,7 +28,9 @@ def part_a():
     b += D(C.pd(wr))
     b += D(C.pd(dn.fringe())) + D(C.pd(dn.hairline_edge()))
     b += D(C.d(dn.EYE)) + D(C.d(dn.IRIS)) + D(C.d(dn.LID)) + D(C.d(dn.BROW)) + D(C.d(dn.NOSTRIL)) + D(C.d(dn.MOUTH))
-    b += D(C.d(dn.EAR_IN))
+    b += D(C.d(dn.EAR_IN)) + D(C.d(dn.JAW))
+    for s in dn.stray_locks():
+        b += D(C.pd(s))
     for t in dn.ties():
         b += D(C.pd(t))
     # hatch (self-drawn texture): hair locks, leaf midribs, relief shading

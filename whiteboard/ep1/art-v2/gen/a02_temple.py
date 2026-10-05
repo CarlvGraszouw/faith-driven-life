@@ -11,7 +11,7 @@ OUT = os.path.join(EP1, 'art-v2', 'A', 'a02-temple.svg')
 
 # ----------------------------------------------------------------------------- camera / world
 # world metres: X east, Y north, Z up; origin = centre of the sanctuary's east facade at court level.
-CAM = dict(pos=(260.0, -62.0, 3.0), az=174.0, f=1500.0, cx=800.0, cy=410.0)
+CAM = dict(pos=(260.0, -62.0, 1.7), az=174.0, f=1500.0, cx=800.0, cy=410.0)
 cam = Cam(CAM['pos'], CAM['az'], CAM['f'], CAM['cx'], CAM['cy'])
 P = cam.p
 B = Board(gap=2.0)
@@ -30,7 +30,7 @@ CW = dict(x0=40.0, x1=110.0, y0=-35.0, y1=35.0, z=20.0)
 TER = dict(x0=-76.0, x1=116.0, y0=-43.0, y1=43.0, z=4.0)
 RUN = 6.0
 STOA_Y, STOA_X0, STOA_X1 = -118.0, 330.0, -300.0
-NEAR_COL_X = 60.0
+NEAR_COL_X = 175.0
 
 
 def F(*Ps):
@@ -95,22 +95,34 @@ def sanctuary():
     gold = fr.gpoly(portal)
     it.fill(rings(gold)[0], GOLD, cls='detail')
     rec = Face((-6.6, -FW, SZ), (0, 1, 0), (0, 0, 1))             # back wall of the porch
-    dw, dh = 4.3, 29.5
+    dw, dh = 4.6, 30.0
+    # the golden doors: two leaves with panels, under a lintel
     runs(it, 'hatch', rec.line([(c - dw, 0), (c - dw, dh), (c + dw, dh), (c + dw, 0)]))
+    runs(it, 'hatch', rec.line([(c - dw - 0.8, dh + 0.9), (c + dw + 0.8, dh + 0.9)]))
     runs(it, 'hatch', rec.line([(c, 0), (c, dh)]))
-    for w in (7, 14, 21):
-        runs(it, 'hatch', rec.line([(c - dw + 0.7, w), (c + dw - 0.7, w)]))
+    for w0 in (3.0, 11.0, 19.0):
+        for side in (-1, 1):
+            u0, u1 = (c - dw + 0.8, c - 0.8) if side < 0 else (c + 0.8, c + dw - 0.8)
+            runs(it, 'hatch', rec.line([(u0, w0), (u0, w0 + 6.0), (u1, w0 + 6.0), (u1, w0), (u0, w0)]))
     # north reveal of the portal (we look slightly into it from the south)
     runs(it, 'hatch', [[fr.p(c + pw, ph), rec.p(c + pw, ph)]])
     it.hatch(to_poly([fr.p(c + pw, 0), fr.p(c + pw, ph), rec.p(c + pw, ph), rec.p(c + pw, 0)]), angle=88, spacing=1.6)
-    # the golden vine over the inner door
-    vine = [rec.W(c - dw - 1.5 + k * (2 * dw + 3.0) / 10, dh + 2.4 + 0.8 * math.sin(k * 1.9)) for k in range(11)]
-    vr = [P(q) for q in vine]
-    it.H(sp(vr))
-    for k, q in enumerate(vr[1:-1]):
-        s = 1 if k % 2 else -1
-        it.H(sp([(q[0], q[1]), (q[0] + 1.2, q[1] + 2.0 * s), (q[0] + 2.6, q[1] + 1.2 * s), (q[0] + 1.6, q[1])]))
-    # engaged half-columns flanking the portal: one meander stroke
+    # the golden vine above the doors: a winding stem with leaves, grape clusters hanging from it
+    stem = []
+    n = 40
+    for k in range(n + 1):
+        u = c - pw + 0.9 + k * (2 * pw - 1.8) / n
+        w = dh + 3.4 + 0.8 * math.sin(k * 0.55)
+        stem.append(rec.W(u, w))
+    it.D(sp([P(q) for q in stem]))
+    for k in range(2, n - 1, 5):
+        u = c - pw + 0.9 + k * (2 * pw - 1.8) / n
+        w = dh + 3.4 + 0.8 * math.sin(k * 0.55)
+        q0 = P(rec.W(u, w)); q1 = P(rec.W(u - 0.5, w - 2.4)); q2 = P(rec.W(u + 0.5, w - 2.4))
+        it.H([q0, q1, (q0[0], q1[1] + 1.0), q2, q0])
+        l0 = P(rec.W(u + 1.2, w + 0.3)); l1 = P(rec.W(u + 1.8, w + 1.6)); l2 = P(rec.W(u + 2.6, w + 0.6))
+        it.H(sp([l0, l1, l2, l0]))
+    # engaged half-columns flanking the portal: one meander stroke, Corinthian capitals, flutes
     cols = [c - 19.5, c - 12.0, c + 12.0, c + 19.5]
     hw = 1.3
     m = []
@@ -118,7 +130,10 @@ def sanctuary():
         m += [(u - hw, 0.6), (u - hw, 37.8), (u - hw - 0.9, 39.8), (u + hw + 0.9, 39.8), (u + hw, 37.8), (u + hw, 0.6)]
     runs(it, 'detail', fr.line(m))
     for u in cols:
-        runs(it, 'hatch', fr.line([(u - hw - 0.9, 39.8), (u - 0.7, 38.3), (u, 39.8), (u + 0.7, 38.3), (u + hw + 0.9, 39.8)]))
+        runs(it, 'hatch', fr.line([(u - hw - 1.0, 40.3), (u - hw - 0.3, 39.4), (u - hw - 0.6, 38.9), (u - hw - 1.1, 39.4)]))
+        runs(it, 'hatch', fr.line([(u + hw + 1.0, 40.3), (u + hw + 0.3, 39.4), (u + hw + 0.6, 38.9), (u + hw + 1.1, 39.4)]))
+        runs(it, 'hatch', fr.line([(u - hw + 0.2, 38.0), (u - 0.6, 38.9), (u, 38.1), (u + 0.6, 38.9), (u + hw - 0.2, 38.0)]))
+        runs(it, 'hatch', fr.line([(u - hw - 1.2, 40.6), (u + hw + 1.2, 40.6)]))
         for du in (-0.65, 0.0, 0.65):
             runs(it, 'hatch', fr.line([(u + du, 1.4), (u + du, 37.0)]))
         runs(it, 'hatch', fr.line([(u - hw - 0.6, 0.6), (u + hw + 0.6, 0.6)]))
@@ -149,7 +164,29 @@ def sanctuary():
 
 
 # ----------------------------------------------------------------------------- inner courts
-def courses(it, face, u0, u1, w0, w1, step=1.7, holes=()):
+def courses(it, face, u0, u1, w0, w1, step=1.7, holes=(), sparse=True, seed=0):
+    """masonry: patches of courses with staggered joints (denser near the ends and the base)"""
+    if sparse:
+        rng = np.random.default_rng(seed + int(abs(u0 * 7 + u1 * 3)))
+        L = u1 - u0
+        w = w0 + step
+        row = 0
+        while w < w1 - 0.4:
+            u = u0
+            while u < u1:
+                seg = rng.uniform(4.0, 9.0)
+                a, b = u, min(u1, u + seg)
+                edge = min(a - u0, u1 - b) / max(L, 1)
+                base = 1.0 - (w - w0) / max(w1 - w0, 1)
+                if rng.random() < 0.28 + 0.5 * (edge < 0.12) + 0.3 * base and not any(c0 <= w <= c1 and not (b < ha or a > hb) for ha, hb, c0, c1 in holes):
+                    runs(it, 'hatch', face.line([(a, w), (b, w)]))
+                    if rng.random() < 0.6:
+                        jx = a + (b - a) * rng.uniform(0.3, 0.7)
+                        runs(it, 'hatch', face.line([(jx, w), (jx, min(w1 - 0.4, w + step))]))
+                u = b
+            w += step
+            row += 1
+        return
     w = w0 + step
     while w < w1 - 0.4:
         segs = [(u0, u1)]
@@ -179,8 +216,8 @@ def gate(face, u, width, proj, top, door_w, door_h, z, name, outward):
     occ = unary_union([fr.rect(u - hw, u + hw, 0, top), sd.rect(0, proj, 0, top)])
     it.occlude(occ)
     OUTLINE.append(occ)
-    runs(it, 'detail', fr.line([(u + hw, 0), (u + hw, top)]))
-    runs(it, 'detail', fr.line([(u - hw, 0), (u - hw, top)]))
+    runs(it, 'hatch', fr.line([(u + hw, 0), (u + hw, top)]))
+    runs(it, 'hatch', fr.line([(u - hw, 0), (u - hw, top)]))
     dl, dr = u - door_w / 2, u + door_w / 2
     runs(it, 'hatch', fr.line([(dl, 0), (dl, door_h), (dr, door_h), (dr, 0)]))
     runs(it, 'hatch', fr.line([(dl - 1.0, door_h + 1.4), (dr + 1.0, door_h + 1.4)]))
@@ -238,7 +275,15 @@ def courts():
     courses(cw, ef2, 0.3, D2 - 0.3, 0, H2 - 2.5, 1.8)
     cw.hatch(sf2.rect(0, L2, 0, H2 - 2.5), angle=70, spacing=4.6)
     gate(sf2, sgx, 12.0, 2.4, H2 + 4.2, 5.0, 9.2, Z_CW + 5, 'cw-gate-s', (0, -1, 0))
-    gate(ef2, bgy, 14.0, 3.0, H2 + 5.6, 6.2, 11.0, Z_CW + 6, 'beautiful-gate', (1, 0, 0))
+    bg = gate(ef2, bgy, 14.0, 3.0, H2 + 5.6, 6.2, 11.0, Z_CW + 6, 'beautiful-gate', (1, 0, 0))
+    fr_b = Face(ef2.o + np.array([3.0, 0, 0]), ef2.u, ef2.w)
+    for du in (-5.2, -4.5, 4.5, 5.2):
+        runs(bg, 'hatch', fr_b.line([(bgy + du, 0.2), (bgy + du, 13.4)]))
+    runs(bg, 'detail', fr_b.line([(bgy - 4.0, 0), (bgy - 4.0, 12.2), (bgy + 4.0, 12.2), (bgy + 4.0, 0)]))
+    runs(bg, 'hatch', fr_b.line([(bgy - 5.6, 13.4), (bgy + 5.6, 13.4)]))
+    runs(bg, 'hatch', fr_b.line([(bgy - 6.6, H2 + 3.6), (bgy + 6.6, H2 + 3.6)]))
+    for du in np.arange(-6.2, 6.4, 0.9):
+        runs(bg, 'hatch', fr_b.line([(bgy + du, H2 + 3.6), (bgy + du, H2 + 4.4)]))
     ol = B.item(Z_CW + 50, 'courts', 'courts-outline')
     for r in rings(unary_union(OUTLINE)):
         ol.L(r)
@@ -462,21 +507,12 @@ def crowd():
     def put(kind, X, Y, hero=False, **kw):
         x, y = P((X, Y, kw.get('Zf', 0.0)))
         h = 1.72 * cam.scale((X, Y, kw.get('Zf', 0.0)))
-        it = person(kind, X, Y, cls=('detail' if hero else 'hatch'), **kw)
+        hh = 1.72 * cam.scale((X, Y, kw.get('Zf', 0.0)))
+        it = person(kind, X, Y, cls=('detail' if (hero or hh >= 60) else 'hatch'), **kw)
         if it is not None:
             taken.append((x, y, 0.16 * h))
         return it
 
-    # ---- hero groups near the viewer (detail strokes), framing the bottom of the picture
-    put('lamb', 236.0, -79.0, hero=True, flip=True)
-    put('child', 235.6, -76.4, hero=True, flip=True)
-    put('sheep', 234.0, -82.6, hero=True, hm=2.8, flip=True)
-    put('back', 236.6, -45.0, hero=True)
-    put('back', 235.6, -42.2, hero=True, hm=1.58)
-    put('jar', 229.0, -33.0, hero=True, flip=True)
-    put('elder', 231.0, -94.0, hero=True)
-    put('talker', 228.0, -57.0, hero=True)
-    put('walker', 226.6, -60.4, hero=True, flip=True)
     # ---- people on the steps of the terrace (ascending)
     for X in np.arange(-60, 110, 7.5):
         t = rng.uniform(0.15, 0.85)
@@ -489,19 +525,19 @@ def crowd():
     # ---- the plaza crowd: clusters of 1-5 people with gaps between them
     centres = []
     tries = 0
-    while tries < 6000 and len(centres) < 150:
+    while tries < 6000 and len(centres) < 95:
         tries += 1
-        y = CAM['cy'] + 12 + (rng.random() ** 1.6) * (690 - CAM['cy'] - 12)
+        y = CAM['cy'] + 2 + (rng.random() ** 1.7) * (520 - CAM['cy'] - 2)
         x = rng.uniform(-20, 1620)
         X, Y = ground_from_screen(x, y)
         if not on_plaza(X, Y):
             continue
         h = 1.72 * cam.scale((X, Y, 0))
-        if all((x - a) ** 2 + ((y - b) * 2.6) ** 2 > (1.9 * max(h, hb)) ** 2 for a, b, hb in centres):
+        if h <= 72 and all((x - a) ** 2 + ((y - b) * 5.0) ** 2 > (1.7 * max(h, hb)) ** 2 for a, b, hb in centres):
             centres.append((x, y, h))
     for (x, y, h) in centres:
         X, Y = ground_from_screen(x, y)
-        n = int(rng.choice([1, 1, 2, 2, 3, 3, 4, 5]))
+        n = int(rng.choice([1, 1, 2, 2, 2, 3, 3, 4]))
         heading = bool(rng.integers(2))
         talk = n == 2 and rng.random() < 0.4
         for j in range(n):
@@ -538,16 +574,71 @@ def crowd():
                    flip=bool(rng.integers(2)), cls='hatch')
 
 
+import a02a05_figs as FG  # noqa: E402
+
+
+def vignettes():
+    """three foreground scenes: the money-changer's table, a family bringing the lamb, two scribes talking"""
+    def at(x, depth):
+        y = CAM['cy'] + CAM['f'] * CAM['pos'][2] / depth
+        sc = (1.72 * CAM['f'] / depth) / 360.0
+        X, Y = ground_from_screen(x, y)
+        return y, sc, -cam.depth((X, Y, 0))
+    y, sc, z = at(120, 9.6)
+    shadow(90, 350, y)
+    FG.money_changer().place(B, 120, y, sc, z, group='vig1', name='money-changer')
+    FG.pilgrim_paying().place(B, 120 + 238 * sc, y, sc, z + 0.01, group='vig1', name='payer', flip=True)
+    y, sc, z = at(430, 8.7)
+    shadow(380, 680, y)
+    FG.family_with_lamb().place(B, 430, y, sc, z, group='vig2', name='family')
+    y, sc, z = at(1190, 9.2)
+    shadow(1160, 1340, y)
+    FG.scribe_speaking().place(B, 1190, y, sc, z, group='vig3', name='scribe-a')
+    FG.scribe_listening().place(B, 1190 + 132 * sc, y, sc, z + 0.01, group='vig3', name='scribe-b', flip=True)
+
+
+def sky():
+    it = B.item(-20000, 'sky', 'sky')
+    # high thin clouds drifting over the city
+    for (x0, y0, L) in [(70, 120, 260), (120, 100, 180), (300, 150, 220), (1180, 70, 200), (1260, 92, 260), (1420, 120, 150)]:
+        it.H(sp([(x0, y0), (x0 + L * 0.3, y0 - 4), (x0 + L * 0.65, y0 - 2), (x0 + L, y0 + 3)]))
+    # swallows over the court
+    for (bx, by, sz) in [(600, 150, 9), (640, 128, 7), (676, 160, 6), (1300, 210, 7), (420, 205, 6)]:
+        it.D(sp([(bx - sz, by - sz * 0.25), (bx - sz * 0.45, by - sz * 0.5), (bx, by), (bx + sz * 0.45, by - sz * 0.55), (bx + sz, by - sz * 0.3)]))
+
+
+def sentries():
+    """Roman soldiers posted on the roof of the Royal Stoa, watching the festival crowd"""
+    for X in (150.0, 95.0, 40.0):
+        Zr = 16.6
+        x, y = P((X, STOA_Y + 1.0, Zr))
+        sc = cam.scale((X, STOA_Y, Zr))
+        h = 1.75 * sc
+        it = B.item(Z_STOA + 50, 'stoa', 'sentry')
+        k = h / 100.0
+        body = [(x - 4 * k, y), (x - 5 * k, y - 40 * k), (x - 8 * k, y - 62 * k), (x - 7 * k, y - 80 * k), (x - 4 * k, y - 88 * k),
+                (x - 5 * k, y - 96 * k), (x + 1 * k, y - 101 * k), (x + 5 * k, y - 96 * k), (x + 4 * k, y - 88 * k),
+                (x + 8 * k, y - 80 * k), (x + 9 * k, y - 62 * k), (x + 6 * k, y - 40 * k), (x + 5 * k, y)]
+        it.D(body + [body[0]])
+        it.D([(x + 12 * k, y + 2 * k), (x + 12 * k, y - 120 * k)])                       # spear
+        it.H([(x - 12 * k, y - 30 * k), (x - 12 * k, y - 75 * k), (x - 2 * k, y - 75 * k), (x - 2 * k, y - 30 * k), (x - 12 * k, y - 30 * k)])
+        it.H([(x - 4 * k, y - 101 * k), (x - 1 * k, y - 106 * k), (x + 3 * k, y - 101 * k)])
+        it.occlude(to_poly(body))
+
+
 def paving():
     it = B.item(-9000, 'crowd', 'paving')
-    for Y in np.arange(-114.0, -54.0, 4.5):
-        runs(it, 'hatch', LN((238.0, Y, 0), (150.0, Y, 0), n=4))
-    for X in np.arange(238.0, 150.0, -4.5):
-        runs(it, 'hatch', LN((X, -114.0, 0), (X, -54.0, 0), n=3))
-    for X in np.arange(238.0, 150.0, -4.5):
-        runs(it, 'hatch', LN((X, -54.0, 0), (X, 44.0, 0), n=3))
-    for Y in np.arange(-54.0, 44.0, 4.5):
-        runs(it, 'hatch', LN((238.0, Y, 0), (150.0, Y, 0), n=3))
+    rng = np.random.default_rng(3)
+    for X in (246.0, 243.0, 239.5, 235.5, 231.0, 226.0):
+        for Y in np.arange(-104.0, 30.0, 2.6):
+            if rng.random() < 0.16:
+                runs(it, 'hatch', LN((X, Y, 0), (X, Y + rng.uniform(0.5, 1.1), 0)))
+
+
+def shadow(x0, x1, y, h=5.0):
+    it = B.item(-8999, 'crowd', 'shadow')
+    reg = to_poly([(x0, y - h * 0.2), (x1, y - h * 0.2), (x1 + h, y + h * 0.8), (x0 + h, y + h * 0.8)])
+    it.hatch(reg, angle=0, spacing=2.2)
 
 
 sanctuary()
@@ -558,8 +649,11 @@ west_portico()
 city()
 crowd()
 paving()
+vignettes()
+sky()
+sentries()
 
 if __name__ == '__main__':
-    out = B.build(['sanct', 'courts', 'stoa', 'bg', 'crowd'])
+    out = B.build(['sanct', 'courts', 'stoa', 'bg', 'sky', 'vig2', 'vig3', 'vig1', 'crowd'])
     print(timing(out))
     B.write(OUT, "a02-temple v2: Herod's Temple from the east portico, a few days before Passover")

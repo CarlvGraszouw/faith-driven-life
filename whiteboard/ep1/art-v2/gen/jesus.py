@@ -159,8 +159,8 @@ def head(fig, hx, hy, rot=0.0, z=70, order=0, gaze=-1.0):
 
     # ---- features
     g = gaze
-    ph.add("detail", sm([(-15.4, -9.4), (-9.6, -12), (-3, -12.6), (3.4, -11.2), (7.8, -8.6)]), "S")     # near brow
-    ph.add("detail", sm([(-25.4, -10), (-30.2, -11.6), (-35, -11), (-38.6, -8.8)]), "M")                # far brow
+    ph.add("detail", sm([(-15.6, -10.8), (-9.6, -12.4), (-3, -12.6), (3.4, -11.4), (7.8, -9)]), "S")     # near brow
+    ph.add("detail", sm([(-25.2, -10.8), (-30.2, -11.8), (-35, -11.2), (-38.6, -9)]), "M")               # far brow
     ph.add("detail", sm([(-12.6, 0.4), (-9.4, -2.2), (-5.4, -3.2), (-1.4, -2.6), (1.6, -0.6), (2.8, 0.6)]), "S")
     ph.add("detail", sm([(-35.8, 0.2), (-33.8, -1.8), (-30.6, -2.3), (-28.2, -0.3), (-27.4, 0.8)]), "S")
     for (ex, ey, r) in ((-5.6 + 1.8 * g, -0.4, 1.1), (-31.6 + 1.2 * g, -0.4, 0.9)):
@@ -169,9 +169,10 @@ def head(fig, hx, hy, rot=0.0, z=70, order=0, gaze=-1.0):
     ph.add("detail", sm([(-22.4, -0.6), (-24.6, 6), (-28, 12.6), (-30.6, 17.4), (-30.6, 20.8), (-27.6, 22.8),
                          (-23.8, 22.8)]), "S")                                                             # nose
     ph.add("detail", sm([(-19.6, 17.8), (-17.4, 20.4), (-19, 22.8), (-21.6, 23.2)]), "F")                # nostril
-    ph.add("detail", sm([(-37, 35.4), (-34.8, 30.8), (-30.4, 27.8), (-25.4, 26.6), (-20, 27), (-14.6, 29.4),
-                         (-11, 34.4)]), "S")                                                               # moustache
-    ph.add("detail", sm([(-28.6, 34.6), (-23.4, 35.8), (-18, 34.8)]), "M")                                # lower lip
+    ph.add("detail", sm([(-35.2, 31.8), (-32.4, 29.8), (-28.4, 28.6), (-24, 28.2), (-19.6, 28.4), (-15.8, 29.2),
+                         (-13.4, 30.2)]), "S")                                                             # moustache
+    ph.add("detail", sm([(-29, 33.8), (-24, 34.2), (-19, 33.6), (-15.4, 31.8)]), "S")                    # mouth (calm, warm)
+    ph.add("detail", sm([(-26.6, 36.6), (-23, 37.4), (-19.6, 36.6)]), "M")                                # lower lip
     ph.add("detail", sm([(-19, -41.2), (-11, -48), (-1, -53.4), (10, -55.4)]), "M")                       # parting
     for pts, lv in (([(21.6, 27), (20, 35), (16, 42)], "M"), ([(5, 45), (2, 52), (-1.6, 58)], "M"),
                     ([(-23, 49), (-23.6, 56), (-22, 62)], "M"), ([(-34, 45), (-35, 51)], "F"),
@@ -258,7 +259,7 @@ def foot(part, ax, ay, toe, lv_strap="M"):
          (-18, 6.8), (-8, 7), (2.6, 6.8), (6.4, 4.6), (6.6, -0.6), (5, -6)]
     sole = [(7.4, 5.8), (6.6, 8.8), (-6, 9.2), (-20, 9), (-28.6, 8.2), (-29.6, 6.4)]
     part.add("line", K.sm(T(o)), "S", fill=WHITE)
-    part.add("detail", K.sm(T(sole)), "S")
+    part.add("detail", K.sm(T(sole)), "M")
     part.add("detail", K.sm(T([(-15.6, -1.2), (-16.6, 2.6), (-15.6, 6.6)])), lv_strap)            # toe strap
     part.add("detail", K.sm(T([(1.6, -6.2), (-0.6, 0.4), (0.4, 6.6)])), "F")                      # ankle strap
     part.add("detail", K.sm(T([(-25.2, 2.6), (-24.6, 6.2)])), "F")                                # big toe
@@ -369,7 +370,7 @@ def build_standing(pose):
 
     # ---------------------------------------------------------- left hand holding the mantle's rolled edge
     lh = f.part("hand_l", 80, 4)
-    rig_hand(lh, "hook", -0.6, -246.6, rot=-66, s=1.05, flipx=True)
+    rig_hand(lh, "knee", -0.6, -246.6, rot=-66, s=1.05, flipx=True)  # fingers draped over the mantle edge (the "hook" read as a thumbs-up)
     # the cloth bunches above the hand: folds pulled toward the grip from the shoulder
     man.add("detail", K.sm([(0, -259), (6, -268), (13, -276), (22, -283)]), "M")
     man.add("detail", K.sm([(5, -255), (12, -262), (20, -270), (30, -278)]), "F")

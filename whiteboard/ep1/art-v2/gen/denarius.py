@@ -58,13 +58,13 @@ def tuft(b0, b1, tip, curl, bow=0.0):
 # ------------------------------------------------------------------ OBVERSE: laureate head of Tiberius right
 # Proportions (coin units): crown -246, brow -96, eye -70, nose tip x174, chin 88, truncation ~228.
 PROFILE = ("M 124 -150 C 130 -136 138 -119 143 -104 C 146 -96 145 -88 138 -81 "
-           "C 142 -71 150 -56 158 -41 C 165 -29 171 -18 175 -9 C 178 -3 176 3 170 5 "
-           "C 163 7 155 6 148 8 C 148 13 150 17 152 21 C 153 24 151 27 147 28 "
-           "C 150 30 150 34 148 38 C 146 42 142 44 141 47 C 144 53 149 60 149 68 "
-           "C 149 79 142 86 130 89 C 117 92 105 97 96 104 C 90 112 89 124 90 137 "
-           "C 91 149 91 158 87 171 C 82 186 77 200 74 214")
-BACK_NECK = "M 74 214 C 28 222 -42 222 -90 206 C -82 184 -74 164 -70 146 C -67 126 -72 104 -84 90"
-BACK_HAIR = ("M -84 90 C -88 99 -99 101 -104 90 C -110 99 -121 98 -124 86 C -131 94 -141 90 -143 77 "
+           "C 143 -73 150 -62 155 -52 C 160 -42 164 -33 168 -24 C 172 -15 177 -9 177 -3 C 177 3 173 6 167 6 "
+           "C 161 7 154 6 148 8 C 148 13 150 17 152 21 C 153 24 151 27 147 28 "
+           "C 150 30 150 34 148 38 C 146 42 142 44 141 48 C 145 55 151 62 151 72 "
+           "C 151 84 144 94 130 97 C 117 100 105 103 95 110 C 89 118 89 128 90 140 "
+           "C 91 152 92 160 89 174 C 84 190 79 202 76 214")
+BACK_NECK = "M 76 214 C 28 223 -46 223 -100 207 C -94 186 -86 166 -82 146 C -79 126 -82 104 -90 90"
+BACK_HAIR = ("M -90 90 C -93 99 -102 101 -106 90 C -112 99 -122 98 -125 86 C -131 94 -141 90 -143 77 "
              "C -151 83 -159 73 -162 58 C -173 38 -180 14 -182 -14 "
              "C -184 -42 -182 -72 -176 -98 C -174 -106 -173 -112 -171 -118")
 BACK = BACK_NECK + " " + BACK_HAIR[BACK_HAIR.index("C"):]     # one continuous stroke
@@ -79,10 +79,11 @@ LID = "M 99 -80 C 108 -88 122 -89 132 -84"
 BROW = "M 94 -94 C 109 -101 128 -104 145 -99"
 NOSTRIL = "M 160 5 C 154 4 150 0 150 -5 C 150 -10 154 -12 158 -10"
 MOUTH = "M 146 28 C 142 28 138 29 133 32"
+JAW = "M 112 96 C 84 92 46 82 14 66 C 0 58 -8 46 -12 30"
 # hairline: front of the fringe -> temple -> sideburn -> round the ear -> nape
 HAIRLINE = [(124, -150), (114, -143), (101, -133), (89, -121), (74, -113), (54, -109), (33, -104), (19, -93),
             (13, -74), (10, -54), (3, -45), (-7, -55), (-11, -78), (-22, -93), (-40, -99), (-57, -93),
-            (-67, -79), (-71, -57), (-73, -32), (-76, -6), (-79, 24), (-80, 56), (-84, 90)]
+            (-67, -79), (-71, -57), (-73, -32), (-77, -6), (-82, 24), (-86, 56), (-90, 90)]
 FRONT_TOP = [(107, -203), (114, -188), (119, -170), (124, -150)]
 BAND = ((-172, -114), (-110, -196), (24, -226), (116, -186))   # wreath band: knot -> front
 WHORL = (-84, -222)
@@ -193,32 +194,66 @@ def crescent(root, d, length, width, bend=0.25, hook=0.35):
     return cr_dense(outer + tip + inner, 4)
 
 
-def hair_texture(blockers, row_gap=20.0, lock_w=12.0, seed=5):
-    """staggered rows of crescent locks on arcs round the crown whorl, each lock combed along
-    the flow field (hatch texture). blockers: polygons (wreath leaves) to keep clear of."""
+def comma_lock(root, d, length, width, bend=0.3, curl=1):
+    """a comma-shaped lock: a tapering S-spine from the root that swells into a hooked head; the
+    inner edge returns only part way, so the root is a single tail, never a closed U."""
+    nx, ny = d[1] * curl, -d[0] * curl
+    def P(u, v):
+        s = u / length
+        bb = bend * length * (s * s - 0.14 * math.sin(math.pi * s))
+        return (root[0] + d[0] * u + nx * (v + bb), root[1] + d[1] * u + ny * (v + bb))
+    Ln, W = length, width
+    spine = [P(Ln * a, -0.12 * W - 0.38 * W * a ** 1.4) for a in (0.0, 0.3, 0.55, 0.78, 0.94)]
+    head = [P(Ln * 1.02, 0.05 * W), P(Ln * 0.98, 0.55 * W), P(Ln * 0.86, 0.62 * W)]
+    back = [P(Ln * a, 0.42 * W * (1 - (0.9 - a) * 0.6)) for a in (0.72, 0.55, 0.42)]
+    return cr_dense(spine + head + back, 4)
+
+
+def hair_texture(blockers, row_gap=21.0, lock_w=12.0, seed=5):
+    """comma locks filling the hair mass in rows that follow the skull, combed along the flow field:
+    large over the crown, smaller and tighter at the nape and round the ear (hatch texture).
+    blockers: polygons (wreath leaves) that sit over the hair."""
     rnd = random.Random(seed)
     region = hair_region()
     locks = []
-    for k in range(1, 22):
-        r = 6 + k * row_gap
-        n = max(6, int(2 * math.pi * r / lock_w))
+    EAR_C = (-38, -45)
+    for k in range(1, 28):
+        r = 4 + k * row_gap * 0.86
+        n = max(6, int(2 * math.pi * r / (lock_w * 1.05)))
         for i in range(n):
-            a = 2 * math.pi * (i + 0.5 * (k % 2)) / n
-            p = (WHORL[0] + r * math.cos(a) + rnd.uniform(-1.5, 1.5), WHORL[1] + r * math.sin(a) + rnd.uniform(-1.5, 1.5))
+            a = 2 * math.pi * (i + 0.5 * (k % 2) + rnd.uniform(-0.25, 0.25)) / n
+            p = (WHORL[0] + r * math.cos(a) + rnd.uniform(-3, 3), WHORL[1] + r * math.sin(a) + rnd.uniform(-3, 3))
             if not inside(p, region) or any(inside(p, b) for b in blockers):
                 continue
+            f = 1.25 - 0.55 * min(1.0, max(0.0, (p[1] + 230) / 300))
+            de = math.dist(p, EAR_C)
+            if de < 80:
+                f *= 0.7 + 0.3 * de / 80
             lx, ly = _n((p[0] + 60, p[1] + 110))
-            lit = -0.6 * lx - 0.8 * ly                     # 1 = facing the light (upper left)
-            if rnd.random() < 0.55 * max(0.0, lit) ** 1.2:
+            lit = -0.6 * lx - 0.8 * ly
+            if rnd.random() < 0.45 * max(0.0, lit) ** 1.2:
+                continue
+            if math.dist(p, (8, -128)) < 34 and rnd.random() < 0.75:      # worn smooth over the temple
                 continue
             d = flow(p)
-            Ln = row_gap * rnd.uniform(1.2, 1.4)
-            bend = (0.22 if p[0] > -120 else -0.22) * rnd.uniform(0.7, 1.2)
-            c = crescent(p, d, Ln, lock_w * rnd.uniform(0.85, 1.05), bend)
+            Ln = row_gap * 1.9 * f * rnd.uniform(0.8, 1.15)
+            W = lock_w * f * rnd.uniform(0.85, 1.1)
+            curl = 1 if p[0] > -120 else -1
+            c = comma_lock(p, d, Ln, W, bend=rnd.uniform(0.18, 0.34), curl=curl)
             for run in clip_inside(c, region, step=1.5, min_len=6):
                 for r2 in clip_outside(run, blockers, step=1.5, min_len=6):
                     locks.append(r2)
     return locks
+
+
+def stray_locks():
+    """a few locks breaking the outline of the hair (detail strokes)"""
+    out = []
+    for (x, y), (dx, dy), Ln in (((-150, -158), (-0.5, -0.9), 24), ((-178, -60), (-0.9, 0.3), 22),
+                                  ((-112, -200), (-0.4, -0.9), 18), ((-152, 42), (-0.7, 0.7), 22)):
+        d = _n((dx, dy))
+        out.append(comma_lock((x, y), d, Ln, 9, bend=0.3, curl=1 if dx > 0 else -1))
+    return out
 
 
 def hairline_edge(step=17.0, bulge=5.0, seed=21):
@@ -281,8 +316,8 @@ def ribbon(cl, w=9.0, cut=True):
 def ties():
     """the knot and the two ribbon ends of the wreath, hanging behind the head."""
     knot = ell_pts(-172, -116, 8, 10, 200, 560, 16)
-    r1 = ribbon([(-176, -110), (-188, -84), (-190, -58), (-199, -32), (-197, -6), (-205, 18)], 9.5)
-    r2 = ribbon([(-180, -114), (-199, -100), (-211, -80), (-214, -56), (-225, -34)], 8.5)
+    r1 = ribbon([(-176, -110), (-190, -84), (-194, -56), (-202, -28), (-200, 4), (-206, 36), (-198, 70), (-188, 100)], 9.5)
+    r2 = ribbon([(-180, -114), (-200, -100), (-214, -78), (-218, -50), (-228, -22), (-226, 12), (-232, 40)], 8.5)
     return [knot + r1, r2]
 
 
@@ -324,18 +359,27 @@ RV = {
     # turned (baluster) chair legs, each ONE stroke down one side and up the other, and a stretcher
     "ground": "M -150 198 L 150 198",
     "stool": "M 92 163 L 168 163 L 168 176 L 92 176 Z M 98 176 L 96 198 M 162 176 L 164 198",
-    "eye": "M 18 -204 C 21 -206 24 -206 27 -204",
-    "mouth": "M 30 -187 C 28 -187 25 -187 23 -186",
+    "eye": "M 17 -203 C 19 -206 23 -206 26 -203 C 23 -201 20 -201 17 -203",
+    "brow": "M 15 -209 C 19 -211 24 -211 28 -209",
+    "mouth": "M 30 -187 C 28 -187 25 -187 23 -186 M 28 -192 C 26 -191 25 -190 25 -189",
     "ear": "M 1 -201 C -5 -202 -6 -194 -3 -189 C -1 -186 2 -187 3 -189",
-    # drapery: mantle edge across the breast, folds over the lap and down the legs, the drape over the seat
-    "mantle": ("M -12 -164 C -2 -146 8 -124 12 -100 "
-               "M 40 -54 C 64 -48 92 -46 116 -38 "
-               "M 36 -44 C 62 -30 92 -24 120 -20 "
-               "M 98 -18 C 100 30 100 90 104 150 "
-               "M 112 -14 C 114 40 114 96 117 150 "
+    # hair: waves over the brow, and the coil of the bun at the nape
+    "hair": ("M 24 -219 C 20 -216 22 -212 18 -210 C 14 -208 16 -204 12 -202 "
+             "M -30 -186 C -37 -186 -38 -194 -32 -197 C -26 -199 -22 -192 -27 -189"),
+    # the palla: its edge across the breast, the folds over the lap, the cascade over the shins,
+    # the fall over the near arm, and the folds swept round the hips
+    "mantle": ("M -16 -166 C -6 -148 4 -126 10 -104 C 14 -90 12 -80 4 -72 "
+               "M 30 -48 C 56 -42 86 -40 116 -36 "
+               "M 26 -36 C 52 -24 84 -18 120 -16 "
+               "M 98 -18 C 100 20 100 60 100 100 "
+               "M 112 -14 C 114 30 114 70 114 102 "
+               "M 84 100 C 90 110 96 98 102 106 C 108 114 114 102 122 108 "
                "M -14 -166 C -24 -150 -28 -124 -25 -100 "
                "M -44 -24 C -22 -40 4 -50 30 -54 "
                "M -52 4 C -24 -14 10 -26 44 -30"),
+    # sleeve of the chiton on the arm that reaches to the sceptre
+    "sleeve": ("M 40 -158 C 36 -150 38 -142 44 -136 M 28 -162 C 28 -156 30 -150 34 -146 "
+               "M 52 -156 C 50 -150 52 -144 56 -140"),
     "fist": "M 147 -183 C 151 -179 151 -172 147 -168 M 141 -181 C 144 -177 144 -171 141 -167",
 }
 
@@ -355,14 +399,12 @@ def baluster(x, y0, y1, w=3.6, rings=(0.08, 0.36, 0.64, 0.9)):
 
 
 def hair_waves():
-    """wavy strands drawn back from the brow to the bun (hatch)."""
-    out = []
-    for k in range(5):
-        a = 0.18 * k
-        p0 = (24 - 3 * k, -216 + 5 * k)
-        out.append(cr_dense([p0, (10 - 4 * k, -221 + 6 * k + 2), (-6 - 3 * k, -219 + 7 * k),
-                             (-20 - 2 * k, -210 + 8 * k), (-27 - k, -199 + 6 * k)], 5))
-    return out
+    """strands combed back from the brow over the dome of the head, converging into the bun (hatch)"""
+    S = [[(22, -220), (12, -227), (-4, -228), (-17, -220), (-25, -206), (-29, -195)],
+         [(21, -215), (10, -222), (-6, -221), (-19, -212), (-27, -200)],
+         [(19, -210), (8, -216), (-7, -214), (-19, -205), (-28, -196)],
+         [(16, -205), (6, -209), (-6, -206), (-18, -199), (-28, -192)]]
+    return [cr_dense(s, 5) for s in S]
 
 
 def branch(base=(62, -70), tip=(110, -126), n=4, seed=3):
@@ -405,6 +447,10 @@ def reverse_shading():
     # chiton folds on the breast, hair
     S += comb([(-6, -150), (2, -130), (8, -112)], _n((-0.6, 0.8)), 14, 5.0, seed=43)
     S += hair_waves()
+    # fine folds of the chiton falling from under the palla to the feet
+    S += [cr_dense([(x, 112), (x + 1, 130), (x + 2, 148)], 3) for x in (88, 96, 104, 112, 120)]
+    # folds of the palla over the back and the hips
+    S += [cr_dense([(-40 + 4 * k, -130 + 6 * k), (-46 + 4 * k, -90 + 6 * k), (-50 + 4 * k, -50 + 6 * k)], 4) for k in range(3)]
     return S
 
 
@@ -472,15 +518,15 @@ def obverse_shading():
     # the field shadow along the face, chin, throat and neck front, and under the truncation
     prof = path_pts(PROFILE, 12)
     S += contour_shadow(prof, 11, side=1, seed=3)
-    trunc = path_pts("M 74 214 C 28 222 -48 222 -100 208", 12)
+    trunc = path_pts("M 76 214 C 28 223 -46 223 -100 207", 12)
     S += contour_shadow(list(reversed(trunc)), 9, side=-1, seed=4)
     # under the jaw: strokes hanging from the line of the mandible onto the upper neck
-    S += comb([(124, 92), (96, 92), (60, 82), (28, 70), (4, 58), (-8, 44)], _n((0.25, 1)), 34, 4.0, seed=5)
+    S += comb([(126, 100), (98, 100), (62, 90), (30, 78), (6, 64), (-8, 48)], _n((0.25, 1)), 36, 4.0, seed=5)
     # front of the neck: a soft band inside the contour
-    S += shade_patch([(90, 134), (90, 156), (84, 180), (78, 200), (73, 212), (58, 212), (66, 186), (72, 160),
-                      (78, 138)], 72, 4.6, seed=6)
+    S += shade_patch([(91, 136), (91, 158), (86, 182), (80, 200), (76, 212), (60, 212), (68, 186), (74, 160),
+                      (80, 140)], 72, 4.6, seed=6)
     # under the nape locks the neck sinks into shadow
-    S += comb([(-84, 96), (-77, 101), (-71, 108)], _n((0.12, 1)), 36, 3.6, seed=7, taper=0.4)
+    S += comb([(-90, 96), (-84, 102), (-78, 110)], _n((0.12, 1)), 36, 3.6, seed=7, taper=0.4)
     # the long neck muscle, softly, from behind the ear toward the pit of the throat
     S += comb([(-24, 30), (0, 80), (24, 130), (44, 182)], _n((0.95, 0.3)), 12, 6.0, seed=14, taper=1.0)
     # eye socket: short strokes under the brow
@@ -562,6 +608,14 @@ class Coin:
         """light scratches and nicks on the field, and a small flan crack at the edge (coin units)."""
         rnd = random.Random(seed)
         out = []
+        for (cx_, cy_, a0, n) in ((-232, 150, 30, 2), (214, -146, 60, 2), (-30, 150, -40, 2), (176, 150, 10, 2)):
+            a = math.radians(a0)
+            for k in range(n):
+                o = (k - n / 2) * 4.0
+                p0 = (cx_ - math.cos(a) * 16 - math.sin(a) * o, cy_ - math.sin(a) * 16 + math.cos(a) * o)
+                p1 = (cx_ + math.cos(a) * 16 - math.sin(a) * o + rnd.uniform(-2, 2), cy_ + math.sin(a) * 16 + math.cos(a) * o)
+                mid = ((p0[0] + p1[0]) / 2 + rnd.uniform(-2, 2), (p0[1] + p1[1]) / 2 + rnd.uniform(-2, 2))
+                out.append(cr_dense([p0, mid, p1], 4))
         # a hairline crack running in from the edge (common on hammered silver)
         a = math.radians(-128)
         c0 = (345 * math.cos(a), 345 * math.sin(a))

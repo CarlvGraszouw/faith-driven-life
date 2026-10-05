@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <!-- b03 c -->
+  <style>
+    .line{stroke:#1f1f1f;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+    .detail{stroke:#1f1f1f;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .hatch{stroke:#1f1f1f;stroke-width:0.9;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+    .line:not([fill]),.detail:not([fill]),.hatch:not([fill]){fill:none}
+  </style>
+  <path class="line" d="M 676 506 L 719.3 499.2 L 742.2 496.2 L 764.7 494.3 L 775 494 L 785.3 494.3 L 796.4 495.1 L 819.4 497.6 L 874 506 L 858 511.9 L 874 506 L 860.5 495.7"/>
+  <path class="hatch" d="M 486 493.4 L 469.1 499.5 M 482.5 479.3 L 464.8 482.2 M 481.5 464.7 L 463.5 464.4 M 483 450.2 L 465.3 446.6 M 486.9 436.2 L 470.2 429.5 M 493 423.2 L 477.8 413.5 M 501.3 411.6 L 488.1 399.4 M 511.3 401.9 L 500.6 387.4 M 599.7 401.9 L 610.5 387.4 M 609.8 411.6 L 623 399.4 M 618 423.2 L 633.2 413.5 M 624.2 436.2 L 640.9 429.5 M 628 450.2 L 645.7 446.6 M 629.5 464.7 L 647.5 464.4 M 628.5 479.3 L 646.2 482.2 M 625 493.4 L 642 499.5"/>
+</svg>

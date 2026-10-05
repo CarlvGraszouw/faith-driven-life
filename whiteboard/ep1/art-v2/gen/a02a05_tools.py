@@ -399,12 +399,12 @@ class Board:
                     a = self.stats.setdefault((g, st[0]), [0, 0.0]); a[0] += 1; a[1] += plen(st[1])
         for g in order:
             strokes = groups.get(g, [])
+            for cls, pts, colour in fills.get(g, []):
+                out.append((cls, pts, colour))
             for ph in sorted(set(s[2] for s in strokes)):
                 batch = [s for s in strokes if s[2] == ph]
                 seq, pen = _nn_order(batch, pen)
                 out += [(s[0], s[1], None) for s in seq]
-            for cls, pts, colour in fills.get(g, []):
-                out.append((cls, pts, colour))
         self.out = out
         return out
 

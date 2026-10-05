@@ -29,7 +29,7 @@ JAW = {   # continuation of the far face contour around the chin to the near ear
 SHADE = {"none": None, "short": 0.6, "full": 1.0, "long": 1.0}
 
 
-def eyes(ph, P, expr, gaze, lv_far="S"):
+def eyes(ph, P, expr, gaze, lv_far="M"):
     """brows, lids, pupils for an expression.  gaze: -1 looks left (facing), +1 toward the viewer side."""
     sm = lambda pts: K.sm(P(pts))
     g = gaze
@@ -111,7 +111,7 @@ def nose(ph, P, kind="straight"):
 
 
 def head34(fig, hx, hy, rot=0.0, s=HEAD_S, beard="full", cover="none", expr="calm", gaze=-1.0, z=70, order=0,
-           nose_kind="straight", age=0, beard_dark=True, phylactery=False):
+           nose_kind="straight", age=0, beard_dark=True, phylactery=False, cover_line=True, face_cls="line"):
     """3/4 head facing left.  cover: none (short cropped hair) | curly (Herodian) | turban (Pharisee head-cloth)
     | hood (cloth/mantle over the head, falls to the shoulders) | veil (woman's head mantle)."""
     P = HP(hx, hy, rot, s)
@@ -119,8 +119,9 @@ def head34(fig, hx, hy, rot=0.0, s=HEAD_S, beard="full", cover="none", expr="cal
     ph = fig.part("head", z, order)
     jaw = JAW[beard]
     face = FACE_FAR + jaw[1:]
-    ph.add("line", sm(face), "S")
+    ph.add(face_cls, sm(face), "S")
     occ = list(face)
+    ph.cover_pts = None
 
     if cover == "turban":
         # Pharisee: a cloth wound round the head (bands), a tail falling behind; phylactery box on the brow
@@ -158,7 +159,9 @@ def head34(fig, hx, hy, rot=0.0, s=HEAD_S, beard="full", cover="none", expr="cal
             edge = [(-35, -24), (-40.6, -12), (-44.4, 6), (-46, 28), (-46, 52), (-44, 74)]
         front_in = [(-37, -24), (-30, -32), (-16, -36.6), (-2, -35.4), (10, -28.6), (18.6, -16), (23, 0), (24.6, 12),
                     (25, 24)]
-        ph.add("line", K.chain(P(edge[::-1]), P(out)), "S")
+        if cover_line:
+            ph.add("line", K.chain(P(edge[::-1]), P(out)), "S")
+        ph.cover_pts = P(edge[::-1]) + P(out)[1:]
         ph.add("detail", sm(front_in), "S")
         ph.add("detail", sm([(26, 22), (28, 40), (32, 58), (37, 76)]), "M")                       # fold by the cheek
         ph.add("detail", sm([(4, -64), (24, -56), (40, -38), (48, -12)]), "F")
@@ -230,7 +233,7 @@ def head34(fig, hx, hy, rot=0.0, s=HEAD_S, beard="full", cover="none", expr="cal
     return ph
 
 
-def head_back(fig, hx, hy, rot=0.0, s=HEAD_S, z=70, order=0, cover="hood", beard="full"):
+def head_back(fig, hx, hy, rot=0.0, s=HEAD_S, z=70, order=0, cover="hood", beard="full", out_line=True):
     """Back three-quarter head (face turned away to the LEFT), covered by a hood/mantle that falls on the back.
     Only the far cheek contour, brow and beard edge peek out on the left."""
     P = HP(hx, hy, rot, s)
@@ -239,7 +242,9 @@ def head_back(fig, hx, hy, rot=0.0, s=HEAD_S, z=70, order=0, cover="hood", beard
     out = [(-30, -38), (-20, -58), (0, -70), (24, -70), (42, -60), (54, -40), (60, -12), (63, 22), (68, 60), (76, 100),
            (82, 140)]
     edge = [(-30, -38), (-36, -22), (-38, -4), (-36, 18), (-30, 40), (-22, 62), (-14, 90), (-8, 120)]
-    ph.add("line", K.chain(P(edge[::-1]), P(out)), "S")
+    if out_line:
+        ph.add("line", K.chain(P(edge[::-1]), P(out)), "S")
+    ph.out_pts = P(edge[::-1]) + P(out)[1:]
     face = [(-35, -16), (-41.6, -10), (-44.6, -3), (-43.4, 4), (-46.6, 11), (-45, 16), (-46, 24), (-45, 34), (-41, 44),
             (-34, 50)]
     ph.add("detail", sm(face), "S")                                         # cheek/brow/beard peeking out
@@ -255,23 +260,107 @@ def head_back(fig, hx, hy, rot=0.0, s=HEAD_S, z=70, order=0, cover="hood", beard
     return ph
 
 
-if __name__ == "__main__":
-    from lib_v2 import svg
-    body = ""
-    specs = [dict(beard="long", cover="turban", expr="smile", phylactery=True, nose_kind="hooked", age=1),
-             dict(beard="short", cover="curly", expr="sly"),
-             dict(beard="long", cover="turban", expr="frown", phylactery=True, age=2, beard_dark=False),
-             dict(beard="full", cover="hood", expr="calm"),
-             dict(beard="none", cover="veil", expr="calm", gaze=-1.0),
-             dict(beard="long", cover="turban", expr="stunned", phylactery=True, nose_kind="hooked", age=1)]
-    for i, sp in enumerate(specs):
-        f = Fig()
-        head34(f, 0, 0, s=1.0, **sp)
-        lay = f.render(1.25, 130 + i * 260, 330, False, "full")
-        body += "".join(lay["line"] + lay["detail"] + lay["hatch"])
+# =============================================================== helpers for scenes
+def silhouette(fig, s, x, y, mirror=False, grow=1.0):
+    """Union of a figure's occluders, transformed to art coords -> list of polygons (largest first)."""
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+    polys = [Polygon(pg).buffer(0) for p in fig.parts for pg in p.occ if len(pg) >= 3]
+    u = unary_union([q.buffer(grow) for q in polys]).buffer(1.5).buffer(-1.5)
+    geoms = sorted(getattr(u, "geoms", [u]), key=lambda g: -g.area)
+    out = []
+    for g in geoms:
+        pts = [((-px if mirror else px) * s + x, py * s + y) for px, py in g.exterior.coords]
+        out.append(pts)
+    return out
+
+
+def layers(fig, s, x, y, mirror=False, level="full", accent=True):
+    return fig.render(s, x, y, mirror, level, accent)
+
+
+# =============================================================== a03 listeners
+def _dressed_part(f, D, folds=(), hatch_polys=(), z=30, order=1):
+    from a_rig import ext
+    out, inner, occ, u = D.strokes()
+    p = f.part("body", z, order)
+    p.add("line", out, "S", clip=False)
+    for d, lv in inner:
+        p.add("detail", d, lv)
+    for d, lv in folds:
+        p.add("detail", d, lv)
+    for poly, angle, sp, seed in hatch_polys:
+        p.add("hatch", K.clip(K.hatch(poly, angle=angle, spacing=sp, seed=seed), [list(ext(u).coords)], keep="in"), "S")
+    p.occ.append(occ)
+    return p, u
+
+
+def listener_woman_standing():
+    """Woman standing, veil over head and shoulders, hands clasped at her waist, listening, facing LEFT.
+    Rig-built (robe + veil).  Origin: ground between her feet; ~318 tall at scale 1."""
+    from a_rig import Dressed, capsule, circ, torso, robe_standing, wavy_hem
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+    J = dict(head=(-10, -296), neck=(-4, -268), shf=(-30, -258), shn=(26, -258), waist=(-2, -192),
+             hipf=(-12, -158), hipn=(12, -158), knf=(-12, -88), knn=(14, -86),
+             anf=(-16, -9), ann=(14, -8), tof=(-40, -2), ton=(-10, -1),
+             elf=(-36, -200), wrf=(-14, -184), eln=(30, -198), wrn=(-6, -182))
     f = Fig()
-    head_back(f, 0, 0, s=1.0)
-    lay = f.render(1.25, 200, 720, False, "full")
-    body += "".join(lay["line"] + lay["detail"] + lay["hatch"])
-    open(os.path.join(HERE, "..", "..", "preview", "a-heads.svg"), "w").write(svg(body))
-    print("ok")
+    hd = head34(f, J["head"][0], J["head"][1], rot=-6, s=0.41, beard="none", cover="veil", expr="calm", gaze=-1.0,
+                z=70, order=0, cover_line=False, face_cls="detail")
+    D = Dressed()
+    D.add(10, unary_union([capsule(J["shf"], J["elf"], 8.6, 8.2), capsule(J["elf"], J["wrf"], 8, 6.8)]), "farm", "M")
+    skirt, (hl, hr, hy) = robe_standing(J, flare=9, hip_r=17, knee_r=11)
+    D.add(20, unary_union([torso(J, chest=15.5, waist=13.5), skirt, circ(J["neck"], 7.4)]), "robe", None)
+    veil = Polygon(hd.cover_pts + [(J["shn"][0] + 16, -200), (J["shn"][0] + 14, -150), (J["shn"][0] + 2, -140),
+                                   (J["shf"][0] - 6, -196), (J["shf"][0] - 12, -232)])
+    D.add(25, veil.buffer(0.8), "veil", "S")
+    D.add(30, unary_union([capsule(J["shn"], J["eln"], 8.8, 8.4), capsule(J["eln"], J["wrn"], 8.2, 6.8)]), "narm", "S")
+    folds = [(K.sm([(-6, -150), (-8, -100), (-10, -50), (-9, hy - 4)]), "M"), (K.sm([(10, -140), (12, -80), (13, hy - 4)]), "F")]
+    hp = [([(J["shn"][0] + 2, -236), (J["shn"][0] + 16, -200), (J["shn"][0] + 14, -150), (J["shn"][0], -146)], 80, 2.4, 231),
+          ([(hr - 16, -120), (hr, -110), (hr, hy), (hr - 14, hy)], 80, 2.4, 232),
+          ([(hl, hy), (hl + 14, hy), (hl + 12, -110), (hl + 4, -120)], 78, 2.6, 233)]
+    _dressed_part(f, D, folds=folds, hatch_polys=hp)
+    hh = f.part("hands", 90, 3)
+    rig_hand(hh, "grip", J["wrn"][0] + 1, J["wrn"][1], rot=-176, s=0.9, lv_inner=("M", "F", "F", "F", "F", "F", "F"))
+    ft = f.part("feet", 5, 4)
+    foot(ft, J["anf"][0], J["anf"][1], J["tof"], lv_strap="F")
+    foot(ft, J["ann"][0], J["ann"][1], J["ton"], lv_strap="F")
+    return f
+
+
+def listener_elder_staff():
+    """Old man standing with a staff, head-cloth, full grey beard, other hand on his chest, listening intently,
+    facing LEFT.  Rig-built.  Origin: ground between his feet; ~322 tall."""
+    from a_rig import Dressed, capsule, circ, torso, robe_standing
+    from shapely.geometry import Polygon, LineString
+    from shapely.ops import unary_union
+    J = dict(head=(-20, -298), neck=(-10, -270), shf=(-40, -260), shn=(26, -262), waist=(-4, -196),
+             hipf=(-14, -162), hipn=(12, -161), knf=(-16, -90), knn=(14, -88),
+             anf=(-20, -10), ann=(16, -9), tof=(-46, -2), ton=(-8, -1),
+             elf=(-58, -212), wrf=(-62, -176), eln=(30, -208), wrn=(-2, -232))
+    f = Fig()
+    head34(f, J["head"][0], J["head"][1], rot=-8, s=0.45, beard="full", cover="hood", expr="calm", gaze=-1.0,
+           age=2, beard_dark=False, z=70, order=0)
+    D = Dressed()
+    staff = LineString([(-70, -250), (-74, -4)]).buffer(2.4)
+    D.add(4, staff, "staff", "S")
+    D.add(10, unary_union([capsule(J["shf"], J["elf"], 9.8, 9.6), capsule(J["elf"], J["wrf"], 9.6, 8)]), "farm", "S")
+    skirt, (hl, hr, hy) = robe_standing(J, flare=11)
+    D.add(20, unary_union([torso(J, chest=18, waist=16), skirt, circ(J["neck"], 8.6)]), "robe", None)
+    mant = Polygon([(J["neck"][0] + 8, J["neck"][1] - 4), (J["shn"][0] + 12, J["shn"][1] - 2), (J["shn"][0] + 22, -220),
+                    (J["shn"][0] + 26, -140), (J["shn"][0] + 26, -70), (J["shn"][0] + 8, -60), (J["shn"][0] - 4, -150),
+                    (J["shn"][0] - 8, -230)])
+    D.add(25, mant.buffer(1.5), "mantle", "S")
+    D.add(30, unary_union([capsule(J["shn"], J["eln"], 10, 9.6), capsule(J["eln"], J["wrn"], 9.6, 8)]), "narm", "S")
+    folds = [(K.sm([(-28, -150), (-30, -100), (-31, -50), (-30, hy - 4)]), "M"), (K.sm([(-6, -150), (-6, -80), (-5, hy - 4)]), "F")]
+    hp = [([(J["shn"][0] + 6, -230), (J["shn"][0] + 26, -220), (J["shn"][0] + 26, -66), (J["shn"][0] + 8, -62)], 82, 2.4, 241),
+          ([(hl, hy), (hl + 18, hy), (hl + 14, -120), (hl + 6, -130)], 78, 2.6, 242)]
+    _dressed_part(f, D, folds=folds, hatch_polys=hp)
+    hh = f.part("hands", 90, 3)
+    rig_hand(hh, "grip", -68, -178, rot=90, s=1.0, lv_inner=("M", "F", "F", "F", "F", "F", "F"))
+    rig_hand(hh, "knee", J["wrn"][0], J["wrn"][1], rot=168, s=1.0, lv_inner=("M", "F", "F", "F", "F", "F"))
+    ft = f.part("feet", 5, 4)
+    foot(ft, J["anf"][0], J["anf"][1], J["tof"], lv_strap="F")
+    foot(ft, J["ann"][0], J["ann"][1], J["ton"], lv_strap="F")
+    return f
