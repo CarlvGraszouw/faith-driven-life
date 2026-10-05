@@ -249,3 +249,81 @@ def ring_poly(cx, cy, r0, r1, a0, a1, n=40):
     outer = ell_pts(cx, cy, r1, r1, a0, a1, n)
     inner = ell_pts(cx, cy, r0, r0, a1, a0, n)
     return outer + inner
+
+
+# ------------------------------------------------------------------ path sampling
+import re as _re
+_TOK = _re.compile(r"[MLCQZ]|-?\d*\.?\d+(?:e-?\d+)?")
+
+
+def path_subpaths(d, n=12):
+    """absolute M/L/C/Q/Z path data -> list of dense polylines (one per sub-path)."""
+    toks = _TOK.findall(d)
+    out, cur, i, cmd = [], None, 0, None
+    pos = start = (0.0, 0.0)
+    while i < len(toks):
+        t = toks[i]
+        if t.isalpha():
+            cmd = t; i += 1
+            if cmd == "Z":
+                if cur is not None and math.dist(pos, start) > 1e-9:
+                    cur.append(start)
+                pos = start
+                continue
+            continue
+        need = {"M": 2, "L": 2, "C": 6, "Q": 4}[cmd]
+        nums = [float(x) for x in toks[i:i + need]]; i += need
+        pts = [(nums[k], nums[k + 1]) for k in range(0, need, 2)]
+        if cmd == "M":
+            cur = [pts[0]]; out.append(cur); pos = start = pts[0]; cmd = "L"
+        elif cmd == "L":
+            cur.append(pts[0]); pos = pts[0]
+        elif cmd == "C":
+            cur += bez3(pos, pts[0], pts[1], pts[2], n)[1:]; pos = pts[2]
+        elif cmd == "Q":
+            q0, q1, q2 = pos, pts[0], pts[1]
+            c1 = (q0[0] + 2 / 3 * (q1[0] - q0[0]), q0[1] + 2 / 3 * (q1[1] - q0[1]))
+            c2 = (q2[0] + 2 / 3 * (q1[0] - q2[0]), q2[1] + 2 / 3 * (q1[1] - q2[1]))
+            cur += bez3(q0, c1, c2, q2, n)[1:]; pos = q2
+    return out
+
+
+def path_pts(d, n=12):
+    """all sub-paths of d joined into one polyline (use for single-subpath outlines)."""
+    out = []
+    for sp in path_subpaths(d, n):
+        out += sp
+    return out
+
+
+def hatch(polys, angle, spacing, inset=0.0, jitter=0.0, seed=3, min_len=3.0, shorten=0.0):
+    """plain parallel hatch strokes (separate segments) clipped to the even-odd region polys.
+    shorten: random fraction (0..shorten) trimmed off each end, for a hand-made edge."""
+    import random
+    rnd = random.Random(seed)
+    if isinstance(polys[0][0], (int, float)):
+        polys = [polys]
+    a = math.radians(angle)
+    ca, sa = math.cos(-a), math.sin(-a)
+    R = [[(x * ca - y * sa, x * sa + y * ca) for x, y in p] for p in polys]
+    ys = [y for p in R for _, y in p]
+    y0, y1 = min(ys), max(ys)
+    cb, sb = math.cos(a), math.sin(a)
+    segs = []
+    y = y0 + spacing * 0.5
+    while y < y1:
+        for xa, xb in _scan(R, y):
+            xa, xb = xa + inset, xb - inset
+            if xb - xa < min_len:
+                continue
+            L = xb - xa
+            xa += rnd.uniform(0, shorten) * L; xb -= rnd.uniform(0, shorten) * L
+            yy = y + rnd.uniform(-jitter, jitter)
+            segs.append([(xa * cb - yy * sb, xa * sb + yy * cb), (xb * cb - yy * sb, xb * sb + yy * cb)])
+        y += spacing
+    return segs
+
+
+def segs_d(segs):
+    """many short segments -> one path data string (several sub-paths)."""
+    return " ".join(f"M {f1(s[0][0])} {f1(s[0][1])} L {f1(s[-1][0])} {f1(s[-1][1])}" for s in segs)

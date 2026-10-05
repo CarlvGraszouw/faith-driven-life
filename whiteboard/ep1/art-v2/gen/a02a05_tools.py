@@ -340,7 +340,8 @@ class Board:
             return None
         return unary_union(near)
 
-    def build(self, group_order, hatch_last=True, start=(1500, 820)):
+    def build(self, group_order, hatch_last=True, start=(1500, 820), canvas=(-2, -2, 1602, 902)):
+        cbox = sbox(*canvas)
         occs = [(it.z, it.occ) for it in self.items if it.occ is not None and not it.occ.is_empty]
         tree = STRtree([o for _, o in occs]) if occs else None
         groups = {g: [] for g in group_order}
@@ -350,19 +351,18 @@ class Board:
             occb = occ.buffer(self.gap) if occ is not None else None
             g = it.group
             for cls, pts, ph in it.strokes:
-                if occb is not None:
-                    ls = LineString(pts)
-                    if ls.intersects(occb):
-                        pieces = _lines_of(ls.difference(occb))
-                    else:
-                        pieces = [pts]
+                ls = LineString(pts)
+                if not cbox.contains(ls):
+                    ls = ls.intersection(cbox)
+                if occb is not None and ls.intersects(occb):
+                    pieces = _lines_of(ls.difference(occb))
                 else:
-                    pieces = [pts]
+                    pieces = _lines_of(ls)
                 for pc in pieces:
                     if plen(pc) >= self.min_piece:
                         groups[g].append([cls, pc, ph])
             for region, ang, spc, phs, cls, hg, kw in it.hatches:
-                reg = region
+                reg = region.intersection(cbox)
                 if occb is not None:
                     reg = reg.difference(occ.buffer(self.gap * 0.7))
                 if reg.is_empty:
@@ -492,30 +492,76 @@ class Cam:
         """screen units per metre at world point P."""
         return self.f / max(self.depth(P), 0.5)
 
+    def _cut(self, a, b, near):
+        da, db = self.depth(a), self.depth(b)
+        t = (near - da) / (db - da)
+        return tuple(np.asarray(a, float) + (np.asarray(b, float) - np.asarray(a, float)) * t)
+
+    def poly3(self, Ps, near=3.0):
+        """Project a 3D polygon clipped to depth >= near (Sutherland-Hodgman). Returns 2D points."""
+        out = []
+        n = len(Ps)
+        for i in range(n):
+            a, b = Ps[i], Ps[(i + 1) % n]
+            ia, ib = self.depth(a) >= near, self.depth(b) >= near
+            if ia:
+                out.append(tuple(a))
+            if ia != ib:
+                out.append(self._cut(a, b, near))
+        return [self.p(q) for q in out]
+
+    def line3(self, Ps, near=3.0, n=1):
+        """Project a 3D polyline clipped to depth >= near; returns a list of 2D polylines."""
+        runs, cur = [], []
+        for i in range(len(Ps) - 1):
+            a, b = Ps[i], Ps[i + 1]
+            ia, ib = self.depth(a) >= near, self.depth(b) >= near
+            if not ia and not ib:
+                if cur:
+                    runs.append(cur); cur = []
+                continue
+            a2 = a if ia else self._cut(a, b, near)
+            b2 = b if ib else self._cut(a, b, near)
+            seg = self.pl([a2, b2], n)
+            if cur and math.hypot(cur[-1][0] - seg[0][0], cur[-1][1] - seg[0][1]) < 1e-6:
+                cur += seg[1:]
+            else:
+                if cur:
+                    runs.append(cur)
+                cur = list(seg)
+            if not ib:
+                runs.append(cur); cur = []
+        if cur:
+            runs.append(cur)
+        return runs
+
 
 # ----------------------------------------------------------------------------- timing estimate
-def timing(out, S=0.9556, windows=()):
-    """Engine-style timing: each stroke = pen stroke; detail 1.45x speed with 0.07 s lift, others 0.15 s."""
+def timing(out, S=0.9556):
+    """Hand time per the coordinator's updated engine: line strokes 0.15 s lift + length at v px/s,
+    detail strokes 0.04 s lift + length at 1.8 v, hatch self-draws afterwards (free).
+    'flat' charges the full lift on every stroke; 'near' scales lifts by hop distance like engine.js."""
     ev = []
     for cls, pts, colour in out:
+        if cls == 'hatch' and colour is None:
+            continue
         L = plen(pts) * S
-        k = 'detail' if cls == 'detail' else 'line'
-        ev.append((k, L, (pts[0][0] * S, pts[0][1] * S), (pts[-1][0] * S, pts[-1][1] * S)))
+        ev.append((cls, L, (pts[0][0] * S, pts[0][1] * S), (pts[-1][0] * S, pts[-1][1] * S)))
 
-    def sim(v, pk):
+    def sim(v, flat):
         t, prev = 0.0, None
         for k, L, p0, p1 in ev:
-            vv = v * (1.45 if k == 'detail' else 1.0)
+            vv = v * (1.8 if k == 'detail' else 1.0)
             if prev:
                 d = math.hypot(p0[0] - prev[0], p0[1] - prev[1])
-                t += d / (2.6 * v) + (0.07 if k == 'detail' else 0.15) * pk * min(1, max(0.35, 0.35 + d / 250))
+                f = 1.0 if flat else min(1, max(0.35, 0.35 + d / 250))
+                t += d / (2.6 * v) + (0.04 if k == 'detail' else 0.15) * f
             t += max(L, 3) / vv
             prev = p1
         return t
     lens = {}
     for cls, pts, colour in out:
         a = lens.setdefault(cls, [0, 0.0]); a[0] += 1; a[1] += plen(pts)
-    res = {'counts': {k: (v[0], round(v[1])) for k, v in lens.items()},
-           'nat2200': round(sim(2200, 1), 2), 'at4000': round(sim(4000, 1), 2), 'at4000h': round(sim(4000, .5), 2),
-           'at5600h': round(sim(5600, .5), 2)}
-    return res
+    return {'counts(n, art units)': {k: (v[0], round(v[1])) for k, v in lens.items()},
+            'hand@2200 flat': round(sim(2200, True), 2), 'hand@2200 near': round(sim(2200, False), 2),
+            'hand@3000 flat': round(sim(3000, True), 2)}

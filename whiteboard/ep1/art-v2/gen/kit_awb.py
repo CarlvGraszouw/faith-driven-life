@@ -147,7 +147,7 @@ def _clip_scan(poly, y):
     return [(xs[i], xs[i + 1]) for i in range(0, len(xs) - 1, 2)]
 
 
-def hatch(poly, angle=45, gap=7, inset=0, zig=True, start=0.5, jitter=0.0, maxlink=None, minlen=4):
+def hatch(poly, angle=45, gap=7, inset=0, zig=False, start=0.5, jitter=0.0, maxlink=None, minlen=4):
     """Parallel hatch strokes inside polygon `poly` at `angle` degrees, spaced `gap`.
     zig=True joins neighbouring strokes end-to-end (back-and-forth shading in one pen
     movement) whenever the turn is short. Returns a d string."""
@@ -430,4 +430,60 @@ def tiberius_obverse(cx, cy, r, legend_on=True, wash=True, hatch_on=True, rim="l
     if legend_on:
         for d in legend("TI CAESAR DIVI AVG F AVGVSTVS", cx, cy, 74 * k, 122, 418, 11.5 * k):
             out.append(el("detail", d))
+    return "".join(out)
+
+
+# ------------------------------------------------------------------ figure helpers
+def tube(center, widths, cap0=0.6, cap1=0.6):
+    """closed outline around a centre line (limb / sleeve). widths = half-widths per point.
+    cap0/cap1 bulge of the end caps (0 = flat)."""
+    n = len(center)
+    left, right = [], []
+    for i in range(n):
+        p = center[i]
+        a = center[max(0, i - 1)]
+        b = center[min(n - 1, i + 1)]
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        ln = math.hypot(dx, dy) or 1
+        nx, ny = -dy / ln, dx / ln
+        w = widths[i]
+        left.append((p[0] + nx * w, p[1] + ny * w))
+        right.append((p[0] - nx * w, p[1] - ny * w))
+    # end caps
+    def cap(p, q, c, bulge):
+        dx, dy = c[0] - (p[0] + q[0]) / 2, c[1] - (p[1] + q[1]) / 2
+        return [((p[0] + q[0]) / 2 + dx * bulge * 2, (p[1] + q[1]) / 2 + dy * bulge * 2)] if bulge else []
+    e = center[-1]; pe = center[-2]
+    ext = (e[0] + (e[0] - pe[0]) * 0.001, e[1] + (e[1] - pe[1]) * 0.001)
+    dxe, dye = e[0] - pe[0], e[1] - pe[1]; lne = math.hypot(dxe, dye) or 1
+    capE = [(e[0] + dxe / lne * widths[-1] * cap1, e[1] + dye / lne * widths[-1] * cap1)] if cap1 else []
+    s0 = center[0]; s1 = center[1]
+    dxs, dys = s0[0] - s1[0], s0[1] - s1[1]; lns = math.hypot(dxs, dys) or 1
+    capS = [(s0[0] + dxs / lns * widths[0] * cap0, s0[1] + dys / lns * widths[0] * cap0)] if cap0 else []
+    return left + capE + right[::-1] + capS
+
+
+def fig_els(items, s=1.0, dx=0.0, dy=0.0, flip=False):
+    """items: list of (cls, kind, pts|d, fill) with kind in {'S','SC','P','PC','D'} in local
+    figure units -> placed svg string"""
+    out = []
+    for it in items:
+        cls, kind, data = it[0], it[1], it[2]
+        fill = it[3] if len(it) > 3 else None
+        acc = it[4] if len(it) > 4 else False
+        if kind == "D":
+            d = tx(data, s=s, dx=dx, dy=dy, sx=(-s if flip else s), sy=s)
+        else:
+            pts = place(data, s, dx, dy, flip)
+            if kind == "S":
+                d = S(pts)
+            elif kind == "SC":
+                d = S(pts, closed=True)
+            elif kind == "P":
+                d = P(pts)
+            elif kind == "PC":
+                d = P(pts, closed=True)
+            elif kind == "H":  # hatch polygon: data = (pts, angle, gap)
+                pass
+        out.append(el(cls, d, fill=fill, accent=acc))
     return "".join(out)

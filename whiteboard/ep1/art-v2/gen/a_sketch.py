@@ -278,3 +278,51 @@ def line_len_of(svgtext):
     for m in re.finditer(r'<path class="line"[^>]* d="([^"]+)"', svgtext):
         tot += length(m.group(1))
     return tot
+
+
+# ---------------------------------------------------------------- curves & limbs
+def resample(pts, n):
+    """Resample a polyline (through the given points, Catmull-Rom smoothed) to n points by arc length."""
+    pl = flatten(sm(pts), 0.5)[0] if len(pts) > 2 else [tuple(pts[0]), tuple(pts[1])]
+    if len(pl) == 2:
+        return [lerp(pl[0], pl[1], i / (n - 1)) for i in range(n)]
+    cum = [0.0]
+    for a, b in zip(pl, pl[1:]):
+        cum.append(cum[-1] + _dist(a, b))
+    tot = cum[-1]
+    out, j = [], 0
+    for i in range(n):
+        s = tot * i / (n - 1)
+        while j < len(cum) - 2 and cum[j + 1] < s:
+            j += 1
+        seg_len = (cum[j + 1] - cum[j]) or 1e-9
+        out.append(lerp(pl[j], pl[j + 1], (s - cum[j]) / seg_len))
+    return out
+
+
+def between(a, b, n, n_pts=12, trim=(0.0, 1.0)):
+    """n curves interpolated between curves a and b (exclusive) -> list of point lists."""
+    A, B = resample(a, n_pts), resample(b, n_pts)
+    res = []
+    for k in range(1, n + 1):
+        t = k / (n + 1)
+        c = [lerp(p, q, t) for p, q in zip(A, B)]
+        i0, i1 = int(trim[0] * (n_pts - 1)), int(round(trim[1] * (n_pts - 1)))
+        res.append(c[i0:i1 + 1])
+    return res
+
+
+def tube(center, widths):
+    """Offset a centre line by +/- width/2 along normals -> (left_pts, right_pts).
+    'left' is to the left of the direction of travel (in screen coords, y down)."""
+    n = len(center)
+    lefts, rights = [], []
+    for i, (x, y) in enumerate(center):
+        a = center[max(0, i - 1)]; b = center[min(n - 1, i + 1)]
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        L = math.hypot(dx, dy) or 1e-9
+        nx, ny = dy / L, -dx / L
+        w = widths[i] / 2.0
+        lefts.append((x + nx * w, y + ny * w))
+        rights.append((x - nx * w, y - ny * w))
+    return lefts, rights

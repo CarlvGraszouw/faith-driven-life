@@ -208,6 +208,8 @@
   }
 
   async function buildArt(S, sc) {
+    // --plan with art that does not exist yet: an empty item, so the windows can still be reported
+    if (sc.missing) return { kind: 'art', mode: 'native', events: [], accents: [], toFrame: ID, box: null, D: sc.draw, at: sc.artAt, file: sc.file, missing: true };
     const doc = parseSVG(sc.svg, `scene ${sc.id}`);
     const root = doc.documentElement;
     const used = new Set();
@@ -254,7 +256,7 @@
         parseFloat(st.getPropertyValue('stroke-opacity') || '1') > 0;
     };
     const mode = sc.mode || (list.some((x) => x.kind === 'geom' && hasStroke(x.el)) ? 'native' : 'trace');
-    const item = { kind: 'art', mode, events: [], accents: [], toFrame, box: [ox, oy, vb[2] * s, vb[3] * s], D: sc.draw, at: sc.artAt };
+    const item = { kind: 'art', mode, events: [], accents: [], toFrame, box: [ox, oy, vb[2] * s, vb[3] * s], D: sc.draw, at: sc.artAt, file: sc.file };
 
     if (mode === 'trace') {
       // Coloured artwork without strokes (a logo): pen outlines the colour edges, then colours the shapes in.
@@ -272,8 +274,11 @@
       addScribbles(item, [content], S);
       return item;
     }
-    // class "detail" or "hatch" (on the path or its nearest classed group) is drawn by the pen like
-    // everything else, but faster and with quick hops (see SPEEDK/pauseOf); anything else is "line".
+    // Classes (on the path or its nearest classed group):
+    //   "line"   - main contours, traced by the hand (the default for anything unclassed)
+    //   "detail" - traced by the hand too, faster and with quicker hops (SPEEDK/PAUSE)
+    //   "hatch"  - NOT traced by the hand: self-drawn together once the item's line/detail work is done
+    //              (scheduleSelf), so it costs no hand time
     // Stroke widths/opacity come from the SVG's own <style> (baked above), e.g. v2: 2.6 / 1.5 / 0.9 @ .75.
     const clsOf = (el) => {
       const c = el.closest('.hatch, .detail, .line');
@@ -337,17 +342,20 @@
       for (let k = n0; k < item.events.length; k++) {
         const ev = item.events[k];
         ev.cls = clsOf(e);
-        if (isPen(ev) && ev.kind !== 'fill') ev.swF = (parseFloat((ev.kind === 'mstroke' ? e : ev.el).style.strokeWidth) || 0) * linScale(ev.M);
+        if (ev.kind === 'stroke' || ev.kind === 'mstroke') {
+          if (ev.cls === 'hatch') ev.self = true; // drawn without the hand, see scheduleSelf
+          ev.swF = (parseFloat((ev.kind === 'mstroke' ? e : ev.el).style.strokeWidth) || 0) * linScale(ev.M);
+        }
       }
     }
     addScribbles(item, accentEls, S);
     return item;
   }
-  // per class: number of pen strokes and the rendered stroke width range in frame px (for the log)
+  // per class: number of strokes and the rendered stroke width range in frame px (for the log)
   function classStats(item) {
     const out = {};
     for (const e of item.events) {
-      if (!isPen(e) || !e.cls || e.cls === 'scribble') continue;
+      if (!['stroke', 'mstroke', 'fill'].includes(e.kind) || !e.cls) continue;
       const o = out[e.cls] || (out[e.cls] = { n: 0, len: 0, w0: Infinity, w1: 0 });
       o.n++; o.len += e.lenF;
       if (e.swF) { o.w0 = Math.min(o.w0, e.swF); o.w1 = Math.max(o.w1, e.swF); }
@@ -454,7 +462,7 @@
     const align = t.align || 'center';
     const left = t.at[0] - (align === 'center' ? total / 2 : align === 'right' ? total : 0), base = t.at[1];
     const q = 3, pad = Math.ceil(size * 0.1);
-    const item = { kind: 'text', events: [], letters: [], D: t.draw, at: t.t, box: [left, base - size, total, size * 1.3] };
+    const item = { kind: 'text', events: [], letters: [], D: t.draw, at: t.t, box: [left, base - size, total, size * 1.3], label: t.str };
     const tg = mk('g', { class: 'text' }, S.g);
     for (let i = 0; i < t.str.length; i++) {
       const ch = t.str[i];
@@ -497,8 +505,9 @@
   }
 
   // ---------------------------------------------------------------- timing
-  const isPen = (e) => e.kind === 'stroke' || e.kind === 'mstroke' || e.kind === 'fill';
-  const isHand = isPen; // every mark on the board is made under the marker tip
+  // pen events go through the hand queue; "self" events (class hatch) draw themselves (scheduleSelf)
+  const isPen = (e) => !e.self && (e.kind === 'stroke' || e.kind === 'mstroke' || e.kind === 'fill');
+  const isHand = isPen; // every pen mark on the board is made under the marker tip
   // Steady pen speed (default 2200 px/s, or whatever fits the scene's "draw" seconds).
   // Between paths the hand lifts, moves (eased) and lands: a pause of 0.15 s plus the
   // travel time at 2.6x pen speed. Handwriting strokes use a shorter 0.06 s pause.
@@ -514,19 +523,31 @@
     const pause = item.kind === 'text' ? (OPT.letterPause != null ? OPT.letterPause : 0.06) : (OPT.pathPause != null ? OPT.pathPause : 0.15);
     return { pen, L, Dm, n: Math.max(0, pen.length - 1), pause };
   }
-  // Native SVG art: the hand traces EVERY path in document order, so nothing appears without
-  // the marker tip on it. "detail" strokes are drawn a little faster with quick hops between
-  // them; colour scribbles faster still. With a "draw" budget the pen speeds up to fit (up to
-  // ART_VMAX; beyond that pauses shrink and the speed may reach ART_VHARD, with a warning).
-  // "hatch" (shading) is treated like "detail" but quicker still: short flicks with the pen barely lifted.
-  // Tunable per timeline: options.detailSpeed / detailPause / hatchSpeed / hatchPause.
+  // Native SVG art: the hand traces every "line" and "detail" path in document order, so none of
+  // them appears without the marker tip on it. "detail" strokes are drawn faster (1.8x) with quick
+  // hops (0.04 s) between them; colour scribbles fast too. With a "draw" budget the pen speeds up to
+  // fit (up to ART_VMAX; beyond that pauses shrink and the speed may reach ART_VHARD, with a warning).
+  // "hatch" strokes are not in the hand queue at all: see scheduleSelf.
+  // Tunable per timeline: options.detailSpeed / detailPause / hatchDraw / hatchStep.
   const ART_VMAX = 4000, ART_VMIN = 1300, ART_VHARD = 5600;
-  const SPEEDK = { line: 1, detail: 1.45, hatch: 1.9, scribble: 1.9 };
-  const PAUSE = { detail: 0.07, hatch: 0.04, scribble: 0.08 };
-  const speedOf = (cls) => (cls === 'detail' && OPT.detailSpeed != null ? OPT.detailSpeed : cls === 'hatch' && OPT.hatchSpeed != null ? OPT.hatchSpeed : SPEEDK[cls] || 1);
+  const SPEEDK = { line: 1, detail: 1.8, scribble: 1.9 };
+  const PAUSE = { detail: 0.04, scribble: 0.08 };
+  const speedOf = (cls) => (cls === 'detail' && OPT.detailSpeed != null ? OPT.detailSpeed : SPEEDK[cls] || 1);
   const pauseOf = (e) => (e.cls === 'detail' ? (OPT.detailPause != null ? OPT.detailPause : PAUSE.detail)
-    : e.cls === 'hatch' ? (OPT.hatchPause != null ? OPT.hatchPause : PAUSE.hatch)
-      : e.cls === 'scribble' ? PAUSE.scribble : (OPT.pathPause != null ? OPT.pathPause : 0.15));
+    : e.cls === 'scribble' ? PAUSE.scribble : (OPT.pathPause != null ? OPT.pathPause : 0.15));
+  // Hatching self-draws once the item's last line/detail stroke is done (partEnd): stroke i starts at
+  // partEnd + i * min(0.012, 0.35 / n) and draws over 0.35 s (dash offset), so all of it takes <= 0.7 s.
+  // It needs no hand, so it may overlap the next part or text.
+  const HATCH_DRAW = 0.35, HATCH_STEP = 0.012, HATCH_SPREAD = 0.35;
+  function scheduleSelf(item, at) {
+    const hs = item.events.filter((e) => e.self);
+    item.hatches = hs.length; item.hatchEnd = null;
+    if (!hs.length) return;
+    const draw = OPT.hatchDraw != null ? OPT.hatchDraw : HATCH_DRAW;
+    const step = Math.min(OPT.hatchStep != null ? OPT.hatchStep : HATCH_STEP, HATCH_SPREAD / hs.length);
+    hs.forEach((e, i) => { e.ts = at + i * step; e.te = e.ts + draw; });
+    item.hatchEnd = hs[hs.length - 1].te;
+  }
   function simulateArt(item, v, apply, start, pk) {
     pk = pk || 1;
     let t = start, lastEnd = start, prev = null;
@@ -564,6 +585,7 @@
     }
     const dur = simulateArt(item, v, true, start, pk);
     item.start = start; item.end = start + dur; item.speed = v;
+    scheduleSelf(item, item.end);
     item.lines = pen.length; item.details = 0;
     item.penLen = pen.reduce((a, e) => a + e.lenF, 0);
     item.p0 = pen.length ? pen[0].p0 : null; item.p1 = pen.length ? pen[pen.length - 1].p1 : null;
@@ -609,7 +631,8 @@
       const next = scenes[i + 1];
       S.drawStart = S.t0 + (S.lead != null ? S.lead : (i === 0 ? 0.45 : 0.3));
       const limit = (next ? next.panStart : timelineEnd) - 0.75; // leave time for the hand to leave
-      for (const it of S.items) it.Dwant = it.D || naturalDur(it);
+      S.limit = limit;
+      for (const it of S.items) { it.natural = naturalDur(it); it.Dwant = it.D || it.natural; }
       // items run one after another; text items may carry their own start offset "t"
       const plan = () => {
         let t = S.drawStart, prevItem = null;
@@ -624,6 +647,8 @@
           // a part must be finished before the next timed part starts
           const k = S.items.indexOf(it), nx = S.items.slice(k + 1).find((x) => x.at != null);
           let D = it.Dscaled || it.D || null;
+          // the item's window (for --plan): from its start until the next timed item, else the scene limit
+          it.winStart = st; it.winEnd = nx ? Math.min(limit, S.t0 + nx.at - 0.35) : limit;
           if (nx) {
             const slot = Math.max(0.4, S.t0 + nx.at - st - 0.35), want = D || it.Dwant;
             if (want > slot) { D = slot; if (!it._slotWarned) { it._slotWarned = 1; if (it.Dwant / slot > 1.6) warn(`scene ${S.id}: part ${k + 1} needs ${it.Dwant.toFixed(1)}s but has ${slot.toFixed(1)}s before the next part; it is sped up`); } }
@@ -644,6 +669,8 @@
       }
       S.drawEnd = end;
       S.window = limit - S.drawStart;
+      // fastest possible hand time for each art item (max pen speed, halved pauses), for --plan
+      for (const it of S.items) it.fast = it.kind === 'art' && it.mode === 'native' ? simulateArt(it, ART_VHARD, false, 0, 0.5) : null;
       if (end > limit + 0.05) warn(`OVER BUDGET scene ${S.id}: drawing ends at ${end.toFixed(2)}s but must end by ${limit.toFixed(2)}s; simplify the art (fewer/shorter strokes)`);
       for (const it of S.items) if (it.over > 1) warn(`OVER BUDGET scene ${S.id}: art needs ${(it.over * 100).toFixed(0)}% of its time even at ${ART_VHARD}px/s`);
       const art = S.items.find((it) => it.kind === 'art');
@@ -673,7 +700,7 @@
       for (const e of it.events) {
         if (!isHand(e)) continue;
         if (!last) segs.push({ type: 'enter', a: e.ts - ENTER, b: e.ts, to: e.p0 });
-        else if (e.ts > last.te + 1e-6) segs.push({ type: 'move', a: last.te, b: e.ts, from: last.p1, to: e.p0, cls: e.cls });
+        else if (e.ts > last.te + 1e-6) segs.push({ type: 'move', a: last.te, b: e.ts, from: last.p1, to: e.p0 });
         segs.push({ type: 'draw', a: e.ts, b: e.te, ev: e });
         last = e;
       }
@@ -700,7 +727,7 @@
     if (s.type === 'move') {
       // lift first, glide with ease-in-out, then land on the new path
       const w = smoother((u - 0.12) / 0.76), d = Math.hypot(s.to[0] - s.from[0], s.to[1] - s.from[1]);
-      const lift = Math.min(smooth(u / 0.3), smooth((1 - u) / 0.3)) * clamp(0.3 + d / 160, 0.3, 1) * (s.cls === 'hatch' ? 0.3 : 1);
+      const lift = Math.min(smooth(u / 0.3), smooth((1 - u) / 0.3)) * clamp(0.3 + d / 160, 0.3, 1);
       return { pt: [lerp(s.from[0], s.to[0], w), lerp(s.from[1], s.to[1], w)], lift };
     }
     if (s.type === 'enter') return { enter: true, u, pt: s.to };
@@ -1042,10 +1069,10 @@
       const sc = job.scenes[i];
       const S = Object.assign({}, sc, { idx: i, frame: frames[i], items: [] });
       S.g = mk('g', { class: 'scene', 'data-id': sc.id || i, transform: `translate(${frames[i][0]} ${frames[i][1]})` }, $('cam'));
-      if (sc.svg) S.items.push(await buildArt(S, sc));
+      if (sc.svg || sc.missing) S.items.push(await buildArt(S, sc));
       // "parts": several drawings on the same board, each starting at its own time (seconds after t0)
       for (const p of sc.parts || []) {
-        const it = await buildArt(S, Object.assign({}, sc, { svg: p.svg, box: p.box || sc.box, draw: p.draw, artAt: p.at != null ? p.at : null, mode: p.mode, id: `${sc.id}/${p.id || S.items.length + 1}` }));
+        const it = await buildArt(S, Object.assign({}, sc, { svg: p.svg, box: p.box || sc.box, draw: p.draw, artAt: p.at != null ? p.at : null, mode: p.mode, id: `${sc.id}/${p.id || S.items.length + 1}`, file: p.file, missing: !!p.missing }));
         S.items.push(it);
       }
       for (const t of sc.text || []) S.items.push(await buildText(S, t));
@@ -1066,8 +1093,12 @@
       hand: HAND.kind,
       scenes: scenes.map((S) => ({
         id: S.id, t0: S.t0, drawStart: +S.drawStart.toFixed(2), drawEnd: +S.drawEnd.toFixed(2),
-        window: +(S.window || 0).toFixed(2),
-        items: S.items.map((it) => ({ kind: it.kind, mode: it.mode, events: it.events.length, strokes: it.events.filter(isPen).length, penLen: Math.round(it.events.filter(isPen).reduce((a, e) => a + e.lenF, 0)), start: +it.start.toFixed(2), end: +it.end.toFixed(2), penSpeed: Math.round(it.speed || 0), at: it.at, want: it.Dwant != null ? +it.Dwant.toFixed(2) : null, classes: it.kind === 'art' && it.mode === 'native' ? classStats(it) : null })),
+        window: +(S.window || 0).toFixed(2), limit: +S.limit.toFixed(2),
+        items: S.items.map((it) => {
+          const r2 = (x) => (x != null && isFinite(x) ? +x.toFixed(2) : null);
+          return { kind: it.kind, mode: it.mode, events: it.events.length, strokes: it.events.filter(isPen).length, penLen: Math.round(it.events.filter(isPen).reduce((a, e) => a + e.lenF, 0)), start: r2(it.start), end: r2(it.end), penSpeed: Math.round(it.speed || 0), at: it.at, want: r2(it.Dwant), classes: it.kind === 'art' && it.mode === 'native' ? classStats(it) : null,
+            file: it.file || null, label: it.label || null, missing: !!it.missing, winStart: r2(it.winStart), winEnd: r2(it.winEnd), natural: r2(it.natural), fast: r2(it.fast), hatches: it.hatches || 0, hatchEnd: r2(it.hatchEnd), over: r2(it.over) };
+        }),
       })),
       captionParts: capParts.length,
     };

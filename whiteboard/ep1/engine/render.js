@@ -2,8 +2,10 @@
 // Whiteboard animation renderer.
 //   node render.js <timeline.json> <out.mp4> [--from S] [--to S] [--stills t1,t2,... --stills-dir DIR]
 //                  [--placeholder art.svg] [--verbose]
+//   node render.js <timeline.json> --plan     # per scene/part: window, hand time, hatch count, OVER BUDGET flags
+//   node render.js <timeline.json> --check    # the full schedule log (strokes per class, widths) only
 // --placeholder: scene/part SVGs that do not exist yet are drawn with this file instead (with a warning).
-// --check: build the board and print the per-scene schedule, stroke classes/widths and budget warnings only.
+// --plan / --check render no frames; --plan also accepts art files that do not exist yet (shown as MISSING).
 'use strict';
 const fs = require('fs');
 const path = require('path');
@@ -16,11 +18,12 @@ const flag = (name) => { const i = argv.indexOf(name); if (i < 0) return null; c
 const bool = (name) => { const i = argv.indexOf(name); if (i < 0) return false; argv.splice(i, 1); return true; };
 const verbose = bool('--verbose');
 const checkOnly = bool('--check'); // build the board, print the schedule/budget log, render nothing
+const planOnly = bool('--plan');   // build the board, print the per-part budget table, render nothing
 const fromArg = flag('--from'), toArg = flag('--to'), stillsArg = flag('--stills'), stillsDir = flag('--stills-dir');
 const placeholderArg = flag('--placeholder');
 const [timelinePath, outPath] = argv;
-if (!timelinePath || (!outPath && !stillsArg && !checkOnly)) {
-  console.error('usage: node render.js <timeline.json> <out.mp4> [--from S] [--to S] [--stills t1,t2 --stills-dir DIR] [--check] [--placeholder art.svg] [--verbose]');
+if (!timelinePath || (!outPath && !stillsArg && !checkOnly && !planOnly)) {
+  console.error('usage: node render.js <timeline.json> <out.mp4> [--from S] [--to S] [--stills t1,t2 --stills-dir DIR] [--plan] [--check] [--placeholder art.svg] [--verbose]');
   process.exit(2);
 }
 const placeholder = placeholderArg ? path.resolve(placeholderArg) : null;
@@ -32,11 +35,14 @@ const readText = (p, what) => {
   if (!fs.existsSync(p)) throw new Error(`${what} not found: ${p}`);
   return fs.readFileSync(p, 'utf8');
 };
-// scene art: a missing file is replaced by --placeholder when one is given
+// scene art: a missing file is replaced by --placeholder when one is given; --plan just notes it (null)
 const readArt = (p, what) => {
-  if (!fs.existsSync(p) && placeholder) {
-    console.log(`  placeholder: ${what} (${path.relative(tlDir, p)} not found)`);
-    return fs.readFileSync(placeholder, 'utf8');
+  if (!fs.existsSync(p)) {
+    if (placeholder) {
+      console.log(`  placeholder: ${what} (${path.relative(tlDir, p)} not found)`);
+      return fs.readFileSync(placeholder, 'utf8');
+    }
+    if (planOnly) return null;
   }
   return readText(p, what);
 };
@@ -74,16 +80,18 @@ function buildJob(tl) {
       const p = rel(artPath);
       if (/\.(png|jpe?g)$/i.test(p)) throw new Error(`scene ${out.id}: raster art is not supported, use SVG (${p})`);
       out.svg = readArt(p, `scene ${out.id} art`);
+      out.file = path.relative(tlDir, p);
+      if (out.svg == null) { delete out.svg; out.missing = true; }
       // kits referenced as <use href="kit.svg#symbol"> resolve next to the scene file
       const re = /href\s*=\s*["']([^"'#]+\.svg)#/g; let m;
-      while ((m = re.exec(out.svg))) addKit(path.resolve(path.dirname(p), m[1]));
+      while (out.svg && (m = re.exec(out.svg))) addKit(path.resolve(path.dirname(p), m[1]));
     }
     if (Array.isArray(sc.parts)) out.parts = sc.parts.map((pt, k) => {
       const pp = rel(pt.svg || pt.art);
       const txt = readArt(pp, `scene ${out.id} part ${k + 1}`);
       const re = /href\s*=\s*["']([^"'#]+\.svg)#/g; let m;
-      while ((m = re.exec(txt))) addKit(path.resolve(path.dirname(pp), m[1]));
-      return { ...pt, svg: txt };
+      while (txt && (m = re.exec(txt))) addKit(path.resolve(path.dirname(pp), m[1]));
+      return { ...pt, svg: txt, file: path.relative(tlDir, pp), missing: txt == null };
     });
     if (sc.colour && !sc.accentFade && typeof sc.colour === 'number') out.accentFade = sc.colour;
     if (out.t0 == null) throw new Error(`scene ${out.id}: t0 missing`);
@@ -114,7 +122,8 @@ function buildJob(tl) {
 
   let hand = null;
   const h = tl.hand || {};
-  if (h.image) {
+  if (h.image && !fs.existsSync(rel(h.image))) console.log(`hand: image ${rel(h.image)} not found; using the vector marker`);
+  else if (h.image) {
     const buf = fs.readFileSync(rel(h.image));
     hand = { image: 'data:image/png;base64,' + buf.toString('base64'), size: pngSize(buf), tip: h.tip || [0, 0], scale: h.scale, angle: h.angle, follow: h.follow };
   } else if (h.kit || h.symbol) {
@@ -146,6 +155,41 @@ function buildJob(tl) {
   };
 }
 
+// --plan: one block per scene, one row per item (art part or text) in drawing order.
+//   window   = from the item's start until the next timed part/text (minus 0.35 s), or until the
+//              hand must leave before the next scene's camera move (next t0 - 1.3 s)
+//   hand     = time the hand needs for line+detail(+colour) strokes: "natural" at the calm default pen
+//              (2200 px/s, full pauses) and "fastest" (5600 px/s, halved pauses); "plan" = what the
+//              engine schedules to fit the window (pen speed in px/s)
+//   hatch    = number of self-drawn hatch strokes; they need no hand and finish <= 0.7 s after the part
+//   status   = ok | FAST (fits only with the pen above 3600 px/s) | OVER BUDGET (does not fit even at
+//              the fastest pen: cut line/detail strokes or shorten them) | MISSING (art file not found)
+function printPlan(info) {
+  const f = (x, d = 2) => (x == null ? '-' : Number(x).toFixed(d));
+  const pad = (s, n) => (String(s).length >= n ? String(s) : String(s) + ' '.repeat(n - String(s).length));
+  let over = 0, fast = 0, missing = 0, tight = 0;
+  for (const s of info.scenes) {
+    const sceneOver = s.drawEnd > s.limit + 0.05;
+    console.log(`\n${s.id}  t0 ${f(s.t0)}  hand window ${f(s.drawStart)}-${f(s.limit)} (${f(s.limit - s.drawStart)}s)  drawing ends ${f(s.drawEnd)}${sceneOver ? '  OVER BUDGET (scene)' : ''}`);
+    s.items.forEach((i, k) => {
+      const name = i.kind === 'art' ? `art ${i.file ? path.basename(i.file) : '(inline)'}` : `text "${(i.label || '').slice(0, 26)}"`;
+      const win = i.winEnd - i.winStart, used = i.end - i.start;
+      let status = 'ok';
+      if (i.missing) { status = 'MISSING'; missing++; }
+      else if (i.kind === 'text' && i.end > i.winEnd + 0.05) { status = 'TIGHT (text runs into the next item)'; tight++; }
+      else if ((i.fast != null && i.fast > win + 0.01) || i.end > i.winEnd + 0.05) { status = 'OVER BUDGET'; over++; }
+      else if (i.kind === 'art' && i.penSpeed > 3600) { status = 'FAST'; fast++; }
+      const c = i.classes || {};
+      const strokes = i.kind === 'art' ? `L ${c.line ? c.line.n : 0} / D ${c.detail ? c.detail.n : 0}${c.scribble ? ` / colour ${c.scribble.n}` : ''}` : `${i.strokes} letter strokes`;
+      const hand = i.kind === 'art' ? `natural ${f(i.natural)}s, fastest ${f(i.fast)}s` : `natural ${f(i.natural)}s`;
+      console.log(`  ${k + 1}. ${pad(name + (i.at != null ? ` @${i.at}` : ''), 40)} window ${f(i.winStart)}-${f(i.winEnd)} (${pad(f(win) + 's)', 7)}` +
+        ` hand ${hand} -> plan ${f(used)}s @${i.penSpeed}px/s | ${strokes} | hatch ${i.hatches}${i.hatchEnd != null ? ` (done ${f(i.hatchEnd)})` : ''} | ${status}`);
+    });
+  }
+  console.log(`\n${info.scenes.length} scenes: ${over} item(s) OVER BUDGET, ${fast} FAST, ${missing} MISSING, ${tight} text TIGHT`);
+  for (const w of info.warnings) if (!/needs .* before the next part|squeezed/.test(w)) console.log('  warning:', w);
+}
+
 async function main() {
   const tl = JSON.parse(readText(path.resolve(timelinePath), 'timeline'));
   const job = buildJob(tl);
@@ -175,6 +219,7 @@ async function main() {
     const res = await send('Runtime.evaluate', { expression: `loadJob(${JSON.stringify(job)})`, awaitPromise: true, returnByValue: true });
     if (res.exceptionDetails) throw new Error('loadJob failed: ' + (res.exceptionDetails.exception ? res.exceptionDetails.exception.description : res.exceptionDetails.text));
     const info = res.result.value;
+    if (planOnly) { printPlan(info); return; }
     console.log(`board ready in ${((Date.now() - tl0) / 1000).toFixed(1)}s, hand: ${info.hand}, caption parts: ${info.captionParts}`);
     for (const s of info.scenes) {
       console.log(`  ${s.id}: t0 ${s.t0}  draws ${s.drawStart}-${s.drawEnd}s (window ${s.window}s)  ` + s.items.map((i) => `${i.kind}${i.mode ? '/' + i.mode : ''} ${i.strokes} strokes ${i.penLen}px ${i.start}-${i.end}s @${i.penSpeed}px/s`).join(', '));

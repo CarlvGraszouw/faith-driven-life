@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <!-- a02-temple v2: Herod's Temple from the Court of the Gentiles, a few days before Passover -->
+  <style>
+    .line{stroke:#1f1f1f;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+    .detail{stroke:#1f1f1f;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .hatch{stroke:#1f1f1f;stroke-width:0.9;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+    .line:not([fill]),.detail:not([fill]),.hatch:not([fill]){fill:none}
+  </style>
+  <path class="line" d="M 1163.2 253.3 L 1163.2 68.7 L 800.5 49 L 793 62.2"/>
+  <path class="line" d="M 793 62.2 L 793 160.1 L 788.1 166.5 L 788.1 320.8"/>
+  <path class="detail" d="M 800.5 313.6 L 800.5 49"/>
+  <path class="detail" d="M 849.4 86.6 L 849.4 307.7"/>
+  <path class="line" d="M 838.3 344.6 L 838.3 485.1 L 1071.6 515.8 L 2017.8 507 L 2017.8 279 L 1071.6 252.7 L 838.3 344.6"/>
+  <path class="line" d="M 918.2 311 L 812.4 309 L 706.4 370.8 L 706.4 469.8 L 812.4 485.3"/>
+  <path class="line" d="M 812.4 485.3 L 836.3 485.1"/>
+  <path class="detail" d="M 938 526.1 L 663.3 469.2 L 634.3 488.5 L 850.5 619.5 L 2440.6 582.7 L 2309.5 511.7 L 938 526.1"/>
+  <path class="detail" d="M 1071.6 515.8 L 1071.6 252.7"/>
+  <path class="line" d="M 468.9 427.7 L 425.6 416.2 L 425.6 388.3 L 406.7 377 L -50 145.6 L -50 610 L 468.9 472.3 L 468.9 427.7"/>
+  <path class="detail" d="M 468.9 427.7 L -77833.4 -20350"/>
+  <path class="detail" d="M -116241 -28150 L 425.6 419.2"/>
+  <path class="detail" d="M 425.6 388.3 L -116241 -56750"/>
+  <path class="hatch" d="M 470.9 450 L 704.4 450"/>
+</svg>
