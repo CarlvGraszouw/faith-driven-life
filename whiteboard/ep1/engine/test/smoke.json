@@ -1,0 +1,10 @@
+{
+  "width": 1920, "height": 1080, "fps": 30, "start": 0, "end": 8,
+  "board": { "color": "#fbfaf7", "vignette": 0.07 },
+  "ink": "#1f1f1f",
+  "scenes": [
+    { "id": "c11-ref", "t0": 0, "t1": 8, "svg": "../../reference/c11-v2.svg", "camera": "hold",
+      "text": [ { "str": "Smoke test", "font": "Caveat", "weight": 700, "size": 96, "at": [960, 150], "align": "center", "t": 0.2 } ] }
+  ],
+  "captions": [ { "t0": 0.5, "t1": 7.5, "text": "Captions sit on a soft white band at the bottom." } ]
+}

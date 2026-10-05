@@ -272,8 +272,14 @@
       addScribbles(item, [content], S);
       return item;
     }
-    // class "detail" (on the path or its nearest classed group) draws itself behind the hand; anything else is "line"
-    const clsOf = (el) => { const c = el.closest('.detail, .line'); return c && c.classList.contains('detail') && !c.classList.contains('line') ? 'detail' : 'line'; };
+    // class "detail" or "hatch" (on the path or its nearest classed group) is drawn by the pen like
+    // everything else, but faster and with quick hops (see SPEEDK/pauseOf); anything else is "line".
+    // Stroke widths/opacity come from the SVG's own <style> (baked above), e.g. v2: 2.6 / 1.5 / 0.9 @ .75.
+    const clsOf = (el) => {
+      const c = el.closest('.hatch, .detail, .line');
+      if (!c || c.classList.contains('line')) return 'line';
+      return c.classList.contains('detail') ? 'detail' : 'hatch';
+    };
     const accentEls = [];
     for (const x of list) {
       const e = x.el;
@@ -328,10 +334,26 @@
         const ev = strokeEvent(c, M); ev.kind = 'mstroke'; ev.reveal = { target: e, id, resid };
         item.events.push(ev);
       }
-      for (let k = n0; k < item.events.length; k++) item.events[k].cls = clsOf(e);
+      for (let k = n0; k < item.events.length; k++) {
+        const ev = item.events[k];
+        ev.cls = clsOf(e);
+        if (isPen(ev) && ev.kind !== 'fill') ev.swF = (parseFloat((ev.kind === 'mstroke' ? e : ev.el).style.strokeWidth) || 0) * linScale(ev.M);
+      }
     }
     addScribbles(item, accentEls, S);
     return item;
+  }
+  // per class: number of pen strokes and the rendered stroke width range in frame px (for the log)
+  function classStats(item) {
+    const out = {};
+    for (const e of item.events) {
+      if (!isPen(e) || !e.cls || e.cls === 'scribble') continue;
+      const o = out[e.cls] || (out[e.cls] = { n: 0, len: 0, w0: Infinity, w1: 0 });
+      o.n++; o.len += e.lenF;
+      if (e.swF) { o.w0 = Math.min(o.w0, e.swF); o.w1 = Math.max(o.w1, e.swF); }
+    }
+    for (const k in out) { const o = out[k]; o.len = Math.round(o.len); o.w0 = isFinite(o.w0) ? +o.w0.toFixed(2) : 0; o.w1 = +o.w1.toFixed(2); }
+    return out;
   }
 
   // Colour is painted by the hand: it scribbles across each coloured shape and the colour
@@ -496,15 +518,21 @@
   // the marker tip on it. "detail" strokes are drawn a little faster with quick hops between
   // them; colour scribbles faster still. With a "draw" budget the pen speeds up to fit (up to
   // ART_VMAX; beyond that pauses shrink and the speed may reach ART_VHARD, with a warning).
+  // "hatch" (shading) is treated like "detail" but quicker still: short flicks with the pen barely lifted.
+  // Tunable per timeline: options.detailSpeed / detailPause / hatchSpeed / hatchPause.
   const ART_VMAX = 4000, ART_VMIN = 1300, ART_VHARD = 5600;
-  const SPEEDK = { line: 1, detail: 1.45, scribble: 1.9 };
-  const pauseOf = (e) => (e.cls === 'detail' ? 0.07 : e.cls === 'scribble' ? 0.08 : (OPT.pathPause != null ? OPT.pathPause : 0.15));
+  const SPEEDK = { line: 1, detail: 1.45, hatch: 1.9, scribble: 1.9 };
+  const PAUSE = { detail: 0.07, hatch: 0.04, scribble: 0.08 };
+  const speedOf = (cls) => (cls === 'detail' && OPT.detailSpeed != null ? OPT.detailSpeed : cls === 'hatch' && OPT.hatchSpeed != null ? OPT.hatchSpeed : SPEEDK[cls] || 1);
+  const pauseOf = (e) => (e.cls === 'detail' ? (OPT.detailPause != null ? OPT.detailPause : PAUSE.detail)
+    : e.cls === 'hatch' ? (OPT.hatchPause != null ? OPT.hatchPause : PAUSE.hatch)
+      : e.cls === 'scribble' ? PAUSE.scribble : (OPT.pathPause != null ? OPT.pathPause : 0.15));
   function simulateArt(item, v, apply, start, pk) {
     pk = pk || 1;
     let t = start, lastEnd = start, prev = null;
     for (const e of item.events) {
       if (!isPen(e)) { if (apply) e.ts = e.te = lastEnd; continue; }
-      const len = Math.max(e.lenF, 3), vv = v * (SPEEDK[e.cls] || 1);
+      const len = Math.max(e.lenF, 3), vv = v * speedOf(e.cls);
       if (prev) {
         const d = Math.hypot(e.p0[0] - prev.p1[0], e.p0[1] - prev.p1[1]);
         // short hops inside a figure are quick; long moves lift and glide
@@ -645,7 +673,7 @@
       for (const e of it.events) {
         if (!isHand(e)) continue;
         if (!last) segs.push({ type: 'enter', a: e.ts - ENTER, b: e.ts, to: e.p0 });
-        else if (e.ts > last.te + 1e-6) segs.push({ type: 'move', a: last.te, b: e.ts, from: last.p1, to: e.p0 });
+        else if (e.ts > last.te + 1e-6) segs.push({ type: 'move', a: last.te, b: e.ts, from: last.p1, to: e.p0, cls: e.cls });
         segs.push({ type: 'draw', a: e.ts, b: e.te, ev: e });
         last = e;
       }
@@ -672,7 +700,7 @@
     if (s.type === 'move') {
       // lift first, glide with ease-in-out, then land on the new path
       const w = smoother((u - 0.12) / 0.76), d = Math.hypot(s.to[0] - s.from[0], s.to[1] - s.from[1]);
-      const lift = Math.min(smooth(u / 0.3), smooth((1 - u) / 0.3)) * clamp(0.3 + d / 160, 0.3, 1);
+      const lift = Math.min(smooth(u / 0.3), smooth((1 - u) / 0.3)) * clamp(0.3 + d / 160, 0.3, 1) * (s.cls === 'hatch' ? 0.3 : 1);
       return { pt: [lerp(s.from[0], s.to[0], w), lerp(s.from[1], s.to[1], w)], lift };
     }
     if (s.type === 'enter') return { enter: true, u, pt: s.to };
@@ -1039,7 +1067,7 @@
       scenes: scenes.map((S) => ({
         id: S.id, t0: S.t0, drawStart: +S.drawStart.toFixed(2), drawEnd: +S.drawEnd.toFixed(2),
         window: +(S.window || 0).toFixed(2),
-        items: S.items.map((it) => ({ kind: it.kind, mode: it.mode, events: it.events.length, strokes: it.events.filter(isPen).length, penLen: Math.round(it.events.filter(isPen).reduce((a, e) => a + e.lenF, 0)), start: +it.start.toFixed(2), end: +it.end.toFixed(2), penSpeed: Math.round(it.speed || 0) })),
+        items: S.items.map((it) => ({ kind: it.kind, mode: it.mode, events: it.events.length, strokes: it.events.filter(isPen).length, penLen: Math.round(it.events.filter(isPen).reduce((a, e) => a + e.lenF, 0)), start: +it.start.toFixed(2), end: +it.end.toFixed(2), penSpeed: Math.round(it.speed || 0), at: it.at, want: it.Dwant != null ? +it.Dwant.toFixed(2) : null, classes: it.kind === 'art' && it.mode === 'native' ? classStats(it) : null })),
       })),
       captionParts: capParts.length,
     };

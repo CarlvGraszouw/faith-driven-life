@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 // Whiteboard animation renderer.
-//   node render.js <timeline.json> <out.mp4> [--from S] [--to S] [--stills t1,t2,... --stills-dir DIR] [--verbose]
+//   node render.js <timeline.json> <out.mp4> [--from S] [--to S] [--stills t1,t2,... --stills-dir DIR]
+//                  [--placeholder art.svg] [--verbose]
+// --placeholder: scene/part SVGs that do not exist yet are drawn with this file instead (with a warning).
+// --check: build the board and print the per-scene schedule, stroke classes/widths and budget warnings only.
 'use strict';
 const fs = require('fs');
 const path = require('path');
@@ -12,18 +15,30 @@ const argv = process.argv.slice(2);
 const flag = (name) => { const i = argv.indexOf(name); if (i < 0) return null; const v = argv[i + 1]; argv.splice(i, 2); return v; };
 const bool = (name) => { const i = argv.indexOf(name); if (i < 0) return false; argv.splice(i, 1); return true; };
 const verbose = bool('--verbose');
+const checkOnly = bool('--check'); // build the board, print the schedule/budget log, render nothing
 const fromArg = flag('--from'), toArg = flag('--to'), stillsArg = flag('--stills'), stillsDir = flag('--stills-dir');
+const placeholderArg = flag('--placeholder');
 const [timelinePath, outPath] = argv;
-if (!timelinePath || (!outPath && !stillsArg)) {
-  console.error('usage: node render.js <timeline.json> <out.mp4> [--from S] [--to S] [--stills t1,t2 --stills-dir DIR] [--verbose]');
+if (!timelinePath || (!outPath && !stillsArg && !checkOnly)) {
+  console.error('usage: node render.js <timeline.json> <out.mp4> [--from S] [--to S] [--stills t1,t2 --stills-dir DIR] [--check] [--placeholder art.svg] [--verbose]');
   process.exit(2);
 }
+const placeholder = placeholderArg ? path.resolve(placeholderArg) : null;
+if (placeholder && !fs.existsSync(placeholder)) { console.error(`placeholder not found: ${placeholder}`); process.exit(2); }
 
 const tlDir = path.dirname(path.resolve(timelinePath));
 const rel = (p, base = tlDir) => (p ? path.resolve(base, p.replace(/^~(?=\/)/, process.env.HOME)) : p);
 const readText = (p, what) => {
   if (!fs.existsSync(p)) throw new Error(`${what} not found: ${p}`);
   return fs.readFileSync(p, 'utf8');
+};
+// scene art: a missing file is replaced by --placeholder when one is given
+const readArt = (p, what) => {
+  if (!fs.existsSync(p) && placeholder) {
+    console.log(`  placeholder: ${what} (${path.relative(tlDir, p)} not found)`);
+    return fs.readFileSync(placeholder, 'utf8');
+  }
+  return readText(p, what);
 };
 
 function pngSize(buf) {
@@ -58,14 +73,14 @@ function buildJob(tl) {
     if (artPath) {
       const p = rel(artPath);
       if (/\.(png|jpe?g)$/i.test(p)) throw new Error(`scene ${out.id}: raster art is not supported, use SVG (${p})`);
-      out.svg = readText(p, `scene ${out.id} art`);
+      out.svg = readArt(p, `scene ${out.id} art`);
       // kits referenced as <use href="kit.svg#symbol"> resolve next to the scene file
       const re = /href\s*=\s*["']([^"'#]+\.svg)#/g; let m;
       while ((m = re.exec(out.svg))) addKit(path.resolve(path.dirname(p), m[1]));
     }
     if (Array.isArray(sc.parts)) out.parts = sc.parts.map((pt, k) => {
       const pp = rel(pt.svg || pt.art);
-      const txt = readText(pp, `scene ${out.id} part ${k + 1}`);
+      const txt = readArt(pp, `scene ${out.id} part ${k + 1}`);
       const re = /href\s*=\s*["']([^"'#]+\.svg)#/g; let m;
       while ((m = re.exec(txt))) addKit(path.resolve(path.dirname(pp), m[1]));
       return { ...pt, svg: txt };
@@ -83,15 +98,19 @@ function buildJob(tl) {
   }
   captions = captions.filter((c) => c && c.text && c.t1 > c.t0).map((c) => ({ t0: c.t0, t1: c.t1, text: c.text }));
 
+  // Fonts: fonts/ (the original bundle) if present, else the same variable woff2 subsets from npm
+  // (`npm install` in this folder: @fontsource-variable/caveat and /inter).
   const fontDir = path.join(ROOT, 'fonts');
+  const npmFonts = path.join(ROOT, 'node_modules', '@fontsource-variable');
   const fonts = [];
-  const addFont = (family, file, weight) => {
-    const p = path.join(fontDir, file);
-    if (fs.existsSync(p)) fonts.push({ family, weight, data: fs.readFileSync(p).toString('base64') });
+  const addFont = (family, file, npmFile, weight) => {
+    const p = [path.join(fontDir, file), path.join(npmFonts, npmFile)].find((f) => fs.existsSync(f));
+    if (p) fonts.push({ family, weight, data: fs.readFileSync(p).toString('base64') });
+    else console.warn(`warning: font ${file} not found (run \`npm install\` in ${ROOT}); text falls back to a system font`);
   };
-  addFont('Caveat', 'Caveat-latin.woff2', '400 700');
-  addFont('Caveat', 'Caveat-latin-ext.woff2', '400 700');
-  addFont('Inter', 'Inter-latin.woff2', '100 900');
+  addFont('Caveat', 'Caveat-latin.woff2', 'caveat/files/caveat-latin-wght-normal.woff2', '400 700');
+  addFont('Caveat', 'Caveat-latin-ext.woff2', 'caveat/files/caveat-latin-ext-wght-normal.woff2', '400 700');
+  addFont('Inter', 'Inter-latin.woff2', 'inter/files/inter-latin-wght-normal.woff2', '100 900');
 
   let hand = null;
   const h = tl.hand || {};
@@ -157,10 +176,16 @@ async function main() {
     if (res.exceptionDetails) throw new Error('loadJob failed: ' + (res.exceptionDetails.exception ? res.exceptionDetails.exception.description : res.exceptionDetails.text));
     const info = res.result.value;
     console.log(`board ready in ${((Date.now() - tl0) / 1000).toFixed(1)}s, hand: ${info.hand}, caption parts: ${info.captionParts}`);
-    for (const s of info.scenes) console.log(`  ${s.id}: t0 ${s.t0}  draws ${s.drawStart}-${s.drawEnd}s (window ${s.window}s)  ` + s.items.map((i) => `${i.kind}${i.mode ? '/' + i.mode : ''} ${i.strokes} strokes ${i.penLen}px ${i.start}-${i.end}s @${i.penSpeed}px/s`).join(', '));
+    for (const s of info.scenes) {
+      console.log(`  ${s.id}: t0 ${s.t0}  draws ${s.drawStart}-${s.drawEnd}s (window ${s.window}s)  ` + s.items.map((i) => `${i.kind}${i.mode ? '/' + i.mode : ''} ${i.strokes} strokes ${i.penLen}px ${i.start}-${i.end}s @${i.penSpeed}px/s`).join(', '));
+      // per art item: strokes per class, pen length and rendered stroke width (frame px); "natural" = time at the default pen speed
+      for (const i of s.items) if (i.classes) console.log(`      art${i.at != null ? ` @${i.at}s` : ''}: ` + Object.entries(i.classes).map(([k, c]) =>
+        `${k} ${c.n} (${c.len}px, w ${c.w0 === c.w1 ? c.w0 : `${c.w0}-${c.w1}`}px)`).join(' | ') + `  natural ${i.want}s, given ${(i.end - i.start).toFixed(2)}s`);
+    }
     for (const w of info.warnings) console.log('  warning:', w);
     for (const s of info.scenes) for (const i of s.items) if (i.kind === 'art' && i.penSpeed > 3600)
       console.log(`  note: ${s.id} pen speed ${i.penSpeed}px/s is fast; simplify the art or give it more time`);
+    if (checkOnly) return;
 
     const render = async (t) => {
       const r = await send('Runtime.evaluate', { expression: `renderAt(${t})`, returnByValue: true });
@@ -180,12 +205,10 @@ async function main() {
       return;
     }
 
-    const audio = job.scenes && tl.audio ? rel(tl.audio) : null;
+    let audio = job.scenes && tl.audio ? rel(tl.audio) : null;
+    if (audio && !fs.existsSync(audio)) { console.log(`audio not found: ${audio}; rendering without sound`); audio = null; }
     const args = ['-y', '-hide_banner', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'png', '-i', 'pipe:0'];
-    if (audio) {
-      if (!fs.existsSync(audio)) throw new Error(`audio not found: ${audio}`);
-      args.push('-ss', String(t0), '-t', String(t1 - t0), '-i', audio, '-map', '0:v', '-map', '1:a');
-    }
+    if (audio) args.push('-ss', String(t0), '-t', String(t1 - t0), '-i', audio, '-map', '0:v', '-map', '1:a');
     args.push('-vf', 'scale=out_color_matrix=bt709:out_range=tv:flags=accurate_rnd,format=yuv420p',
       '-c:v', 'libx264', '-preset', 'medium', '-tune', 'animation', '-crf', '18', '-pix_fmt', 'yuv420p',
       '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-x264-params', 'rc-lookahead=20', '-threads', '4');

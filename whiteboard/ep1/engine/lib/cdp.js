@@ -5,6 +5,22 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+// Linux (cloud sandbox, 5 Oct 2026): Playwright's Chromium under $PLAYWRIGHT_BROWSERS_PATH
+// (e.g. /opt/pw-browsers/chromium-1194/chrome-linux/chrome, newest first), then system Chrome.
+function linuxCandidates() {
+  if (process.platform !== 'linux') return [];
+  const out = [];
+  const roots = [process.env.PLAYWRIGHT_BROWSERS_PATH, '/opt/pw-browsers',
+    path.join(require('os').homedir(), '.cache', 'ms-playwright')].filter(Boolean);
+  for (const r of roots) {
+    let dirs = [];
+    try { dirs = fs.readdirSync(r).filter((d) => /^chromium-\d+$/.test(d)); } catch (_) { continue; }
+    dirs.sort((a, b) => parseInt(b.slice(9), 10) - parseInt(a.slice(9), 10));
+    for (const d of dirs) out.push(path.join(r, d, 'chrome-linux', 'chrome'), path.join(r, d, 'chrome-linux64', 'chrome'));
+  }
+  return out.concat(['/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/usr/bin/chromium', '/usr/bin/chromium-browser']);
+}
+
 const CHROME_CANDIDATES = [
   process.env.CHROME_PATH,
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
@@ -14,6 +30,7 @@ const CHROME_CANDIDATES = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
   process.env.LOCALAPPDATA && `${process.env.LOCALAPPDATA}\\Google\\Chrome\\Application\\chrome.exe`,
+  ...linuxCandidates(),
 ].filter(Boolean);
 
 function findChrome() {
@@ -31,9 +48,17 @@ async function launch({ profileRoot, width = 1920, height = 1080, verbose = fals
     '--disable-backgrounding-occluded-windows', '--mute-audio', '--hide-scrollbars',
     '--force-device-scale-factor=1', `--window-size=${width},${height}`,
     '--force-color-profile=srgb', '--allow-file-access-from-files',
-    '--js-flags=--max-old-space-size=1024', 'about:blank',
+    '--js-flags=--max-old-space-size=1024',
   ];
-  const proc = spawn(findChrome(), args, { stdio: ['ignore', 'ignore', 'pipe', 'pipe', 'pipe'] });
+  // Linux containers: Chrome refuses to start as root without --no-sandbox; /dev/shm may be tiny.
+  if (process.platform === 'linux') {
+    if ((process.getuid && process.getuid() === 0) || process.env.CHROME_NO_SANDBOX) args.push('--no-sandbox');
+    args.push('--disable-dev-shm-usage');
+  }
+  args.push('about:blank');
+  const exe = findChrome();
+  if (verbose) console.log('chrome:', exe);
+  const proc = spawn(exe, args, { stdio: ['ignore', 'ignore', 'pipe', 'pipe', 'pipe'] });
   const stderrTail = [];
   proc.stderr.on('data', (d) => {
     const s = d.toString(); if (verbose) process.stderr.write(s);
