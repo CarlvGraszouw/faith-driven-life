@@ -286,6 +286,128 @@ def ties():
     return [knot + r1, r2]
 
 
+# ------------------------------------------------------------------ REVERSE: Livia as Pax seated right
+# coin units; ground (exergue) line y=165, head top y=-192 (8 heads), sceptre at x=128.
+def _cr(pts, closed=False):
+    return smooth_d(pts, closed)
+
+
+def smooth_d(pts, closed=False):
+    from lib_v2 import smooth
+    return smooth(pts, closed=closed)
+
+
+RV_PTS = {
+    # seat -> back -> nape -> hair bun -> crown -> face profile -> chin -> throat -> chest -> bust -> waist
+    "body_upper": [(-70, 36), (-58, 6), (-48, -36), (-44, -80), (-42, -120), (-34, -150), (-22, -170),
+                   (-27, -175), (-37, -178), (-41, -190), (-33, -201), (-21, -200), (-17, -213), (-5, -227),
+                   (11, -229), (21, -223), (25, -214), (27, -208), (29, -203), (33, -198), (35, -195), (32, -193),
+                   (30, -192), (31, -189), (30, -187), (29, -184), (27, -181), (22, -178), (16, -177), (14, -170),
+                   (20, -159), (30, -143), (33, -132), (28, -121), (21, -104), (22, -86), (30, -70), (50, -60)],
+    # lap -> knee -> drapery down the shins -> hem -> sandalled foot on the stool
+    "body_lower": [(50, -60), (80, -56), (106, -54), (118, -47), (122, -34), (122, 0), (123, 50), (125, 100),
+                   (127, 138), (129, 151), (139, 154), (151, 157), (154, 161), (146, 163), (124, 163), (104, 162)],
+    # far (right) arm reaching to the sceptre (clipped where it passes behind the breast)
+    "arm": [(6, -168), (30, -163), (56, -156), (88, -163), (118, -172), (138, -178), (147, -182), (157, -181),
+            (160, -175), (156, -169), (146, -166), (136, -166), (110, -158), (82, -148), (62, -140), (40, -142),
+            (24, -148), (18, -152)],
+    # near (left) arm wrapped in the mantle; forearm across the lap; the hand holds the branch
+    "near_arm": [(-20, -101), (4, -93), (30, -83), (50, -76), (60, -76), (66, -70), (62, -63), (52, -61),
+                 (32, -65), (6, -75), (-18, -85), (-27, -92), (-20, -101)],
+    # back edge of the drapery falling from the knees, and the hem
+    "shins": [(30, 50), (52, 40), (70, 28), (80, 34), (82, 70), (83, 110), (86, 150), (104, 154), (128, 152)],
+}
+RV = {
+    "sceptre": "M 154 -258 L 154 198",
+    "finial": "M 154 -258 C 148 -261 148 -269 154 -275 C 160 -269 160 -261 154 -258 M 147 -255 L 161 -255",
+    "seat": "M -110 38 C -70 34 -10 34 34 37 C 38 40 38 46 34 50 C -10 51 -70 51 -110 50 C -114 47 -114 41 -110 38",
+    # turned (baluster) chair legs, each ONE stroke down one side and up the other, and a stretcher
+    "ground": "M -150 198 L 150 198",
+    "stool": "M 92 163 L 168 163 L 168 176 L 92 176 Z M 98 176 L 96 198 M 162 176 L 164 198",
+    "eye": "M 18 -204 C 21 -206 24 -206 27 -204",
+    "mouth": "M 30 -187 C 28 -187 25 -187 23 -186",
+    "ear": "M 1 -201 C -5 -202 -6 -194 -3 -189 C -1 -186 2 -187 3 -189",
+    # drapery: mantle edge across the breast, folds over the lap and down the legs, the drape over the seat
+    "mantle": ("M -12 -164 C -2 -146 8 -124 12 -100 "
+               "M 40 -54 C 64 -48 92 -46 116 -38 "
+               "M 36 -44 C 62 -30 92 -24 120 -20 "
+               "M 98 -18 C 100 30 100 90 104 150 "
+               "M 112 -14 C 114 40 114 96 117 150 "
+               "M -14 -166 C -24 -150 -28 -124 -25 -100 "
+               "M -44 -24 C -22 -40 4 -50 30 -54 "
+               "M -52 4 C -24 -14 10 -26 44 -30"),
+    "fist": "M 147 -183 C 151 -179 151 -172 147 -168 M 141 -181 C 144 -177 144 -171 141 -167",
+}
+
+
+def baluster(x, y0, y1, w=3.6, rings=(0.08, 0.36, 0.64, 0.9)):
+    """turned chair leg, ONE stroke: down the left side with its rings, across the foot, up the right."""
+    def side(sgn):
+        pts = [(x + sgn * w * 1.3, y0)]
+        for t in rings:
+            y = y0 + (y1 - y0) * t
+            pts += [(x + sgn * w, y - 5), (x + sgn * (w + 2.6), y - 2), (x + sgn * (w + 2.6), y + 2), (x + sgn * w, y + 5)]
+        pts += [(x + sgn * w * 0.9, y1 - 6), (x + sgn * (w + 1.5), y1)]
+        return pts
+    left = side(-1)
+    right = list(reversed(side(1)))
+    return left + right
+
+
+def hair_waves():
+    """wavy strands drawn back from the brow to the bun (hatch)."""
+    out = []
+    for k in range(5):
+        a = 0.18 * k
+        p0 = (24 - 3 * k, -216 + 5 * k)
+        out.append(cr_dense([p0, (10 - 4 * k, -221 + 6 * k + 2), (-6 - 3 * k, -219 + 7 * k),
+                             (-20 - 2 * k, -210 + 8 * k), (-27 - k, -199 + 6 * k)], 5))
+    return out
+
+
+def branch(base=(62, -70), tip=(110, -126), n=4, seed=3):
+    """olive branch held up from the hand: stem with paired narrow leaves, ONE stroke."""
+    d = _n((tip[0] - base[0], tip[1] - base[1]))
+    Ln = math.dist(base, tip)
+    pts = [base]
+    for i in range(n):
+        t = (i + 1) / (n + 0.6)
+        A = (base[0] + d[0] * Ln * t, base[1] + d[1] * Ln * t)
+        pts.append(A)
+        for sgn in (1, -1):
+            a = math.radians(40 * sgn)
+            dd = (d[0] * math.cos(a) - d[1] * math.sin(a), d[0] * math.sin(a) + d[1] * math.cos(a))
+            pts += leaf_loop(A, dd, 16 - 1.2 * i, 4.0, 0)[1:]
+    pts.append(tip)
+    pts += leaf_loop(tip, d, 14, 3.8, 0)[1:]
+    return pts
+
+
+def reverse_shading():
+    """relief modelling on the seated figure (hatch, coin units)."""
+    S = []
+    front = cr_dense(RV_PTS["body_upper"][28:] + RV_PTS["body_lower"][1:], 8)
+    S += contour_shadow(front, 9, side=1, seed=31)
+    S += contour_shadow(cr_dense(RV_PTS["arm"][8:14], 8), 7, side=-1, seed=32)
+    S += contour_shadow(cr_dense(RV_PTS["body_upper"][:7], 8), 5, side=-1, seed=40)
+    # under the thighs, the inner side of the lower legs, the far side of the bust
+    S += comb([(34, 50), (54, 40), (72, 30)], _n((0.15, -1)), 9, 3.6, seed=33)
+    S += comb([(84, 24), (85, 70), (86, 120)], _n((1, 0.12)), 10, 4.0, seed=34, taper=0.6)
+    S += comb([(-38, -130), (-40, -96), (-43, -60), (-50, -24)], _n((1, 0.3)), 12, 5.0, seed=35)
+    # folds over the lap and down the legs
+    S += comb([(40, -48), (70, -40), (100, -34)], _n((0.3, 1)), 10, 4.2, seed=36)
+    S += comb([(106, -6), (108, 50), (110, 100), (112, 146)], _n((1, 0.05)), 8, 5.0, seed=37, taper=0.5)
+    # the seat cushion, the stool and the chair legs in shadow
+    S += hatch(cr_dense([(-110, 50), (34, 50), (30, 56), (-108, 56)], 2, closed=True), 60, 3.0, seed=38, min_len=1.5)
+    S += hatch([(92, 176), (168, 176), (168, 181), (92, 181)], 60, 3.0, seed=39, min_len=1.5)
+    S += comb([(-95, 56), (-96, 110), (-96, 190)], _n((1, 0.1)), 6, 4.0, seed=41, taper=0.3)
+    S += comb([(29, 56), (28, 110), (29, 190)], _n((1, 0.1)), 6, 4.0, seed=42, taper=0.3)
+    # chiton folds on the breast, hair
+    S += comb([(-6, -150), (2, -130), (8, -112)], _n((-0.6, 0.8)), 14, 5.0, seed=43)
+    S += hair_waves()
+    return S
+
+
 LIGHT_AWAY = _n((0.55, 0.83))        # light from the upper left: shadows fall down-right
 
 

@@ -14,8 +14,8 @@
  "hand": {
   "image": "../engine/hand/hand.png",
   "tip": [
-   0,
-   0
+   5.2,
+   6.1
   ],
   "scale": 0.78,
   "angle": 0

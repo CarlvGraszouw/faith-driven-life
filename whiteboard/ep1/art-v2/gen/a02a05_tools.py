@@ -392,6 +392,11 @@ class Board:
         order = list(group_order) + (['__hatch__'] if hatch_last and '__hatch__' not in group_order else [])
         pen = start
         out = []
+        self.stats = {}
+        for g in order:
+            for st in groups.get(g, []):
+                if st[0] != 'hatch':
+                    a = self.stats.setdefault((g, st[0]), [0, 0.0]); a[0] += 1; a[1] += plen(st[1])
         for g in order:
             strokes = groups.get(g, [])
             for ph in sorted(set(s[2] for s in strokes)):

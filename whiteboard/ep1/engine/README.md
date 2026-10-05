@@ -8,7 +8,13 @@ node render.js <timeline.json> <out.mp4>
 node render.js test-timeline.json test.mp4                 # the 12-second test
 node render.js example-timeline.json ep1-sample.mp4        # the 78-second sample, once the art SVGs exist
 node render.js <timeline.json> x --stills 3.2,9.5 --stills-dir stills   # single PNG frames, no video
+node render.js <timeline.json> --plan                  # per scene/part: window, hand time, hatch, OVER BUDGET (no frames)
+node render.js <timeline.json> --check                 # full schedule log incl. stroke classes and widths (no frames)
+node render.js <timeline.json> out.mp4 --placeholder art.svg   # draw missing scene SVGs with art.svg
 ```
+
+Linux / cloud sandbox: see RUN.md (Chromium is found under `$PLAYWRIGHT_BROWSERS_PATH`, fonts come from
+`npm install`, a missing audio file renders silent).
 
 Needs: Node 18+, Google Chrome, ffmpeg (no drawtext or libass needed; all text is drawn in the browser).
 Speed on this Mac: about 15-20 frames per second at 1080p (a 78-second video takes about 2.5 minutes).
@@ -17,9 +23,13 @@ Speed on this Mac: about 15-20 frames per second at 1080p (a 78-second video tak
 
 * `page/engine.js` builds one long SVG whiteboard in headless Chrome. `renderAt(t)` sets the
   exact state for time `t`, with no timers or CSS animation, so every frame is repeatable.
-* Line art (changed 4 Oct): the hand traces EVERY stroked path in document order, so nothing
-  appears without the marker tip on it. Paths with class `detail` are drawn 1.45x faster with
-  quicker hops (0.07 s); `line` paths get a 0.15 s lift between them. With `draw` set, the pen
+* Line art (changed 4 Oct; classes 5 Oct): the hand traces every `line` and `detail` path in document
+  order, so none of them appears without the marker tip on it. Paths with class `detail` are drawn
+  1.8x faster with quicker hops (0.04 s); `line` paths get a 0.15 s lift between them. Paths with
+  class `hatch` (shading) are not traced: once the part's last line/detail stroke is done they
+  self-draw together (stroke i starts i*min(0.012, 0.35/n) s later and draws over 0.35 s, <= 0.7 s in
+  all), cost no hand time and may overlap the next part. Stroke widths/opacity are each SVG's own
+  (its `<style>`, attributes or inline style). With `draw` set, the pen
   speeds up to fit (1300-4000 px/s; beyond that the pauses halve and it may reach 5600 px/s).
   The log prints, per scene, the strokes, total pen length in frame px, the drawing span and
   the speed, and warns `OVER BUDGET` when the art cannot finish in its window: simplify the art.
@@ -87,7 +97,8 @@ Speed on this Mac: about 15-20 frames per second at 1080p (a 78-second video tak
   about 1500-3500 px/s looks calm.
 * Captions: centred sentences on a soft white band, at most two lines each. Long sentences are
   split into timed parts by character count, preferring to break after punctuation.
-* Fonts: Caveat and Inter are bundled in `fonts/`, so rendering works offline. Captions use
+* Fonts: Caveat and Inter are bundled in `fonts/`, so rendering works offline (without `fonts/`, the
+  same variable woff2 files come from `npm install`: @fontsource-variable/caveat and /inter). Captions use
   Avenir Next. Any installed macOS font (for example "Noteworthy" or "Bradley Hand") also
   works in `font`.
 

@@ -662,9 +662,16 @@
       if (end > limit && S.items.length) {
         const avail = Math.max(0.6, limit - S.drawStart - S.items.reduce((a, it) => a + (it.gap || 0), 0));
         const want = S.items.reduce((a, it) => a + it.Dwant, 0);
-        const k = Math.min(1, avail / want);
-        S.items.forEach((it) => { it.Dscaled = it.Dwant * k; });
-        end = plan();
+        let k = Math.min(1, avail / want);
+        // items with a timed start ("at"/"t") cannot move earlier, so one proportional pass can still
+        // overrun: tighten k until the scene fits (or nothing can go faster)
+        for (let pass = 0; pass < 8; pass++) {
+          S.items.forEach((it) => { it.Dscaled = it.Dwant * k; });
+          const prevEnd = end;
+          end = plan();
+          if (end <= limit + 0.01 || Math.abs(prevEnd - end) < 0.005) break;
+          k *= Math.max(0.5, (limit - S.drawStart) / Math.max(0.01, end - S.drawStart));
+        }
         warn(`scene ${S.id}: drawing squeezed to ${(k * 100).toFixed(0)}% to finish before the next scene`);
       }
       S.drawEnd = end;

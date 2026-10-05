@@ -6,7 +6,7 @@
   "hand": { "image": "../hand/hand.png", "tip": [5.2, 6.1], "scale": 0.78, "angle": 0 },
   "scenes": [
     { "id": "t1-title-art", "t0": 0, "t1": 7.2, "camera": "hold",
-      "text": [ { "str": "Engine test", "font": "Caveat", "weight": 700, "size": 96, "at": [960, 120], "align": "center", "draw": 1.0, "t": 0.2 } ],
+      "text": [ { "str": "Engine test", "font": "Caveat", "weight": 700, "size": 96, "at": [470, 170], "align": "center", "draw": 1.0, "t": 0.2 } ],
       "parts": [ { "svg": "placeholder-c11.svg", "at": 1.5 } ] },
     { "id": "t2-fixture", "t0": 7.2, "t1": 10.5, "svg": "v2-format.svg", "dir": "right" }
   ],
