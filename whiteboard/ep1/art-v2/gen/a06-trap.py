@@ -403,5 +403,48 @@ def part_c():
     return antonia_tower() + legionary_back(1292, 668, 0.99) + legionary_front(1156, 690, 1.1)
 
 
+# ============================================================== part a: Jesus at the fork
+JX, JY, JS = 800, 738, 1.0          # Jesus' ground point and scale
+
+
+def fork_road():
+    """A paved path that comes toward us and forks behind Jesus: left toward the crowd (YES),
+    right toward the soldiers and the Antonia gate (NO).  Background -> self-drawing hatch."""
+    left_near = [(712, 780), (690, 752), (600, 734), (474, 716), (362, 690), (258, 664), (160, 640)]
+    far = [(170, 618), (258, 630), (362, 652), (474, 676), (590, 696), (690, 708), (796, 714),
+           (920, 704), (1040, 690), (1156, 668), (1292, 650), (1400, 628), (1472, 612)]
+    right_near = [(1504, 616), (1420, 642), (1292, 684), (1156, 708), (1040, 722), (940, 738), (900, 756), (888, 780)]
+    hz = [S(left_near), S(far), S(right_near)]
+    # flagstone joints on the near part of the path, fading with distance
+    joints = [[(724, 768), (868, 768)], [(732, 752), (862, 752)], [(612, 744), (676, 748)], [(520, 728), (566, 732)],
+              [(940, 724), (1004, 718)], [(1060, 708), (1110, 702)], [(780, 768), (776, 780)], [(828, 752), (832, 768)],
+              [(752, 752), (748, 768)], [(640, 734), (636, 746)], [(980, 721), (984, 733)]]
+    hz += [P(j) for j in joints]
+    return el("hatch", " ".join(hz))
+
+
+def jesus_figure(level="small"):
+    import importlib
+    import jesus as J
+    importlib.reload(J)
+    kw = dict(scale=JS, pose="standing", facing="left")
+    try:
+        return J.jesus(JX, JY, level=level, **kw)
+    except TypeError:
+        return J.jesus(JX, JY, **kw)
+
+
+def part_a(level="small"):
+    return fork_road() + jesus_figure(level)
+
+
+def build(level="small"):
+    parts = {"a06-trap-a.svg": (part_a(level), "a06 part a (0.2 s): Jesus stands where the path forks"),
+             "a06-trap-b.svg": (part_b(), "a06 part b (2.9 s), under YES: the crowd turns its back and walks away"),
+             "a06-trap-c.svg": (part_c(), "a06 part c (5.2 s), under NO: legionaries a short walk away, Antonia tower")}
+    for name, (body, note) in parts.items():
+        K.write(os.path.join(OUT, name), K.svg(body, note))
+
+
 if __name__ == "__main__":
-    pass
+    build(sys.argv[1] if len(sys.argv) > 1 else "small")
