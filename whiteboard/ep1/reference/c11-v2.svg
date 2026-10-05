@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <!-- c11 v2: even Israel's king sits under God's law (finer line, more detail) -->
+  <style>
+    .line{stroke:#1f1f1f;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+    .detail{stroke:#1f1f1f;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .hatch{stroke:#1f1f1f;stroke-width:0.9;stroke-linecap:round;opacity:.75}
+    .line:not([fill]),.detail:not([fill]),.hatch{fill:none}
+  </style>
+  <rect width="1600" height="900" fill="#fff"/>
+
+  <!-- light from above: soft rays -->
+  <g class="hatch" opacity=".6">
+    <path d="M 742 212 L 640 330 M 760 214 L 690 300 M 778 216 L 740 268 M 822 216 L 860 268 M 840 214 L 910 300 M 858 212 L 960 330"/>
+    <path d="M 730 210 L 590 360 M 870 210 L 1010 360 M 751 213 L 664 316 M 849 213 L 936 316"/>
+  </g>
+  <!-- cloud -->
+  <path class="line" fill="#ffffff" d="M 668 205 C 640 205 634 178 660 170 C 660 142 694 130 716 146 C 728 116 774 108 796 130 C 814 104 862 108 872 138 C 898 128 930 142 928 168 C 954 172 952 205 928 205 C 840 210 756 210 668 205 Z"/>
+  <path class="detail" d="M 700 172 C 712 160 730 158 744 166 M 790 150 C 804 138 826 138 838 150 M 872 168 C 884 160 900 162 908 172"/>
+  <path class="hatch" d="M 690 198 C 760 202 840 202 910 198 M 712 190 C 770 193 830 193 890 190"/>
+
+  <!-- tablets of the law -->
+  <path class="line" fill="#ffffff" d="M 706 428 L 706 320 C 706 290 726 276 750 276 C 774 276 794 290 794 320 L 794 428 Z"/>
+  <path class="line" fill="#ffffff" d="M 806 428 L 806 320 C 806 290 826 276 850 276 C 874 276 894 290 894 320 L 894 428 Z"/>
+  <path class="detail" d="M 714 424 L 714 322 C 714 298 730 285 750 285 C 770 285 786 298 786 322 L 786 424"/>
+  <path class="detail" d="M 814 424 L 814 322 C 814 298 830 285 850 285 C 870 285 886 298 886 322 L 886 424"/>
+  <!-- engraved commandment lines (ten, 5 + 5) -->
+  <g class="detail">
+    <path d="M 726 312 L 740 312 M 746 312 L 774 312"/>
+    <path d="M 724 334 L 752 334 M 758 334 L 776 334"/>
+    <path d="M 724 356 L 736 356 M 742 356 L 776 356"/>
+    <path d="M 724 378 L 760 378 M 766 378 L 776 378"/>
+    <path d="M 724 400 L 744 400 M 750 400 L 776 400"/>
+    <path d="M 826 312 L 850 312 M 856 312 L 874 312"/>
+    <path d="M 824 334 L 834 334 M 840 334 L 876 334"/>
+    <path d="M 824 356 L 856 356 M 862 356 L 876 356"/>
+    <path d="M 824 378 L 840 378 M 846 378 L 876 378"/>
+    <path d="M 824 400 L 866 400 M 872 400 L 876 400"/>
+  </g>
+  <path class="hatch" d="M 788 300 L 788 424 M 791 310 L 791 424 M 888 300 L 888 424 M 891 310 L 891 424"/>
+
+  <!-- dais -->
+  <path class="line" fill="#ffffff" d="M 610 790 L 990 790 L 990 772 L 610 772 Z"/>
+  <path class="line" fill="#ffffff" d="M 645 772 L 955 772 L 955 756 L 645 756 Z"/>
+  <path class="hatch" d="M 620 786 L 980 786 M 655 768 L 945 768"/>
+
+  <!-- throne -->
+  <path class="line" fill="#ffffff" d="M 712 756 L 712 452 C 712 430 740 414 800 410 C 860 414 888 430 888 452 L 888 756"/>
+  <path class="detail" d="M 726 640 L 726 462 C 726 444 750 432 800 428 C 850 432 874 444 874 462 L 874 640"/>
+  <path class="line" fill="#ffffff" d="M 712 452 m -11 0 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0 M 888 452 m -11 0 a 11 11 0 1 0 22 0 a 11 11 0 1 0 -22 0"/>
+  <path class="detail" fill="#dcb874" style="mix-blend-mode:multiply" d="M 800 400 m -9 0 a 9 9 0 1 0 18 0 a 9 9 0 1 0 -18 0"/>
+  <!-- armrests -->
+  <path class="line" fill="#ffffff" d="M 690 612 L 744 612 L 744 628 L 690 628 C 682 628 682 612 690 612 Z"/>
+  <path class="line" fill="#ffffff" d="M 910 612 L 856 612 L 856 628 L 910 628 C 918 628 918 612 910 612 Z"/>
+  <path class="detail" d="M 698 628 L 698 756 M 902 628 L 902 756"/>
+  <path class="hatch" d="M 716 470 L 716 750 M 720 480 L 720 750 M 880 480 L 880 750 M 884 470 L 884 750"/>
+
+  <!-- king: robe -->
+  <path class="line" fill="#ffffff" d="M 772 548 C 752 552 742 566 740 590 C 736 640 742 700 736 752 L 864 752 C 858 700 864 640 860 590 C 858 566 848 552 828 548 C 812 556 788 556 772 548 Z"/>
+  <!-- ermine collar -->
+  <path class="line" fill="#ffffff" d="M 766 552 C 782 574 818 574 834 552 C 840 560 840 570 834 578 C 816 594 784 594 766 578 C 760 570 760 560 766 552 Z"/>
+  <g class="detail"><path d="M 776 572 l 0 6 M 790 580 l 0 6 M 806 581 l 0 6 M 822 576 l 0 6"/></g>
+  <!-- robe centre opening and folds -->
+  <path class="detail" d="M 800 590 C 798 640 802 700 800 752"/>
+  <path class="detail" d="M 760 600 C 756 650 760 700 754 750 M 842 600 C 846 650 840 700 846 750"/>
+  <path class="hatch" d="M 744 610 C 742 660 746 710 742 750 M 748 640 C 746 680 750 720 748 750 M 856 620 C 858 670 854 720 858 750 M 852 650 C 854 690 850 730 852 750"/>
+  <path class="detail" d="M 740 752 C 760 744 776 748 790 752 M 810 752 C 824 748 840 744 860 752"/>
+  <!-- belt -->
+  <path class="detail" d="M 744 640 C 780 648 820 648 856 640 M 744 650 C 780 658 820 658 856 650"/>
+
+
+  <!-- sleeves / arms -->
+  <path class="line" fill="#ffffff" d="M 768 556 C 752 560 742 574 740 592 L 742 610 C 748 616 756 614 760 606 L 762 590 C 764 578 768 568 776 562 Z"/>
+  <path class="line" fill="#ffffff" d="M 832 556 C 850 562 858 580 858 600 C 858 618 856 634 852 646 C 846 652 836 650 834 642 C 838 628 840 612 838 598 C 836 584 830 572 824 566 Z"/>
+  <path class="hatch" d="M 846 590 C 848 606 848 622 846 636 M 750 580 C 748 590 748 598 750 604"/>
+  <!-- head -->
+  <path class="line" fill="#ffffff" d="M 800 468 C 822 468 832 486 832 504 C 832 522 822 534 800 534 C 778 534 768 522 768 504 C 768 486 778 468 800 468 Z"/>
+  <!-- hair at sides -->
+  <path class="detail" d="M 770 490 C 764 504 764 520 772 530 M 830 490 C 836 504 836 520 828 530"/>
+  <!-- face: closed, humble eyes; nose; moustache -->
+  <path class="detail" d="M 783 500 C 787 503 791 503 795 500 M 805 500 C 809 503 813 503 817 500"/>
+  <path class="detail" d="M 800 503 C 799 510 797 514 800 516"/>
+  <path class="detail" d="M 788 522 C 794 518 798 520 800 522 C 802 520 806 518 812 522"/>
+  <!-- beard -->
+  <path class="line" fill="#ffffff" d="M 772 520 C 774 548 786 566 800 574 C 814 566 826 548 828 520 C 822 530 812 528 800 532 C 788 528 778 530 772 520 Z"/>
+  <path class="hatch" d="M 786 536 C 788 548 794 558 800 566 M 800 536 L 800 566 M 814 536 C 812 548 806 558 800 566"/>
+
+  <!-- crown -->
+  <path class="line" fill="#dcb874" style="mix-blend-mode:multiply" d="M 772 476 L 768 446 L 786 460 L 800 438 L 814 460 L 832 446 L 828 476 C 810 480 790 480 772 476 Z"/>
+  <path class="detail" d="M 771 468 C 790 472 810 472 829 468"/>
+  <path class="detail" fill="#ffffff" d="M 768 446 m -3.5 0 a 3.5 3.5 0 1 0 7 0 a 3.5 3.5 0 1 0 -7 0 M 800 438 m -3.5 0 a 3.5 3.5 0 1 0 7 0 a 3.5 3.5 0 1 0 -7 0 M 832 446 m -3.5 0 a 3.5 3.5 0 1 0 7 0 a 3.5 3.5 0 1 0 -7 0"/>
+
+  <!-- sceptre (viewer's left hand) -->
+  <path class="line" d="M 748 700 L 748 470"/>
+  <path class="line" fill="#dcb874" style="mix-blend-mode:multiply" d="M 748 470 m -8 0 a 8 8 0 1 0 16 0 a 8 8 0 1 0 -16 0"/>
+  <path class="detail" d="M 742 488 L 754 488"/>
+  <path class="line" fill="#ffffff" d="M 740 596 C 740 586 756 584 758 594 L 758 612 C 756 620 742 620 740 612 Z"/>
+  <path class="detail" d="M 742 600 L 756 600 M 742 606 L 756 606"/>
+
+  <!-- open scroll of the law on his lap, held by the other hand -->
+  <path class="line" fill="#ffffff" d="M 778 664 L 852 650 L 856 676 L 782 690 Z"/>
+  <path class="line" fill="#ffffff" d="M 772 662 C 766 664 768 694 776 692 C 784 690 782 660 772 662 Z"/>
+  <path class="line" fill="#ffffff" d="M 850 648 C 844 650 846 680 854 678 C 862 676 860 646 850 648 Z"/>
+  <g class="hatch"><path d="M 790 670 L 840 661 M 792 678 L 830 671 M 794 686 L 842 677"/></g>
+  <path class="line" fill="#ffffff" d="M 834 642 C 844 636 858 640 858 650 C 858 660 846 662 838 656 Z"/>
+</svg>

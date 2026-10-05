@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+node_modules/
+.chrome-profile*/
+# rendered output (large) — share via Drive instead
+*.mp4
+*.mov
+frames/
