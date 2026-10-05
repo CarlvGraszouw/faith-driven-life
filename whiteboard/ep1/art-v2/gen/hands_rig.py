@@ -122,6 +122,20 @@ SPECS["coin"] = dict(
 )
 
 
+# four fingers hooked over a cloth edge (edge along y=0, fingertips hang toward +y on the front),
+# knuckles above, thumb on the outside pointing back up along the edge (-x side).  (left hand, outside view)
+SPECS["hook"] = dict(
+    palm=[(-7.6, -2), (7.6, -2.6), (8.4, -9), (2, -12.4), (-6, -11.6), (-8.6, -7)],
+    items=[
+        dict(name="little", base=(6.0, -4.6), angles=[-70, 150, 22], lengths=[2.6, 5.0, 3.2], r0=1.5, r1=1.3, z=1),
+        dict(name="ring", base=(2.4, -5.4), angles=[-80, 152, 20], lengths=[3.0, 6.0, 3.6], r0=1.65, r1=1.45, z=2),
+        dict(name="middle", base=(-1.4, -5.6), angles=[-90, 154, 18], lengths=[3.2, 6.4, 3.8], r0=1.75, r1=1.5, z=3),
+        dict(name="index", base=(-5.0, -5.0), angles=[-100, 156, 16], lengths=[3.0, 6.0, 3.6], r0=1.75, r1=1.5, z=4),
+        dict(name="thumb", base=(-6.6, -6.6), angles=[-168, 34, 40], lengths=[4.2, 3.4, 2.8], r0=2.1, r1=1.7, z=5),
+    ],
+)
+
+
 def finger_tip(spec, name):
     it = [i for i in spec["items"] if i["name"] == name][0]
     return chain(it["base"], it["angles"], it["lengths"])[-1]

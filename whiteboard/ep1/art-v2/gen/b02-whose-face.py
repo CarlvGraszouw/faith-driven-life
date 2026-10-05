@@ -47,66 +47,90 @@ def coin():
     return "".join(o), flan
 
 
+def strand_band(edge_a, edge_b, n, bend=0.0):
+    """hair strands between two guide runs (portrait units) - combed lines following the form"""
+    A = sample(edge_a, closed=False, n=6)
+    B = sample(edge_b, closed=False, n=6)
+    m = min(len(A), len(B))
+    A = [A[int(i * (len(A) - 1) / (m - 1))] for i in range(m)]
+    B = [B[int(i * (len(B) - 1) / (m - 1))] for i in range(m)]
+    out = []
+    for k in range(n):
+        u = (k + 0.5) / n
+        row = [K.lerp(A[i], B[i], u) for i in range(m)]
+        # taper: start a little late and stop a little early, alternating
+        s0 = 1 + (k % 3)
+        s1 = m - 1 - ((k + 1) % 3)
+        row = row[s0:s1]
+        if len(row) > 2:
+            out.append(K.S(U(row)))
+    return out
+
+
 def portrait():
-    """an ordinary woman in profile facing right: hair swept back into a low knot, a few loose
-    strands, gaze lifted; a draped bust truncated like a coin portrait."""
+    """an ordinary modern woman in profile facing right, hair tied back in a ponytail, ear
+    showing with a small stud, calm level gaze; crew-neck top; bust truncated like a coin."""
     o = []
     prof = [
-        [(28.6, 50.4), (26.4, 42), (26.6, 33.6), (29.4, 26), (33.8, 20.4)],                 # throat
-        [(39.4, 17.4), (42.8, 13.2)],                                                        # chin
-        [(41.6, 9.6)], [(43.6, 6.6)],                                                         # dimple, lower lip
-        [(41.8, 4.4)], [(44.4, 2.6)],                                                         # mouth, upper lip
-        [(43.6, -0.8), (45, -3.2)],                                                          # philtrum
-        [(50.2, -6.6)],                                                                      # nose tip
-        [(46.4, -15), (44.2, -24), (43.6, -28.4)],                                           # bridge, root
-        [(44.8, -32.6), (43.8, -40.4), (40.6, -48.2), (35.4, -54.6)],                         # brow, forehead
-        [(24, -62.4), (8, -66.6), (-8, -65.4), (-22, -59.4), (-32.4, -48.6), (-37.6, -35)],   # hair over the crown
-        [(-41.4, -31.4), (-50.6, -27), (-55, -16.6), (-52.8, -5.8), (-45.4, -0.4), (-37.8, -2.2)],  # the knot
-        [(-34.4, 6.6), (-28.6, 16), (-23.8, 30), (-22.8, 44)],                               # nape, neck back
-        [(-28.6, 50.6), (-36.6, 58.6), (-40.4, 70.4)],                                        # shoulder, drape
-        [(-22, 75.4), (-2, 77.4), (18, 75.6), (34, 70.6), (44.6, 63.4)],                      # bust truncation
-        [(39.4, 56.6), (33.4, 52.8), (28.6, 50.4)],                                          # neckline front
+        [(29.6, 52), (27.6, 44), (27.2, 36), (28.6, 28.4), (31.4, 23)],                      # throat
+        [(36.4, 21.4), (41.4, 18.4), (43.6, 12.8)],                                           # under the chin, chin
+        [(42.4, 8.4)], [(45.2, 5.4)],                                                          # chin dent, lower lip
+        [(43.8, 2.8)], [(45.8, 0.8)],                                                          # mouth, upper lip
+        [(44.4, -2.2), (44.8, -4.6), (46.6, -5.8)],                                           # philtrum
+        [(50, -8.6)],                                                                          # nose tip
+        [(46.6, -14.6), (44.2, -22.6), (42, -26.8)],                                          # bridge, root
+        [(42.8, -30), (42.6, -36), (39.4, -44.6), (34.2, -51)],                                # brow, forehead
+        [(22, -61.6), (4, -66.8), (-16, -64.6), (-31, -56)],                                   # hair over the crown
+        [(-40.6, -39.6)],                                                                      # the hair tie
+        [(-49.6, -33.8), (-56.2, -21.6), (-57.6, -5), (-54.4, 12.6), (-47.6, 27.4)],           # ponytail
+        [(-41.6, 37.6)],                                                                       # its tip
+        [(-41.2, 24.6), (-43.6, 8.6), (-42.4, -8.6), (-38.6, -20.6)],                          # its inner edge
+        [(-34.8, -6.6), (-28.6, 8), (-22.4, 22), (-19.6, 34), (-19.4, 46)],                    # nape, neck back
+        [(-30, 52.6), (-44.6, 59), (-51, 72)],                                                 # shoulder
+        [(-28, 76.4), (-4, 78.2), (20, 76.4), (40, 70.6), (48.6, 63.8)],                       # bust truncation
+        [(42.6, 57.6), (35.6, 53.8), (29.6, 52)],                                              # shoulder front
     ]
     o.append(el("line", runs_d(prof)))
-    # garment: neckline and the fold of the drape over the shoulder
-    o.append(el("detail", runs_d([[(-22.8, 44), (-8, 47), (8, 50), (20, 52.4), (28.6, 50.4)]])))
-    o.append(el("detail", runs_d([[(-33, 52), (-22, 60), (-6, 66.6), (12, 68.4)]])))
-    # face: lifted eye (lids, iris), brow, nostril, smiling mouth corner, jaw; ear under the hair
-    o.append(el("detail", runs_d([[(31.4, -27.6), (35.2, -31), (39.6, -31.6), (42.2, -29.4)],
-                                   [(39.6, -26.4), (35, -25.8), (31.4, -27.6)]])))
-    o.append(el("detail", runs_d([[(29.6, -36.2), (35.6, -38.6), (41.6, -36.8)]])))
-    o.append(el("detail", runs_d([[(44.6, -3.6), (41.4, -3.2), (40.4, -6), (42.2, -8.6)]])))
-    o.append(el("detail", runs_d([[(41.8, 4.4), (39.4, 4.2), (38.2, 2.6)]])))
-    o.append(el("detail", runs_d([[(9.6, -17), (12.8, -11), (12.2, -4), (9.2, -0.6), (6, -1.8)]])))   # ear lobe
-    o.append(el("detail", runs_d([[(35.4, -54.6), (26, -46), (19, -34), (14, -23), (10.6, -16.6)]])))   # hairline
-    o.append(el("detail", runs_d([[(-37.6, -35), (-34.6, -22), (-31, -10), (-33.4, 1)]])))           # the knot's tie
+    # crew neckline of a plain modern top, and its shoulder seam
+    o.append(el("detail", runs_d([[(-19.4, 46), (-6, 50.6), (8, 53.6), (20, 54), (29.6, 52)]])))
+    # eye: upper lid with its crease, lower lid; brow; nostril; mouth; ear; hairline; tie
+    o.append(el("detail", runs_d([[(29.4, -20.4), (33.6, -24.6), (38.6, -25.2), (41.6, -22)],
+                                   [(39, -18.8), (34, -18.4), (29.4, -20.4)]])))
+    o.append(el("detail", runs_d([[(29, -29.8), (34.8, -32.4), (41.4, -30.8)]])))
+    o.append(el("detail", runs_d([[(46.4, -5.8), (43.2, -5.2), (42.2, -8.2), (44, -10.8)]])))
+    o.append(el("detail", runs_d([[(43.8, 2.8), (41.2, 3), (39.8, 1.8)]])))
+    o.append(el("detail", runs_d([[(12.8, -11.6), (12.6, -20), (10, -25.4), (5.4, -26.2), (2.4, -21.4), (2, -13), (4, -5.4), (7.6, -1.4), (11, -2.6)]])))
+    o.append(el("detail", runs_d([[(34.2, -51), (27.4, -46), (21.6, -38.6), (18, -31.6)]])))
+    o.append(el("detail", runs_d([[(-38.6, -44.4), (-42.6, -38.6), (-41.4, -33), (-37, -31.2)]])))
     hz = []
-    # hair swept back from the face into the knot (strands following the form)
-    hl = sample(U([(35.4, -54.6), (26, -46), (19, -34), (14, -23), (10.6, -16.6)]), closed=False, n=4)
-    crown = sample(U([(28, -60), (10, -64.6), (-8, -63.4), (-22, -57.4), (-32, -46)]), closed=False, n=4)
-    knot = U([(-37, -33), (-35.6, -27), (-34, -21), (-32.6, -15), (-31.4, -9)])
-    for kk in range(12):
-        t = kk / 11.0
-        a = crown[min(len(crown) - 1, int(t * 0.55 * (len(crown) - 1)))] if t < 0.35 else hl[min(len(hl) - 1, int((t - 0.35) / 0.65 * (len(hl) - 1)))]
-        b = knot[min(4, int(t * 5))]
-        m = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2 - (6 - 8 * t) * R / 100)
-        hz.append(K.S([a, m, b]))
-    for kk in range(7):
-        t = kk / 6.0
-        hz.append(K.S(U([(-40 - 7 * t, -26 + 3 * t), (-50 + 2 * t, -18 + 6 * t), (-49 + 5 * t, -5 + 4 * t), (-42 + 3 * t, 0)])))
-    hz.append(K.S(U([(12, -20), (6, -8), (4, 6), (6, 18)])) + " " + K.S(U([(16, -26), (11, -14), (10, -6)])))   # loose strands
-    hz.append(K.S(U([(38.8, -31), (38.2, -26.8)])))                                                     # iris, looking up
-    hz.append(" ".join(K.P(U([(32.6 + 2.6 * kk, -30.6 - 0.6 * kk), (31.8 + 2.8 * kk, -33.4 - 0.5 * kk)])) for kk in range(4)))
-    hz.append(K.S(U([(23, 13.4), (28.6, 16.6), (33.6, 18.6)])))                                         # jaw
-    # relief shading: under the jaw, down the neck, the knot's underside, drapery folds
-    hz.append(hatch(U([(16, 18), (29.4, 26), (26.6, 33.6), (26.4, 42), (28.6, 50.4), (18, 52.4), (15, 36)]), 66, 2.4 * R / 100))
-    hz.append(hatch(U([(-23.8, 30), (-22.8, 44), (-10, 47), (-10, 36), (-16, 24), (-28.6, 16)]), 66, 2.4 * R / 100))
-    hz.append(hatch(U([(-52.8, -5.8), (-45.4, -0.4), (-37.8, -2.2), (-34.4, 6.6), (-42, 8), (-50, 4)]), 30, 2.0 * R / 100))
-    hz.append(K.S(U([(-20, 54), (-8, 60), (8, 62.6)])) + " " + K.S(U([(-30, 60), (-18, 68), (0, 72.4)])) + " " + K.S(U([(20, 58), (28, 62), (36, 66.4)])))
-    # cast shadow of the relief on the field, lower right of the profile
-    sh = U([(43.6, 6.6), (42.8, 13.2), (39.4, 17.4), (33.8, 20.4), (29.4, 26), (26.6, 33.6), (26.4, 42), (28.6, 50.4), (33.4, 52.8),
-            (39.4, 56.6), (44.6, 63.4), (48.6, 62), (44, 54), (36, 49), (32.4, 41), (32.4, 32), (35.6, 25.6), (42.6, 20.6), (46.6, 14), (47.4, 8)])
-    hz.append(hatch(sh, -40, 2.2 * R / 100))
+    # hair combed back to the tie in strand groups (light on top, closer on the shaded side)
+    hz += strand_band([(34.2, -51), (24, -59.4), (6, -64.4), (-14, -62.6), (-30, -54), (-39, -42)],
+                      [(30, -46), (18, -50), (2, -52), (-14, -50), (-28, -46), (-38, -40)], 5)
+    hz += strand_band([(26.4, -45.4), (14, -48), (-2, -48.6), (-18, -46), (-30, -42), (-38.6, -38.6)],
+                      [(15.8, -28.6), (8, -32.6), (-4, -34), (-18, -34.6), (-30, -36.6), (-38.6, -36)], 7)
+    hz += strand_band([(2, -27.4), (-8, -30.4), (-20, -32.6), (-30, -34.2), (-38.6, -36)],
+                      [(-3, -9), (-13, -3), (-25, -7), (-33.4, -19), (-38.6, -33)], 6)
+    # the ponytail: long S-strands from the tie
+    hz += strand_band([(-44, -36), (-51.6, -26), (-54.6, -10), (-52.6, 8), (-46.8, 24), (-42.4, 34)],
+                      [(-40.4, -34), (-41.4, -20), (-42.6, -6), (-42.6, 10), (-41.6, 22), (-42, 32)], 6)
+    hz.append(K.S(U([(16.4, -40), (12, -33), (11.4, -24)])) + " " + K.S(U([(19, -42.6), (16.6, -36), (17.6, -29.4)])))  # flyaways
+    # eye detail: lashes, iris, lid crease; ear inner fold and the stud
+    hz.append(" ".join(K.P(U([(32.2 + 2.4 * kk, -24.2 - 0.5 * kk), (31.8 + 2.8 * kk, -27 - 0.4 * kk)])) for kk in range(4)))
+    hz.append(K.S(U([(39.6, -24.4), (38, -21.6), (39, -19)])) + " " + K.S(U([(31.6, -26.6), (36.4, -28), (40.4, -26.4)])))
+    hz.append(K.S(U([(18, -31.6), (15.6, -26.6), (14, -22.6)])))
+    hz.append(K.S(U([(9.4, -21.4), (6.6, -16.6), (7.6, -9.6), (10, -7)])) + " " + K.S(U([(10.6, -15), (9, -12.4)])))
+    hz.append(K.circle(*U([(9.2, -0.6)])[0], 1.5 * R / 100))
+    # soft modelling: cheek, jaw, under the chin, the neck, behind the ear, the ponytail's shade
+    hz.append(K.S(U([(24, 15), (29, 18), (34, 19.8)])))
+    hz.append(hatch(U([(18, 18), (31.4, 23), (28.6, 28.4), (27.2, 36), (27.6, 44), (29.6, 52), (18, 54), (14, 36)]), 64, 2.3 * R / 100))
+    hz.append(hatch(U([(-19.6, 34), (-19.4, 46), (-6, 50.6), (-5, 36), (-11, 22), (-22.4, 22)]), 64, 2.3 * R / 100))
+    hz.append(hatch(U([(-41.2, 24.6), (-43.6, 8.6), (-42.4, -8.6), (-46.4, -6), (-48.6, 10), (-46, 26)]), 80, 2.0 * R / 100))
+    hz.append(hatch(U([(2, -13), (4, -5.4), (7.6, -1.4), (0, 2), (-4, -8)]), 60, 1.8 * R / 100))
+    hz.append(K.S(U([(-20, 56), (-6, 62), (12, 63.6)])) + " " + K.S(U([(-34, 62), (-18, 70), (2, 73.4)])) + " " + K.S(U([(24, 60), (34, 64), (42, 68)])))
+    # cast shadow of the relief on the field (lower right of the profile)
+    sh = U([(45.2, 5.4), (43.6, 12.8), (41.4, 18.4), (36.4, 21.4), (31.4, 23), (28.6, 28.4), (27.2, 36), (27.6, 44), (29.6, 52), (35.6, 53.8),
+            (42.6, 57.6), (48.6, 63.8), (52.6, 62.4), (46.4, 54.4), (37.6, 49.2), (33.4, 41), (33.4, 32), (36.6, 26.6), (43, 22), (47.4, 14.8), (48.2, 8.4)])
+    hz.append(hatch(sh, -40, 2.1 * R / 100))
     o.append(el("hatch", " ".join(hz)))
     return "".join(o)
 

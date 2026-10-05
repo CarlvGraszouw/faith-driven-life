@@ -18,6 +18,12 @@ def art(p):
             return f'../art-v2/{batch}/' + p.split('/')[-1]
     raise ValueError('unexpected art path: ' + p)
 
+# v2 timing tweaks (seconds after the scene's t0), so the denser v2 art fits its windows:
+# {scene id: {"parts": {part index: at}, "text": {text index: t}}}
+OVERRIDES = {
+    'a06-trap': {'parts': {1: 3.15, 2: 5.75}, 'text': {1: 5.0}},   # part b, part c, "NO"
+}
+
 scenes = []
 for sc in tl['scenes']:
     if sc['t0'] >= END:
@@ -27,6 +33,12 @@ for sc in tl['scenes']:
         sc['svg'] = art(sc['svg'])
     if 'parts' in sc:
         sc['parts'] = [dict(p, svg=art(p['svg'])) for p in sc['parts']]
+    ov = OVERRIDES.get(sc['id'], {})
+    for i, at in ov.get('parts', {}).items():
+        sc['parts'][i] = dict(sc['parts'][i], at=at)
+    for i, t in ov.get('text', {}).items():
+        sc['text'] = [dict(x) for x in sc['text']]
+        sc['text'][i]['t'] = t
     scenes.append(sc)
 
 cap = [dict(c, t1=min(c['t1'], END)) for c in caps if c['t0'] < END]

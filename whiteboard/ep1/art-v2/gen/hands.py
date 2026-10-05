@@ -39,7 +39,8 @@ class Finger:
     """joint chain in (u, v): base centre, direction (deg from +u, + toward the thumb), segment lengths,
     widths at base/PIP/DIP and tip, and a bend (deg per joint, + toward the thumb side)."""
 
-    def __init__(self, base, ang, segs, widths, bend=0.0, tip_round=0.55):
+    def __init__(self, base, ang, segs, widths, bend=0.0, tip_round=0.55, waist=0.045):
+        self.waist = waist
         self.joints = [base]
         a = math.radians(ang)
         p = base
@@ -65,7 +66,7 @@ class Finger:
             for j in range(k):
                 t = j / k
                 w = (Wd[i] + (Wd[i + 1] - Wd[i]) * t) * 0.5
-                w *= 1.0 + 0.06 * math.sin(math.pi * t)      # pad bulge between creases
+                w *= 1.0 - self.waist * math.cos(2 * math.pi * t)   # waist at the creases, pad between
                 c = lerp(a, b, t)
                 lft.append((c[0] - nv[0] * w, c[1] - nv[1] * w))
                 rgt.append((c[0] + nv[0] * w, c[1] + nv[1] * w))
@@ -119,3 +120,69 @@ def outline_chain(fingers, start, end, webs):
             pts.append(webs[k])
     pts.append(end)
     return pts
+
+
+# ---------------------------------------------------------------- natural fingers (palm or back view)
+def finger_edges(base, tip, w0, w1, bow=0.0, joints=(0.44, 0.72), pad=0.075, notch=0.05, n=36):
+    """edges of a finger from base centre to tip centre (local coords).
+    Returns (edge_a, cap, edge_b): edge_a runs base->tip on the LEFT of the axis (as seen walking
+    base->tip in image coords, y down), the cap rounds the tip, edge_b runs tip->base on the right.
+    bow bends the axis sideways (fraction of length); pads bulge between the joints, notches pinch at them."""
+    bx, by = base; tx_, ty_ = tip
+    dx, dy = tx_ - bx, ty_ - by
+    Ln = math.hypot(dx, dy) or 1.0
+    ux, uy = dx / Ln, dy / Ln
+    nx, ny = uy, -ux                                  # left normal (image coords)
+    def axis(t):
+        b = bow * Ln * 4 * t * (1 - t)
+        return (bx + dx * t + nx * b, by + dy * t + ny * b)
+    def width(t):
+        w = (w0 + (w1 - w0) * t) * 0.5
+        # pads: bulge mid-phalanx, pinch at the creases
+        marks = [0.0] + list(joints) + [1.0]
+        for a, b in zip(marks, marks[1:]):
+            if a <= t <= b:
+                s = (t - a) / (b - a)
+                w *= 1 + pad * math.sin(math.pi * s) - notch * (math.exp(-((s) / 0.12) ** 2) if a > 0 else 0)
+        return w
+    tend = 1 - (w1 * 0.5) / Ln * 0.9
+    ts = [tend * i / n for i in range(n + 1)]
+    A, B = [], []
+    for t in ts:
+        c = axis(t)
+        c2 = axis(min(1, t + 0.01)); c1 = axis(max(0, t - 0.01))
+        ax_, ay_ = c2[0] - c1[0], c2[1] - c1[1]
+        al = math.hypot(ax_, ay_) or 1
+        lx, ly = ay_ / al, -ax_ / al
+        w = width(t)
+        A.append((c[0] + lx * w, c[1] + ly * w))
+        B.append((c[0] - lx * w, c[1] - ly * w))
+    # elongated tip cap from the end of edge A round to the end of edge B
+    c = axis(tend)
+    w = width(tend)
+    cap = []
+    for i in range(1, 12):
+        th = math.pi * i / 12
+        cap.append((c[0] + nx * w * math.cos(th) + ux * w * 1.15 * math.sin(th),
+                    c[1] + ny * w * math.cos(th) + uy * w * 1.15 * math.sin(th)))
+    return A, cap, list(reversed(B))
+
+
+def web(p, q, depth=4.0, toward=(1, 0)):
+    """U-shaped web between the end of one finger edge (p) and the start of the next (q)."""
+    m = ((p[0] + q[0]) / 2 + toward[0] * depth, (p[1] + q[1]) / 2 + toward[1] * depth)
+    return cr_dense([p, m, q], 5)[1:-1]
+
+
+def crease_across(base, tip, t, w, curve=0.2, frac=0.85):
+    """short flexion crease across a finger at fraction t of its length"""
+    bx, by = base; tx_, ty_ = tip
+    dx, dy = tx_ - bx, ty_ - by
+    Ln = math.hypot(dx, dy) or 1
+    ux, uy = dx / Ln, dy / Ln
+    nx, ny = uy, -ux
+    c = (bx + dx * t, by + dy * t)
+    h = w * 0.5 * frac
+    p0 = (c[0] + nx * h, c[1] + ny * h); p1 = (c[0] - nx * h, c[1] - ny * h)
+    m = (c[0] + ux * w * curve * 0.5, c[1] + uy * w * curve * 0.5)
+    return cr_dense([p0, m, p1], 4)

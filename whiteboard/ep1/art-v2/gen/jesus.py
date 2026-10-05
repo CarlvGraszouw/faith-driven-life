@@ -110,7 +110,7 @@ def _region_path(polys, minus):
         return " ".join(K.seg(*pg) + " Z" for pg in polys)
     u = _sunion([_SPoly(pg).buffer(0) for pg in polys])
     if minus:
-        u = u.difference(_sunion([_SPoly(pg).buffer(0) for pg in minus if len(pg) >= 3]).buffer(-1.0))
+        u = u.difference(_sunion([_SPoly(pg).buffer(0) for pg in minus if len(pg) >= 3]).buffer(0.6))
     geoms = list(u.geoms) if hasattr(u, "geoms") else [u]
     ds = []
     for g in geoms:
@@ -224,14 +224,16 @@ def head(fig, hx, hy, rot=0.0, z=70, order=0, gaze=-1.0):
 
 
 # =============================================================== hands (rigged, baked in hands_data.py)
-def rig_hand(part, name, cx, cy, rot, s=1.0, flip=False, lv_inner=("M", "M", "F", "F", "F", "F", "F")):
-    """Place a baked hand: wrist at (cx, cy).  flip mirrors the hand across its own x axis (y -> -y).
-    -> (occluder polygon, transform)"""
+def rig_hand(part, name, cx, cy, rot, s=1.0, flip=False, lv_inner=("M", "M", "F", "F", "F", "F", "F"), flipx=False):
+    """Place a baked hand: wrist at (cx, cy).  flip mirrors the hand across its own x axis (y -> -y),
+    flipx across its y axis (x -> -x).  -> (occluder polygon, transform)"""
     h = HANDS[name]
 
     def T(pts):
         if flip:
             pts = [(px, -py) for px, py in pts]
+        if flipx:
+            pts = [(-px, py) for px, py in pts]
         return K.xf(pts, s=s, dx=cx, dy=cy, rot=rot)
     o = T(h["outline"])
     part.add("line", K.seg(*o) + " Z", "S", fill=WHITE, clip=False)
@@ -367,7 +369,12 @@ def build_standing(pose):
 
     # ---------------------------------------------------------- left hand holding the mantle's rolled edge
     lh = f.part("hand_l", 80, 4)
-    rig_hand(lh, "grip", 6.6, -233.6, rot=24, s=1.0)
+    rig_hand(lh, "hook", -0.6, -246.6, rot=-66, s=1.05, flipx=True)
+    # the cloth bunches above the hand: folds pulled toward the grip from the shoulder
+    man.add("detail", K.sm([(0, -259), (6, -268), (13, -276), (22, -283)]), "M")
+    man.add("detail", K.sm([(5, -255), (12, -262), (20, -270), (30, -278)]), "F")
+    man.add("hatch", K.hatch([(1, -259), (7, -268), (15, -277), (24, -283), (30, -279), (18, -268), (8, -257)],
+                             angle=-40, spacing=1.8, seed=47), "S")
 
     # ---------------------------------------------------------- right (far) arm per pose
     arm = f.part("arm_r", 60, 3)
@@ -599,21 +606,46 @@ def stroke_counts(pose="standing", level="full"):
     return {k: sum(el.count(" M ") + el.count('d="M') for el in v) for k, v in lay.items()}
 
 
-def stone_step(x, y, scale=1.0, facing="left", x0=None, x1=None, sil=None):
-    """A simple dressed-stone step for the seated pose -> (line_d, detail_d, hatch_d), clipped to his silhouette."""
+def stone_step(x, y, scale=1.0, facing="left", x0=None, x1=None, sil=None, seed=5):
+    """A low, wide, rough-cut stone step for the seated pose (dressed block with chamfered top edge,
+    chipped corners, joints, hatch on the shaded end) -> (line_d, detail_d, hatch_d), clipped to his
+    silhouette.  x0/x1: block extent (default: from just in front of his knees to well behind him)."""
+    import random
+    rnd = random.Random(seed)
     a = jesus_anchors(x, y, scale, "seated", facing)
     sx0, sx1, top = a["seat"]
-    x0 = sx0 - 6 * scale if x0 is None else x0
-    x1 = sx1 + 30 * scale if x1 is None else x1
-    dep = 12 * scale
-    front = K.seg((x0, top), (x1, top), (x1, y), (x0, y)) + " Z"
-    topf = K.seg((x0, top), (x0 + dep, top - dep * 0.8), (x1 + dep, top - dep * 0.8), (x1 + dep, y - dep * 0.8),
-                 (x1, y))
-    joints = K.seg((x0 + (x1 - x0) * 0.55, top + 2), (x0 + (x1 - x0) * 0.55, y - 2))
-    hat = K.hatch([(x1, top), (x1 + dep, top - dep * 0.8), (x1 + dep, y - dep * 0.8), (x1, y)], angle=80,
-                  spacing=2.6 * scale, seed=91)
+    x0 = sx0 - 14 * scale if x0 is None else x0
+    x1 = sx1 + 120 * scale if x1 is None else x1
+    dep = 14 * scale                       # receding top face (3/4 view)
+    ch = 3.2 * scale                       # chamfer
+    rough = lambda p, q, n=6, amp=0.8: [(p[0] + (q[0] - p[0]) * i / n + (rnd.uniform(-amp, amp) * scale if 0 < i < n else 0),
+                                         p[1] + (q[1] - p[1]) * i / n + (rnd.uniform(-amp, amp) * scale if 0 < i < n else 0))
+                                        for i in range(n + 1)]
+    # front face outline with chipped corners (one continuous stroke)
+    fl = (rough((x0 + 3 * scale, top), (x1 - 5 * scale, top), 10)
+          + [(x1 - 2 * scale, top + 2.4 * scale), (x1, top + 6 * scale)]
+          + rough((x1, top + 6 * scale), (x1 + 0.6 * scale, y), 6)[1:]
+          + rough((x1 + 0.6 * scale, y), (x0, y), 10)[1:]
+          + rough((x0, y), (x0 - 0.6 * scale, top + 4 * scale), 6)[1:] + [(x0 + 3 * scale, top)])
+    line = K.sm(fl)
+    # top face (receding) + chamfer line + the shaded end face
+    det = K.sm(rough((x0 + 3 * scale, top), (x0 + dep, top - dep * 0.62), 3, 0.4)
+               + rough((x0 + dep, top - dep * 0.62), (x1 + dep - 3 * scale, top - dep * 0.62), 10)[1:]
+               + [(x1 + dep, top - dep * 0.62 + 3 * scale)]
+               + rough((x1 + dep, top - dep * 0.62 + 3 * scale), (x1 + dep, y - dep * 0.62), 6)[1:] + [(x1 + 0.6 * scale, y)])
+    det += " " + K.sm(rough((x0 + 4 * scale, top + ch), (x1 - 4 * scale, top + ch), 10, 0.5))
+    jx = x0 + (x1 - x0) * 0.58
+    det += " " + K.sm([(jx, top + ch + 1), (jx + 0.8 * scale, (top + y) / 2), (jx, y - 1)])
+    det += " " + K.sm([(jx + dep * 0.4, top - dep * 0.25), (jx + dep * 0.75, top - dep * 0.55)])
+    hat = K.hatch([(x1, top + 6 * scale), (x1 + dep, top - dep * 0.62 + 3 * scale), (x1 + dep, y - dep * 0.62), (x1, y)],
+                  angle=78, spacing=2.4 * scale, seed=91)
+    hat += " " + K.hatch([(x0 + 4 * scale, y - 18 * scale), (x1 - 2 * scale, y - 14 * scale), (x1, y - 2), (x0 + 2, y - 2)],
+                         angle=-12, spacing=3.2 * scale, seed=92)
+    for k in range(5):                     # pitting / tooling marks
+        px = x0 + (x1 - x0) * rnd.uniform(0.1, 0.9); py = top + (y - top) * rnd.uniform(0.25, 0.75)
+        hat += " " + K.seg((px, py), (px + 3 * scale, py + 0.8 * scale))
     sil = sil or a["silhouette"]
-    return (K.clip(front, [sil]), K.clip(topf, [sil]) + " " + K.clip(joints, [sil]), K.clip(hat, [sil]))
+    return (K.clip(line, [sil]), K.clip(det, [sil]), K.clip(hat, [sil]))
 
 
 if __name__ == "__main__":

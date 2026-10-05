@@ -336,3 +336,17 @@ def tube(center, widths):
         lefts.append((x + nx * w, y + ny * w))
         rights.append((x - nx * w, y - ny * w))
     return lefts, rights
+
+
+def scallop(pts, step=6.0, amp=2.2, side=1, start=True):
+    """Scalloped (curly) outline through pts: arcs bulging to one side (side=+1: left of travel in screen
+    coords).  Returns a path of Q segments (starts with M when start=True)."""
+    P = resample(pts, max(3, int(sum(_dist(a, b) for a, b in zip(pts, pts[1:])) / step) + 1))
+    out = [f"M {f1(P[0][0])} {f1(P[0][1])}"] if start else []
+    for a, b in zip(P, P[1:]):
+        mx, my = (a[0] + b[0]) / 2, (a[1] + b[1]) / 2
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        L = math.hypot(dx, dy) or 1e-9
+        nx, ny = dy / L * side, -dx / L * side
+        out.append(f"Q {f1(mx + nx * amp * 2)} {f1(my + ny * amp * 2)} {f1(b[0])} {f1(b[1])}")
+    return " ".join(out)
