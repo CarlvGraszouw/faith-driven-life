@@ -82,17 +82,22 @@ def portrait():
     o.append(el("detail", runs_d([[(-37.6, -35), (-34.6, -22), (-31, -10), (-33.4, 1)]])))           # the knot's tie
     hz = []
     # hair swept back from the face into the knot (strands following the form)
-    for kk in range(11):
-        t = kk / 10.0
-        a = (32 - 36 * t, -57 + 6 * t)
-        hz.append(K.S(U([a, (a[0] - 14, a[1] + 4 + 6 * t), (a[0] - 26 + 8 * t, a[1] + 14 + 9 * t), (-35 + 3 * t, -30 + 18 * t)])))
+    hl = sample(U([(35.4, -54.6), (26, -46), (19, -34), (14, -23), (10.6, -16.6)]), closed=False, n=4)
+    crown = sample(U([(28, -60), (10, -64.6), (-8, -63.4), (-22, -57.4), (-32, -46)]), closed=False, n=4)
+    knot = U([(-37, -33), (-35.6, -27), (-34, -21), (-32.6, -15), (-31.4, -9)])
+    for kk in range(12):
+        t = kk / 11.0
+        a = crown[min(len(crown) - 1, int(t * 0.55 * (len(crown) - 1)))] if t < 0.35 else hl[min(len(hl) - 1, int((t - 0.35) / 0.65 * (len(hl) - 1)))]
+        b = knot[min(4, int(t * 5))]
+        m = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2 - (6 - 8 * t) * R / 100)
+        hz.append(K.S([a, m, b]))
     for kk in range(7):
         t = kk / 6.0
         hz.append(K.S(U([(-40 - 7 * t, -26 + 3 * t), (-50 + 2 * t, -18 + 6 * t), (-49 + 5 * t, -5 + 4 * t), (-42 + 3 * t, 0)])))
     hz.append(K.S(U([(12, -20), (6, -8), (4, 6), (6, 18)])) + " " + K.S(U([(16, -26), (11, -14), (10, -6)])))   # loose strands
     hz.append(K.S(U([(38.8, -31), (38.2, -26.8)])))                                                     # iris, looking up
     hz.append(" ".join(K.P(U([(32.6 + 2.6 * kk, -30.6 - 0.6 * kk), (31.8 + 2.8 * kk, -33.4 - 0.5 * kk)])) for kk in range(4)))
-    hz.append(K.S(U([(16, 8), (25, 15.6), (34, 18.8)])))                                                # jaw
+    hz.append(K.S(U([(23, 13.4), (28.6, 16.6), (33.6, 18.6)])))                                         # jaw
     # relief shading: under the jaw, down the neck, the knot's underside, drapery folds
     hz.append(hatch(U([(16, 18), (29.4, 26), (26.6, 33.6), (26.4, 42), (28.6, 50.4), (18, 52.4), (15, 36)]), 66, 2.4 * R / 100))
     hz.append(hatch(U([(-23.8, 30), (-22.8, 44), (-10, 47), (-10, 36), (-16, 24), (-28.6, 16)]), 66, 2.4 * R / 100))
@@ -136,9 +141,42 @@ def light():
     return el("hatch", " ".join(hz))
 
 
+def scroll():
+    """the first page of the Scriptures: an open scroll under the words "in the image of God"
+    (light - the coin is the subject).  Columns of Hebrew-like script are self-drawn."""
+    o = []
+    x0, x1, y0, y1 = 1060, 1440, 652, 722          # open sheet
+    sheet = PB().M(x0, y0 + 2).S([(1180, y0 - 3), (1310, y0 + 1), (x1, y0 - 2)]).L(x1, y1 - 2) \
+        .S([(1310, y1 + 2), (1180, y1 - 1), (x0, y1 + 2)]).Z()
+    o.append(el("line", str(sheet), fill="#ffffff"))
+    # the two rolled ends (wooden rollers with handles)
+    for (cx, sgn) in ((x0 - 12, -1), (x1 + 12, 1)):
+        roll = PB().M(cx - 13, y0 - 6).S([(cx, y0 - 13), (cx + 13, y0 - 6)]).L(cx + 13, y1 + 6) \
+            .S([(cx, y1 + 13), (cx - 13, y1 + 6)]).Z()
+        o.append(el("detail", str(roll), fill="#ffffff"))
+    hz = [P([(x0 - 12, y0 - 13), (x0 - 12, y0 - 26)]), P([(x0 - 12, y1 + 13), (x0 - 12, y1 + 26)]),
+          P([(x1 + 12, y0 - 13), (x1 + 12, y0 - 26)]), P([(x1 + 12, y1 + 13), (x1 + 12, y1 + 26)])]
+    for (cx, sgn) in ((x0 - 12, -1), (x1 + 12, 1)):
+        hz.append(hatch([(cx - 12, y0 - 5), (cx + 12, y0 - 5), (cx + 12, y1 + 5), (cx - 12, y1 + 5)], 90, 3.6))
+    # three columns of script, right to left, the first line of each a little bolder
+    for col in range(3):
+        cxr = x1 - 22 - col * 122
+        for row in range(5):
+            yy = y0 + 13 + row * 12
+            w = 96 if row < 4 else 58
+            pts, xx, k = [], cxr, 0
+            while xx > cxr - w:
+                pts.append((xx, yy + (-2.6 if k % 3 == 0 else (1.2 if k % 3 == 1 else -0.6))))
+                xx -= 3.4
+                k += 1
+            hz.append(S(pts))
+    o.append(el("hatch", " ".join(hz)))
+    return "".join(o)
+
+
 def body():
     c, flan = coin()
-    return c + portrait() + rim_and_legend(flan) + light()
+    return c + portrait() + rim_and_legend(flan) + light() + scroll()
 
 
 if __name__ == "__main__":

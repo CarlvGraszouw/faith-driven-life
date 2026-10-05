@@ -11,7 +11,7 @@ OUT = os.path.join(EP1, 'art-v2', 'A', 'a02-temple.svg')
 
 # ----------------------------------------------------------------------------- camera / world
 # world metres: X east, Y north, Z up; origin = centre of the sanctuary's east facade at court level.
-CAM = dict(pos=(260.0, -60.0, 6.0), az=174.0, f=1500.0, cx=800.0, cy=400.0)
+CAM = dict(pos=(260.0, -62.0, 9.0), az=174.0, f=1500.0, cx=800.0, cy=385.0)
 cam = Cam(CAM['pos'], CAM['az'], CAM['f'], CAM['cx'], CAM['cy'])
 P = cam.p
 B = Board(gap=2.0)
@@ -214,12 +214,12 @@ def courts():
         gate(sf, g - CI['x0'], 12.0, 2.4, H1 + 4.2, 5.0, 9.2, Z_CI + 5 + k, f'ci-gate{k}', (0, -1, 0))
     # Nicanor gate rising over the Court of Women
     nic = B.item(Z_NIC, 'courts', 'nicanor')
-    nf = Face((CI['x1'] + 1.5, -10.0, zT), (0, 1, 0), (0, 0, 1))
-    ng = nf.rect(0, 20, 0, H1 + 10)
+    nf = Face((CI['x1'] + 1.5, -8.0, zT), (0, 1, 0), (0, 0, 1))
+    ng = nf.rect(0, 16, 0, H1 + 2.5)
     nic.occlude(ng)
     OUTLINE.append(ng)
-    runs(nic, 'hatch', nf.line([(0.4, H1 + 8.2), (19.6, H1 + 8.2)]))
-    nic.hatch(nf.rect(0, 20, H1 + 3.5, H1 + 8.2), angle=84, spacing=2.4)
+    runs(nic, 'hatch', nf.line([(0.4, H1 + 1.2), (15.6, H1 + 1.2)]))
+    nic.hatch(nf.rect(0, 16, H1 - 3.0, H1 + 1.2), angle=84, spacing=2.4)
     # Court of Women: south and east faces
     cw = B.item(Z_CW, 'courts', 'court-women')
     H2, L2, D2 = CW['z'] - zT, CW['x1'] - CW['x0'], CW['y1'] - CW['y0']
@@ -467,46 +467,58 @@ def crowd():
             taken.append((x, y, 0.16 * h))
         return it
 
-    # ---- hero groups near the viewer (detail strokes)
-    put('lamb', 226.0, -74.0, hero=True, flip=True)
-    put('child', 225.4, -71.2, hero=True, flip=True)
-    put('back', 229.0, -52.0, hero=True)
-    put('back', 228.0, -49.4, hero=True, hm=1.6)
-    put('jar', 220.0, -41.0, hero=True, flip=True)
-    put('elder', 221.0, -86.0, hero=True)
-    put('talker', 222.0, -60.0, hero=True)
-    put('sheep', 223.0, -78.2, hero=True, hm=2.8, flip=True)
+    # ---- hero groups near the viewer (detail strokes), framing the bottom of the picture
+    put('lamb', 236.0, -79.0, hero=True, flip=True)
+    put('child', 235.6, -76.4, hero=True, flip=True)
+    put('sheep', 234.0, -82.6, hero=True, hm=2.8, flip=True)
+    put('back', 236.6, -45.0, hero=True)
+    put('back', 235.6, -42.2, hero=True, hm=1.58)
+    put('jar', 229.0, -33.0, hero=True, flip=True)
+    put('elder', 231.0, -94.0, hero=True)
+    put('talker', 228.0, -57.0, hero=True)
+    put('walker', 226.6, -60.4, hero=True, flip=True)
     # ---- people on the steps of the terrace (ascending)
-    for X in np.arange(-60, 110, 6.0):
+    for X in np.arange(-60, 110, 7.5):
         t = rng.uniform(0.15, 0.85)
         put(str(rng.choice(['back', 'walker', 'back', 'jar'])), X + rng.uniform(-2, 2), TER['y0'] - RUN * t,
             Zf=TER['z'] * (1 - t), flip=bool(rng.integers(2)))
-    for Yv in np.arange(-36, 40, 4.0):
+    for Yv in np.arange(-36, 40, 5.0):
         t = rng.uniform(0.15, 0.85)
         put(str(rng.choice(['back', 'walker', 'back'])), TER['x1'] + RUN * t, Yv + rng.uniform(-1.5, 1.5),
             Zf=TER['z'] * (1 - t), flip=True)
-    # ---- the plaza crowd: Poisson-ish sampling in screen space, figure spacing grows with size
+    # ---- the plaza crowd: clusters of 1-5 people with gaps between them
+    centres = []
     tries = 0
-    while tries < 9000:
+    while tries < 6000 and len(centres) < 150:
         tries += 1
-        y = CAM['cy'] + 14 + (rng.random() ** 1.35) * (742 - CAM['cy'] - 14)
+        y = CAM['cy'] + 12 + (rng.random() ** 1.6) * (690 - CAM['cy'] - 12)
         x = rng.uniform(-20, 1620)
         X, Y = ground_from_screen(x, y)
         if not on_plaza(X, Y):
             continue
         h = 1.72 * cam.scale((X, Y, 0))
-        if h > 70:
-            continue
-        r = 0.34 * h if y < 640 else 0.62 * h
-        if not free(x, y, r):
-            continue
-        kind = KINDS[int(rng.integers(len(KINDS)))]
+        if all((x - a) ** 2 + ((y - b) * 2.6) ** 2 > (1.9 * max(h, hb)) ** 2 for a, b, hb in centres):
+            centres.append((x, y, h))
+    for (x, y, h) in centres:
+        X, Y = ground_from_screen(x, y)
+        n = int(rng.choice([1, 1, 2, 2, 3, 3, 4, 5]))
         heading = bool(rng.integers(2))
-        put(kind, X, Y, flip=heading if kind != 'back' else False, hm=rng.uniform(1.6, 1.8))
-        if kind in ('mother', 'walker', 'jar') and rng.random() < 0.22:
-            put('child', X + 0.8, Y - 0.5, flip=heading)
-        if kind == 'lamb' and rng.random() < 0.6:
-            put('sheep', X + 1.2, Y + 0.3, hm=2.8, flip=heading)
+        talk = n == 2 and rng.random() < 0.4
+        for j in range(n):
+            if talk:
+                kind, fl = ('talker', j == 1)
+                XX, YY = X, Y + (j - 0.5) * 1.6
+            else:
+                kind = KINDS[int(rng.integers(len(KINDS)))]
+                fl = heading if kind != 'back' else False
+                XX, YY = X + rng.normal(0, 1.2), Y + rng.normal(0, 1.3)
+            if not on_plaza(XX, YY):
+                continue
+            put(kind, XX, YY, flip=fl, hm=rng.uniform(1.6, 1.8))
+            if kind in ('mother', 'walker', 'jar') and rng.random() < 0.25:
+                put('child', XX + 0.8, YY - 0.5, flip=heading)
+            if kind == 'lamb' and rng.random() < 0.6:
+                put('sheep', XX + 1.2, YY + 0.3, hm=2.8, flip=heading)
     # ---- money-changers and dove sellers inside the Royal Stoa (behind the columns)
     for X in np.arange(-40, 250, 9.0):
         Yt = STOA_Y - 6.0
@@ -528,14 +540,14 @@ def crowd():
 
 def paving():
     it = B.item(-9000, 'crowd', 'paving')
-    for Y in np.arange(-116.0, -52.0, 3.5):
-        runs(it, 'hatch', LN((236.0, Y, 0), (60.0, Y, 0), n=6))
-    for X in np.arange(236.0, 120.0, -3.5):
-        runs(it, 'hatch', LN((X, -116.0, 0), (X, -53.0, 0), n=4))
-    for X in np.arange(236.0, 126.0, -3.5):
-        runs(it, 'hatch', LN((X, -53.0, 0), (X, 46.0, 0), n=4))
-    for Y in np.arange(-53.0, 46.0, 3.5):
-        runs(it, 'hatch', LN((236.0, Y, 0), (126.0, Y, 0), n=4))
+    for Y in np.arange(-114.0, -54.0, 4.5):
+        runs(it, 'hatch', LN((238.0, Y, 0), (150.0, Y, 0), n=4))
+    for X in np.arange(238.0, 150.0, -4.5):
+        runs(it, 'hatch', LN((X, -114.0, 0), (X, -54.0, 0), n=3))
+    for X in np.arange(238.0, 150.0, -4.5):
+        runs(it, 'hatch', LN((X, -54.0, 0), (X, 44.0, 0), n=3))
+    for Y in np.arange(-54.0, 44.0, 4.5):
+        runs(it, 'hatch', LN((238.0, Y, 0), (150.0, Y, 0), n=3))
 
 
 sanctuary()
