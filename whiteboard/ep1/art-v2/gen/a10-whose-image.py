@@ -20,8 +20,9 @@ from lib_v2 import L, D, H, svg, write  # noqa: E402
 
 OUT = os.path.join(HERE, "..", "A")
 
-JX, JY, JS = 1396, 770, 1.22        # Jesus' ground point and scale (coin pose, facing left)
-CX, CY, CR = 1000, 500, 86.0        # the big coin: centre and die radius (flan ~ CR * 345/330)
+JX, JY, JS = 1462, 768, 1.4         # Jesus' ground point and scale (coin pose, facing left)
+CX, CY, CR = 1196, 506, 80.0        # the magnified coin: centre and die radius (flan ~ CR * 345/330)
+RING = 98.0                         # magnifier ring round it
 
 
 def jesus_part(level="small"):
@@ -80,26 +81,50 @@ def big_coin():
     return b
 
 
-def link_and_ground():
-    """self-drawing: a glint round the coin in his fingers and a light dotted arc down to the big
-    coin (it IS that coin, magnified); the ground (a faint line the a11 artist can continue) and
-    his shadow."""
+def callout():
+    """a fine magnifier callout: a small ring round the coin in his fingers, a leader line, and a
+    ring round the magnified coin (drawn by hand, thin)"""
     cx, cy, r = coin_anchor()
+    rs = r + 7
+    dx, dy = cx - CX, cy - CY
+    d = math.hypot(dx, dy)
+    ux, uy = dx / d, dy / d
+    a = (CX + ux * RING, CY + uy * RING)
+    b = (cx - ux * rs, cy - uy * rs)
+    o = el("detail", K.circle(cx, cy, rs, start_deg=math.degrees(math.atan2(-uy, -ux))) + " " + P([b, a]).replace("M", "L", 1))
+    o += el("detail", K.circle(CX, CY, RING, start_deg=math.degrees(math.atan2(uy, ux))))
+    return o
+
+
+def setting():
+    """self-drawing hint of the temple court, right side only: paving under him, the base and
+    fluted foot of a colonnade column behind him, the ground line (a11 may continue it)"""
     hz = []
-    for a in (200, 235, 270, 305, 340):
+    hz.append(S([(600, 771), (900, 770), (1200, 771), (1600, 769)]))
+    # paving joints in perspective, fading to the left
+    for k, xx in enumerate((1250, 1330, 1410, 1490, 1570)):
+        hz.append(P([(xx, 771), (xx + 26 + 6 * k, 789)]))
+    hz.append(P([(1300, 781), (1600, 780)]))
+    # column: square plinth, torus, fluted shaft rising behind him (cut by the board edge)
+    hz.append(P([(1532, 769), (1532, 746), (1600, 746)]) + " " + P([(1538, 746), (1540, 734), (1600, 734)]))
+    hz.append(S([(1540, 734), (1546, 726), (1552, 722), (1600, 722)]))
+    for xx in (1556, 1568, 1580, 1592):
+        hz.append(P([(xx, 722), (xx, 330)]))
+    hz.append(P([(1552, 722), (1552, 330)]))
+    hz.append(hatch([(1582, 722), (1600, 722), (1600, 330), (1582, 330)], 90, 3.0))
+    # his shadow on the paving
+    sh = [(JX - 80 + 160 * k / 18, JY + 4 + 6 * math.sin(math.pi * k / 18)) for k in range(19)]
+    hz.append(hatch(sh + [(JX + 80, JY + 1), (JX - 80, JY + 1)], 0, 2.4))
+    # a glint on the coin he holds up
+    cx, cy, r = coin_anchor()
+    for a in (200, 240, 280, 320):
         u = (math.cos(math.radians(a)), math.sin(math.radians(a)))
-        hz.append(P([(cx + u[0] * (r + 5), cy + u[1] * (r + 5)), (cx + u[0] * (r + 13), cy + u[1] * (r + 13))]))
-    hz.append(S([(600, 772), (900, 770), (1200, 771), (1580, 769)]))
-    sh = [(JX - 74 + 148 * k / 18, JY + 4 + 5 * math.sin(math.pi * k / 18)) for k in range(19)]
-    hz.append(hatch(sh + [(JX + 74, JY + 1), (JX - 74, JY + 1)], 0, 2.4))
-    out = el("hatch", " ".join(hz))
-    arc = S([(cx - 14, cy + 20), (cx - 40, cy + 70), (cx - 108, cy + 128), (CX + 104, CY - 26)])
-    out += f'  <path class="hatch" style="stroke-width:2.2;stroke-dasharray:0 7" d="{arc}"/>\n'
-    return out
+        hz.append(P([(cx + u[0] * (r + 11), cy + u[1] * (r + 11)), (cx + u[0] * (r + 19), cy + u[1] * (r + 19))]))
+    return el("hatch", " ".join(hz))
 
 
 def body(level="small"):
-    return link_and_ground() + jesus_part(level) + big_coin()
+    return setting() + jesus_part(level) + callout() + big_coin()
 
 
 if __name__ == "__main__":

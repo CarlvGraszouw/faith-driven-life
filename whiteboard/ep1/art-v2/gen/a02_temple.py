@@ -11,7 +11,7 @@ OUT = os.path.join(EP1, 'art-v2', 'A', 'a02-temple.svg')
 
 # ----------------------------------------------------------------------------- camera / world
 # world metres: X east, Y north, Z up; origin = centre of the sanctuary's east facade at court level.
-CAM = dict(pos=(260.0, -62.0, 9.0), az=174.0, f=1500.0, cx=800.0, cy=385.0)
+CAM = dict(pos=(260.0, -62.0, 3.0), az=174.0, f=1500.0, cx=800.0, cy=410.0)
 cam = Cam(CAM['pos'], CAM['az'], CAM['f'], CAM['cx'], CAM['cy'])
 P = cam.p
 B = Board(gap=2.0)

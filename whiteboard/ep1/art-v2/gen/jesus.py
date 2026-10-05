@@ -1,24 +1,25 @@
-"""Reusable figure of Jesus for Episode 1 v2 art (reference design, batch A).
+"""Reusable figure of Jesus for Episode 1 v2 art (reference design, batch A).  API FROZEN.
 
     import sys; sys.path.insert(0, "<ep1>/art-v2/gen")      # this folder (also puts <ep1> on sys.path)
-    from jesus import jesus, jesus_layers, jesus_anchors, HEIGHT, POSES, LEVELS
+    from jesus import jesus, jesus_layers, jesus_anchors, stroke_counts, HEIGHT, POSES, LEVELS
 
     body = jesus(x, y, scale=1.0, pose="teaching", facing="left", level="mid")  # -> "<path .../>..."
 
 API (stable):
   x, y     ground point between his feet (art units, viewBox 1600x900).  For pose "seated" (x, y) is the
            floor point under his feet; the seat top is anchors["seat"] = (x0, x1, y_top) -- draw the
-           stone step/bench yourself (he sits on its front edge, knees toward his facing side).
+           stone step/bench yourself (he sits on its front edge, knees toward his facing side), e.g. with
+           stone_step(x, y, scale, facing) -> (line_d, detail_d, hatch_d).
   scale    1.0 = 340 units tall standing (mid-shot adult); seated he is ~265 tall.
-  pose     "standing" relaxed, right hand at his side, left hand gathering the mantle at the hip
-           "teaching" standing, right hand raised forward with open palm (explaining)
+  pose     "standing" relaxed, right arm hanging, left hand holding the mantle's edge at his chest
+           "teaching" standing, right hand raised forward with open palm (explaining), head inclined
            "coin"     standing, right hand held up high showing a denarius between thumb and finger
            "seated"   sitting on a low step, right hand teaching, left hand resting on his knee
   facing   "left" (canonical, 3/4 view, mantle over his LEFT shoulder nearest the viewer) or "right"
            (mirror image).  Prefer "left"; mirror only when the composition needs it.
   level    "full" | "mid" | "small": same design, fewer hand strokes (line+detail sub-paths).  Hatch
            (shading, hair/beard texture, the mantle colour) is self-drawn and free at every level.
-           Use stroke_counts(pose, level) to see the cost.  Rough guide: small ~30, mid ~55, full ~85.
+           stroke_counts(pose, level) gives the cost.
   accent   True -> mantle gets the CLOAK accent (multiply, light).  coin_wash -> light BLUE on the coin.
 
 jesus_layers(...) -> {"line": [...], "detail": [...], "hatch": [...]} lists of <path> strings, so you can
@@ -34,6 +35,7 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import a_sketch as K  # noqa: E402  (puts ep1 on sys.path)
 from lib_v2 import tx, circle, f1, CLOAK, BLUE  # noqa: E402
+from hands_data import HANDS  # noqa: E402
 
 try:
     from shapely.geometry import Polygon as _SPoly
@@ -48,6 +50,8 @@ _LV = {"small": 0, "mid": 1, "full": 2}
 HEAD_S = 0.45          # head-space (100 units tall) -> figure units
 WHITE = "#ffffff"
 ACCENT_OPACITY = 0.72  # on a hatch-class path (class opacity .75) -> ~0.55 effective
+SEAT_Y = -88.0
+COIN_R = 7.0
 
 
 def _el(cls, d, fill=None, accent=False, opacity=None, evenodd=False):
@@ -106,7 +110,7 @@ def _region_path(polys, minus):
         return " ".join(K.seg(*pg) + " Z" for pg in polys)
     u = _sunion([_SPoly(pg).buffer(0) for pg in polys])
     if minus:
-        u = u.difference(_sunion([_SPoly(pg).buffer(0) for pg in minus if len(pg) >= 3]))
+        u = u.difference(_sunion([_SPoly(pg).buffer(0) for pg in minus if len(pg) >= 3]).buffer(-1.0))
     geoms = list(u.geoms) if hasattr(u, "geoms") else [u]
     ds = []
     for g in geoms:
@@ -123,161 +127,131 @@ def HP(hx, hy, rot=0.0, s=HEAD_S):
 
 
 # =============================================================== head (3/4, facing left, ~35 deg)
-def head(fig, hx, hy, rot=0.0, z=70, order=0, gaze=-1.0, shoulder_lock=True):
-    """Head-space: 100 tall, origin on the eye line at the skull centre; top -50, chin +50."""
+def head(fig, hx, hy, rot=0.0, z=70, order=0, gaze=-1.0):
+    """Head-space: 100 tall, origin on the eye line at the skull centre; top -50, chin +50.
+    Centre-parted dark hair in soft waves to the shoulders (one lock falls in front of the far
+    shoulder), full short beard with moustache."""
     P = HP(hx, hy, rot)
     sm = lambda pts: K.sm(P(pts))
     ph = fig.part("head", z, order)
 
-    hair_out = [(-40, 87), (-45, 75), (-47.6, 57), (-48.6, 36), (-48, 14), (-46.6, -8), (-43, -26), (-36, -40),
-                (-24, -50.5), (-8, -56.6), (8, -57), (24, -52.6), (37, -43), (46, -29), (51, -11), (53, 8),
-                (54.6, 27), (57.6, 45), (58.4, 60), (61, 74), (60.6, 86)]
-    tips = [(60.6, 86), (55.6, 81.6), (54.4, 92), (48.6, 85), (45.2, 94.6), (40.2, 86.4), (36.6, 90.6)]
-    hang = [(36.6, 90.6), (33, 76), (30.6, 60), (29, 46), (27.6, 33)]
-    lock_in = [(-40, 87), (-36, 88.6), (-33.6, 80), (-34.8, 66), (-37, 53), (-39, 47)]
-    face = [(-38.5, -22), (-40.6, -13), (-39.8, -6.5), (-38.8, -2), (-40.2, 4.5), (-41, 10), (-42.4, 18),
-            (-43, 28), (-42, 38), (-39, 48), (-33, 56), (-24, 61.6), (-13, 63), (-2, 61), (9, 56), (18, 48.5),
-            (24.5, 39), (27.6, 29), (27.6, 19), (25.6, 11), (21.6, 1), (16.6, -10), (10, -21), (2, -30),
-            (-8, -36), (-19, -38.6), (-27, -36.6), (-33.6, -31), (-38.5, -22)]
-    head_poly = P(hair_out + tips[1:] + hang[1:] + [(18, 52), (2, 63), (-14, 66), (-30, 60)] + lock_in[::-1][:-1])
-    ph.occ.append(head_poly)
+    lock_in = [(-40.2, 50), (-38.2, 60), (-36, 72), (-34.6, 84), (-35.6, 94), (-38.8, 99)]
+    hair_sil = [(-38.8, 99), (-43.8, 88), (-46.8, 72), (-48.4, 57), (-47.4, 43), (-48.8, 28), (-48.4, 10),
+                (-46.6, -12), (-42.6, -29), (-35, -42.4), (-23.6, -51.4), (-11, -55.6), (-4.6, -54.2), (3.6, -57.6),
+                (18, -56.2), (31.6, -48.8), (43, -36), (49.6, -18), (52.4, 2), (54.4, 19), (57.6, 34), (56.4, 49),
+                (59.4, 65), (61.6, 81), (58.8, 88)]
+    tips = [(58.8, 88), (55.4, 84), (54.8, 93.4), (49.6, 86.8), (46.2, 95), (41.2, 87.8), (37.6, 92)]
+    hang = [(37.6, 92), (33.6, 76), (30.6, 60), (28.6, 44), (27, 32), (26.6, 24)]
+    face_far = [(-36.6, -25.6), (-39.4, -16), (-40.6, -10), (-39.4, -4), (-38.8, 0), (-40.4, 5), (-41.4, 11),
+                (-42, 16.6)]
+    beard = [(-42, 16.6), (-43.4, 24), (-43.8, 33), (-42.4, 42), (-39.6, 50), (-35, 56.6), (-29.6, 60.6),
+             (-25, 63.6), (-19.4, 65.6), (-13.4, 64.6), (-8, 63.4), (-2, 61), (5, 57.8), (11.4, 53), (18.6, 45.4),
+             (23.8, 36), (26.6, 26.6), (26.6, 17), (24.6, 8.6)]
+    hairline = [(24.6, 8.6), (22.2, -2), (17.4, -13.6), (10.4, -24.6), (1.4, -32.8), (-8.6, -37.4), (-14.6, -38.8),
+                (-19, -41.2), (-23, -38.8), (-28, -36.6), (-32.6, -32.2), (-36.6, -25.6)]
+    head_poly = P(lock_in + hair_sil[1:] + tips[1:] + hang[1:] + [(26.6, 24), (26.6, 17), (24.6, 8.6)]
+                  + beard[::-1][3:] + [(-40.2, 50)])
+    ph.occ.append(K.poly(K.sm(head_poly, closed=True), 1.0))
     fig.head_poly = head_poly
-    ph.add("line", K.chain(P(lock_in[::-1]), P(hair_out), P(tips), P(hang)), "S")
-    ph.add("line", sm(face), "S")
+    ph.add("line", K.chain(P(lock_in), P(hair_sil), P(tips), P(hang)), "S")
+    ph.add("line", K.chain(P(face_far), P(beard)), "S")
+    ph.add("detail", sm(hairline), "S")
 
-    # ---- features (detail)
+    # ---- features
     g = gaze
-    ph.add("detail", sm([(-15, -9), (-9.5, -11.6), (-3, -12.3), (3, -11), (7.6, -8.4)]), "S")          # near brow
-    ph.add("detail", sm([(-25, -9.6), (-30, -11.3), (-35, -10.9), (-38.6, -8.6)]), "M")                  # far brow
-    ph.add("detail", sm([(-12.4, 0.5), (-9.4, -2.1), (-5.4, -3.2), (-1.4, -2.6), (1.6, -0.6), (2.8, 0.7)]), "S")
-    ph.add("detail", sm([(-35.8, 0.3), (-33.8, -1.8), (-30.6, -2.3), (-28.2, -0.3), (-27.4, 0.8)]), "S")
-    for (ex, ey, r, lvl) in ((-5.6 + 1.8 * g, -0.4, 1.1, "S"), (-31.6 + 1.2 * g, -0.4, 0.9, "S")):
+    ph.add("detail", sm([(-15.4, -9.4), (-9.6, -12), (-3, -12.6), (3.4, -11.2), (7.8, -8.6)]), "S")     # near brow
+    ph.add("detail", sm([(-25.4, -10), (-30.2, -11.6), (-35, -11), (-38.6, -8.8)]), "M")                # far brow
+    ph.add("detail", sm([(-12.6, 0.4), (-9.4, -2.2), (-5.4, -3.2), (-1.4, -2.6), (1.6, -0.6), (2.8, 0.6)]), "S")
+    ph.add("detail", sm([(-35.8, 0.2), (-33.8, -1.8), (-30.6, -2.3), (-28.2, -0.3), (-27.4, 0.8)]), "S")
+    for (ex, ey, r) in ((-5.6 + 1.8 * g, -0.4, 1.1), (-31.6 + 1.2 * g, -0.4, 0.9)):
         (cx, cy), = P([(ex, ey)])
-        ph.add("detail", circle(cx, cy, r), lvl)
+        ph.add("detail", circle(cx, cy, r), "S")
     ph.add("detail", sm([(-22.4, -0.6), (-24.6, 6), (-28, 12.6), (-30.6, 17.4), (-30.6, 20.8), (-27.6, 22.8),
                          (-23.8, 22.8)]), "S")                                                             # nose
     ph.add("detail", sm([(-19.6, 17.8), (-17.4, 20.4), (-19, 22.8), (-21.6, 23.2)]), "F")                # nostril
-    ph.add("detail", sm([(-35, 30.8), (-30, 29.8), (-24.6, 29.6), (-19, 29.8), (-14.6, 30.6), (-11.6, 32)]), "S")
-    ph.add("detail", sm([(-26, 34.4), (-22, 35.4), (-18.2, 34.6)]), "M")                                   # lower lip
+    ph.add("detail", sm([(-37, 35.4), (-34.8, 30.8), (-30.4, 27.8), (-25.4, 26.6), (-20, 27), (-14.6, 29.4),
+                         (-11, 34.4)]), "S")                                                               # moustache
+    ph.add("detail", sm([(-28.6, 34.6), (-23.4, 35.8), (-18, 34.8)]), "M")                                # lower lip
+    ph.add("detail", sm([(-19, -41.2), (-11, -48), (-1, -53.4), (10, -55.4)]), "M")                       # parting
+    for pts, lv in (([(21.6, 27), (20, 35), (16, 42)], "M"), ([(5, 45), (2, 52), (-1.6, 58)], "M"),
+                    ([(-23, 49), (-23.6, 56), (-22, 62)], "M"), ([(-34, 45), (-35, 51)], "F"),
+                    ([(12, 40), (9.6, 47)], "F")):
+        ph.add("detail", sm(pts), lv)                                                                      # beard
+    for pts in ([(-12, -46), (2, -47), (18, -42), (32, -30), (40, -12), (44, 8)],
+                [(41, 18), (46, 34), (45, 48), (49, 64), (50, 80)]):
+        ph.add("detail", sm(pts), "F")                                                                     # hair waves
     ph.add("detail", sm([(-10.6, 2.2), (-5.6, 3.3), (-0.6, 2.4)]), "F")                                   # lower lid
-    ph.add("detail", sm([(-19, -38.6), (-8, -47), (6, -53), (20, -51)]), "F")                            # parting
-    if shoulder_lock:
-        ph.add("detail", sm([(30.6, 58), (31, 72), (29, 86), (26, 98), (22.6, 104)]), "F")             # lock in front
 
-    # ---- hair texture (hatch, free): flowing waved strands
-    near_front = [(-14, -40), (-2, -34), (8, -24), (15, -10), (20, 4), (25, 18), (29, 34), (32, 52), (35, 68), (38, 86)]
-    near_back = [(-4, -55), (14, -53.6), (30, -45.6), (42, -32), (48.6, -14), (51.2, 6), (52.6, 26), (55.6, 46),
-                 (56.6, 62), (59.6, 82)]
-    for c in K.between(near_front, near_back, 9, n_pts=18):
-        c = [(px + 1.3 * math.sin(i * 0.9), py) for i, (px, py) in enumerate(c)]
+    # ---- hair texture (hatch, free): waved strands
+    near_front = [(-14, -40), (-2, -34), (8, -24), (15, -10), (20, 4), (25, 18), (29, 34), (32, 52), (35, 68),
+                  (38, 86)]
+    near_back = [(-4, -55), (14, -53.6), (30, -45.6), (42, -32), (48.6, -14), (51.4, 6), (53.2, 22), (56, 38),
+                 (55.4, 52), (59.2, 82)]
+    for c in K.between(near_front, near_back, 10, n_pts=18):
+        c = [(px + 1.4 * math.sin(i * 0.95), py) for i, (px, py) in enumerate(c)]
         ph.add("hatch", K.sm(P(c)), "S")
-    far_a = [(-22, -46), (-34, -38), (-41, -24), (-44, -4), (-45, 20), (-45, 44), (-43, 66), (-40, 84)]
-    far_b = [(-14, -54), (-30, -46), (-42, -32), (-46.6, -10), (-47.6, 16), (-47.6, 44), (-46, 68), (-43, 85)]
-    for c in K.between(far_a, far_b, 2, n_pts=14):
+    far_a = [(-22, -46), (-34, -38), (-41, -24), (-44, -4), (-45, 20), (-44.6, 44), (-42.6, 66), (-39.6, 88)]
+    far_b = [(-14, -54), (-30, -46), (-42, -32), (-46.6, -10), (-47.6, 16), (-47.2, 44), (-45.8, 68), (-42.6, 90)]
+    for c in K.between(far_a, far_b, 3, n_pts=14):
         ph.add("hatch", K.sm(P(c)), "S")
-    ph.add("hatch", K.sm(P([(-36, 52), (-36.6, 66), (-35, 80)])), "S")
     ph.add("hatch", K.hatch(P([(36, -38), (48, -22), (52, 0), (54, 30), (57, 58), (59.6, 82), (52, 84), (46, 60),
-                                (42, 30), (40, 0)]), angle=74 + rot, spacing=2.4, seed=3), "S")
-    # beard texture following growth, darker under the jaw
-    for c in K.between([(25, 12), (26.6, 26), (22, 40), (12, 51), (-2, 57), (-14, 59)],
-                       [(-8, 33), (-10, 40), (-14, 47), (-20, 53), (-26, 57), (-30, 57.6)], 6, n_pts=10):
+                                (42, 30), (40, 0)]), angle=74 + rot, spacing=2.2, seed=3), "S")
+    ph.add("hatch", K.hatch(P([(-46, -12), (-42, -28), (-38, -24), (-40, 0), (-41.4, 30), (-40, 50), (-44, 50),
+                                (-45.4, 20)]), angle=80 + rot, spacing=2.0, seed=13), "S")
+    # beard tone: growth strokes + darker under the jaw and on the cheek, moustache
+    for c in K.between([(25, 12), (26.6, 26), (22, 40), (12, 51), (-2, 58), (-14, 61)],
+                       [(-8, 33), (-10, 41), (-14, 48), (-20, 54), (-26, 58), (-30, 58)], 7, n_pts=10):
         ph.add("hatch", K.sm(P(c)), "S")
-    ph.add("hatch", K.hatch(P([(2, 40), (20, 30), (26, 30), (22, 44), (8, 55), (-10, 61), (-24, 61), (-8, 52)]),
-                            angle=-56 + rot, spacing=1.8, seed=5), "S")
-    ph.add("hatch", K.hatch(P([(-41.6, 30), (-38, 36), (-34, 47), (-27, 55), (-35, 54), (-40.6, 44)]),
-                            angle=-70 + rot, spacing=2.0, seed=6), "S")
-    ph.add("hatch", K.sm(P([(-31, 27.6), (-25, 26.4), (-19, 26.8)])), "S")                    # moustache top
+    ph.add("hatch", K.hatch(P([(2, 38), (20, 28), (26, 30), (22, 44), (8, 55), (-10, 62), (-24, 63), (-8, 52)]),
+                            angle=-56 + rot, spacing=1.6, seed=5), "S")
+    ph.add("hatch", K.hatch(P([(-42.4, 22), (-38, 30), (-34, 44), (-27, 56), (-35, 56), (-41, 46), (-43, 34)]),
+                            angle=-70 + rot, spacing=1.8, seed=6), "S")
+    ph.add("hatch", K.hatch(P([(24, 9), (16, 14), (6, 19.4), (-4, 23.4), (-12, 28), (-8, 31), (4, 25), (16, 19),
+                                (25, 14)]), angle=-75 + rot, spacing=1.7, seed=11), "S")
+    ph.add("hatch", K.hatch(P([(-35, 31), (-30, 28.6), (-25, 27.6), (-20, 28), (-15, 30.6), (-20, 31.4), (-28, 31)]),
+                            angle=80 + rot, spacing=1.5, seed=12), "S")
     ph.add("hatch", K.sm(P([(-25.6, 39), (-22, 40), (-18.4, 39.2)])), "S")                    # under lip
     # face modelling: near eye socket, side of nose, near cheek, neck under the beard
     ph.add("hatch", K.hatch(P([(-14, -6), (-4, -8.4), (5, -6.4), (4, -3), (-6, -4.6), (-14, -3.4)]),
                             angle=-22 + rot, spacing=1.7, seed=7), "S")
     ph.add("hatch", K.hatch(P([(-20.6, -1), (-18.6, 6), (-18, 15.6), (-21.6, 17.6), (-24, 10), (-23.6, 2)]),
                             angle=70 + rot, spacing=1.8, seed=8), "S")
-    ph.add("hatch", K.hatch(P([(10, 6), (18, 2), (22.6, 10), (16, 16), (8, 15)]), angle=62 + rot, spacing=2.0,
+    ph.add("hatch", K.hatch(P([(10, 4), (18, 0), (22.6, 8), (16, 13), (8, 12)]), angle=62 + rot, spacing=2.0,
                             seed=9), "S")
-    ph.add("hatch", K.hatch(P([(-13, 63), (16, 50), (18, 66), (-12, 78)]), angle=-30 + rot, spacing=2.0,
+    ph.add("hatch", K.hatch(P([(-14, 64), (16, 50), (18, 70), (-12, 80)]), angle=-30 + rot, spacing=2.0,
                             seed=10), "S")
     return ph
 
 
-# =============================================================== hands (local: wrist at 0,0)
-def _T(cx, cy, s, rot):
-    return lambda pts: K.xf(pts, s=s, dx=cx, dy=cy, rot=rot)
+# =============================================================== hands (rigged, baked in hands_data.py)
+def rig_hand(part, name, cx, cy, rot, s=1.0, flip=False, lv_inner=("M", "M", "F", "F", "F", "F", "F")):
+    """Place a baked hand: wrist at (cx, cy).  flip mirrors the hand across its own x axis (y -> -y).
+    -> (occluder polygon, transform)"""
+    h = HANDS[name]
 
-
-def _sp(pts):
-    """smoothed closed outline as a polygon (for occluders)."""
-    return K.poly(K.sm(pts, closed=True), 1.0)
-
-
-def hand_open(part, cx, cy, rot, s=1.0):
-    """Right hand open, palm up/forward, fingers along -x, thumb on the -y side.  -> [polygons]"""
-    T = _T(cx, cy, s, rot)
-    o = [(0, 4.8), (-6, 6.4), (-12, 7.4), (-16.4, 7.8), (-22, 7.8), (-26.6, 6.6), (-27.8, 4.8), (-26.8, 3.4),
-         (-30.4, 2.6), (-31.8, 0.8), (-30.8, -0.8), (-33.4, -1.8), (-34.4, -3.6), (-33.2, -5.2), (-31.2, -6.4),
-         (-31.6, -8.2), (-29.8, -9.4), (-24, -9), (-17.6, -7.8), (-14.8, -10.2), (-14.4, -14.6), (-15.8, -18.4),
-         (-13.6, -19.8), (-10.4, -17.2), (-7.4, -12), (-3.6, -6.8), (0, -4.8)]
-    part.add("line", K.sm(T(o)), "S", fill=WHITE, clip=False)
-    for f, lv in (([(-26.8, 3.4), (-18.4, 3.6)], "M"), ([(-30.8, -0.8), (-19.4, -0.6)], "M"),
-                  ([(-33.2, -5.2), (-19.8, -4.8)], "M"), ([(-17.6, -7.8), (-12.4, -6.4), (-8, -7.2)], "F")):
-        part.add("detail", K.sm(T(f)), lv)
-    part.add("hatch", K.hatch(T([(-2, 3.6), (-14, 6.4), (-17.6, 2.6), (-12, -1.6), (-4, -1)]), angle=rot + 15,
-                              spacing=1.6, seed=21), "S")
-    return [_sp(T(o))]
-
-
-def hand_relaxed(part, cx, cy, rot, s=1.0, lv_out="S"):
-    """Hand hanging relaxed, back of the hand seen, thumb in front (toward -x); wrist (0,0), fingers +y."""
-    T = _T(cx, cy, s, rot)
-    o = [(-4.6, 0), (-6.6, 5.4), (-9, 10.4), (-10.2, 15.6), (-9.8, 19.4), (-7.8, 20.6), (-6.4, 17.6),
-         (-6.6, 21.6), (-6.2, 25.6), (-4.8, 29), (-2.2, 31), (0.8, 31.6), (3.4, 29.8), (5, 26), (5.8, 20.6),
-         (6, 14.6), (5.6, 8), (4.4, 0)]
-    part.add("line", K.sm(T(o)), lv_out, fill=WHITE, clip=False)
-    for f, lv in (([(-6.4, 17.6), (-5.6, 13), (-5, 8.6)], "M"), ([(-6, 18.6), (-1.4, 20.2), (5.6, 18.8)], "F"),
-                  ([(-2.6, 25.4), (-2, 30.4)], "M"), ([(1, 25.6), (1.4, 31.2)], "F")):
-        part.add("detail", K.sm(T(f)), lv)
-    part.add("hatch", K.hatch(T([(1, 3), (5.4, 4), (6, 18), (3, 20), (1.4, 12)]), angle=rot + 80, spacing=1.6,
-                              seed=23), "S")
-    return [_sp(T(o))]
-
-
-def hand_coin(part, cx, cy, rot, s=1.0):
-    """Right hand raised, back of the hand to the viewer, fingers curled, thumb and index finger
-    pinching the coin above.  Wrist (0,0), knuckles toward -y.  -> ([polygons], coin centre)"""
-    T = _T(cx, cy, s, rot)
-    o = [(5.4, 0), (6.8, -8), (7.4, -16), (6.6, -21.4), (3.8, -25), (0.4, -27.4), (-1.6, -31.6), (-2.8, -35.6),
-         (-5.4, -36.2), (-6.6, -33), (-8.4, -28), (-9.8, -21.4), (-9.2, -14), (-7.4, -7), (-5.6, 0)]
-    part.add("line", K.sm(T(o)), "S", fill=WHITE, clip=False)
-    for f, lv in (([(6.8, -15), (2.4, -18.4), (-1.6, -17.8)], "M"), ([(6.4, -21), (1.6, -23), (-1.8, -22.4)], "M"),
-                  ([(-8.4, -28), (-5.4, -28.6), (-2.6, -28.6)], "F")):
-        part.add("detail", K.sm(T(f)), lv)
-    part.add("hatch", K.hatch(T([(3, -2), (6.4, -9), (6, -17), (2, -13), (1.4, -4)]), angle=rot + 80,
-                              spacing=1.6, seed=22), "S")
-    return [_sp(T(o))], T([(-4.2, -43.0)])[0]
-
-
-def hand_on_knee(part, cx, cy, rot, s=1.0):
-    """Left hand resting palm-down over a knee (thumb hidden on the far side); wrist (0,0), fingers -x."""
-    T = _T(cx, cy, s, rot)
-    o = [(0, -4.8), (-8, -6), (-16, -5.6), (-21, -4), (-24.6, -0.4), (-26, 4.6), (-25.4, 8.6), (-22.6, 9.6),
-         (-21.2, 5.6), (-19.4, 2.4), (-12, 4), (-6, 4.6), (0, 4.8)]
-    part.add("line", K.sm(T(o)), "S", fill=WHITE, clip=False)
-    for f, lv in (([(-16.6, -5.4), (-20.8, -1.6), (-22.6, 3.6), (-22.4, 8.2)], "M"),
-                  ([(-12.6, -5.6), (-17.4, -2), (-19.6, 2.6)], "F"), ([(-14, -5.6), (-15, -2.6)], "F")):
-        part.add("detail", K.sm(T(f)), lv)
-    part.add("hatch", K.hatch(T([(-2, -3.6), (-13, -4.6), (-17, -1.6), (-12, 2.6), (-2, 3)]), angle=rot - 10, spacing=1.6,
-                              seed=24), "S")
-    return [_sp(T(o))]
+    def T(pts):
+        if flip:
+            pts = [(px, -py) for px, py in pts]
+        return K.xf(pts, s=s, dx=cx, dy=cy, rot=rot)
+    o = T(h["outline"])
+    part.add("line", K.seg(*o) + " Z", "S", fill=WHITE, clip=False)
+    for i, pl in enumerate(sorted(h["inner"], key=lambda q: -sum(math.dist(a, b) for a, b in zip(q, q[1:])))):
+        part.add("detail", K.seg(*T(pl)), lv_inner[min(i, len(lv_inner) - 1)], clip=False)
+    part.occ.append(o)
+    return o, T
 
 
 # =============================================================== feet (sandals)
+def _sp(pts):
+    return K.poly(K.sm(pts, closed=True), 1.0)
+
+
 def foot(part, ax, ay, toe, lv_strap="M"):
     """Sandalled foot from the ankle (ax, ay) to the toe point toe=(tx, ty) (figure units), pointing left."""
     tx0, ty0 = toe
     L = math.hypot(tx0 - ax, ty0 - ay)
     ang = math.degrees(math.atan2(ty0 - ay, tx0 - ax)) - 180.0
     T = lambda pts: K.xf(pts, s=L / 28.0, dx=ax, dy=ay, rot=ang)
-    # foot: ankle front -> instep -> toes -> sole -> heel -> ankle back (local: ankle (0,0), toes at -28)
     o = [(-2.6, -6.6), (-9, -3.8), (-17, -0.6), (-23.6, 1.4), (-27.4, 3), (-28.4, 5.2), (-26.6, 6.6),
          (-18, 6.8), (-8, 7), (2.6, 6.8), (6.4, 4.6), (6.6, -0.6), (5, -6)]
     sole = [(7.4, 5.8), (6.6, 8.8), (-6, 9.2), (-20, 9), (-28.6, 8.2), (-29.6, 6.4)]
@@ -312,229 +286,237 @@ def limb(part, a_pts, b_pts, cls_a="line", cls_b="detail", lv="S"):
 
 # =============================================================== standing figures
 def build_standing(pose):
+    """Contrapposto: weight on his left (near) leg -> near hip up, near shoulder down; free (far) knee
+    forward.  Mantle: over the left shoulder, down the back, diagonally across the chest to the right
+    hip, round the hips; its hem slants down to the near shin; the left hand holds its rolled edge."""
     f = Fig()
-    hrot = {"standing": -3.0, "teaching": -4.0, "coin": 2.0}[pose]
-    head(f, -7.0, -316.0, rot=hrot, z=70, order=0)
+    hx, hy, hrot = {"standing": (-7.0, -316.0, -3.0), "teaching": (-8.6, -315.0, -8.0),
+                    "coin": (-7.0, -316.0, 2.0)}[pose]
+    head(f, hx, hy, rot=hrot, z=70, order=0)
 
     # ---------------------------------------------------------- tunic (cream)
     tun = f.part("tunic", 10, 1)
-    chest = [(-37, -257), (-39, -246), (-38, -232), (-36, -219), (-37.4, -213), (-36.6, -206)]
-    skirt_l = [(-36.6, -206), (-38.4, -190), (-40.2, -172), (-41.6, -150), (-43, -126), (-44.6, -106),
-               (-46.6, -92), (-46.4, -74), (-46.6, -52), (-47.2, -30), (-48.4, -14)]
-    hem = [(-48.4, -14), (-42, -11), (-35, -13.4), (-27, -11), (-18, -12.8), (-9, -10.6), (0, -12), (10, -10.4),
-           (20, -12.2), (30, -10.8), (38, -12.6), (43.4, -14.6)]
-    skirt_r = [(43.4, -14.6), (43.4, -36), (44, -58), (45, -80), (46.6, -100)]
+    chest = [(-37.6, -259), (-39.6, -247), (-38.6, -233), (-36.6, -219), (-37.8, -212.6), (-36.8, -205.4)]
+    skirt_l = [(-36.8, -205.4), (-38.8, -190), (-40.8, -172), (-42.8, -150), (-44.8, -128), (-47.2, -110),
+               (-49.4, -96), (-49, -80), (-48.4, -60), (-48.8, -38), (-49.8, -14)]
+    hem = [(-49.8, -14), (-43, -10.6), (-35, -13.2), (-27, -10.8), (-18, -12.6), (-9, -10.6), (0, -12), (10, -10.4),
+           (20, -12.2), (30, -10.8), (38, -12.8), (43.4, -15)]
+    skirt_r = [(43.4, -15), (43.4, -36), (44, -58), (45, -80), (46.6, -100)]
     tun.add("line", K.chain(chest, skirt_l, hem, skirt_r), "S")
-    tun.add("detail", K.sm([(-36.2, -214.6), (-28, -213.4), (-20, -214)]), "M")              # sash
-    tun.add("detail", K.sm([(-36.6, -207), (-28, -205.8), (-20, -206.4)]), "F")
-    tun.add("detail", K.sm([(-14.6, -287), (-11, -281.6), (-4, -281)]), "F")                 # neckline
-    for fl, lv in (([(-31, -100), (-34, -70), (-36.4, -40), (-37, -15)], "M"),
+    tun.add("detail", K.sm([(-37.4, -213.6), (-29, -214.6), (-20, -216.4)]), "M")            # sash (tilted)
+    tun.add("detail", K.sm([(-36.8, -206), (-28.6, -207), (-19.6, -208.8)]), "F")
+    tun.add("detail", K.sm([(-14.6, -288), (-11, -282.6), (-4, -282)]), "F")                 # neckline
+    for fl, lv in (([(-40, -104), (-37.4, -76), (-36.4, -44), (-37, -14)], "M"),             # from the free knee
                    ([(-12, -112), (-13, -76), (-13.6, -44), (-12.6, -12)], "M"),
                    ([(12, -86), (13, -60), (14, -36), (14.6, -11)], "F"),
-                   ([(-22, -116), (-23.6, -80), (-24.8, -46), (-24.4, -12)], "F")):
+                   ([(-24, -118), (-25, -84), (-25.6, -48), (-25, -12)], "F"),
+                   ([(-46, -94), (-42, -88), (-38.6, -86)], "F")):
         tun.add("detail", K.sm(fl), lv)
     tun.add("hatch", K.hatch([(28, -78), (45, -86), (43.6, -40), (43, -14), (32, -12), (31, -40)], angle=78,
                              spacing=2.4, seed=31), "S")
-    tun.add("hatch", K.hatch([(-31, -100), (-25, -112), (-26.4, -60), (-27, -13), (-35, -13), (-35.4, -50)],
+    tun.add("hatch", K.hatch([(-36, -96), (-28, -112), (-28, -60), (-28.6, -13), (-36, -13), (-36, -50)],
                              angle=76, spacing=2.6, seed=32), "S")
     tun.add("hatch", K.hatch([(-14, -110), (-10, -112), (-11.4, -60), (-10.6, -12), (-15, -12), (-15.4, -60)],
                              angle=80, spacing=2.0, seed=33), "S")
-    tun.add("hatch", K.hatch([(-37.6, -256), (-30, -262), (-26, -248), (-30, -230), (-36, -219), (-38, -232)],
+    tun.add("hatch", K.hatch([(-38, -258), (-30, -263), (-26, -248), (-30, -230), (-36.6, -219), (-38.6, -233)],
                              angle=60, spacing=2.4, seed=34), "S")
-    tun.occ.append(chest + skirt_l[1:] + hem[1:] + skirt_r[1:] + [(46, -250), (30, -283), (-14, -288), (-36, -276)])
+    tun.add("hatch", K.hatch([(-48.6, -92), (-44, -96), (-40, -80), (-42, -50), (-48.4, -50), (-48.8, -76)],
+                             angle=74, spacing=2.6, seed=35), "S")
+    tun.occ.append(chest + skirt_l[1:] + hem[1:] + skirt_r[1:] + [(46, -250), (30, -283), (-14, -289), (-37, -278)])
 
     # ---------------------------------------------------------- mantle (accent region, hatch-class fill)
     man = f.part("mantle", 40, 2)
-    top = [(4, -288), (14, -291), (27, -289), (37, -282), (43.6, -270)]
-    back = [(43.6, -270), (47.6, -252), (50.4, -228), (52.4, -212), (52.2, -196), (51.6, -170), (51.4, -140),
-            (50.6, -112), (49.6, -88), (47, -68)]
-    zig = [(47, -68), (42.4, -75.4), (37, -68.6), (31.4, -77), (25.4, -69.4), (19.6, -78), (14, -72)]
-    hemd = [(14, -72), (10.4, -86), (4.6, -100), (-3.6, -114), (-13.6, -128), (-24.6, -141), (-33.6, -152.6),
+    top = [(4, -288.6), (14, -289.6), (27, -286.6), (37, -279), (43.6, -266.6)]
+    back = [(43.6, -266.6), (47.6, -249), (50.4, -226), (52.4, -210), (52.2, -194), (51.6, -168), (51.4, -138),
+            (50.6, -110), (49.6, -88), (47.4, -70)]
+    hemb = [(47.4, -70), (41.4, -73.2), (34, -72.4), (27, -75), (20, -74), (14, -72.6)]
+    hemd = [(14, -72.6), (10.4, -86), (4.6, -100), (-3.6, -114), (-13.6, -128), (-24.6, -141), (-33.6, -152.6),
             (-40.6, -160)]
     far = [(-40.6, -160), (-39.6, -172), (-37.6, -186), (-35.4, -197)]
-    diag = [(-35.4, -197), (-29, -210), (-21, -226), (-13, -243), (-6, -259), (-1, -273), (2, -283), (4, -288)]
-    outline = top + back[1:] + zig[1:] + hemd[1:] + far[1:] + diag[1:]
-    man.add("line", K.chain(top, back, zig, hemd, far, diag), "S")
+    diag = [(-35.4, -197), (-29, -210), (-21, -226), (-13, -243), (-6, -259), (-1, -273), (2, -283), (4, -288.6)]
+    outline = top + back[1:] + hemb[1:] + hemd[1:] + far[1:] + diag[1:]
+    man.add("line", K.chain(top, back, hemb, hemd, far, diag), "S")
     man.occ.append(outline)
     man.accent_polys.append(outline)
-    # the left forearm carried under the cloth (elbow bump at the back, cloth over the forearm)
-    man.add("detail", K.sm([(51.6, -214), (40, -207.4), (28, -202.6), (17.4, -200.6)]), "S")
-    man.add("detail", K.sm([(48, -201), (36, -196), (25, -193.6)]), "F")
-    # rolled upper edge, shoulder folds, hip swag (pulled from the far hip to the forearm), hanging folds
-    man.add("detail", K.sm([(-32.6, -193), (-26.6, -206), (-18.6, -222), (-10.8, -239), (-4, -255), (0.6, -268)]), "M")
-    man.add("detail", K.sm([(26, -288), (33, -270), (37.6, -246), (40.4, -222)]), "M")
-    man.add("detail", K.sm([(14, -280), (8.6, -264), (0.6, -242), (-8, -224), (-16, -208), (-22, -196)]), "F")
-    man.add("detail", K.sm([(-37.6, -178), (-25, -176.6), (-11, -178.6), (2, -186), (10, -194)]), "S")
-    man.add("detail", K.sm([(-38.6, -166), (-25, -160), (-11, -161), (1, -167), (10, -176), (17, -190)]), "M")
-    man.add("detail", K.sm([(-30, -150), (-18, -146.6), (-6, -148.6), (6, -156)]), "F")
-    man.add("detail", K.sm([(22, -194), (20, -164), (21.6, -130), (20, -100), (22, -80)]), "S")    # hanging
-    man.add("detail", K.sm([(33, -196), (33.6, -156), (34, -116), (34.6, -74)]), "M")
-    man.add("detail", K.sm([(43, -200), (44.6, -160), (44.4, -120), (42.6, -76)]), "F")
-    tassel(man, 14, -72, ang=97, length=12, lv="M")
-    tassel(man, 47, -68, ang=86, length=12, lv="M")
-    man.add("hatch", K.hatch([(44, -268), (48, -252), (51, -214), (51.6, -170), (51, -120), (49.6, -88), (47, -70),
-                              (45.4, -74), (46.6, -120), (46.6, -170), (45.6, -214), (42, -250)], angle=84,
+    # rolled upper edge, shoulder folds, hip folds (tension from the far hip), hanging folds to the hem
+    man.add("detail", K.sm([(-32.6, -193), (-26.6, -206), (-18.6, -222), (-10.8, -239), (-4, -255), (0.6, -268)]), "S")
+    man.add("detail", K.sm([(26, -286), (33, -268), (37.6, -244), (40.4, -220)]), "M")
+    man.add("detail", K.sm([(14, -279), (8.6, -263), (0.6, -241), (-8, -223), (-16, -207), (-22, -195)]), "F")
+    man.add("detail", K.sm([(-37.6, -178), (-25, -177.6), (-11, -181), (2, -189), (12, -199), (20, -212)]), "S")
+    man.add("detail", K.sm([(-38.6, -166), (-25, -161), (-11, -163), (2, -170), (14, -180), (24, -192)]), "M")
+    man.add("detail", K.sm([(-30, -150), (-18, -146.6), (-6, -149), (6, -156), (16, -164)]), "F")
+    man.add("detail", K.sm([(26, -196), (25, -160), (25.6, -124), (24.4, -96), (22.4, -76)]), "S")    # hanging
+    man.add("detail", K.sm([(36, -212), (36.6, -170), (37, -126), (36, -90), (35, -74)]), "M")
+    man.add("detail", K.sm([(45, -230), (46.6, -180), (46.4, -130), (44.6, -86)]), "F")
+    man.add("detail", K.sm([(14.6, -170), (12, -130), (9, -100), (13, -80)]), "F")
+    tassel(man, 14, -72.6, ang=97, length=12, lv="M")
+    tassel(man, 47.4, -70, ang=86, length=12, lv="M")
+    man.add("hatch", K.hatch([(44, -266), (48, -249), (51, -212), (51.6, -168), (51, -120), (49.6, -88), (47.4, -72),
+                              (45.4, -74), (46.6, -120), (46.6, -170), (45.6, -212), (42, -248)], angle=84,
                              spacing=2.4, seed=41), "S")
     man.add("hatch", K.hatch([(-33.6, -152.6), (-24.6, -141), (-13.6, -128), (-3.6, -114), (4.6, -100), (2, -112),
                               (-8, -128), (-20, -142), (-30, -156)], angle=-36, spacing=2.0, seed=42), "S")
     man.add("hatch", K.hatch([(-35, -194), (-28, -207), (-20, -223), (-12, -239), (-5, -254), (-9, -240),
                               (-17, -222), (-25, -205), (-31, -192)], angle=-62, spacing=1.9, seed=43), "S")
-    man.add("hatch", K.hatch([(-37.6, -175), (-24, -172), (-10, -174), (3, -181), (2, -175), (-10, -168),
-                              (-24, -166), (-38, -170)], angle=8, spacing=1.8, seed=44), "S")
-    man.add("hatch", K.hatch([(24, -192), (30, -195), (31, -150), (31.6, -110), (32.6, -76), (26.4, -70),
-                              (25, -110), (24, -150)], angle=84, spacing=2.2, seed=45), "S")
-    man.add("hatch", K.hatch([(20, -200), (30, -201.6), (42, -205.6), (50, -210), (48, -201), (36, -196),
-                              (25, -194)], angle=10, spacing=1.7, seed=46), "S")
+    man.add("hatch", K.hatch([(-37.6, -175), (-24, -173), (-10, -177), (3, -185), (2, -178), (-10, -170),
+                              (-24, -168), (-38, -170)], angle=8, spacing=1.8, seed=44), "S")
+    man.add("hatch", K.hatch([(28, -196), (34, -206), (35, -150), (35.6, -110), (34.6, -76), (28.4, -76),
+                              (28, -110), (28, -150)], angle=84, spacing=2.2, seed=45), "S")
+    man.add("hatch", K.hatch([(16, -74), (27, -76.4), (34, -74), (41.4, -74.6), (47, -72), (41, -80), (30, -82),
+                              (20, -80)], angle=4, spacing=1.6, seed=46), "S")
 
-    # ---------------------------------------------------------- left hand emerging from the cloth
+    # ---------------------------------------------------------- left hand holding the mantle's rolled edge
     lh = f.part("hand_l", 80, 4)
-    lh.occ.extend(hand_relaxed(lh, 17.0, -199.6, rot=56, s=0.94))
+    rig_hand(lh, "grip", 6.6, -233.6, rot=24, s=1.0)
 
     # ---------------------------------------------------------- right (far) arm per pose
     arm = f.part("arm_r", 60, 3)
-    shoulder = [(-14, -286.6), (-24, -284.8), (-31, -281.4), (-36.6, -275.4)]
+    shoulder = [(-14, -287.6), (-24, -286), (-31, -282.6), (-36.6, -276.6)]
     if pose == "standing":
-        sleeve = shoulder + [(-40.4, -266), (-43, -250), (-45.2, -234), (-47.2, -222.4)]
-        hemp = [(-47.2, -222.4), (-42, -218.8), (-36.4, -220.6)]
+        # hangs relaxed with a slight elbow bend, fingers curled
+        sleeve = shoulder + [(-40.4, -267), (-42.6, -251), (-44, -235), (-45, -223.4)]
+        hemp = [(-45, -223.4), (-39.6, -219.4), (-34.4, -221.4)]
         arm.add("line", K.chain(sleeve, hemp), "S")
-        arm.occ.append(sleeve[3:] + hemp[1:] + [(-36.6, -240), (-37.4, -256)])
-        limb(arm, [(-46, -220), (-47.6, -201), (-48.2, -184), (-47.8, -172)],
-             [(-37.4, -220.4), (-38.8, -201), (-40, -185), (-40.4, -172)])
-        arm.occ.extend(hand_relaxed(arm, -44.0, -172.6, rot=4))
-        arm.add("detail", K.sm([(-40.6, -262), (-42, -246), (-41.4, -232)]), "F")
-        arm.add("hatch", K.hatch([(-46, -218), (-47.6, -198), (-48, -176), (-44, -176), (-43.4, -216)],
-                                 angle=80, spacing=2.0, seed=51), "S")
-        arm.add("hatch", K.hatch([(-38, -252), (-41.6, -246), (-44.6, -230), (-46, -224), (-41, -222), (-37.6, -234)],
+        arm.occ.append(sleeve[3:] + hemp[1:] + [(-35.6, -240), (-37.4, -257)])
+        limb(arm, [(-44.2, -221), (-46.6, -203), (-49, -186), (-50.6, -172)],
+             [(-35.4, -221.2), (-38.4, -203), (-41.4, -187), (-43.4, -173)])
+        rig_hand(arm, "relaxed", -46.8, -172.6, rot=10, s=1.05)
+        arm.add("detail", K.sm([(-40.6, -262), (-41.8, -246), (-41, -232)]), "F")
+        arm.add("hatch", K.hatch([(-44.4, -219), (-47, -200), (-49.8, -176), (-45.6, -176), (-42, -219)],
+                                 angle=78, spacing=2.0, seed=51), "S")
+        arm.add("hatch", K.hatch([(-38, -254), (-41.6, -246), (-43.6, -232), (-44.4, -225), (-39, -222), (-36.6, -236)],
                                  angle=70, spacing=2.0, seed=52), "S")
     elif pose == "teaching":
-        sleeve = shoulder + [(-44, -266), (-51, -252), (-56, -238), (-59, -227.6)]
-        hemp = [(-59, -227.6), (-55, -222), (-48.6, -220.6), (-44.6, -223.8)]
-        under = [(-44.6, -223.8), (-43, -234), (-40.4, -246), (-38, -254)]
+        sleeve = shoulder + [(-44, -267), (-51, -253), (-56, -239), (-59, -228.6)]
+        hemp = [(-59, -228.6), (-55, -223), (-48.6, -221.6), (-44.6, -224.8)]
+        under = [(-44.6, -224.8), (-43, -235), (-40.4, -247), (-38, -255)]
         arm.add("line", K.chain(sleeve, hemp, under), "S")
         arm.occ.append(sleeve[3:] + hemp[1:] + under[1:])
-        limb(arm, [(-57, -234.6), (-65, -240.4), (-73.4, -244.4), (-81.6, -248.4)],
-             [(-50, -222.4), (-60.4, -230.4), (-70.6, -236.6), (-80, -240.6)])
-        arm.occ.extend(hand_open(arm, -81.0, -244.4, rot=-16, s=0.94))
-        arm.add("detail", K.sm([(-44, -264), (-49.4, -252), (-52.6, -238)]), "F")
-        arm.add("hatch", K.hatch([(-44.6, -224), (-43, -234), (-40.4, -246), (-47, -238), (-53, -226)], angle=40,
+        limb(arm, [(-57, -235.6), (-65, -241.4), (-73.4, -245.4), (-81.6, -249.4)],
+             [(-50, -223.4), (-60.4, -231.4), (-70.6, -237.6), (-80, -241.6)])
+        rig_hand(arm, "open", -81.6, -245.6, rot=-74, s=1.05)
+        arm.add("detail", K.sm([(-44, -265), (-49.4, -253), (-52.6, -239)]), "F")
+        arm.add("hatch", K.hatch([(-44.6, -225), (-43, -235), (-40.4, -247), (-47, -239), (-53, -227)], angle=40,
                                  spacing=1.8, seed=53), "S")
-        arm.add("hatch", K.hatch([(-52, -224), (-62, -231), (-74, -238.6), (-74, -242), (-62, -235.6), (-55, -229)],
+        arm.add("hatch", K.hatch([(-52, -225), (-62, -232), (-74, -239.6), (-74, -243), (-62, -236.6), (-55, -230)],
                                  angle=30, spacing=1.6, seed=54), "S")
     else:  # coin: upper arm raised forward from the shoulder joint, sleeve slid back to the elbow
-        sleeve = shoulder[:3] + [(-37.6, -282), (-46, -287.6), (-56, -292.6), (-66, -296.6), (-72.6, -298.6)]
-        hemp = [(-72.6, -298.6), (-74.4, -291.4), (-72.4, -284.6), (-67.4, -281.4)]
-        under = [(-67.4, -281.4), (-58, -276.6), (-48, -268), (-40.6, -258)]
+        sleeve = shoulder[:3] + [(-37.6, -283), (-46, -288.6), (-56, -293.6), (-66, -297.6), (-72.6, -299.6)]
+        hemp = [(-72.6, -299.6), (-74.4, -292.4), (-72.4, -285.6), (-67.4, -282.4)]
+        under = [(-67.4, -282.4), (-58, -277.6), (-48, -269), (-40.6, -259)]
         arm.add("line", K.chain(sleeve, hemp, under), "S")
         arm.occ.append(sleeve[2:] + hemp[1:] + under[1:])
-        limb(arm, [(-76.4, -294.4), (-77.8, -310), (-78.2, -326), (-77.8, -341)],
-             [(-65.6, -290.6), (-66.6, -307), (-67.6, -324), (-68.4, -341)])
-        polys, coin_c = hand_coin(arm, -72.8, -341.6, rot=-2)
-        arm.occ.extend(polys)
-        f.coin = coin_c
-        arm.add("detail", K.sm([(-44, -285.6), (-53, -289), (-61, -290.6)]), "F")
-        arm.add("hatch", K.hatch([(-67, -290), (-74, -293), (-76.4, -310), (-77, -338), (-72.6, -338), (-71, -310)],
+        limb(arm, [(-76.4, -295.4), (-77.8, -311), (-78.2, -327), (-77.8, -342)],
+             [(-65.6, -291.6), (-66.6, -308), (-67.6, -325), (-68.4, -342)])
+        o, T = rig_hand(arm, "coin", -72.8, -342.4, rot=0, s=1.05)
+        px, py = T([HANDS["coin"]["pinch"]])[0]
+        f.coin = (px, py - COIN_R * 0.92)
+        arm.add("detail", K.sm([(-44, -286.6), (-53, -290), (-61, -291.6)]), "F")
+        arm.add("hatch", K.hatch([(-67, -291), (-74, -294), (-76.4, -311), (-77, -339), (-72.6, -339), (-71, -311)],
                                  angle=84, spacing=1.8, seed=55), "S")
-        arm.add("hatch", K.hatch([(-41, -259), (-50, -270), (-60, -279), (-67, -282), (-58, -284), (-48, -276)],
+        arm.add("hatch", K.hatch([(-41, -260), (-50, -271), (-60, -280), (-67, -283), (-58, -285), (-48, -277)],
                                  angle=40, spacing=1.8, seed=56), "S")
 
-    # ---------------------------------------------------------- feet
+    # ---------------------------------------------------------- feet: free foot forward, weight foot under him
     ft = f.part("feet", 5, 5)
-    foot(ft, -32.0, -9.0, (-58.0, -3.0))
+    foot(ft, -35.0, -9.4, (-61.0, -2.6))
     foot(ft, 4.0, -7.6, (-21.0, 2.2))
     sh = f.part("shadow", 0, 9)
-    sh.add("hatch", K.cat(K.seg((-68, 8), (-30, 8)), K.seg((-24, 9.6), (34, 9.6)), K.seg((-56, 11.4), (26, 11.6)),
-                          K.seg((-38, 13.8), (10, 13.8))), "S", clip=False)
+    sh.add("hatch", K.cat(K.seg((-70, 8), (-30, 8)), K.seg((-24, 9.6), (34, 9.6)), K.seg((-58, 11.4), (26, 11.6)),
+                          K.seg((-40, 13.8), (10, 13.8))), "S", clip=False)
     return f
 
 
 # =============================================================== seated
-SEAT_Y = -88.0
-
-
 def build_seated():
+    """On a low step (top 88 above the floor): thighs forward to the knees, shins vertical, feet flat;
+    robe hanging from the knees with a valley between the legs; mantle over the lap and the near knee."""
     f = Fig()
-    head(f, -12.0, -243.0, rot=-5.0, z=70, order=0)
+    head(f, -12.0, -244.0, rot=-6.0, z=70, order=0)
 
     tun = f.part("tunic", 10, 1)
-    chest = [(-40.6, -187), (-42.6, -174), (-42, -160), (-40, -148), (-38.4, -140)]
+    chest = [(-40.6, -188), (-42.6, -175), (-42, -161), (-40, -149), (-38.4, -141)]
     tun.add("line", K.sm(chest), "S")
-    # near shin (front) -> hem -> back of the near calf ; far shin front -> its hem
-    shin = [(-59.6, -64), (-61.6, -48), (-62.6, -32), (-63.6, -15)]
-    hem = [(-63.6, -15), (-58, -12.6), (-52, -14.4), (-46.6, -13)]
-    calf = [(-46.6, -13), (-46.2, -34), (-45.4, -58), (-44.4, -76), (-46.6, -94)]
-    tun.add("line", K.chain(shin, hem, calf), "S")
-    fshin = [(-78.4, -92), (-79.6, -70), (-80.4, -46), (-81, -24), (-81.4, -16)]
-    tun.add("line", K.chain(fshin, [(-81.4, -16), (-75, -14), (-68.6, -15.6), (-64.4, -15)]), "S")
-    tun.add("detail", K.sm([(-41.6, -150), (-33, -148.8), (-26, -149.4)]), "M")
-    tun.add("detail", K.sm([(-40.6, -143.6), (-32, -142.4), (-25, -143)]), "F")
-    for fl, lv in (([(-54, -56), (-54.6, -36), (-55.4, -14)], "M"), ([(-72, -60), (-72.6, -38), (-72.8, -16)], "F")):
+    # near leg: knee -> shin front (vertical) -> hem -> back of the calf ; far leg shin front -> hem
+    near = [(-60, -98), (-61.6, -80), (-61.8, -56), (-61.6, -34), (-62, -15)]
+    hem = [(-62, -15), (-56, -12.8), (-50, -14.2), (-44.6, -12.6)]
+    calf = [(-44.6, -12.6), (-44.8, -34), (-44.4, -58), (-43, -76), (-41, -92)]
+    tun.add("line", K.chain(near, hem, calf), "S")
+    farl = [(-71.6, -104), (-74.6, -92), (-75.6, -70), (-76, -46), (-76.4, -24), (-77, -16)]
+    tun.add("line", K.chain(farl, [(-77, -16), (-72, -13.6), (-66.6, -15.2), (-62, -15)]), "S")
+    # robe between the knees: a sagging valley, hanging folds
+    tun.add("detail", K.sm([(-72.6, -100), (-69, -90), (-65.6, -86), (-62.6, -88)]), "S")
+    tun.add("detail", K.sm([(-67.6, -86), (-68.4, -60), (-68.6, -36), (-69, -16)]), "M")
+    tun.add("detail", K.sm([(-41.6, -150.6), (-33, -149.4), (-26, -150)]), "M")
+    tun.add("detail", K.sm([(-40.6, -144.2), (-32, -143), (-25, -143.6)]), "F")
+    for fl, lv in (([(-53, -86), (-53.4, -56), (-53.2, -34), (-53.6, -14)], "M"),
+                   ([(-49, -80), (-48.6, -50), (-49, -14)], "F")):
         tun.add("detail", K.sm(fl), lv)
-    tun.add("hatch", K.hatch([(-52, -60), (-45, -60), (-46, -34), (-47, -14), (-52, -14), (-52.4, -36)], angle=80,
+    tun.add("hatch", K.hatch([(-52, -84), (-44, -88), (-44.4, -40), (-45, -14), (-52, -14), (-52.6, -40)], angle=80,
                              spacing=2.2, seed=61), "S")
-    tun.add("hatch", K.hatch([(-78, -90), (-70, -80), (-66, -60), (-66, -16), (-80.6, -16), (-80, -50)], angle=82,
-                             spacing=2.6, seed=62), "S")
-    tun.add("hatch", K.hatch([(-40.6, -187), (-34, -194), (-30, -178), (-34, -160), (-40, -148), (-42.4, -162)],
+    tun.add("hatch", K.hatch([(-70, -96), (-63, -88), (-62.6, -60), (-62.6, -16), (-75, -16), (-74.6, -60)],
+                             angle=82, spacing=2.4, seed=62), "S")
+    tun.add("hatch", K.hatch([(-40.6, -188), (-34, -195), (-30, -179), (-34, -161), (-40, -149), (-42.4, -163)],
                              angle=60, spacing=2.4, seed=63), "S")
-    tun.occ.append(chest + [(-30, -120), (-46.6, -94)] + calf[::-1][1:] + hem[::-1][1:] + shin[::-1][1:]
-                   + [(-60, -80), (-80, -100), (-60, -214), (-20, -214)])
-    tun.occ.append(fshin + [(-64.4, -15), (-60, -92)])
+    tun.occ.append(chest + [(-30, -120), (-41, -92)] + calf[::-1][1:] + hem[::-1][1:] + near[::-1][1:]
+                   + [(-60, -98), (-70, -104), (-60, -215), (-20, -215)])
+    tun.occ.append(farl + [(-62, -15), (-60, -98)])
 
     man = f.part("mantle", 40, 2)
-    top = [(-2, -211), (10, -214), (24, -211), (33, -203)]
-    back = [(33, -203), (38, -190), (41, -168), (42, -140), (42, -112), (41, -96), (38, -90)]
-    under = [(38, -90), (20, -89.6), (0, -90.4), (-20, -91.6), (-36, -93.4), (-46.6, -95)]
-    drape = [(-46.6, -95), (-49.6, -86), (-52.4, -76), (-55.6, -66), (-59.6, -58.4)]
-    front = [(-59.6, -58.4), (-63.4, -64.6), (-68.6, -74), (-73.6, -86), (-77.4, -97), (-79.6, -106), (-78.6, -113), (-74.4, -118)]
-    lap = [(-74.4, -118), (-66, -121.4), (-54, -125), (-44, -130.4), (-38.6, -138)]
-    diag = [(-38.6, -138), (-33, -148), (-26, -162), (-19.6, -176), (-13.6, -190), (-8.6, -202), (-4.4, -208), (-2, -211)]
+    top = [(-2, -212), (10, -215), (24, -212), (33, -204)]
+    back = [(33, -204), (38, -191), (41, -169), (42, -141), (42, -113), (41, -97), (38, -91)]
+    under = [(38, -91), (20, -90.6), (0, -91.4), (-16, -93), (-30, -95.6), (-40, -98.6)]
+    drape = [(-40, -98.6), (-44, -90), (-48, -80), (-52.6, -71), (-57.4, -64.6)]
+    front = [(-57.4, -64.6), (-60.6, -70.6), (-62.6, -82), (-63.6, -94), (-64.2, -104), (-62, -111), (-56, -115.6)]
+    lap = [(-56, -115.6), (-48, -119), (-42, -124.4), (-38.6, -132)]
+    diag = [(-38.6, -132), (-33, -144), (-26, -159), (-19.6, -174), (-13.6, -189), (-8.6, -201), (-4.4, -208), (-2, -212)]
     outline = top + back[1:] + under[1:] + drape[1:] + front[1:] + lap[1:] + diag[1:]
     man.add("line", K.chain(top, back, under, drape, front, lap, diag), "S")
     man.occ.append(outline)
     man.accent_polys.append(outline)
-    man.add("detail", K.sm([(-36.2, -142.6), (-30.6, -152.6), (-24, -166), (-18, -180), (-13, -194), (-9.4, -204)]), "M")
-    man.add("detail", K.sm([(22, -208), (29, -190), (32.6, -166), (33.6, -136), (33, -110), (31, -94)]), "S")
-    man.add("detail", K.sm([(-74.6, -104), (-62, -108.6), (-50, -110.6), (-38, -109)]), "S")      # over the knees
-    man.add("detail", K.sm([(-30, -102), (-12, -106.6), (6, -106.6), (22, -102)]), "M")           # lap sag
-    man.add("detail", K.sm([(-56, -100), (-60, -88), (-63, -76)]), "F")
-    man.add("detail", K.sm([(-68, -112), (-71, -100), (-71.6, -88)]), "F")
-    man.add("detail", K.sm([(8, -206), (13, -186), (15.4, -160), (16, -130), (14.6, -104)]), "F")
-    tassel(man, -59.6, -58.4, ang=96, length=11, lv="M")
-    tassel(man, 38, -90, ang=88, length=11, lv="F")
-    man.add("hatch", K.hatch([(30, -205), (36, -194), (40, -152), (41, -106), (38, -92), (33, -96), (33.6, -140),
-                              (31, -180)], angle=82, spacing=2.4, seed=64), "S")
-    man.add("hatch", K.hatch([(-46, -96), (-30, -94.6), (-4, -93.4), (20, -91.6), (20, -97), (-4, -99.6), (-30, -100.6),
-                              (-46, -101)], angle=6, spacing=1.9, seed=65), "S")
-    man.add("hatch", K.hatch([(-36.6, -140), (-31, -150), (-25, -164), (-21, -162), (-27, -148), (-33, -138)], angle=-50,
-                             spacing=1.8, seed=66), "S")
-    man.add("hatch", K.hatch([(-47.6, -94), (-52, -80), (-56.6, -64), (-60, -61), (-62.6, -76), (-56, -94)], angle=70,
-                             spacing=2.0, seed=67), "S")
+    man.add("detail", K.sm([(-36.2, -137), (-30.6, -149), (-24, -164), (-18, -179), (-13, -193), (-9.4, -204)]), "S")
+    man.add("detail", K.sm([(22, -209), (29, -191), (32.6, -167), (33.6, -137), (33, -111), (31, -95)]), "S")
+    man.add("detail", K.sm([(-34, -104), (-20, -108.6), (-4, -110), (12, -108), (26, -103)]), "M")          # lap sag
+    man.add("detail", K.sm([(-46, -104), (-50, -94), (-54, -80), (-56.4, -70)]), "M")                       # knee drape
+    man.add("detail", K.sm([(-58.6, -108), (-59, -94), (-60, -80)]), "F")
+    man.add("detail", K.sm([(8, -207), (13, -187), (15.4, -161), (16, -131), (14.6, -105)]), "F")
+    tassel(man, -57.4, -64.6, ang=96, length=11, lv="M")
+    tassel(man, 38, -91, ang=88, length=11, lv="F")
+    man.add("hatch", K.hatch([(30, -206), (36, -195), (40, -153), (41, -107), (38, -93), (33, -97), (33.6, -141),
+                              (31, -181)], angle=82, spacing=2.4, seed=64), "S")
+    man.add("hatch", K.hatch([(-40, -99), (-30, -96.6), (-4, -94.4), (20, -92.6), (20, -98), (-4, -100.6), (-30, -102.6),
+                              (-40, -103)], angle=6, spacing=1.9, seed=65), "S")
+    man.add("hatch", K.hatch([(-36.6, -134), (-31, -146), (-25, -160), (-21, -158), (-27, -144), (-33, -132)],
+                             angle=-50, spacing=1.8, seed=66), "S")
+    man.add("hatch", K.hatch([(-41, -97), (-45, -88), (-50, -76), (-55, -67), (-58.6, -72), (-56, -90), (-50, -100)],
+                             angle=70, spacing=2.0, seed=67), "S")
 
-    # left forearm lying along the thigh, hand over the near knee
+    # left forearm lying along the thigh, hand resting over the near knee
     lh = f.part("hand_l", 80, 4)
-    limb(lh, [(14, -137), (-2, -131), (-18, -126), (-30.6, -124.2)], [(10, -125.6), (-4, -121.4), (-18, -117.4), (-29.4, -116)],
-         cls_a="line", cls_b="detail")
-    lh.occ.extend(hand_on_knee(lh, -30.6, -120.2, rot=12))
-    lh.add("hatch", K.hatch([(10, -126), (-4, -122), (-18, -118), (-28, -117), (-18, -121), (-4, -125)], angle=8,
+    limb(lh, [(12, -136), (-4, -130.4), (-20, -125.2), (-33.6, -122.6)],
+         [(9, -124.6), (-6, -120.4), (-20, -116.4), (-32.4, -114.4)], cls_a="line", cls_b="detail")
+    rig_hand(lh, "knee", -32.6, -118.4, rot=8, s=1.05)
+    lh.add("hatch", K.hatch([(9, -125), (-6, -121), (-20, -117), (-30, -115.4), (-20, -120), (-6, -124)], angle=8,
                             spacing=1.6, seed=69), "S")
 
     arm = f.part("arm_r", 60, 3)
-    shoulder = [(-21, -210.6), (-29, -208.6), (-36, -204.6), (-41.6, -198.4)]
-    sleeve = shoulder + [(-48.4, -189), (-53.6, -176), (-57, -163.4), (-58.6, -154)]
-    hemp = [(-58.6, -154), (-54, -149.6), (-48, -150.4), (-45.4, -154)]
-    under_a = [(-45.4, -154), (-44.6, -164), (-43.6, -176)]
+    shoulder = [(-21, -211.6), (-29, -209.6), (-36, -205.6), (-41.6, -199.4)]
+    sleeve = shoulder + [(-48.4, -190), (-53.6, -177), (-57, -164.4), (-58.6, -155)]
+    hemp = [(-58.6, -155), (-54, -150.6), (-48, -151.4), (-45.4, -155)]
+    under_a = [(-45.4, -155), (-44.6, -165), (-43.6, -177)]
     arm.add("line", K.chain(sleeve, hemp, under_a), "S")
     arm.occ.append(sleeve[3:] + hemp[1:] + under_a[1:])
-    limb(arm, [(-57, -162), (-65.6, -169.6), (-74, -175.6), (-82, -180)],
-         [(-50.4, -151.6), (-60.4, -160), (-70.4, -167.6), (-80.4, -172.6)])
-    arm.occ.extend(hand_open(arm, -81.4, -176.4, rot=-22, s=0.94))
-    arm.add("hatch", K.hatch([(-52, -152), (-62, -160), (-76, -170), (-76, -174), (-62, -166), (-55, -160)], angle=30,
+    limb(arm, [(-57, -163), (-65.6, -170.6), (-74, -176.6), (-82, -181)],
+         [(-50.4, -152.6), (-60.4, -161), (-70.4, -168.6), (-80.4, -173.6)])
+    rig_hand(arm, "open", -81.8, -177.6, rot=-70, s=1.05)
+    arm.add("hatch", K.hatch([(-52, -153), (-62, -161), (-76, -171), (-76, -175), (-62, -167), (-55, -161)], angle=30,
                              spacing=1.6, seed=68), "S")
 
     ft = f.part("feet", 5, 5)
-    foot(ft, -76.0, -12.0, (-101.0, -5.4))
-    foot(ft, -50.6, -9.0, (-77.4, 1.4))
+    foot(ft, -72.6, -12.4, (-98.4, -5.6))
+    foot(ft, -52.6, -9.0, (-79.4, 1.6))
     sh = f.part("shadow", 0, 9)
-    sh.add("hatch", K.cat(K.seg((-108, 7.4), (-70, 7.4)), K.seg((-82, 9.6), (-30, 9.6)), K.seg((-96, 11.8), (-44, 11.8))),
+    sh.add("hatch", K.cat(K.seg((-106, 7.4), (-68, 7.4)), K.seg((-82, 9.6), (-34, 9.6)), K.seg((-96, 11.8), (-44, 11.8))),
            "S", clip=False)
     return f
 
@@ -545,12 +527,11 @@ def build(pose):
 
 # =============================================================== anchors / public API
 _ANCH_LOCAL = {
-    "standing": dict(head=(-7, -316), face=(-24, -316), hand_r=(-45, -152)),
-    "teaching": dict(head=(-7, -316), face=(-24, -316), hand_r=(-100, -250)),
-    "coin": dict(head=(-7, -316), face=(-24, -316), hand_r=(-74, -360)),
-    "seated": dict(head=(-12, -243), face=(-29, -243), hand_r=(-100, -184), seat=(-30, 46, SEAT_Y)),
+    "standing": dict(head=(-7, -316), face=(-24, -316), hand_r=(-48, -158)),
+    "teaching": dict(head=(-8.6, -315), face=(-25.6, -315), hand_r=(-104, -250)),
+    "coin": dict(head=(-7, -316), face=(-24, -316), hand_r=(-76, -362)),
+    "seated": dict(head=(-12, -244), face=(-29, -244), hand_r=(-104, -183), seat=(-30, 46, SEAT_Y)),
 }
-COIN_R = 7.0
 
 
 def _place(pts, x, y, s, mirror):
@@ -599,8 +580,10 @@ def jesus_layers(x, y, scale=1.0, pose="standing", facing="left", level="full", 
         r = COIN_R * scale
         out["line"].append(_el("line", circle(cx, cy, r), BLUE if coin_wash else WHITE, accent=coin_wash,
                                opacity=0.6 if coin_wash else None))
-        prof = K.sm([(cx - 0.05 * r, cy - 0.52 * r), (cx + 0.24 * r, cy - 0.3 * r), (cx + 0.32 * r, cy - 0.02 * r),
-                     (cx + 0.2 * r, cy + 0.22 * r), (cx + 0.04 * r, cy + 0.44 * r)])
+        sgn = -1 if facing == "right" else 1
+        prof = K.sm([(cx - 0.05 * r * sgn, cy - 0.52 * r), (cx + 0.24 * r * sgn, cy - 0.3 * r),
+                     (cx + 0.32 * r * sgn, cy - 0.02 * r), (cx + 0.2 * r * sgn, cy + 0.22 * r),
+                     (cx + 0.04 * r * sgn, cy + 0.44 * r)])
         out["hatch"].append(_el("hatch", circle(cx, cy, r * 0.76) + " " + prof))
     return out
 
@@ -611,18 +594,37 @@ def jesus(x, y, scale=1.0, pose="standing", facing="left", level="full", accent=
 
 
 def stroke_counts(pose="standing", level="full"):
-    """Hand strokes (sub-paths) per class, as the engine counts them."""
+    """Hand strokes (sub-paths) per class, as the engine counts them (hatch is free)."""
     lay = jesus_layers(0, 0, 1.0, pose, "left", level)
     return {k: sum(el.count(" M ") + el.count('d="M') for el in v) for k, v in lay.items()}
 
 
+def stone_step(x, y, scale=1.0, facing="left", x0=None, x1=None, sil=None):
+    """A simple dressed-stone step for the seated pose -> (line_d, detail_d, hatch_d), clipped to his silhouette."""
+    a = jesus_anchors(x, y, scale, "seated", facing)
+    sx0, sx1, top = a["seat"]
+    x0 = sx0 - 6 * scale if x0 is None else x0
+    x1 = sx1 + 30 * scale if x1 is None else x1
+    dep = 12 * scale
+    front = K.seg((x0, top), (x1, top), (x1, y), (x0, y)) + " Z"
+    topf = K.seg((x0, top), (x0 + dep, top - dep * 0.8), (x1 + dep, top - dep * 0.8), (x1 + dep, y - dep * 0.8),
+                 (x1, y))
+    joints = K.seg((x0 + (x1 - x0) * 0.55, top + 2), (x0 + (x1 - x0) * 0.55, y - 2))
+    hat = K.hatch([(x1, top), (x1 + dep, top - dep * 0.8), (x1 + dep, y - dep * 0.8), (x1, y)], angle=80,
+                  spacing=2.6 * scale, seed=91)
+    sil = sil or a["silhouette"]
+    return (K.clip(front, [sil]), K.clip(topf, [sil]) + " " + K.clip(joints, [sil]), K.clip(hat, [sil]))
+
+
 if __name__ == "__main__":
-    from lib_v2 import svg
+    from lib_v2 import svg, L as _L, D as _D, H as _H
     body = ""
     for i, pose in enumerate(POSES):
-        body += jesus(200 + i * 400, 770, 1.6, pose)
+        body += jesus(190 + i * 395, 775, 1.6, pose)
+    ln, dt, ht = stone_step(190 + 3 * 395, 775, 1.6)
+    body += _L(ln) + _D(dt) + _H(ht)
     out = os.path.join(os.path.dirname(os.path.dirname(HERE)), "preview", "jesus-sheet.svg")
-    open(out, "w").write(svg(body, "jesus.py contact sheet (full level)"))
+    open(out, "w").write(svg(body, "jesus.py contact sheet (full level); seated shown on a stone step"))
     print("wrote", out)
     for pose in POSES:
         print(pose, {lv: stroke_counts(pose, lv) for lv in LEVELS})
