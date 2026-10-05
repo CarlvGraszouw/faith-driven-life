@@ -20,7 +20,11 @@ npm install        # only the fonts: Caveat + Inter (@fontsource-variable). The 
 # 1. budget check: windows, hand time and OVER BUDGET flags per scene/part. No frames; ~3 s; missing art = MISSING
 node render.js ../preview/ep1-2min.json --plan
 
-# 2. the video (3830 frames, ~7 fps here, so ~9-10 min) -> whiteboard/ep1/preview/ep1-2min.mp4
+# 2. the video (3830 frames) -> whiteboard/ep1/preview/ep1-2min.mp4
+#    Preferred: render in 32 s chunks, two at a time, each with a watchdog + one retry, then join
+#    losslessly (~8 min here). A single long render once stalled in headless Chrome at ~96 s.
+../preview/render_chunks.sh ../preview/ep1-2min.json ../preview/ep1-2min.mp4 127.65
+#    single pass (~9-10 min at ~7 fps; no watchdog):
 node render.js ../preview/ep1-2min.json ../preview/ep1-2min.mp4
 
 #    while some scenes are not drawn yet, use a stand-in for the missing SVGs:
