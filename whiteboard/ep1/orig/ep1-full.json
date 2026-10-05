@@ -1,0 +1,1489 @@
+{
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "audio": "/Users/carlvongraszouw/Documents/Podcasts/A Faith Driven Life/Audio/Story episodes/A Faith Driven Life - Episode 1 - What a Kingdom Actually Was.mp3",
+ "start": 0,
+ "end": 628.65,
+ "board": {
+  "color": "#fbfaf7",
+  "vignette": 0.07
+ },
+ "ink": "#1f1f1f",
+ "hand": {
+  "image": "/private/tmp/claude-503/-Users-carlvongraszouw/2323af85-6268-490e-a673-a4882148b1ef/scratchpad/video/hand/hand.png",
+  "tip": [
+   9.45,
+   58.39
+  ],
+  "scale": 0.78,
+  "angle": 0
+ },
+ "scenes": [
+  {
+   "id": "a01-title",
+   "t0": 0.0,
+   "t1": 12.14,
+   "svg": "art/00-brandmark.svg",
+   "box": [
+    610,
+    40,
+    700,
+    394
+   ],
+   "draw": 2.6,
+   "camera": "hold",
+   "text": [
+    {
+     "str": "A Faith Driven Life",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 128,
+     "at": [
+      960,
+      600
+     ],
+     "align": "center",
+     "draw": 2.0,
+     "t": 3.2
+    },
+    {
+     "str": "Episode 1  \u00b7  What a Kingdom Actually Was",
+     "font": "Caveat",
+     "weight": 600,
+     "size": 64,
+     "at": [
+      960,
+      722
+     ],
+     "align": "center",
+     "draw": 2.0,
+     "t": 6.6
+    }
+   ]
+  },
+  {
+   "id": "a02-temple",
+   "t0": 12.14,
+   "t1": 21.78,
+   "svg": "art-full/A/a02-temple.svg",
+   "camera": "pan-in",
+   "dir": "right"
+  },
+  {
+   "id": "a03-teacher",
+   "t0": 21.78,
+   "t1": 26.28,
+   "svg": "art-full/A/a03-teacher.svg",
+   "camera": "zoom",
+   "dir": "right",
+   "zoomLevel": 1.5
+  },
+  {
+   "id": "a04-questioners",
+   "t0": 26.28,
+   "t1": 38.18,
+   "svg": "art-full/A/a04-questioners.svg",
+   "camera": "hold",
+   "text": [
+    {
+     "str": "Taxes to Caesar?",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 96,
+     "at": [
+      960,
+      190
+     ],
+     "align": "center",
+     "draw": 1.3,
+     "t": 8.85
+    }
+   ]
+  },
+  {
+   "id": "a05-soldiers",
+   "t0": 38.18,
+   "t1": 48.3,
+   "svg": "art-full/A/a05-soldiers.svg",
+   "camera": "pan-in",
+   "dir": "down"
+  },
+  {
+   "id": "a06-trap",
+   "t0": 48.3,
+   "t1": 58.05,
+   "camera": "pan-in",
+   "dir": "right",
+   "parts": [
+    {
+     "svg": "art-full/A/a06-trap-a.svg",
+     "at": 0.2
+    },
+    {
+     "svg": "art-full/A/a06-trap-b.svg",
+     "at": 2.9
+    },
+    {
+     "svg": "art-full/A/a06-trap-c.svg",
+     "at": 5.2
+    }
+   ],
+   "text": [
+    {
+     "str": "YES",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 110,
+     "at": [
+      500,
+      300
+     ],
+     "align": "center",
+     "t": 2.3
+    },
+    {
+     "str": "NO",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 110,
+     "at": [
+      1420,
+      250
+     ],
+     "align": "center",
+     "t": 4.7
+    }
+   ]
+  },
+  {
+   "id": "a07-coin-hand",
+   "t0": 58.05,
+   "t1": 66.44,
+   "svg": "art-full/A/a07-coin-hand.svg",
+   "camera": "pan-in",
+   "dir": "down"
+  },
+  {
+   "id": "a08-obverse",
+   "t0": 66.44,
+   "t1": 76.45,
+   "camera": "pan-in",
+   "dir": "right",
+   "parts": [
+    {
+     "svg": "art-full/A/a08-obverse-a.svg",
+     "at": 0.2
+    },
+    {
+     "svg": "art-full/A/a08-obverse-b.svg",
+     "at": 3.75
+    }
+   ]
+  },
+  {
+   "id": "a09-reverse",
+   "t0": 76.45,
+   "t1": 84.25,
+   "camera": "pan-in",
+   "dir": "down",
+   "parts": [
+    {
+     "svg": "art-full/A/a09-reverse-a.svg",
+     "at": 0.2
+    },
+    {
+     "svg": "art-full/A/a09-reverse-b.svg",
+     "at": 2.4
+    }
+   ]
+  },
+  {
+   "id": "a10-whose-image",
+   "t0": 84.25,
+   "t1": 92.75,
+   "camera": "pan-in",
+   "dir": "right",
+   "parts": [
+    {
+     "svg": "art-full/A/a10-whose-image.svg",
+     "at": 1.7
+    }
+   ],
+   "text": [
+    {
+     "str": "Whose image?",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 96,
+     "at": [
+      1141,
+      327
+     ],
+     "align": "center",
+     "draw": 1.0,
+     "t": 0.3
+    },
+    {
+     "str": "Give back",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 96,
+     "at": [
+      1081,
+      674
+     ],
+     "align": "center",
+     "draw": 0.8,
+     "t": 4.95
+    }
+   ]
+  },
+  {
+   "id": "a11-amazed",
+   "t0": 92.75,
+   "t1": 97.75,
+   "svg": "art-full/A/a11-amazed.svg",
+   "camera": "hold"
+  },
+  {
+   "id": "b01-caesars-coin",
+   "t0": 97.75,
+   "t1": 104.25,
+   "svg": "art-full/B/b01-caesars-coin.svg"
+  },
+  {
+   "id": "b02-whose-face",
+   "t0": 104.25,
+   "t1": 114.9,
+   "dir": "down",
+   "parts": [
+    {
+     "svg": "art-full/B/b02-whose-face.svg",
+     "at": 2.8
+    }
+   ],
+   "text": [
+    {
+     "str": "Whose face do you carry?",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 104,
+     "at": [
+      960,
+      190
+     ],
+     "align": "center",
+     "t": 0.3
+    },
+    {
+     "str": "in the image of God",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 72,
+     "at": [
+      1381,
+      535
+     ],
+     "align": "center",
+     "t": 5.45
+    }
+   ]
+  },
+  {
+   "id": "b03-image-belongs",
+   "t0": 114.9,
+   "t1": 127.65,
+   "parts": [
+    {
+     "svg": "art-full/B/b03-image-belongs-a.svg",
+     "at": 0.3
+    },
+    {
+     "svg": "art-full/B/b03-image-belongs-b.svg",
+     "at": 3.8
+    },
+    {
+     "svg": "art-full/B/b03-image-belongs-c.svg",
+     "at": 6.2
+    },
+    {
+     "svg": "art-full/B/b03-image-belongs-d.svg",
+     "at": 7.3
+    }
+   ],
+   "text": [
+    {
+     "str": "Caesar",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 96,
+     "at": [
+      1228,
+      226
+     ],
+     "align": "center",
+     "t": 4.3
+    },
+    {
+     "str": "God",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 96,
+     "at": [
+      1180,
+      478
+     ],
+     "align": "center",
+     "t": 6.65
+    }
+   ]
+  },
+  {
+   "id": "b04-currency",
+   "t0": 127.65,
+   "t1": 132.45,
+   "svg": "art-full/B/b04-currency.svg",
+   "dir": "down"
+  },
+  {
+   "id": "b05-jesus-preaching",
+   "t0": 132.45,
+   "t1": 141.1,
+   "svg": "art-full/B/b05-jesus-preaching.svg",
+   "text": [
+    {
+     "str": "The Kingdom is near",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 86,
+     "at": [
+      769,
+      315
+     ],
+     "align": "center",
+     "t": 3.2
+    }
+   ]
+  },
+  {
+   "id": "b06-repent-rome",
+   "t0": 141.1,
+   "t1": 149.65,
+   "dir": "down",
+   "parts": [
+    {
+     "svg": "art-full/B/b06-repent-rome-a.svg",
+     "at": 0.3
+    },
+    {
+     "svg": "art-full/B/b06-repent-rome-b.svg",
+     "at": 3.05
+    }
+   ]
+  },
+  {
+   "id": "b07-democracy",
+   "t0": 149.65,
+   "t1": 158.85,
+   "svg": "art-full/B/b07-democracy.svg"
+  },
+  {
+   "id": "b08-power-down",
+   "t0": 158.85,
+   "t1": 167.95,
+   "svg": "art-full/B/b08-power-down.svg",
+   "dir": "down"
+  },
+  {
+   "id": "b09-three-words",
+   "t0": 167.95,
+   "t1": 188.75,
+   "parts": [
+    {
+     "svg": "art-full/B/b09-three-words-a.svg",
+     "at": 2.9
+    },
+    {
+     "svg": "art-full/B/b09-three-words-b.svg",
+     "at": 6.65
+    },
+    {
+     "svg": "art-full/B/b09-three-words-c.svg",
+     "at": 11.15
+    },
+    {
+     "svg": "art-full/B/b09-three-words-d.svg",
+     "at": 14.2
+    }
+   ],
+   "text": [
+    {
+     "str": "law\u2003\u2003\u2003covenant\u2003\u2003kingdom",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 92,
+     "at": [
+      990,
+      236
+     ],
+     "align": "center",
+     "t": 0.3
+    }
+   ]
+  },
+  {
+   "id": "b10-museum",
+   "t0": 188.75,
+   "t1": 197.75,
+   "svg": "art-full/B/b10-museum.svg",
+   "dir": "down",
+   "text": [
+    {
+     "str": "boundary stone",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 76,
+     "at": [
+      1295,
+      382
+     ],
+     "align": "center",
+     "t": 4.2
+    }
+   ]
+  },
+  {
+   "id": "b11-road-stone",
+   "t0": 197.75,
+   "t1": 206.55,
+   "svg": "art-full/B/b11-road-stone.svg",
+   "text": [
+    {
+     "str": "the king's law",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      1371,
+      315
+     ],
+     "align": "center",
+     "t": 4.25
+    }
+   ]
+  },
+  {
+   "id": "b12-kings-reach",
+   "t0": 206.55,
+   "t1": 212.75,
+   "svg": "art-full/B/b12-kings-reach.svg",
+   "camera": "hold"
+  },
+  {
+   "id": "c01-three-things",
+   "t0": 212.75,
+   "t1": 237.9,
+   "dir": "right",
+   "parts": [
+    {
+     "svg": "art-full/C/c01-three-things-a.svg",
+     "at": 0.0
+    },
+    {
+     "svg": "art-full/C/c01-three-things-b.svg",
+     "at": 3.2
+    },
+    {
+     "svg": "art-full/C/c01-three-things-c.svg",
+     "at": 5.15
+    },
+    {
+     "svg": "art-full/C/c01-three-things-d.svg",
+     "at": 6.75
+    },
+    {
+     "svg": "art-full/C/c01-three-things-e.svg",
+     "at": 11.65
+    },
+    {
+     "svg": "art-full/C/c01-three-things-f.svg",
+     "at": 16.05
+    },
+    {
+     "svg": "art-full/C/c01-three-things-g.svg",
+     "at": 17.65
+    }
+   ],
+   "text": [
+    {
+     "str": "1  KING",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      473,
+      298
+     ],
+     "align": "center",
+     "t": 1.85
+    },
+    {
+     "str": "2  LAND",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      960,
+      298
+     ],
+     "align": "center",
+     "t": 10.6
+    },
+    {
+     "str": "3  PEOPLE",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      1447,
+      298
+     ],
+     "align": "center",
+     "t": 14.7
+    }
+   ]
+  },
+  {
+   "id": "c02-treason",
+   "t0": 237.9,
+   "t1": 243.55,
+   "dir": "right",
+   "svg": "art-full/C/c02-treason.svg",
+   "text": [
+    {
+     "str": "treason",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 96,
+     "at": [
+      960,
+      593
+     ],
+     "align": "center"
+    }
+   ]
+  },
+  {
+   "id": "c03-triangle",
+   "t0": 243.55,
+   "t1": 256.45,
+   "dir": "down",
+   "svg": "art-full/C/c03-triangle.svg",
+   "text": [
+    {
+     "str": "\u201cI will be your God,",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 76,
+     "at": [
+      1390,
+      420
+     ],
+     "align": "center",
+     "t": 5.25,
+     "draw": 1.6
+    },
+    {
+     "str": "you will be My people.\u201d",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 76,
+     "at": [
+      1390,
+      540
+     ],
+     "align": "center",
+     "t": 7.15,
+     "draw": 1.9
+    }
+   ]
+  },
+  {
+   "id": "c04-covenant-seal",
+   "t0": 256.45,
+   "t1": 261.65,
+   "dir": "right",
+   "svg": "art-full/C/c04-covenant-seal.svg"
+  },
+  {
+   "id": "c05-land-is-mine",
+   "t0": 261.65,
+   "t1": 271.35,
+   "dir": "right",
+   "parts": [
+    {
+     "svg": "art-full/C/c05-land-is-mine-a.svg",
+     "at": 0.0
+    },
+    {
+     "svg": "art-full/C/c05-land-is-mine-b.svg",
+     "at": 5.7
+    }
+   ],
+   "text": [
+    {
+     "str": "The land is Mine.",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 100,
+     "at": [
+      1385,
+      478
+     ],
+     "align": "center",
+     "t": 3.05
+    }
+   ]
+  },
+  {
+   "id": "c06-whole-earth",
+   "t0": 271.35,
+   "t1": 279.3,
+   "dir": "down",
+   "parts": [
+    {
+     "svg": "art-full/C/c06-whole-earth-a.svg",
+     "at": 0.0
+    },
+    {
+     "svg": "art-full/C/c06-whole-earth-b.svg",
+     "at": 2.8
+    }
+   ]
+  },
+  {
+   "id": "c07-in-your-midst",
+   "t0": 279.3,
+   "t1": 284.35,
+   "dir": "down",
+   "svg": "art-full/C/c07-in-your-midst.svg",
+   "draw": 2.78
+  },
+  {
+   "id": "c08-direction",
+   "t0": 284.35,
+   "t1": 291.35,
+   "dir": "right",
+   "svg": "art-full/C/c08-direction.svg"
+  },
+  {
+   "id": "c09-exodus",
+   "t0": 291.35,
+   "t1": 298.85,
+   "dir": "right",
+   "svg": "art-full/C/c09-exodus.svg",
+   "draw": 4.6
+  },
+  {
+   "id": "c10-sinai",
+   "t0": 298.85,
+   "t1": 303.05,
+   "dir": "right",
+   "svg": "art-full/C/c10-sinai.svg",
+   "text": [
+    {
+     "str": "keep faith?",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 92,
+     "at": [
+      1290,
+      330
+     ],
+     "align": "center",
+     "draw": 0.75
+    }
+   ]
+  },
+  {
+   "id": "c11-king-under-law",
+   "t0": 303.05,
+   "t1": 309.65,
+   "dir": "down",
+   "svg": "art-full/C/c11-king-under-law.svg"
+  },
+  {
+   "id": "d01-farmer-dawn",
+   "t0": 309.65,
+   "t1": 316.45,
+   "svg": "art-full/D/d01-farmer-dawn.svg",
+   "draw": 4.0,
+   "camera": "pan-in",
+   "dir": "right"
+  },
+  {
+   "id": "d02-farmer-life",
+   "t0": 316.45,
+   "t1": 327.9,
+   "parts": [
+    {
+     "svg": "art-full/D/d02-farmer-life-a.svg",
+     "at": 0.05
+    },
+    {
+     "svg": "art-full/D/d02-farmer-life-b.svg",
+     "at": 4.55
+    },
+    {
+     "svg": "art-full/D/d02-farmer-life-c.svg",
+     "at": 6.15
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right"
+  },
+  {
+   "id": "d03-officials",
+   "t0": 327.9,
+   "t1": 333.35,
+   "svg": "art-full/D/d03-officials.svg",
+   "camera": "hold"
+  },
+  {
+   "id": "d04-wall",
+   "t0": 333.35,
+   "t1": 338.55,
+   "svg": "art-full/D/d04-wall.svg",
+   "draw": 2.8,
+   "camera": "pan-in",
+   "dir": "down"
+  },
+  {
+   "id": "d05-border",
+   "t0": 338.55,
+   "t1": 351.95,
+   "parts": [
+    {
+     "svg": "art-full/D/d05-border-a.svg",
+     "at": 0.05
+    },
+    {
+     "svg": "art-full/D/d05-border-b.svg",
+     "at": 2.5,
+     "draw": 2.5
+    },
+    {
+     "svg": "art-full/D/d05-border-c.svg",
+     "at": 5.6,
+     "draw": 2.0
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "held under the king",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 88,
+     "at": [
+      960,
+      150
+     ],
+     "align": "center",
+     "t": 8.0,
+     "draw": 1.5
+    }
+   ]
+  },
+  {
+   "id": "d06-like-farmer",
+   "t0": 351.95,
+   "t1": 362.45,
+   "parts": [
+    {
+     "svg": "art-full/D/d06-like-farmer-a.svg",
+     "at": 0.05,
+     "draw": 2.2
+    },
+    {
+     "svg": "art-full/D/d06-like-farmer-b.svg",
+     "at": 2.75
+    },
+    {
+     "svg": "art-full/D/d06-like-farmer-c.svg",
+     "at": 3.75
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "down",
+   "text": [
+    {
+     "str": "?",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 150,
+     "at": [
+      1150,
+      340
+     ],
+     "align": "center",
+     "t": 6.6
+    }
+   ]
+  },
+  {
+   "id": "d07-king-of-kings",
+   "t0": 362.45,
+   "t1": 370.95,
+   "parts": [
+    {
+     "svg": "art-full/D/d07-king-of-kings-a.svg",
+     "at": 3.05
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "King of kings",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 150,
+     "at": [
+      960,
+      300
+     ],
+     "align": "center",
+     "t": 0.7
+    }
+   ]
+  },
+  {
+   "id": "d08-emperor-kings",
+   "t0": 370.95,
+   "t1": 377.95,
+   "svg": "art-full/D/d08-emperor-kings.svg",
+   "draw": 4.1,
+   "camera": "pan-in",
+   "dir": "right"
+  },
+  {
+   "id": "d09-above-all",
+   "t0": 377.95,
+   "t1": 384.55,
+   "svg": "art-full/D/d09-above-all.svg",
+   "camera": "pan-in",
+   "dir": "down",
+   "text": [
+    {
+     "str": "the Great King",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 100,
+     "at": [
+      960,
+      150
+     ],
+     "align": "center",
+     "t": 3.0,
+     "draw": 1.15
+    }
+   ]
+  },
+  {
+   "id": "d10-forgotten",
+   "t0": 384.55,
+   "t1": 390.15,
+   "svg": "art-full/D/d10-forgotten.svg",
+   "draw": 2.5,
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "?",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 140,
+     "at": [
+      1335,
+      410
+     ],
+     "align": "center",
+     "t": 2.6
+    }
+   ]
+  },
+  {
+   "id": "d11-palace-map",
+   "t0": 390.15,
+   "t1": 404.15,
+   "parts": [
+    {
+     "svg": "art-full/D/d11-palace-map-a.svg",
+     "at": 0.05
+    },
+    {
+     "svg": "art-full/D/d11-palace-map-b.svg",
+     "at": 5.6
+    },
+    {
+     "svg": "art-full/D/d11-palace-map-c.svg",
+     "at": 7.1
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "?",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 96,
+     "at": [
+      492,
+      618
+     ],
+     "align": "center",
+     "t": 3.6
+    }
+   ]
+  },
+  {
+   "id": "e01-decree",
+   "t0": 404.15,
+   "t1": 416.15,
+   "parts": [
+    {
+     "svg": "art-full/E/e01-decree-a.svg",
+     "at": 2.45
+    },
+    {
+     "svg": "art-full/E/e01-decree-b.svg",
+     "at": 4.75
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "1  The royal decree",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      120,
+      130
+     ],
+     "align": "left",
+     "t": 0.3
+    },
+    {
+     "str": "Let there be light",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 92,
+     "at": [
+      1294,
+      730
+     ],
+     "align": "center",
+     "t": 6.4
+    }
+   ]
+  },
+  {
+   "id": "e02-sinai-words",
+   "t0": 416.15,
+   "t1": 426.35,
+   "svg": "art-full/E/e02-sinai-words.svg",
+   "camera": "pan-in",
+   "dir": "down"
+  },
+  {
+   "id": "e03-herald",
+   "t0": 426.35,
+   "t1": 435.6,
+   "svg": "art-full/E/e03-herald.svg",
+   "artAt": 2.0,
+   "draw": 4.2,
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "2  The messenger",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      120,
+      130
+     ],
+     "align": "left",
+     "t": 0.3
+    }
+   ]
+  },
+  {
+   "id": "e04-prophet",
+   "t0": 435.6,
+   "t1": 445.25,
+   "svg": "art-full/E/e04-prophet.svg",
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "Thus says the Lord",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 88,
+     "at": [
+      1150,
+      330
+     ],
+     "align": "center",
+     "t": 4.55
+    }
+   ]
+  },
+  {
+   "id": "e05-nathan",
+   "t0": 445.25,
+   "t1": 455.15,
+   "svg": "art-full/E/e05-nathan.svg",
+   "draw": 6.4,
+   "camera": "pan-in",
+   "dir": "right"
+  },
+  {
+   "id": "e06-nathan-speaks",
+   "t0": 455.15,
+   "t1": 463.75,
+   "svg": "art-full/E/e06-nathan-speaks.svg",
+   "draw": 5.4,
+   "camera": "pan-in",
+   "dir": "down"
+  },
+  {
+   "id": "e07-sent-out",
+   "t0": 463.75,
+   "t1": 474.95,
+   "svg": "art-full/E/e07-sent-out.svg",
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "Whoever listens to you",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      1300,
+      190
+     ],
+     "align": "center",
+     "t": 4.3
+    },
+    {
+     "str": "listens to Me",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      1300,
+      285
+     ],
+     "align": "center",
+     "t": 6.4
+    }
+   ]
+  },
+  {
+   "id": "e08-written",
+   "t0": 474.95,
+   "t1": 481.05,
+   "svg": "art-full/E/e08-written.svg",
+   "artAt": 2.4,
+   "draw": 1.4,
+   "camera": "pan-in",
+   "dir": "down",
+   "text": [
+    {
+     "str": "3  The written covenant",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      120,
+      130
+     ],
+     "align": "left",
+     "t": 0.3
+    }
+   ]
+  },
+  {
+   "id": "e09-tabernacles",
+   "t0": 481.05,
+   "t1": 497.35,
+   "parts": [
+    {
+     "svg": "art-full/E/e09-tabernacles-a.svg",
+     "at": 0.6
+    },
+    {
+     "svg": "art-full/E/e09-tabernacles-b.svg",
+     "at": 5.4
+    },
+    {
+     "svg": "art-full/E/e09-tabernacles-c.svg",
+     "at": 8.3
+    },
+    {
+     "svg": "art-full/E/e09-tabernacles-d.svg",
+     "at": 11.35,
+     "draw": 1.4
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "Remember",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 88,
+     "at": [
+      1294,
+      150
+     ],
+     "align": "center",
+     "t": 13.35
+    }
+   ]
+  },
+  {
+   "id": "f01-royal-image",
+   "t0": 497.35,
+   "t1": 510.55,
+   "parts": [
+    {
+     "svg": "art-full/F/f01-royal-image-a.svg",
+     "at": 2.25
+    },
+    {
+     "svg": "art-full/F/f01-royal-image-b.svg",
+     "at": 6.0
+    },
+    {
+     "svg": "art-full/F/f01-royal-image-c.svg",
+     "at": 9.75
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "4  The royal image",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 80,
+     "at": [
+      120,
+      130
+     ],
+     "align": "left",
+     "t": 0.3
+    }
+   ]
+  },
+  {
+   "id": "f02-far-city",
+   "t0": 510.55,
+   "t1": 516.75,
+   "svg": "art-full/F/f02-far-city.svg",
+   "camera": "pan-in",
+   "dir": "down"
+  },
+  {
+   "id": "f03-creation",
+   "t0": 516.75,
+   "t1": 521.95,
+   "svg": "art-full/F/f03-creation.svg",
+   "camera": "pan-in",
+   "dir": "right"
+  },
+  {
+   "id": "f04-adam-eve",
+   "t0": 521.95,
+   "t1": 529.15,
+   "svg": "art-full/F/f04-adam-eve.svg",
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "in Our image",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 104,
+     "at": [
+      1070,
+      290
+     ],
+     "align": "center",
+     "t": 3.1
+    }
+   ]
+  },
+  {
+   "id": "f05-statue-breathes",
+   "t0": 529.15,
+   "t1": 536.95,
+   "parts": [
+    {
+     "svg": "art-full/F/f05-statue-breathes-a.svg",
+     "at": 0.3
+    },
+    {
+     "svg": "art-full/F/f05-statue-breathes-c.svg",
+     "at": 4.3
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "down"
+  },
+  {
+   "id": "f06-worth",
+   "t0": 536.95,
+   "t1": 544.35,
+   "parts": [
+    {
+     "svg": "art-full/F/f06-worth-a.svg",
+     "at": 0.3
+    },
+    {
+     "svg": "art-full/F/f06-worth-b.svg",
+     "at": 4.05
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "worth",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 150,
+     "at": [
+      1330,
+      480
+     ],
+     "align": "center",
+     "t": 2.75
+    }
+   ]
+  },
+  {
+   "id": "f07-every-person",
+   "t0": 544.35,
+   "t1": 553.75,
+   "parts": [
+    {
+     "svg": "art-full/F/f07-every-person-a.svg",
+     "at": 0.3
+    },
+    {
+     "svg": "art-full/F/f07-every-person-b.svg",
+     "at": 2.8
+    },
+    {
+     "svg": "art-full/F/f07-every-person-c.svg",
+     "at": 5.62
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right"
+  },
+  {
+   "id": "f08-responsibility",
+   "t0": 553.75,
+   "t1": 561.15,
+   "svg": "art-full/F/f08-responsibility.svg",
+   "camera": "pan-in",
+   "dir": "right"
+  },
+  {
+   "id": "f09-body-mind-gifts",
+   "t0": 561.15,
+   "t1": 568.35,
+   "parts": [
+    {
+     "svg": "art-full/F/f09-body-mind-gifts.svg",
+     "at": 2.25
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "down",
+   "text": [
+    {
+     "str": "body        mind        gifts",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 96,
+     "at": [
+      960,
+      735
+     ],
+     "align": "center",
+     "t": 0.3
+    }
+   ]
+  },
+  {
+   "id": "f10-one-direction",
+   "t0": 568.35,
+   "t1": 585.15,
+   "parts": [
+    {
+     "svg": "art-full/F/f10-one-direction-a.svg",
+     "at": 0.3
+    },
+    {
+     "svg": "art-full/F/f10-one-direction-b.svg",
+     "at": 3.15
+    },
+    {
+     "svg": "art-full/F/f10-one-direction-c.svg",
+     "at": 4.6
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "down",
+   "text": [
+    {
+     "str": "SPEAKS        SENDS        WRITES       IMAGE",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 60,
+     "at": [
+      955,
+      525
+     ],
+     "align": "center",
+     "t": 6.0
+    },
+    {
+     "str": "HEAR        RECEIVE   REMEMBER      LIVE",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 60,
+     "at": [
+      955,
+      605
+     ],
+     "align": "center",
+     "t": 11.35,
+     "draw": 2.5
+    }
+   ]
+  },
+  {
+   "id": "f11-men-home",
+   "t0": 585.15,
+   "t1": 597.05,
+   "svg": "art-full/F/f11-men-home.svg",
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "Whose image is this?",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 100,
+     "at": [
+      1250,
+      210
+     ],
+     "align": "center",
+     "t": 5.9
+    }
+   ]
+  },
+  {
+   "id": "f12-this-week",
+   "t0": 597.05,
+   "t1": 608.55,
+   "parts": [
+    {
+     "svg": "art-full/F/f12-this-week-a.svg",
+     "at": 0.3
+    },
+    {
+     "svg": "art-full/F/f12-this-week-b.svg",
+     "at": 5.0
+    },
+    {
+     "svg": "art-full/F/f12-this-week-c.svg",
+     "at": 7.85
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right"
+  },
+  {
+   "id": "f13-end-card",
+   "t0": 608.55,
+   "t1": 628.65,
+   "parts": [
+    {
+     "svg": "art/00-brandmark.svg",
+     "box": [
+      650,
+      66,
+      620,
+      349
+     ],
+     "at": 4.4
+    }
+   ],
+   "camera": "pan-in",
+   "dir": "right",
+   "text": [
+    {
+     "str": "Next episode: The Treaty of the Great King",
+     "font": "Caveat",
+     "weight": 600,
+     "size": 64,
+     "at": [
+      960,
+      728
+     ],
+     "align": "center",
+     "t": 0.3
+    },
+    {
+     "str": "A Faith Driven Life",
+     "font": "Caveat",
+     "weight": 700,
+     "size": 120,
+     "at": [
+      960,
+      596
+     ],
+     "align": "center",
+     "t": 7.4
+    }
+   ]
+  }
+ ],
+ "captions": [
+  "full/captions-full.json"
+ ],
+ "safeBottom": 860,
+ "options": {
+  "penSpeed": 2200,
+  "pathPause": 0.15,
+  "letterPause": 0.06
+ }
+}

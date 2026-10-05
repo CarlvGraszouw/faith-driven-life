@@ -1,0 +1,87 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "audio": "/Users/carlvongraszouw/Downloads/A Faith Driven Life - Story Episodes/A Faith Driven Life - Episode 1 - What a Kingdom Actually Was.mp3",
+  "start": 0,
+  "end": 12,
+  "board": {
+    "color": "#fbfaf7"
+  },
+  "hand": {
+    "kit": "../ep1/kit/kit.svg",
+    "symbol": "hand-marker"
+  },
+  "scenes": [
+    {
+      "id": "title",
+      "t0": 0,
+      "t1": 6.3,
+      "camera": "hold",
+      "svg": "/Users/carlvongraszouw/Documents/Podcasts/A Faith Driven Life/Logo/A Faith Driven Life - logo icon.svg",
+      "box": [
+        835,
+        150,
+        250,
+        250
+      ],
+      "artAt": 3.6,
+      "text": [
+        {
+          "str": "A Faith Driven Life",
+          "font": "Caveat",
+          "size": 120,
+          "at": [
+            960,
+            630
+          ],
+          "t": 0.3,
+          "draw": 1.7
+        },
+        {
+          "str": "Understanding Kingdom",
+          "font": "Caveat",
+          "weight": 600,
+          "size": 66,
+          "at": [
+            960,
+            730
+          ],
+          "t": 2.25,
+          "draw": 1.2
+        }
+      ]
+    },
+    {
+      "id": "teacher",
+      "t0": 6.3,
+      "t1": 12,
+      "svg": "test-assets/teacher.svg",
+      "camera": "pan-in",
+      "box": [
+        96,
+        8,
+        1728,
+        972
+      ],
+      "accentFade": 0.7
+    }
+  ],
+  "captions": [
+    {
+      "t0": 0.29,
+      "t1": 2.24,
+      "text": "Welcome to A Faith Driven Life."
+    },
+    {
+      "t0": 2.24,
+      "t1": 8.9,
+      "text": "This is Understanding Kingdom, exploring the kingdom of God through scripture, covenant, and the life of faith."
+    },
+    {
+      "t0": 9.0,
+      "t1": 11.9,
+      "text": "Visit us at www.afaithdrivenlife.com"
+    }
+  ]
+}

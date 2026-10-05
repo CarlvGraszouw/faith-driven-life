@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <g id="accent">
+    <path d="M800,290 C760,520 700,700 560,820 L1040,820 C900,700 840,520 800,290 Z" fill="#c9652f"/>
+    <path d="M782,70 L818,70 L818,212 L960,212 L960,248 L818,248 L818,300 L782,300 L782,248 L640,248 L640,212 L782,212 Z" fill="#e3922f"/>
+  </g>
+  <path class="line" d="M782,70 L818,70 L818,212 L960,212 L960,248 L818,248 L818,300 M782,300 L782,248 L640,248 L640,212 L782,212 L782,70" fill="none" stroke="#1f1f1f" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path class="line" d="M800,290 C760,520 700,700 560,820" fill="none" stroke="#1f1f1f" stroke-width="10" stroke-linecap="round"/>
+  <path class="line" d="M800,290 C840,520 900,700 1040,820" fill="none" stroke="#1f1f1f" stroke-width="10" stroke-linecap="round"/>
+  <path class="line" d="M560,820 C700,808 900,808 1040,820" fill="none" stroke="#1f1f1f" stroke-width="10" stroke-linecap="round"/>
+  <path class="detail" d="M796,330 C786,500 752,660 694,812" fill="none" stroke="#1f1f1f" stroke-width="6" stroke-linecap="round"/>
+  <path class="detail" d="M808,360 C822,520 846,668 896,812" fill="none" stroke="#1f1f1f" stroke-width="6" stroke-linecap="round"/>
+  <path class="detail" d="M801,430 C806,570 802,700 796,812" fill="none" stroke="#1f1f1f" stroke-width="6" stroke-linecap="round"/>
+  <path class="detail" d="M740,40 L748,20 M800,8 L800,30 M860,40 L852,20" fill="none" stroke="#1f1f1f" stroke-width="6" stroke-linecap="round"/>
+</svg>

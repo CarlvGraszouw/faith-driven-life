@@ -1,0 +1,10 @@
+{
+  "width": 1920, "height": 1080, "fps": 30,
+  "audio": "/Users/carlvongraszouw/Downloads/A Faith Driven Life - Story Episodes/A Faith Driven Life - Episode 1 - What a Kingdom Actually Was.mp3",
+  "start": 12, "end": 20.5,
+  "hand": { "kit": "../ep1/kit/kit.svg", "symbol": "hand-marker" },
+  "scenes": [
+    { "id": "jerusalem-dense", "t0": 12.14, "t1": 20.5, "svg": "test-assets/dense.svg", "draw": 6.0, "camera": "hold" }
+  ],
+  "captions": ["../ep1/captions.json"]
+}

@@ -1,0 +1,212 @@
+{
+  "_comment": "78-second sample of Episode 1. Art paths under ../ep1/art/ are where the illustrators' SVGs go (1600x900 viewBox, drawing order = document order). Times are seconds in the mp3.",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "audio": "/Users/carlvongraszouw/Downloads/A Faith Driven Life - Story Episodes/A Faith Driven Life - Episode 1 - What a Kingdom Actually Was.mp3",
+  "start": 0,
+  "end": 78,
+  "board": {
+    "color": "#fbfaf7",
+    "vignette": 0.07
+  },
+  "ink": "#1f1f1f",
+  "hand": {
+    "kit": "../ep1/kit/kit.svg",
+    "symbol": "hand-marker"
+  },
+  "kits": [
+    "../ep1/kit/kit.svg"
+  ],
+  "scenes": [
+    {
+      "id": "title",
+      "t0": 0,
+      "t1": 12.14,
+      "camera": "hold",
+      "svg": "/Users/carlvongraszouw/Documents/Podcasts/A Faith Driven Life/Logo/A Faith Driven Life - logo icon.svg",
+      "box": [
+        835,
+        140,
+        250,
+        250
+      ],
+      "draw": 1.4,
+      "artAt": 4.0,
+      "text": [
+        {
+          "str": "A Faith Driven Life",
+          "font": "Caveat",
+          "size": 120,
+          "at": [
+            960,
+            630
+          ],
+          "draw": 1.8,
+          "t": 0.3
+        },
+        {
+          "str": "Understanding Kingdom",
+          "font": "Caveat",
+          "weight": 600,
+          "size": 66,
+          "at": [
+            960,
+            730
+          ],
+          "draw": 1.4,
+          "t": 2.4
+        },
+        {
+          "str": "afaithdrivenlife.com",
+          "font": "Caveat",
+          "weight": 500,
+          "size": 54,
+          "at": [
+            960,
+            822
+          ],
+          "draw": 1.6,
+          "t": 9.1
+        }
+      ]
+    },
+    {
+      "id": "jerusalem",
+      "t0": 12.14,
+      "t1": 21.78,
+      "svg": "../ep1/art/02-jerusalem-temple.svg",
+      "box": [
+        96,
+        0,
+        1728,
+        972
+      ],
+      "draw": 8.0,
+      "camera": "pan-in"
+    },
+    {
+      "id": "teacher",
+      "t0": 21.78,
+      "t1": 26.28,
+      "svg": "../ep1/art/03-jesus-teaching.svg",
+      "box": [
+        96,
+        0,
+        1728,
+        972
+      ],
+      "draw": 2.8,
+      "camera": "zoom",
+      "zoomLevel": 1.3
+    },
+    {
+      "id": "group-of-men",
+      "t0": 26.28,
+      "t1": 33.64,
+      "svg": "../ep1/art/04-group-of-men.svg",
+      "box": [
+        96,
+        0,
+        1728,
+        972
+      ],
+      "draw": 5.5,
+      "camera": "hold"
+    },
+    {
+      "id": "question",
+      "t0": 33.64,
+      "t1": 38.18,
+      "camera": "pan-in",
+      "text": [
+        {
+          "str": "Pay taxes to Caesar?",
+          "size": 120,
+          "at": [
+            960,
+            560
+          ],
+          "draw": 1.4,
+          "t": 1.3
+        }
+      ]
+    },
+    {
+      "id": "caesar",
+      "t0": 38.18,
+      "t1": 48.3,
+      "svg": "../ep1/art/06-caesar-rome.svg",
+      "box": [
+        96,
+        0,
+        1728,
+        972
+      ],
+      "draw": 8.5,
+      "camera": "pan-in"
+    },
+    {
+      "id": "trap",
+      "t0": 48.3,
+      "t1": 58.01,
+      "svg": "../ep1/art/07-the-trap.svg",
+      "box": [
+        96,
+        0,
+        1728,
+        972
+      ],
+      "draw": 8.0,
+      "camera": "pan-in",
+      "dir": "down"
+    },
+    {
+      "id": "coin",
+      "t0": 58.01,
+      "t1": 66.44,
+      "svg": "../ep1/art/08-show-me-the-coin.svg",
+      "box": [
+        96,
+        0,
+        1728,
+        972
+      ],
+      "draw": 6.5,
+      "camera": "zoom",
+      "zoomLevel": 1.35
+    },
+    {
+      "id": "denarius",
+      "t0": 66.44,
+      "t1": 78,
+      "svg": "../ep1/art/09-denarius-closeup.svg",
+      "box": [
+        96,
+        0,
+        1728,
+        972
+      ],
+      "draw": 9.0,
+      "camera": "pan-in"
+    }
+  ],
+  "captions": [
+    {
+      "t0": 0.29,
+      "t1": 2.24,
+      "text": "Welcome to A Faith Driven Life."
+    },
+    {
+      "t0": 2.24,
+      "t1": 8.9,
+      "text": "This is Understanding Kingdom, exploring the kingdom of God through scripture, covenant, and the life of faith."
+    },
+    {
+      "t0": 9.0,
+      "t1": 11.9,
+      "text": "Visit us at www.afaithdrivenlife.com"
+    },
+    "../ep1/captions.json"
+  ]
+}
