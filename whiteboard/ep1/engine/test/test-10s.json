@@ -1,0 +1,20 @@
+{
+  "_comment": "10.5 s engine test: Caveat title, placeholder art (reference c11 without its background rect) drawn by the new hand, camera pan, v2-format fixture with self-drawn hatch, captions. Silent.",
+  "width": 1920, "height": 1080, "fps": 30, "start": 0, "end": 10.5,
+  "board": { "color": "#fbfaf7", "vignette": 0.07 },
+  "ink": "#1f1f1f",
+  "hand": { "image": "../hand/hand.png", "tip": [5.2, 6.1], "scale": 0.78, "angle": 0 },
+  "scenes": [
+    { "id": "t1-title-art", "t0": 0, "t1": 7.2, "camera": "hold",
+      "text": [ { "str": "Engine test", "font": "Caveat", "weight": 700, "size": 96, "at": [960, 120], "align": "center", "draw": 1.0, "t": 0.2 } ],
+      "parts": [ { "svg": "placeholder-c11.svg", "at": 1.5 } ] },
+    { "id": "t2-fixture", "t0": 7.2, "t1": 10.5, "svg": "v2-format.svg", "dir": "right" }
+  ],
+  "captions": [
+    { "t0": 0.3, "t1": 3.6, "text": "A hand with a marker draws the line art, stroke by stroke." },
+    { "t0": 3.8, "t1": 7.0, "text": "Hatching draws itself once the hand has finished each part." },
+    { "t0": 7.4, "t1": 10.3, "text": "Then the camera pans to the next scene." }
+  ],
+  "safeBottom": 860,
+  "options": { "penSpeed": 2200, "pathPause": 0.15, "letterPause": 0.06 }
+}
