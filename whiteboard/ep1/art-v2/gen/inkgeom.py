@@ -296,9 +296,10 @@ def path_pts(d, n=12):
     return out
 
 
-def hatch(polys, angle, spacing, inset=0.0, jitter=0.0, seed=3, min_len=3.0, shorten=0.0):
+def hatch(polys, angle, spacing, inset=0.0, jitter=0.0, seed=3, min_len=3.0, shorten=0.0, fade=0.0):
     """plain parallel hatch strokes (separate segments) clipped to the even-odd region polys.
-    shorten: random fraction (0..shorten) trimmed off each end, for a hand-made edge."""
+    shorten: random fraction (0..shorten) trimmed off each end, for a hand-made edge.
+    fade: extra trimming for the first and last rows, so the patch dissolves at its ends."""
     import random
     rnd = random.Random(seed)
     if isinstance(polys[0][0], (int, float)):
@@ -312,12 +313,16 @@ def hatch(polys, angle, spacing, inset=0.0, jitter=0.0, seed=3, min_len=3.0, sho
     segs = []
     y = y0 + spacing * 0.5
     while y < y1:
+        rowk = math.sin(math.pi * min(1.0, max(0.0, (y - y0) / max(1e-6, y1 - y0))))
+        sh = shorten + fade * (1 - rowk)
         for xa, xb in _scan(R, y):
             xa, xb = xa + inset, xb - inset
             if xb - xa < min_len:
                 continue
             L = xb - xa
-            xa += rnd.uniform(0, shorten) * L; xb -= rnd.uniform(0, shorten) * L
+            xa += rnd.uniform(0, sh) * L; xb -= rnd.uniform(0, sh) * L
+            if xb - xa < min_len:
+                continue
             yy = y + rnd.uniform(-jitter, jitter)
             segs.append([(xa * cb - yy * sb, xa * sb + yy * cb), (xb * cb - yy * sb, xb * sb + yy * cb)])
         y += spacing

@@ -162,8 +162,18 @@ def clip(d, polys, keep="out", step=1.2, min_len=2.5):
     if polys and isinstance(polys[0][0], (int, float)):
         polys = [polys]
     want_in = keep == "in"
+    # fast path: bounding boxes do not touch -> keep the original curves untouched
+    pls = flatten(d, step)
+    xs = [p[0] for pl in pls for p in pl]; ys = [p[1] for pl in pls for p in pl]
+    bb = (min(xs), min(ys), max(xs), max(ys))
+    polys = [pg for pg in polys if not (max(p[0] for p in pg) < bb[0] or min(p[0] for p in pg) > bb[2]
+                                        or max(p[1] for p in pg) < bb[1] or min(p[1] for p in pg) > bb[3])]
+    if not polys:
+        return "" if want_in else d
+    if not want_in and not any(_in_any(p, polys) for pl in pls for p in pl):
+        return d
     out = []
-    for pl in flatten(d, step):
+    for pl in pls:
         run = []
         prev = None
         for p in pl:

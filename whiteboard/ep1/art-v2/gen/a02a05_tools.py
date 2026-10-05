@@ -308,6 +308,12 @@ def _lines_of(g):
     return out
 
 
+def rings(g, min_area=4.0):
+    """exterior rings of all polygons in g (largest first)"""
+    ps = sorted(_polys_of(g), key=lambda q: -q.area)
+    return [list(q.exterior.coords) for q in ps if q.area >= min_area]
+
+
 def _polys_of(g):
     if g.is_empty:
         return []

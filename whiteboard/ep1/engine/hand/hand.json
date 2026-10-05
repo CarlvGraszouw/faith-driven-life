@@ -1,6 +1,10 @@
 {
  "image": "hand.png",
- "tip": [0, 0],
+ "tip": [
+  5.2,
+  6.1
+ ],
  "scale": 0.78,
- "angle": 0
+ "angle": 0,
+ "_comment": "tip = marker nib in hand.png px (made by hand_svg.py + render_png.js); scale 0.78 -> ~23 px/cm on a 1080p frame"
 }
