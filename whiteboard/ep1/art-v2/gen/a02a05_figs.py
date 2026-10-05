@@ -823,6 +823,7 @@ def legionary_b(lod=2):
     """Second legionary in profile facing right: pilum upright in his right hand, scutum on his left arm seen edge on."""
     F = FigDraw()
     F.min_edge = 20.0
+    F.clip_hatch = True
     # far leg, near leg (standing, slight stride)
     F.piece('far_leg', limb((-6, -176), (-12, -16), [(0, 17, 17), (0.25, 15, 15), (0.5, 9, 11), (0.68, 9, 13), (0.85, 7, 7.5),
                                                     (1.0, 7, 7)]), edge=False)
@@ -862,8 +863,11 @@ def legionary_b(lod=2):
     # near arm bent, fist round the pilum shaft
     F.piece('arm', limb((2, -282), (12, -228), [(0, 11, 11), (0.3, 12, 11.5), (1.0, 9, 9)]), edge=True)
     F.piece('forearm', limb((10, -232), (34, -214), [(0, 9, 9), (0.3, 9.5, 9.5), (1.0, 6.5, 6.5)]))
-    F.piece('sleeve', [(-6, -288), (12, -292), (16, -268), (2, -262), (-8, -270)],
-            hatch=[[(0, -270), (4, -274), (8, -270), (12, -274)]])
+    # shoulder doubling of the mail over the near shoulder, hooked on the chest
+    F.piece('sleeve', [(-16, -300), (2, -305), (18, -298), (27, -284), (26, -272, C), (16, -266), (2, -263), (-10, -266),
+                       (-20, -274), (-25, -288)],
+            inner=[[(22.4, -284), (24.6, -280), (22.4, -277), (24.6, -273)]],
+            hatch=mail_rows(-26, 28, -298, -266, 8.0, amp=1.5, w=3.4))
     px = 42.0
     F.extra_line = getattr(F, 'extra_line', []) + [[(px, 0), (px, -331)], [(px, -349), (px, -457)]]
     F.piece('pilum_block', [(px - 3.0, -331), (px + 3.0, -331), (px + 3.0, -346), (px + 1.0, -350), (px - 1.0, -350), (px - 3.0, -346)],

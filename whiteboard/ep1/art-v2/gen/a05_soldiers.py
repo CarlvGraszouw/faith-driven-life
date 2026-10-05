@@ -76,7 +76,7 @@ def antonia():
         ls = LineString(r).difference(sbox(-100, base_y - 3.0, 1700, 1000))
         for ln in sorted(_lines_of(ls), key=lambda q: -plen(q)):
             if plen(ln) > 30:
-                it.L(ln)
+                it.D(ln)
             else:
                 it.H(ln)
     runs(it, 'hatch', LN((X0, Y0, zb), (X1, Y0, zb)))
@@ -230,7 +230,7 @@ def ground():
 
 def tax_table():
     """mid-ground: a toll-collector at his table, a man counting out the tribute coin"""
-    X, Y = 0.6, 23.0
+    X, Y = 0.5, 15.0
     x, y = P((X, Y, 0))
     sc = (1.72 * cam.scale((X, Y, 0))) / 360.0
     z = -cam.depth((X, Y, 0))
@@ -244,7 +244,7 @@ def figures():
     def put(fn, x, feet_y, height, z, name, **kw):
         sc = height / 360.0
         fn().place(B, x, feet_y, sc, z, group=kw.pop('group', 'sold'), name=name, **kw)
-    put(FG.legionary_b, 292, 742, 372, -6.0, 'legionary-b', sil_cls='detail')
+    put(FG.legionary_b, 292, 742, 372, -6.0, 'legionary-b', sil_cls='detail', edge_cls='hatch')
     put(FG.legionary_a, 480, 768, 402, -5.0, 'legionary-a')
     put(FG.elder_glancing, 1000, 764, 392, -5.2, 'elder', group='folk')
     put(FG.mother_and_son, 1372, 756, 384, -5.4, 'mother-son', group='folk')
