@@ -1,5 +1,8 @@
 # Beat sheet — Episode 1: What a Kingdom Actually Was (v4)
 
+> **v5 changes** (`ep1-script-v5.md`): g04 now comes before b03, so the climax closes on Jesus' words and "What belongs to God is you"; e06's on-screen words are "the king's land"; narration words per beat changed slightly (every beat still meets its minimum). Rows below still describe the v4 order and counts.
+
+
 One row per drawing, in narration order. It goes with `ep1-script-v4.md`: each `[DRAWING id]` cue there is a row here, and the word counts below are taken from the script itself. (The v3 sheet this replaces matched `ep1-script-v3.md`, which is kept unchanged.)
 
 **Timing rule** (story-script skill): a drawing needs its draw time plus about 1.5 s to breathe. At 2.5 spoken words a second, a beat needs at least `(draw s + 1.5) × 2.5` words. Every story beat meets it. Where a beat has more words than its minimum, the drawing finishes and holds (slow push-in) while the story goes on.

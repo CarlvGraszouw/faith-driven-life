@@ -42,7 +42,7 @@ But Jesus saw straight through them. "Why are you trying to trap me?" He asked. 
 
 [DRAWING a08 · existing: the coin, large: the head of Tiberius, then the words around it]
 
-Jesus looked at it. On one side was the face of Caesar himself, the emperor Tiberius. Around the face ran a claim. Son of the divine Augustus. Rome had declared the emperor before him a god, so the coin called Caesar the son of a god.
+Jesus looked at it. On one side was Caesar's face. Around it ran a claim. Son of the divine Augustus. Rome had declared the emperor before him a god, so the coin called Caesar the son of a god.
 
 [DRAWING a09 · existing: the other side of the coin, the seated figure and the words PONTIF MAXIM]
 
@@ -74,7 +74,7 @@ Caesar's face was on the coin, so the coin belonged to Caesar. Let it go back to
 
 [DRAWING p01 · new: beside Caesar's coin, an empty coin with no face and a large question mark; words "and to God what is God's"]
 
-But Jesus had not stopped there. "And to God what is God's." If the coin with Caesar's face belonged to Caesar, what belonged to God? I want you to hold onto that question.
+But Jesus had not stopped there. "And to God what is God's." If the coin with Caesar's face belonged to Caesar, what belonged to God?
 
 [DRAWING p02 · new: the words "What a Kingdom Actually Was" written like a chapter heading, a small crown above them]
 
@@ -86,7 +86,7 @@ I believe the men who heard Him knew the answer straight away, and it amazed the
 
 [DRAWING c01 · new: Jesus standing on the shore of the Sea of Galilee, fishermen and villagers around Him; words "The kingdom of God has come near"]
 
-Years earlier, when Jesus first began to preach, King Herod had just thrown John the Baptist into prison for speaking against him. It was a dangerous time to talk about kings. Then Jesus went into Galilee, and this is what He said. "The time has come. The kingdom of God has come near. Repent and believe the good news!" Nobody in that crowd needed the word kingdom explained. They were living inside one. Herod ruled Galilee, and Rome ruled Herod.
+Years earlier, when Jesus first began to preach, King Herod had just thrown John the Baptist into prison for speaking against him. It was a dangerous time to talk about kings. Jesus went into Galilee and talked about a kingdom anyway. This is what He said. "The time has come. The kingdom of God has come near. Repent and believe the good news!" Nobody in that crowd needed the word kingdom explained. They were living inside one. Herod ruled Galilee, and Rome ruled Herod.
 
 [DRAWING c02 · new: a storybook castle on a hill, a king on a throne, a small dragon far off]
 
@@ -98,7 +98,7 @@ Many of us pray for it every Sunday. "Your kingdom come, your will be done, on e
 
 [DRAWING c04 · new, added to the same board: an equals sign joining the two halves of the prayer, and under them "wherever the king's will is done"]
 
-Listen to those two lines again. "Your kingdom come." "Your will be done." They ask for one thing, in two ways. A kingdom was wherever the king's will was done. For the people in those temple courts, that was simply how the world worked.
+"Your kingdom come." "Your will be done." Those two lines ask for one thing, in two ways. A kingdom was wherever the king's will was done. For the people in those temple courts, that was simply how the world worked.
 
 ---
 
@@ -118,7 +118,7 @@ The farmer walks past it every day, and he hardly sees it any more. Whole years 
 
 [DRAWING e03 · changed: at the threshing floor, a scribe counts the grain on a tablet while the king's officials load sacks onto a donkey; the farmer stands by]
 
-Then one harvest, the king's officials arrive. A scribe counts the farmer's grain on the threshing floor, and a share of it goes to the throne. Nobody asks the farmer whether he agrees.
+Then one harvest, the king's officials arrive. A scribe counts the farmer's grain on the threshing floor, and a share of everything he has grown goes to the throne.
 
 [DRAWING e04 · changed: an official counts the farmer's two sons off a list; the boys walk away with an overseer towards a town whose new wall is going up; the farmer and his wife watch from the door]
 
@@ -128,9 +128,9 @@ Another year, the king is building a wall around the nearest town, and the offic
 
 And one spring, an enemy army gathers on the far side of the stone. The farmer takes his family inside the town, behind the wall his sons helped to build. The king's soldiers stand on that wall, between the army and everyone he loves.
 
-[DRAWING e06 · changed: from the wall, the farmer looks out at the stone and the carved face on it, his field safe behind the line of soldiers; words "This place is the king's"]
+[DRAWING e06 · changed: from the wall, the farmer looks out at the stone and the carved face on it, his field safe behind the line of soldiers; words "the king's land"]
 
-Now the farmer understands what all those years of grain and labour were for. The field was never only his. Even the ground where his father lies belongs to the king. The face on the stone has been telling him so every day. This place is the king's, and so are the people in it. He could forget the king only because the king was doing his job.
+Now the farmer understands what all those years of grain and labour were for. The field was never only his. Even the ground where his father lies is the king's land, and the face on the stone has told him so every day. He could forget the king only because the king was doing his job.
 
 [DRAWING e07 · new: a modern morning, a parent heading out of the door with a bag, children at the breakfast table, a full calendar on the wall]
 
@@ -138,7 +138,7 @@ We live a lot like that farmer. We go to work, raise our children and run our ow
 
 [DRAWING e09 · new: hills, a sea, a village and its people, all under one wide sky, with no stone anywhere; words "The earth is the LORD's"]
 
-The Bible was written in the farmer's world. Nobody voted for his king, and nobody ever voted God in. As the psalm says, "The earth is the LORD's, and everything in it, the world, and all who live in it." No stone marks the edge of God's land.
+The Bible was written in the farmer's world. As the psalm says, "The earth is the LORD's, and everything in it, the world, and all who live in it." No stone marks the edge of God's land.
 
 ---
 
@@ -154,7 +154,7 @@ Remember that coin in the temple courts? Caesar's face had travelled across his 
 
 [DRAWING f05 · new: the empty coin and question mark from p01, drawn again beside Caesar's coin]
 
-So, one last time. If the coin with Caesar's face belonged to Caesar, what belonged to God? The answer is on the first page of the Bible.
+If the coin with Caesar's face belonged to Caesar, what belonged to God? The answer is on the first page of the Bible.
 
 ---
 
@@ -176,13 +176,13 @@ Last of all, God does something the farmer would have understood. He places His 
 
 So whose face did they carry, those men in the temple courts? They had the answer on the first page of their Scriptures. Caesar could stamp his face on silver. God had stamped His on them.
 
-[DRAWING b03 · existing, moved here from 1:55: Caesar's coin, arrow, "Caesar"; a person, arrow, "God"; the days of the week, every one ticked]
-
-Listen to Jesus' answer one more time, and hear both halves of it. "Give back to Caesar what is Caesar's and to God what is God's."
-
 [DRAWING g04 · changed: on the left, the farmer walking past his king's stone; on the right, a man and a woman of today walking out into the world, the same light on them as in g03]
 
 All his life, the farmer walked past his king's image carved in stone. He never knew that he carried the image of a greater King. You carry it too. You are the stone that breathes, and the coin that walks.
+
+[DRAWING b03 · existing, moved here from 1:55: Caesar's coin, arrow, "Caesar"; a person, arrow, "God"; the days of the week, every one ticked]
+
+"Give back to Caesar what is Caesar's and to God what is God's." Caesar could have his silver. What belongs to God is you, every part of you, on every day of the week.
 
 ---
 
@@ -198,7 +198,7 @@ The farmer's king counted what the farmer could hand over, his grain and his son
 
 [DRAWING i01 · new: evening on a road out of Jerusalem; the man who brought the coin has stopped, and looks down at Caesar's coin lying in his open palm]
 
-I often think about those men walking home that evening, and about the one who brought the coin. Somewhere on the road, he opens his hand. There is Caesar's face, lying in his palm. Then he looks at the hand that is holding it.
+I often think about those men walking home that evening, and about the one who brought the coin. Somewhere on the road, he takes a coin from his purse. There is Caesar's face, lying in his palm. Then he looks at the hand that is holding it.
 
 [DRAWING i02 · new: an open hand of today, palm up, drawn large; words "Whose image is this?"]
 
@@ -206,7 +206,7 @@ Now hold out your own hand for a moment, and look at it, the way he did. Whose i
 
 [DRAWING j01 · changed: a card tapped to pay at a shop counter; beside it, two open hands lifting up a small field, its furrows ploughed; words "Your kingdom come. Your will be done."]
 
-This week, every time you pay for something, think of the one field in your life you still call your own. It might be your money, your evenings, a plan, or an old grudge. You don't give it to God to earn His image. You carry that already. You give it back because it was always His. Then pray the words Jesus taught, slowly this time. "Your kingdom come. Your will be done."
+This week, every time you pay for something, let it remind you of the one field in your life you still call your own. It might be your money, your evenings, a plan, or an old grudge. It was always His. Give it back to Him, and pray the words Jesus taught, slowly this time. "Your kingdom come. Your will be done."
 
 ---
 
@@ -235,15 +235,15 @@ Counted on the narration only (drawing cues and suggestions excluded). Runtime a
 | Section | Words | Runtime at 2.5 w/s | Starts at |
 |---|---:|---:|---:|
 | Opening (channel intro, Carl's copy) | — | 0:12 | 0:00 |
-| 1. The coin | 471 | 3:08 | 0:12 |
-| 2. What belongs to God? | 91 | 0:36 | 3:20 |
-| 3. A word that lost its weight | 189 | 1:16 | 3:57 |
-| 4. The farmer who forgot his king | 425 | 2:50 | 5:12 |
-| 5. The king's face | 108 | 0:43 | 8:02 |
-| 6. The first page | 225 | 1:30 | 8:46 |
-| 7. What the image gives you | 65 | 0:26 | 10:16 |
-| 8. The question comes home | 138 | 0:55 | 10:42 |
-| 9. Next time | 70 | 0:28 | 11:37 |
-| Closing (channel outro, Carl's copy) | — | 0:17 | 12:05 |
-| **Story total (narration only)** | **1782** | **11:53** | |
-| **Episode with intro and outro** | | **12:22** | |
+| 1. The coin | 464 | 3:06 | 0:12 |
+| 2. What belongs to God? | 83 | 0:33 | 3:18 |
+| 3. A word that lost its weight | 189 | 1:16 | 3:51 |
+| 4. The farmer who forgot his king | 398 | 2:39 | 5:06 |
+| 5. The king's face | 104 | 0:42 | 7:46 |
+| 6. The first page | 233 | 1:33 | 8:27 |
+| 7. What the image gives you | 65 | 0:26 | 10:00 |
+| 8. The question comes home | 130 | 0:52 | 10:26 |
+| 9. Next time | 70 | 0:28 | 11:18 |
+| Closing (channel outro, Carl's copy) | — | 0:17 | 11:46 |
+| **Story total (narration only)** | **1736** | **11:34** | |
+| **Episode with intro and outro** | | **12:03** | |

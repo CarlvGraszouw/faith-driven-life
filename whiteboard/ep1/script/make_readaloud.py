@@ -6,10 +6,9 @@ text = open(src).read().split('## Word count and runtime')[0]
 # short pauses after the lines that should land (performance marks, not read aloud)
 PAUSE_AFTER = [
     "Then they turned and went away.",
-    "I want you to hold onto that question.",
     "He could forget the king only because the king was doing his job.",
     "No stone marks the edge of God's land.",
-    "You are the stone that breathes, and the coin that walks.",
+    "What belongs to God is you, every part of you, on every day of the week.",
     "Whose image is this?\n",
     '"Your kingdom come. Your will be done."',
 ]

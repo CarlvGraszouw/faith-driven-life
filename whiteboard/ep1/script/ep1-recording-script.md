@@ -24,7 +24,7 @@ Every tax the people paid to Rome reminded them who ruled them. To many of them,
 
 But Jesus saw straight through them. "Why are you trying to trap me?" He asked. "Bring me a denarius and let me look at it." One of them brought a silver coin and gave it to Jesus. The whole trap was small enough to fit in the palm of a hand.
 
-Jesus looked at it. On one side was the face of Caesar himself, the emperor Tiberius. Around the face ran a claim. Son of the divine Augustus. Rome had declared the emperor before him a god, so the coin called Caesar the son of a god.
+Jesus looked at it. On one side was Caesar's face. Around it ran a claim. Son of the divine Augustus. Rome had declared the emperor before him a god, so the coin called Caesar the son of a god.
 
 Then He turned it over. On the other side, the coin called Caesar the highest priest, the one who stood between his people and heaven. Neither claim was true of Caesar. Both were true of the man holding the coin.
 
@@ -44,21 +44,19 @@ Astonished by His answer, they fell silent. Then they turned and went away.
 
 Caesar's face was on the coin, so the coin belonged to Caesar. Let it go back to him. That was the easy half.
 
-But Jesus had not stopped there. "And to God what is God's." If the coin with Caesar's face belonged to Caesar, what belonged to God? I want you to hold onto that question.
-
-*(pause)*
+But Jesus had not stopped there. "And to God what is God's." If the coin with Caesar's face belonged to Caesar, what belonged to God?
 
 I believe the men who heard Him knew the answer straight away, and it amazed them. Most of us miss it, because we have forgotten what they knew. They knew what a kingdom actually was.
 
 ### 3. A word that lost its weight
 
-Years earlier, when Jesus first began to preach, King Herod had just thrown John the Baptist into prison for speaking against him. It was a dangerous time to talk about kings. Then Jesus went into Galilee, and this is what He said. "The time has come. The kingdom of God has come near. Repent and believe the good news!" Nobody in that crowd needed the word kingdom explained. They were living inside one. Herod ruled Galilee, and Rome ruled Herod.
+Years earlier, when Jesus first began to preach, King Herod had just thrown John the Baptist into prison for speaking against him. It was a dangerous time to talk about kings. Jesus went into Galilee and talked about a kingdom anyway. This is what He said. "The time has come. The kingdom of God has come near. Repent and believe the good news!" Nobody in that crowd needed the word kingdom explained. They were living inside one. Herod ruled Galilee, and Rome ruled Herod.
 
 Today the word has gone soft. We hear kingdom and picture a castle on a hill, a king on a throne, perhaps a dragon in the distance. It sounds pleasant, and harmless.
 
 Many of us pray for it every Sunday. "Your kingdom come, your will be done, on earth as it is in heaven." We usually say it quickly, on the way to daily bread.
 
-Listen to those two lines again. "Your kingdom come." "Your will be done." They ask for one thing, in two ways. A kingdom was wherever the king's will was done. For the people in those temple courts, that was simply how the world worked.
+"Your kingdom come." "Your will be done." Those two lines ask for one thing, in two ways. A kingdom was wherever the king's will was done. For the people in those temple courts, that was simply how the world worked.
 
 ### 4. The farmer who forgot his king
 
@@ -68,19 +66,19 @@ He has never seen the king. The king has never come this far. He sent his face. 
 
 The farmer walks past it every day, and he hardly sees it any more. Whole years go by without the king crossing his mind. As far as he can tell, he is his own man.
 
-Then one harvest, the king's officials arrive. A scribe counts the farmer's grain on the threshing floor, and a share of it goes to the throne. Nobody asks the farmer whether he agrees.
+Then one harvest, the king's officials arrive. A scribe counts the farmer's grain on the threshing floor, and a share of everything he has grown goes to the throne.
 
 Another year, the king is building a wall around the nearest town, and the officials count the farmer's sons. The boys are called away to work on it, and they go. That year he brings in the harvest alone.
 
 And one spring, an enemy army gathers on the far side of the stone. The farmer takes his family inside the town, behind the wall his sons helped to build. The king's soldiers stand on that wall, between the army and everyone he loves.
 
-Now the farmer understands what all those years of grain and labour were for. The field was never only his. Even the ground where his father lies belongs to the king. The face on the stone has been telling him so every day. This place is the king's, and so are the people in it. He could forget the king only because the king was doing his job.
+Now the farmer understands what all those years of grain and labour were for. The field was never only his. Even the ground where his father lies is the king's land, and the face on the stone has told him so every day. He could forget the king only because the king was doing his job.
 
 *(pause)*
 
 We live a lot like that farmer. We go to work, raise our children and run our own lives. Whole seasons can go by without God crossing our minds. We forget Him for the same reason the farmer forgot his king. All that time, God has been keeping watch over us.
 
-The Bible was written in the farmer's world. Nobody voted for his king, and nobody ever voted God in. As the psalm says, "The earth is the LORD's, and everything in it, the world, and all who live in it." No stone marks the edge of God's land.
+The Bible was written in the farmer's world. As the psalm says, "The earth is the LORD's, and everything in it, the world, and all who live in it." No stone marks the edge of God's land.
 
 *(pause)*
 
@@ -90,7 +88,7 @@ Later, rulers found a way to send their face even further. They stamped it on co
 
 Remember that coin in the temple courts? Caesar's face had travelled across his empire into the courts of God's house. The men who carried that coin lived in two kingdoms at once. They paid their taxes to Caesar. And in the temple they sang that God is "the great King over all the earth."
 
-So, one last time. If the coin with Caesar's face belonged to Caesar, what belonged to God? The answer is on the first page of the Bible.
+If the coin with Caesar's face belonged to Caesar, what belonged to God? The answer is on the first page of the Bible.
 
 ### 6. The first page
 
@@ -102,9 +100,9 @@ Last of all, God does something the farmer would have understood. He places His 
 
 So whose face did they carry, those men in the temple courts? They had the answer on the first page of their Scriptures. Caesar could stamp his face on silver. God had stamped His on them.
 
-Listen to Jesus' answer one more time, and hear both halves of it. "Give back to Caesar what is Caesar's and to God what is God's."
-
 All his life, the farmer walked past his king's image carved in stone. He never knew that he carried the image of a greater King. You carry it too. You are the stone that breathes, and the coin that walks.
+
+"Give back to Caesar what is Caesar's and to God what is God's." Caesar could have his silver. What belongs to God is you, every part of you, on every day of the week.
 
 *(pause)*
 
@@ -114,13 +112,13 @@ The farmer's king counted what the farmer could hand over, his grain and his son
 
 ### 8. The question comes home
 
-I often think about those men walking home that evening, and about the one who brought the coin. Somewhere on the road, he opens his hand. There is Caesar's face, lying in his palm. Then he looks at the hand that is holding it.
+I often think about those men walking home that evening, and about the one who brought the coin. Somewhere on the road, he takes a coin from his purse. There is Caesar's face, lying in his palm. Then he looks at the hand that is holding it.
 
 Now hold out your own hand for a moment, and look at it, the way he did. Whose image is this?
 
 *(pause)*
 
-This week, every time you pay for something, think of the one field in your life you still call your own. It might be your money, your evenings, a plan, or an old grudge. You don't give it to God to earn His image. You carry that already. You give it back because it was always His. Then pray the words Jesus taught, slowly this time. "Your kingdom come. Your will be done."
+This week, every time you pay for something, let it remind you of the one field in your life you still call your own. It might be your money, your evenings, a plan, or an old grudge. It was always His. Give it back to Him, and pray the words Jesus taught, slowly this time. "Your kingdom come. Your will be done."
 
 *(pause)*
 
