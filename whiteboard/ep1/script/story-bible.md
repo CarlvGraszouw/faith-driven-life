@@ -1,165 +1,221 @@
 # Story bible — Episode 1: What a Kingdom Actually Was
 
-Written before the v3 draft, per the story-script skill. The script (`ep1-script-v3.md`) and the beat sheet (`beat-sheet.md`) are built from this page.
+Updated for v4, after the four editor passes on v3 (`notes-v3-story.md`, `notes-v3-ear.md`, `notes-v3-accuracy.md`, `notes-v3-listener.md`) and the editor-in-chief's decisions. The script is `ep1-script-v4.md`, and `beat-sheet.md` goes with it. v3 is kept unchanged for comparison.
 
 ## The one meaning
 
 > **The King's image is stamped on you, so all of you belongs to Him, every part and every day. That is where your worth comes from, and your calling.**
 
-The listener should end the episode feeling claimed and glad of it. They are worth more than they knew, and they no longer own a private life.
+The listener should end the episode feeling claimed and glad of it. They are worth more than they knew, they are kept, and they no longer own a private life.
 
 ## The dramatic question
 
-> **If the coin with Caesar's face belongs to Caesar, what belongs to God?** In plain words: *whose are we?*
+> **If the coin with Caesar's face belonged to Caesar, what belonged to God?** In plain words: *whose are we?*
+
+Times are at 2.5 words a second from the start of the intro.
 
 | When | How the question is alive |
 |---|---|
-| 0:00–0:30 | First form: men have come to the temple "with a question sharpened into a trap". The stakes are in the third sentence. The trap ("Is it right to pay the imperial tax to Caesar?") is already a question about whose claim is right. |
-| ~2:15 | Jesus asks, "Whose image is this?" and answers, "Give back to Caesar what is Caesar's and to God what is God's." The men walk away amazed. |
-| ~3:00 | Stated in full (p01): what belongs to God? The men knew, because they knew what a kingdom actually was. We have forgotten. |
-| 4:30–7:40 | Kept alive by the traveller crossing into a king's rule and the farmer who thinks his field is his own. Then "the earth is the LORD's… and all who live in it. That includes you." |
-| 7:40–9:00 | The king's face set up in far places, then "Remember that coin in the temple courts?" |
-| ~9:30 | Answered: on the first page of the Bible the Great King places His own image in His land. "Caesar could stamp his face on silver. God had stamped His on them." |
-| ~11:30 | Handed to the listener: "Hold out your hand for a moment, and look at it. Whose image is this?" |
+| 0:00–0:30 | First form: men "sent with a question sharpened into a trap". The stakes arrive in the opening breath. |
+| ~2:30 | "Whose image is this?" … "Give back to Caesar what is Caesar's and to God what is God's." The fork breaks: the crowd has nothing to shout about, the soldiers have no one to arrest, and the trappers fall silent (Luke 20:26). |
+| ~3:30 | Stated in full (p01), and the narrator says, "I want you to hold onto that question." |
+| 5:10–8:10 | Kept alive inside one story. A farmer thinks his field is his own, yet the face of a king he has never seen is carved on a stone at its edge. Then "All who live in it. That includes the farmer." |
+| ~8:40 | "Remember that coin in the temple courts?" Then the question again, in the same words (f05). |
+| ~8:50–10:15 | Answered. On the first page, God places His image in His land. "Caesar could stamp his face on silver. God had stamped His on them." The farmer carried a greater King's image without knowing it: "You are the statue that breathes, and the coin that walks." |
+| ~11:00 | **The peak.** The man who brought the coin looks at his own hand; then the listener is asked to hold out theirs. "Whose image is this?" |
 
 ## The spine
 
-**The coin in the temple courts** (Mark 12:13–17) is the frame. Between the trap and the men walking home, the story travels into the world they took for granted. A traveller comes to a stone at the edge of a king's land. An Assyrian farmer forgets his king until the king's men come for his harvest and his sons, and the king's army stands between his family and the enemy. A king's carved face is set up in a land he never visits. That road leads back to the first page of Genesis, where the Great King places His own image in His land. Then it returns to the temple courts as the men walk home with the question, and ends in the listener's own hand.
+**The coin in the temple courts** (Mark 12:13–17, with Luke 20:26) is the frame. Inside it runs **one story, the farmer's**.
+
+1. Long before Caesar, a farmer works a field he thinks of as his own. At its edge, where the road crosses into the next kingdom, stands a stone carved with the face of a king he has never seen. "He sent his face."
+2. The king's men count his grain and count his sons, who go to build the wall of the nearest town.
+3. When an enemy army gathers beyond the stone, his family shelters behind the wall his sons built. He understands what the face on the stone had been saying: the field was held under the king all along.
+4. Later, rulers sent their face on coins. That brings us back to Caesar's coin in God's house, and to the question.
+5. On the first page of Genesis, the Great King places His own image in His land. The farmer would have understood. He carried a greater King's image all his life without knowing it, and so do you.
+6. The farmer's king counted what he could hand over. God's image was on us before we handed over anything.
+7. The man who brought the coin opens his hand on the road home. Then the listener opens theirs.
 
 | Section | Scene | Stakes | Turn |
 |---|---|---|---|
-| 1. The coin | Temple courts, Tuesday of Passion Week | Jesus' life: the crowd on one side, Rome's soldiers on the other | "Whose image is this?" The trap closes on the trappers. |
-| 2. What belongs to God? | The same courts, the men leaving | The second half of the sentence | What belongs to God? We have forgotten what they knew. |
-| 3. A word that lost its weight | Galilee; a church pew today | Whether "kingdom" means anything to us | "Your kingdom come, your will be done" asks one thing twice. |
-| 4. The edge of a kingdom | A traveller at a king's border stone | His safety and duties change at the line | One step, and he is under a different king. |
-| 5. The farmer who forgot his king | An Assyrian farm across years | His harvest, his sons, his family's lives | The field was held under the king all along. We live the same way. |
-| 6. The king's face | A conquered city's gate; Cyprus; a market | Whose land and whose people | "Remember that coin?" Caesar's face in God's house. |
-| 7. The first page | Creation, Genesis 1 | Whose image we carry | "God had stamped His on them." "You are the statue that breathes, and the coin that walks." |
-| 8. What the image gives you | A newborn, a grandmother, a prisoner | Worth, and the weight of it | Worth was stamped in before you did anything. |
-| 9. The question comes home | The men walking home at evening; your hand | The listener's own life | "Whose image is this?" One thing to do this week. |
+| 1. The coin | Temple courts, Passover week | Jesus' life: the crowd on one side, Rome's soldiers on the other | The trap closes on the trappers. |
+| 2. What belongs to God? | The same courts, the men leaving | The second half of the sentence | "I want you to hold onto that question." |
+| 3. A word that lost its weight | Galilee after John's arrest; a church pew today | Saying "kingdom" in Herod's territory; whether it means anything to us | "They ask for one thing, in two ways." |
+| 4. The farmer who forgot his king | One farm, one stone, one family, over years | His harvest, his sons, his family's lives | "He could forget the king only because the king was doing his job." |
+| 5. The king's face | A market; back to the temple courts | Whose face is on what | The question again, in the same words. |
+| 6. The first page | Creation; the farmer; you | Whose image we carry | "You are the statue that breathes, and the coin that walks." |
+| 7. What the image gives you | A newborn, a grandmother, a prisoner | Worth | God's image was on you before you handed Him anything. |
+| 8. The question comes home | A road at evening; your hand | The listener's own life | "Whose image is this?" Then one thing to do. |
+| 9. Next time | A great king's hall | A people swearing to a treaty | God's covenant words, heard the way Israel first heard them. |
 
-About 70% of the narration is scene, 30% reflection.
+## Guardrail: the king must not make God feel harsh
+
+The test listener flinched at the king who takes grain and sons. In Scripture that list is a warning about human kings (1 Samuel 8:11–17), and Assyria is the great oppressor (Isaiah 10:5–14). So v4 does three things.
+
+1. **Carries over to God only ownership and protection.**
+   - Ownership: "held under the king"; "This place is the king's, and so are the people in it"; "All of it is His, because He made it."
+   - Protection: the wall the sons built is the wall that saves the family; "All that time, God has been keeping watch over us."
+   - The taking stays with the human king.
+2. **Plants worth by contrast.** The officials *count* the grain and *count* the sons (e03–e04). At h01 that counting is turned over: "The farmer's king counted what the farmer could hand over… God's image was on you before you had handed Him anything at all."
+3. **Leaves Assyria unnamed.** The farmer lives "in one of the old kingdoms of the Bible's world".
+   - The author's own line is "Imagine a farmer in the ancient kingdom of, say, Assyria". For him it was always an example.
+   - Naming Israel's great enemy as the picture of kingship gave the listener a "wait, them?" moment.
+   - The art keeps the Assyrian style, and the sources stay Assyrian.
 
 ## Plants and payoffs
 
 | Plant | Payoff |
 |---|---|
-| The coin's face and claim, "son of the divine Augustus" (a08–a09) | Kings send their face into far places (f01–f03). Then "Remember that coin?" (f04) and "Caesar could stamp his face on silver. God had stamped His on them." (b02) |
-| An empty coin with a question mark beside Caesar's coin (p01) | The coin with a human face, IMAGO DEI (b02), and the completed Caesar / God board (b03) |
-| "Your kingdom come, your will be done" said quickly on the way to daily bread (c03–c04) | Prayed slowly, over the one part of life you have kept back (j01) |
-| The farmer's field "held under the king" (e06) | "All who live in it… includes you" (e09), then "every part of you, on every day of the week" (b03) |
-| "Whose image is this?" in Jesus' mouth (a10) | The same words about the listener's own hand (i02). Used three times on purpose, as the refrain. |
+| "The whole trap was small enough to fit in the palm of a hand." (a07) | Caesar's face lying in the palm of the man who brought the coin (i01), then the listener's own hand (i02) |
+| The fork: yes loses the crowd, no brings the soldiers (a06) | The fork gone quiet: nothing to shout about, no one to arrest (a10b) |
+| Passover, the feast of freedom from a foreign king (a02) | The soldiers standing guard over that very feast (a05) |
+| The empty coin and "I want you to hold onto that question" (p01) | The same coin and the same words before Genesis (f05); the coin with a human face (b02) |
+| "We usually say it quickly, on the way to daily bread." (c03) | "…pray the words Jesus taught, slowly this time." (j01) |
+| "a field he thinks of as his own" (e01) | "the one field in your life you still think of as your own" (j01) |
+| "He sent his face." The king's carved image on the stone, walked past every day (e02, e02b) | "The face on the stone has been telling him so every day." (e06); "All his life, the farmer walked past his king's image… You carry it too." (g04) |
+| The stone's curse on anyone who harms it (e02) | The prisoner the whole world has written off still carries God's image (h01). Unstated on purpose. |
+| The scribe counts the grain; the officials count the sons (e03, e04) | "The farmer's king counted what the farmer could hand over." (h01) |
+| "No stone marks the edge of God's land." (e09) | All of the listener's life is inside it (g04, j01). |
 | "the great King over all the earth" (f04) | Next episode: *The Treaty of the Great King* (k01) |
 
 ## The author's voice
 
 **Sources read in full:**
+- `The_Kings_Rule_REVISION_Intro-Ch1-Ch2.docx`. The author's newest writing is the revised opening of the Introduction; the draft column is the earlier book text.
+- `The Kingdom_July 2026.docx`, the author in his most personal voice.
+- `The_Kings_Rule.pdf`, the Introduction and Chapter 3.
+- `01-what-a-kingdom-actually-was.md`, the same as the worksheet's draft Chapter One.
 
-- `The_Kings_Rule_REVISION_Intro-Ch1-Ch2.docx`. The "your revision" column holds the author's newest writing; only the opening of the Introduction is filled in so far. The draft column is the earlier book text.
-- `The Kingdom_July 2026.docx`, the author writing in his most personal voice (Introduction and Chapters 1–3).
-- `The_Kings_Rule.pdf`, the Introduction and Chapter 3 ("How the King's Word Travelled": the royal image).
-- `01-what-a-kingdom-actually-was.md`, the same text as the worksheet's draft Chapter One.
-
-**How he sounds.**
-
-- **Plain, warm and earnest.** He is a teacher who wants you to get it and never shows off.
-- **First person, and he owns his research** ("My best research places…").
-- **He explains why** people acted as they did: why the Pharisees brought the Herodians, why the word has lost its weight.
-- **He talks straight to the reader at the turns** ("I want you to hold onto that…", "Read that slowly").
-- **He opens old words with everyday modern pictures:** a fairy-tale castle, the United Kingdom on a map, a tsunami, a YouTube video of English through the centuries.
-- **He is generous to the modern world even while critiquing it.** He is "grateful to live in a world where many of those protections exist."
-- **Mostly medium sentences,** with a short one when something must land.
-- **Conventions:** British/South African spelling, the NIV, "Kingdom" capitalised for God's Kingdom.
+**How he sounds:**
+- Plain, warm and earnest; first person; he owns his research ("My best research places…").
+- He explains why people acted as they did.
+- He talks straight to the reader at the turns ("I want you to hold onto that…").
+- He opens old words with everyday modern pictures.
+- He is grateful for the modern world even while critiquing it.
+- Mostly medium sentences, with a short one when something must land.
+- British/South African spelling, and the NIV.
 
 **Lines that sound like him:**
-
 1. "I believe words carry centuries of baggage." (*The Kingdom*, July 2026, Introduction)
 2. "When a modern person hears it, they picture something from a fairy tale. A castle on a hill, a king on a throne, perhaps a dragon in the distance." (July 2026, Introduction)
 3. "I want you to hold onto that phrase for just a moment." (July 2026, Introduction)
-4. "Same word. Completely different reality." (July 2026, Introduction, the tsunami illustration)
-5. "The Kingdom comes when the will is done." (July 2026, Introduction, on "Your kingdom come, your will be done")
+4. "Same word. Completely different reality." (July 2026, Introduction)
+5. "The Kingdom comes when the will is done." (July 2026, Introduction)
 6. "They stood at the foot of a mountain that trembled and smoked while the sovereign of creation issued the terms of their belonging to Him." (July 2026, Chapter 1)
 7. "My best research places the scene on the Tuesday of Passion Week, in Jerusalem…" (Revision worksheet, Introduction)
-8. "…this time they came with something carefully prepared — a question sharpened into a trap, and at the center of it all was a coin." (Revision worksheet, Introduction)
+8. "…a question sharpened into a trap, and at the center of it all was a coin." (Revision worksheet, Introduction)
 9. "The trap was political, religious, and public — and it was small enough to fit in the palm of a hand." (Revision worksheet, Introduction)
 10. "You are the royal image. You are the statue that breathes, the coin that walks…" (*The King's Rule*, Chapter 3)
 
-**Where v3 uses it:**
+**Where v4 uses it:**
+- **His first person:**
+  - "I want you to hold onto that question."
+  - "I believe the men who heard Him knew the answer straight away."
+  - "I am grateful we can."
+  - "Go back with me to the first page."
+  - "I often think about those men walking home that evening."
+- **His lines:** the Tuesday (now hedged as he hedges it), "a question sharpened into a trap", the palm of a hand, castle, throne and dragon, "on the way to daily bread", the farmer, "nobody ever voted God in", the statue that breathes, and the grandmother.
 
-- **His lines and pictures:**
-  - The Tuesday.
-  - "A question sharpened into a trap."
-  - "Small enough to fit in the palm of a hand."
-  - Castle, throne and dragon.
-  - The Lord's Prayer said "on the way to daily bread", and the same request asked twice.
-  - The farmer, and "doing his job".
-  - "The statue that breathes, and the coin that walks."
-  - "The tax question was small. The ownership question was total."
-  - The newborn, the grandmother and the prisoner.
-- **His first person:** "I believe that is what amazed them", "I am grateful for that", "I often think about those men walking home that evening".
-
-**What we leave out even though he does it.** He often writes "It is not X. It is Y." The skill's craft rules ban it, because on a voice track it sounds machine-made. So v3 turns those into plain statements. "He had not really been asking about Caesar. He had been asking about them" became "It had been easy to answer about the coin. It was much harder to answer about themselves." We also drop the book draft's long piled-up sentences and decorative coin details ("worn smooth at the edges by a thousand hands", "gazing off toward some horizon"). The author cut those himself in his revision.
+**What we leave out even though he does it:**
+- **The "It is not X. It is Y." reflex.** The craft rules ban it.
+- **Long piled-up sentences.** None in v4 runs past 24 words.
+- **Decorative coin details.** He cut these himself in his revision.
+- **"The tax question was small. The ownership question was total."** It is his line and theologically sound, but v4 cuts it to thin the run of neat couplets at the climax. It can go straight back after the quotation in b03 if Carl misses it.
 
 ## Bible translation
 
-**NIV (2011).** The author quotes it throughout *The Kingdom* (July 2026), and v1 used it. Every quotation in v3 is word-for-word NIV. A shortened quote ends where the verse is cut and adds no words.
+**NIV (2011)**, word for word. Long verses are split, not cut mid-sentence: the narrator says "And the Bible says it again, so no one can miss it" between Genesis 1:26 and 1:27. Close paraphrases spoken as narration are marked "after" in the table below.
 
 ## Scripture used
 
 | Beat | Words in the script | Reference (NIV) |
 |---|---|---|
-| a03 | "as He had been each day that week" (narration, not a quote) | Luke 21:37 |
-| a04 | "Teacher… we know that you are a man of integrity." "Is it right to pay the imperial tax to Caesar or not?" Pharisees and Herodians | Mark 12:13–14 |
+| a03 | "where He had been every day that week, sitting in the courts, teaching" (narration) | Matthew 26:55; Luke 21:37 |
+| a04 | Pharisees and Herodians; "Teacher… we know that you are a man of integrity." "Is it right to pay the imperial tax to Caesar or not?" | Mark 12:13–14 (alliance before: Mark 3:6) |
 | a07 | "Jesus knew their hypocrisy." "Why are you trying to trap me?" "Bring me a denarius and let me look at it." | Mark 12:15 |
 | a10 | "Whose image is this? And whose inscription?" "Caesar's," they replied. "Give back to Caesar what is Caesar's and to God what is God's." | Mark 12:16–17 |
-| a11 | "And they were amazed at him." "So they left him and went away." | Mark 12:17; Matthew 22:22 |
+| a10b–a11 | Could not catch Him out in front of the people; astonished by His answer, they fell silent; they left Him and went away (narration) | after Luke 20:26 ("They were unable to trap him in what he had said there in public. And astonished by his answer, they became silent."); Matthew 22:22 |
+| c01 | John in prison, put there by King Herod; Jesus goes into Galilee | Mark 1:14; Mark 6:14–17 |
 | c01 | "The time has come. The kingdom of God has come near. Repent and believe the good news!" | Mark 1:15 |
 | c03, c04, j01 | "Your kingdom come, your will be done, on earth as it is in heaven." | Matthew 6:10 |
+| e05 | War comes "one spring" (narration) | 2 Samuel 11:1 |
+| e07 | "God has been keeping watch over us" (narration) | cf. Psalm 121:3–4 |
 | e09 | "The earth is the LORD's, and everything in it, the world, and all who live in it" | Psalm 24:1 |
 | f04 | "the great King over all the earth" | Psalm 47:2 |
 | g01 | "And God said, 'Let there be light,' and there was light." | Genesis 1:3 |
-| g03 | "Let us make mankind in our image, in our likeness, so that they may rule…" "So God created mankind in his own image, in the image of God he created them" | Genesis 1:26–27 |
+| g03 | "Let us make mankind in our image, in our likeness." / "So God created mankind in his own image, in the image of God he created them." | Genesis 1:26, 27 |
+| h01 | Every human bears God's image, after the fall too; "as truly as anyone" | Genesis 9:6; James 3:9 |
 | k01 | "I will be your God and you will be my people" | Jeremiah 7:23 |
-| a02 | Passover remembers the rescue from slavery in Egypt | Exodus 12–14 |
-| e05 | War comes "in the spring" (narration only) | 2 Samuel 11:1 |
 
 ## History used, with sources
 
 | Beat | What the script says | Source |
 |---|---|---|
-| a02 | The scene falls on the Tuesday of Jesus' last week. | The author's research (revision worksheet). Traditional chronology from Mark 11:20, 27 and 14:1. |
-| a04 | Pharisees resented Rome's rule. Herodians were "comfortable with Roman power". | The author's revision. Herodians backed the Herodian house, which ruled with Rome's support. |
-| a05 | Rome had conquered the land. Soldiers watched from a fortress at the corner of the temple courts and, at festivals, stood along the colonnades watching the crowd. | Pompey took Judea in 63 BC. Josephus, *Jewish War* 5.238–247 (5.244: soldiers "went several ways among the cloisters, with their arms, on the Jewish festivals, in order to watch the people"). *Antiquities* 20.106; *Jewish War* 2.224; Acts 21:31–35. |
-| a06 | To many, paying the tax felt like bowing to a foreign king in God's land. | Judea was taxed directly by Rome from AD 6 (Josephus, *Antiquities* 18.1–10; Acts 5:37). Judas the Galilean called it cowardice to "pay a tax to the Romans and… after God submit to mortal men as their lords" (*Jewish War* 2.118). The script says "many", not all. |
-| a08–a09 | Obverse: Tiberius' head, "Tiberius Caesar, son of the divine Augustus". Reverse: "Pontifex Maximus, the highest priest". Rome had declared Augustus a god. | The "tribute penny" denarius of Tiberius (RIC I² Tiberius 26–30). Obverse TI CAESAR DIVI AVG F AVGVSTVS. Reverse a seated female figure (Livia, Pax or a priestess; identity debated) and PONTIF MAXIM. Struck AD 14–37. The Senate deified Augustus in AD 14. |
-| f04 | Caesar's face "had travelled across his empire". | The coin was minted at Lugdunum (Lyon) in Gaul, so the script avoids "from Rome". |
-| d01–d02 | A king's land had edges, and stones marked them; some survive with the kings' names. | Assyrian border stelae, e.g. the Pazarcık stele, set up by Adad-nirari III in 805 BC to fix the border between Kummuh and Gurgum. Babylonian kudurrus (14th–7th c. BC) record royal land grants and curse anyone who moves the boundary. |
-| e01–e06 | An Assyrian farmer: the throne's share of the harvest, sons called up to build, the king's army at the border. | A composite, from the author's Chapter 1. Grain levies, labour service on royal works and military service are standard (J. N. Postgate, *Taxation and Conscription in the Assyrian Empire*, 1974). |
-| e08 | Most of us live in democracies, and the narrator is grateful for them. In the ancient world power came down from the throne. | The author's Chapter 1 and *The Kingdom* (July 2026), Chapter 2. |
-| f01–f02 | Assyrian kings set up their carved likeness in lands brought under their rule. One such stone was found on Cyprus. | Assyrian royal inscriptions ("I made an image of my royalty… and set it up"). Sargon II's basalt stele from Kition (Larnaca), Cyprus, c. 707 BC, records the submission of seven kings of Ia' (Cyprus); it was found in 1845 and is now in Berlin. Also Esarhaddon's stele at Zincirli (671 BC). "Brought under his rule" covers both submission and conquest. |
-| f03 | Later, rulers stamped their faces on coins. | Portrait coins begin with the Hellenistic kings around 300 BC. |
-| f04 | The temple's psalms call God "the great King over all the earth". | Psalm 47 is a psalm "of the Sons of Korah", the temple singers. |
-| g01 | Every man in those courts had learned the first page as a boy. | Jewish children were taught the Law from childhood (Josephus, *Against Apion* 2.178; 2 Timothy 3:15). |
-| h02 | How you treated a king's image was how you treated the king. | Royal stelae and kudurrus carry curses on anyone who damages them. The author's Chapter 3. |
+| a02 | "most likely a Tuesday" | Traditional reckoning from Mark 11:11, 12, 20, 27 and 14:1; no Gospel names the day. The author hedges it the same way. |
+| a02 | Men "sent" with the question | Mark 12:13 (sent by the chief priests, teachers of the law and elders, Mark 11:27; 12:12); Luke 20:20 calls them spies. |
+| a04 | Pharisees resented Rome's rule; Herodians were comfortable with Roman power; "On any other matter, they would not have stood together." | Josephus, *Antiquities* 17.41–42 and 18.4, 23. Herodians backed Herod's house (Mark 3:6; 12:13). They had already joined against Jesus (Mark 3:6), so the line says "on any other matter". |
+| a05 | Soldiers came down from their fortress at the corner of the temple courts at every festival. Caesar was the Roman emperor, and Rome's armies had conquered this land. | Josephus, *Jewish War* 5.238–247: the Antonia had passages down to the porticoes, and the garrison spread along them at festivals "to watch the people". Also *Jewish War* 2.224; *Antiquities* 20.106–108; Acts 21:31–35. Rome held the Antonia from AD 6 to 36 (*Antiquities* 18.90–95). Pompey took Judea in 63 BC. Whiston's "legion" in 5.244 is a cohort. |
+| a06 | "Every tax the people paid to Rome"; to many it felt like bowing to a foreign king | *Jewish War* 2.118 (Judas the Galilean); Acts 5:37; Caesar called "king" in John 19:15; the trap's aim (Luke 20:20; 23:2). |
+| a08–a09 | Caesar's face; "Tiberius Caesar, son of the divine Augustus"; Pontifex Maximus, "the highest priest"; two claims: son of a god, go-between with heaven | The tribute-penny denarius (RIC I² Tiberius 26–30), struck at Lugdunum AD 15–37. He became pontifex maximus on 10 March AD 15. The legend is TI CAESAR DIVI AVG F AVGVSTVS; the reverse is PONTIF MAXIM with a seated female figure (identity debated). The identification is traditional and probable; denarii of Augustus also circulated and made the same kind of claim. Tiberius refused divine honours for himself (Suetonius, *Tiberius* 26), hence "son of a god". |
+| c01 | "Herod ruled Galilee, and Rome ruled Herod." | Herod Antipas, tetrarch of Galilee 4 BC – AD 39, Rome's client; "King Herod" in Mark 6:14. |
+| e01 | The father buried "in that ground" | Mesopotamian families often buried their dead beneath the house floor. |
+| e02 | A stone where the road crosses into the next kingdom, carved with the king's image; its words claim the land and curse anyone who harms it | **Border stelae:** Adad-nirari III's Pazarcık stele (805 BC, between Kummuh and Gurgum); the Antakya stele (between Hamath and Arpad); Senusret III's Semna stelae (c. 1870 BC, "Southern boundary…"). **Royal image stelae** ("I made an image of my royalty… and set it up"): Shalmaneser III; Sargon II at Kition and Ashdod; Esarhaddon at Zincirli. **Curse formulae** on royal stelae against anyone who damages them. Laban's boundary pillar is a biblical echo (Genesis 31:51–52). A composite, believable for a farmer near a frontier. Kudurrus are **not** the source; they recorded land grants and stood in temples. |
+| e03–e05 | A grain levy counted by a scribe; sons called up to build a town wall; the army at the border in spring; the family sheltering in the walled town | J. N. Postgate, *Taxation and Conscription in the Assyrian Empire* (1974): grain and straw taxes (*nusāhē*, *šibšu*), labour service on city walls (*ilku*, *tupšikku*), military service. 1 Samuel 8:11–17 describes the same life. "Every household" generalises (some estates were exempt), which is acceptable for a composite. |
+| e09 | "The Bible was written in the farmer's world" | Every book of the Bible was written under kings or emperors. Kingship "descended from heaven" (opening of the Sumerian King List). |
+| f03 | "Later, rulers… stamped their face on coins" | Early coins (Lydia, c. 600 BC) had no portraits. Rulers' portraits appear on Persian satraps' coins in the late 5th century BC and become the norm under Alexander's successors, c. 300 BC. |
+| f04 | Caesar's face "had travelled across his empire" | The coin was struck at Lugdunum (Lyon), so the script avoids "from Rome". |
+| g01 | "The men in those courts had learned it as boys." | Josephus, *Against Apion* 2.175, 178; 2 Timothy 3:15. The script avoids "every man", since Greeks and soldiers were in the courts too (John 12:20). |
+| g03 | God places His image in His land, as a king did | Mainstream reading (D. J. A. Clines, 1968; J. R. Middleton, *The Liberating Image*, 2005). Egyptian and Assyrian texts call the king a god's "image". The Tell Fekheriye statue (9th c. BC) calls a king's statue his "image" and "likeness", using the Aramaic forms of the words in Genesis 1:26. Hebrew *tselem* also means statue (2 Kings 11:18; Daniel 3:1). |
+| b02, i02 | Reading "to God what is God's" as the person who bears God's image | An ancient reading (Tertullian, *On Idolatry* 15; *Against Marcion* 4.38) but an interpretation, so it is framed once with "I believe" (p02). |
+| g04 | "the statue that breathes" | Idols "have no breath in them" (Jeremiah 10:14; Psalm 135:17); God breathed life into the man (Genesis 2:7). |
+| k01 | A great king's treaty read aloud, sworn to by a smaller people, sealed in clay, "more than three thousand years ago" | Hittite treaties of the 14th–13th centuries BC: sealed tablets, clauses for public reading, and the vassal's oath. "Thus says … the Great King"; "the great king, the king of Assyria" (2 Kings 18:19, 28). The scene compresses these into one moment. |
+
+## For the video description (not narrated)
+
+Museum and find-spot facts belong here, not in the story.
+
+- **The coin.** The silver denarius of Tiberius, the "tribute penny", was struck at Lugdunum (Lyon) between AD 15 and 37. Obverse: TI CAESAR DIVI AVG F AVGVSTVS, "Tiberius Caesar Augustus, son of the divine Augustus". Reverse: PONTIF MAXIM, "highest priest".
+- **Soldiers at the festivals.** Josephus describes the Roman garrison of the Antonia fortress spreading along the temple porticoes at every festival "to watch the people" (*Jewish War* 5.244).
+- **A king's face in a far land.** Sargon II's basalt stele, about 2 m tall, was set up at Kition (modern Larnaca, Cyprus) around 707 BC. It was found in 1845 and is now in Berlin. Please check before saying it is on display; the accuracy editor believes it has been off view since October 2023.
+- **A king's border stone.** Adad-nirari III's Pazarcık stele (805 BC) fixed the border between two kingdoms. It was found near Kahramanmaraş, Turkey.
+- **The farmer** is a composite drawn from Assyrian records of taxes, labour and military service (Postgate, 1974). He stands for many ordinary people under ancient kings.
+- **"Jesus plus nothing."** Carl's sign-off. A one-line explanation here may help new viewers (see question 3 below).
 
 ## Claims from earlier drafts corrected or dropped
 
-- **"A stone in a museum in Istanbul… a kudurru… set at the borders of a realm"** (book draft; v1 said stones like it "stood beside the road at the edge of a king's land"). I could not confirm a kudurru in Istanbul. Kudurrus record royal land grants and were kept in temples, not at a realm's border. v3 makes a general, true statement (border stelae existed, such as the Pazarcık stele) and names no museum. If the author has a particular stone in mind, we can name it and bring back his opening line.
-- **"Worn smooth by a thousand hands", "a little silver disc worth a day's wages":** cut, at the owner's direction.
-- **Soldiers "on the roofs" of the colonnades:** Josephus supports soldiers posted in and over the porticoes at festivals, so the script says "along the colonnades".
-- **Cyprus "conquered":** the Cypriot kings submitted, so the script says "brought a far-off land under his rule".
-- **Left for later episodes** (all sound, but they pulled focus from the one meaning): Nathan and David, the herald, the reading of the covenant at the Feast of Tabernacles, Deuteronomy 17, Luke 10:16 and Luke 17:21. These are the book's "four channels" (Chapter 3). In v3 the four channels become one road, the king's image.
-- **Considered and set aside:** the author's tsunami illustration (July 2026). It is a strong scene, but it pulled the episode away from its one spine. It could replace the castle beat (c02) if the author wants it.
+- **The Istanbul kudurru at a realm's border** (book draft and v1): not used. Kudurrus record land grants and stood in temples. The stone is now a border stele, which is accurate. If the author has a particular Istanbul stone in mind, it can go in the video description.
+- **"Worn smooth by a thousand hands" and "worth a day's wages":** cut, at the owner's direction.
+- **Fixes since v3, from the accuracy pass:**
+  - "Caesar was the emperor in Rome… his armies" became "the Roman emperor… Rome's armies". Tiberius ruled from Capri after AD 26, and Pompey, not an emperor, took Judea.
+  - "From his own purse" was cut.
+  - "The first two lines" became "those two lines".
+  - "The place where" became "wherever".
+  - "Under Rome" became "Herod ruled Galilee, and Rome ruled Herod".
+  - "Every man" and "every person" were softened.
+  - "In full" became "as truly as anyone".
+  - p01's on-screen quotation lost its question mark.
+  - Cyprus "knew… This place was his now" is gone with the museum stone.
+- **Considered and left out:**
+  - **The tsunami illustration** from July 2026. It pulled away from the one spine.
+  - **Paying off the coin's titles.** The cold listener heard "son of a god" and "highest priest" as Jesus' titles and wanted the irony said aloud. Left unsaid, so the episode keeps one meaning; churchgoers will hear it anyway.
+  - **The responsibility beat** (h02) and "every face you meet". The episode now sends the listener home with one action.
 
-## What changed from v1 and v2, and why
+## What changed from v3 to v4, and why
 
-- **The answer is delayed.** v1 and v2 said "the person with God's image belongs to God" at 1:50, then taught for eight minutes. v3 asks the question at about 3:00 and answers it at about 9:30, once the listener has learned what a kingdom and a royal image were.
-- **Scenes instead of points.** King, land and people are shown through the traveller and the farmer. Nothing is announced as a list.
-- **The liked art keeps its place.** The a01–b01 drawings stay as they are; b02 and b03 move to the climax, and a new empty coin (p01) sets them up.
-- **Written for the drawings.** Every beat meets the timing rule at 2.5 words a second. The v1 recording ran at about 3.4.
+- **One story in the middle.** The faceless traveller, the museum's Cyprus stone, the rhetorical hinge and the civics paragraph are replaced by the farmer's own stone, carved with his king's face. The farmer returns at the climax.
+- **The king no longer makes God feel harsh** (see the guardrail above).
+- **The peak is the open hand.** The man who brought the coin looks at his own hand, then the listener does. The explaining after the climax is cut, and only two neat couplets remain there.
+- **The question is audible.** It is restated in the same words before Genesis, and the trap is shown closing (Luke 20:26).
+- **One action for the week,** triggered by paying, not by cash, and using the farmer's word "field" and the word "slowly".
+- **The tease for next time is a scene,** not a reading assignment.
+- **Length.** 1,777 story words (v3: 1,848), 11:51 of narration and about 12:20 with intro and outro. 43 drawings, of which 28 are still to be drawn. Every drawing meets the timing rule.
 
-## Questions for the author
+## Decisions for Carl
 
-1. Which stone in Istanbul did you have in mind? If it is a specific border stone, we can restore your opening line.
-2. Are you happy for b02 and b03 to move from the two-minute mark to the climax?
-3. Do you want the episode title read at the end of the channel intro ("Episode one: What a Kingdom Actually Was"), the way an audiobook reads its chapter heading?
+1. **b02's on-screen words.** Change "Whose face do you carry?" to "Whose face did they carry?", so the "you" is saved for the end. This is a timeline text item, not the drawing.
+2. **Intro and outro (suggestions in the script).**
+   - End the intro on the episode title and move the web address to the outro.
+   - Say the outro in the first person ("send me a message").
+3. **"Jesus plus nothing."** It stays, as your sign-off. Would you like a line explaining it in the video description?
+4. **"The tax question was small. The ownership question was total."** Cut from b03 to thin the couplets. Restore it?
+5. **Assyria.** It is left unnamed in the narration, as your own "say, Assyria" allows. Agreed?
