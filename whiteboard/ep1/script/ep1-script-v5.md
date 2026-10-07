@@ -1,6 +1,6 @@
 # A Faith Driven Life — Episode 1: What a Kingdom Actually Was
 
-*Narration script v5 (v4 polished after the second cold listen). Scripture is quoted from the NIV (2011). Lines in [square brackets] are drawing cues and are never read aloud; each drawing starts as the narrator reaches its cue. Lines marked "Suggested for Carl" are proposals for the channel intro and outro, not part of the read. Beat ids match `beat-sheet.md`. Written for audiobook pace, about 150 words a minute. Word counts and timings are at the end.*
+*Narration script v5 (v4 polished after two more cold listens). Scripture is quoted from the NIV (2011). Lines in [square brackets] are drawing cues and are never read aloud; each drawing starts as the narrator reaches its cue. Lines marked "Suggested for Carl" are proposals for the channel intro and outro, not part of the read. Beat ids match `beat-sheet.md`. Written for audiobook pace, about 150 words a minute. Word counts and timings are at the end.*
 
 ---
 
@@ -230,7 +230,7 @@ Thank you for joining us on Understanding Kingdom, part of A Faith Driven Life. 
 
 ## Word count and runtime
 
-Counted on the narration only (drawing cues and suggestions excluded). Runtime at audiobook pace, 2.5 words a second. The v1 recording ran at about 3.4 words a second; at that pace the same script would take about 8:47 and squeeze the drawings again.
+Counted on the narration only (drawing cues and suggestions excluded). Runtime at audiobook pace, 2.5 words a second. The v1 recording ran at about 3.4 words a second; at that pace the same script would take about 8:30 and squeeze the drawings again.
 
 | Section | Words | Runtime at 2.5 w/s | Starts at |
 |---|---:|---:|---:|
