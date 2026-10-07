@@ -8,6 +8,7 @@ Updated for **v6** (7 Oct 2026). The script is `ep1-v6-studio.txt`, the plain te
 - `rhythm_check.py` and `ai_check.py` must pass.
 
 It was then reviewed three ways: Carl's own review brief, a content and accuracy check against the published Episode 1, and a first-time listener. Earlier versions are kept unchanged for comparison. See "What changed from v5 to v6" near the end.
+
 ## The one meaning
 
 > **The King's image is stamped on you, so all of you belongs to Him, every part and every day. That is where your worth comes from, and your calling.**
@@ -67,8 +68,8 @@ Times are at Studio's measured pace (3.39 words a second, pauses included) from 
 The test listener flinched at the king who takes grain and sons. In Scripture that list is a warning about human kings (1 Samuel 8:11–17), and Assyria is the great oppressor (Isaiah 10:5–14). So the script does three things.
 
 1. **Carries over to God only ownership and protection.**
-   - Ownership: "The field was never only his"; "the king's land"; "All of it is His, because He made it."
-   - Protection: the wall the sons built is the wall that saves the family; "All that time, God has been keeping watch over us."
+   - Ownership: "The field was never his alone"; "the king's land" (e06); "all of it belongs to Him, because He made every part of it."
+   - Protection: the wall the sons built is the wall that saves the family; "All that time God has been keeping watch over us, as surely as those soldiers stood on the wall."
    - The taking stays with the human king.
 2. **Plants worth by contrast.** The officials *count* the grain and *count* the sons (e03–e04). At h01 that counting is turned over: "The farmer's king counted what the farmer could hand over… God's image was on you before you had handed Him anything at all."
 3. **Names Assyria in v6, as the published episode and Carl's book do.**
@@ -183,15 +184,15 @@ The test listener flinched at the king who takes grain and sons. In Scripture th
 | a02 | "most likely a Tuesday" | Traditional reckoning from Mark 11:11, 12, 20, 27 and 14:1; no Gospel names the day. The author hedges it the same way. |
 | a02 | Men "sent" with the question | Mark 12:13 (sent by the chief priests, teachers of the law and elders, Mark 11:27; 12:12); Luke 20:20 calls them spies. |
 | a04 | Pharisees, "a strict religious party devoted to God's law", resented Rome's rule; Herodians were "loyal to the family of Herod, which rules parts of the land on Rome's behalf"; "On most questions those two groups stand far apart". | Josephus, *Antiquities* 17.41–42 and 18.4, 23. Herodians backed Herod's house (Mark 3:6; 12:13). They had already joined against Jesus (Mark 3:6), so the line says "on most questions". The NIV's "teachers of the law" are the scribes, so the Pharisees are not called that. |
-| a05 | At every festival, Roman soldiers stood along the colonnades, watching the crowd. Caesar was the Roman emperor, and Rome's armies had conquered this land. | Josephus, *Jewish War* 5.238–247: the Antonia had passages down to the porticoes, and the garrison spread along them at festivals "to watch the people". Also *Jewish War* 2.224; *Antiquities* 20.106–108; Acts 21:31–35. Rome held the Antonia from AD 6 to 36 (*Antiquities* 18.90–95). Pompey took Judea in 63 BC. Whiston's "legion" in 5.244 is a cohort. |
-| a06 | "Every tax the people paid to Rome"; to many it felt like bowing to a foreign king | *Jewish War* 2.118 (Judas the Galilean); Acts 5:37; Caesar called "king" in John 19:15; the trap's aim (Luke 20:20; 23:2). |
+| a05 | "Caesar was what everyone called the Roman emperor, and Rome had conquered the Jewish homeland"; at every festival the soldiers stood along the colonnades, watching the crowd. | Josephus, *Jewish War* 5.238–247: the Antonia had passages down to the porticoes, and the garrison spread along them at festivals "to watch the people". Also *Jewish War* 2.224; *Antiquities* 20.106–108; Acts 21:31–35. Rome held the Antonia from AD 6 to 36 (*Antiquities* 18.90–95). Pompey took Judea in 63 BC. Whiston's "legion" in 5.244 is a cohort. |
+| a06 | "Every tax the people paid to Rome"; to many it felt like "bowing to Caesar in God's own land" | *Jewish War* 2.118 (Judas the Galilean); Acts 5:37; Caesar called "king" in John 19:15; the trap's aim (Luke 20:20; 23:2). |
 | a08–a09 | Caesar's face; "Son of the divine Augustus"; "the highest priest, the one who stood between his people and heaven"; neither claim true of Caesar, both true of Jesus | The tribute-penny denarius (RIC I² Tiberius 26–30), struck at Lugdunum AD 15–37. He became pontifex maximus on 10 March AD 15. The legend is TI CAESAR DIVI AVG F AVGVSTVS; the reverse is PONTIF MAXIM with a seated female figure (identity debated). The identification is traditional and probable; denarii of Augustus also circulated and made the same kind of claim. Tiberius refused divine honours for himself (Suetonius, *Tiberius* 26), hence "son of a god". |
 | c01 | "Herod ruled Galilee, and Rome ruled Herod." | Herod Antipas, tetrarch of Galilee 4 BC – AD 39, Rome's client; "King Herod" in Mark 6:14. |
 | e01 | The father buried "in that ground" | Mesopotamian families often buried their dead beneath the house floor. |
 | e02 | A stone where the road crosses into the next kingdom, carved with the king's image; its words claim the land | **Border stelae:** Adad-nirari III's Pazarcık stele (805 BC, between Kummuh and Gurgum); the Antakya stele (between Hamath and Arpad); Senusret III's Semna stelae (c. 1870 BC, "Southern boundary…"). **Royal image stelae** ("I made an image of my royalty… and set it up"): Shalmaneser III; Sargon II at Kition and Ashdod; Esarhaddon at Zincirli. **Curse formulae** on royal stelae against anyone who damages them. Laban's boundary pillar is a biblical echo (Genesis 31:51–52). A composite, believable for a farmer near a frontier. Kudurrus are **not** the source; they recorded land grants and stood in temples. |
 | e03–e05 | A grain levy counted by a scribe; sons called up to build a town wall; the army at the border in spring; the family sheltering in the walled town | J. N. Postgate, *Taxation and Conscription in the Assyrian Empire* (1974): grain and straw taxes (*nusāhē*, *šibšu*), labour service on city walls (*ilku*, *tupšikku*), military service. 1 Samuel 8:11–17 describes the same life. "Every household" generalises (some estates were exempt), which is acceptable for a composite. |
-| e09 | "The Bible was written in the farmer's world" | Every book of the Bible was written under kings or emperors. Kingship "descended from heaven" (opening of the Sumerian King List). |
-| f03 | "Later, rulers… stamped their face on coins" | Early coins (Lydia, c. 600 BC) had no portraits. Rulers' portraits appear on Persian satraps' coins in the late 5th century BC and become the norm under Alexander's successors, c. 300 BC. |
+| e10 | "The Bible was written in a world like the farmer's" | Every book of the Bible was written under kings or emperors. Kingship "descended from heaven" (opening of the Sumerian King List). |
+| f03 | "In later centuries kings began to stamp their faces on coins" | Early coins (Lydia, c. 600 BC) had no portraits. Rulers' portraits appear on Persian satraps' coins in the late 5th century BC and become the norm under Alexander's successors, c. 300 BC. |
 | f04 | Caesar's face "had travelled across his empire" | The coin was struck at Lugdunum (Lyon), so the script avoids "from Rome". |
 | g01 | "The men in those courts had learned that page as boys." | Josephus, *Against Apion* 2.175, 178; 2 Timothy 3:15. The script avoids "every man", since Greeks and soldiers were in the courts too (John 12:20). |
 | g03 | God places His image in His land, as a king did | Mainstream reading (D. J. A. Clines, 1968; J. R. Middleton, *The Liberating Image*, 2005). Egyptian and Assyrian texts call the king a god's "image". The Tell Fekheriye statue (9th c. BC) calls a king's statue his "image" and "likeness", using the Aramaic forms of the words in Genesis 1:26. Hebrew *tselem* also means statue (2 Kings 11:18; Daniel 3:1). |
@@ -213,7 +214,7 @@ Museum and find-spot facts belong here, not in the story.
 - **The farmer** is a composite drawn from Assyrian records of taxes, labour and military service (Postgate, 1974). He stands for many ordinary people under ancient kings.
 - **Scripture notice.** "Scripture quotations are from the Holy Bible, New International Version®, NIV®. Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™ Used by permission. All rights reserved worldwide." The episode quotes well under the 500 verses the NIV allows with a notice.
 - **The Istanbul stone.** If Carl has a particular boundary stone in the Istanbul Archaeology Museums in mind, name it here, with its museum number.
-- **"Jesus plus nothing."** Carl's sign-off. A one-line explanation here may help new viewers (see question 3 below).
+- **"Jesus plus nothing."** Carl's sign-off. A one-line explanation here may help new viewers (decision 5 below).
 
 ## Claims from earlier drafts corrected or dropped
 
