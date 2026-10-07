@@ -1,6 +1,6 @@
 # Story bible — Episode 1: What a Kingdom Actually Was
 
-Updated for v4, after the four editor passes on v3 (`notes-v3-story.md`, `notes-v3-ear.md`, `notes-v3-accuracy.md`, `notes-v3-listener.md`) and the editor-in-chief's decisions. The script is `ep1-script-v4.md`, and `beat-sheet.md` goes with it. v3 is kept unchanged for comparison.
+Updated for **v5**. v4 followed the four editor passes on v3 (`notes-v3-story.md`, `notes-v3-ear.md`, `notes-v3-accuracy.md`, `notes-v3-listener.md`); v5 follows two more cold listens (`notes-v4-listener.md`, `notes-v5-listener.md`). The script is `ep1-script-v5.md` (read-aloud copy: `ep1-recording-script.md`), and `beat-sheet.md` goes with it. Earlier versions are kept unchanged for comparison. See "What changed from v4 to v5" near the end.
 
 ## The one meaning
 
@@ -18,10 +18,10 @@ Times are at 2.5 words a second from the start of the intro.
 |---|---|
 | 0:00–0:30 | First form: men "sent with a question sharpened into a trap". The stakes arrive in the opening breath. |
 | ~2:30 | "Whose image is this?" … "Give back to Caesar what is Caesar's and to God what is God's." The fork breaks: the crowd has nothing to shout about, the soldiers have no one to arrest, and the trappers fall silent (Luke 20:26). |
-| ~3:30 | Stated in full (p01), and the narrator says, "I want you to hold onto that question." |
-| 5:10–8:10 | Kept alive inside one story. A farmer thinks his field is his own, yet the face of a king he has never seen is carved on a stone at its edge. Then "All who live in it. That includes the farmer." |
+| ~3:30 | Stated in full (p01). |
+| 5:10–8:10 | Kept alive inside one story. A farmer thinks his field is his own, yet the face of a king he has never seen is carved on a stone at its edge. Then "No stone marks the edge of God's land." |
 | ~8:40 | "Remember that coin in the temple courts?" Then the question again, in the same words (f05). |
-| ~8:50–10:15 | Answered. On the first page, God places His image in His land. "Caesar could stamp his face on silver. God had stamped His on them." The farmer carried a greater King's image without knowing it: "You are the statue that breathes, and the coin that walks." |
+| ~8:50–10:15 | Answered. On the first page, God places His image in His land. "Caesar could stamp his face on silver. God had stamped His on them." The farmer carried a greater King's image without knowing it: "You are the stone that breathes, and the coin that walks." Jesus' words close it: "What belongs to God is you, every part of you, on every day of the week." |
 | ~11:00 | **The peak.** The man who brought the coin looks at his own hand; then the listener is asked to hold out theirs. "Whose image is this?" |
 
 ## The spine
@@ -39,11 +39,11 @@ Times are at 2.5 words a second from the start of the intro.
 | Section | Scene | Stakes | Turn |
 |---|---|---|---|
 | 1. The coin | Temple courts, Passover week | Jesus' life: the crowd on one side, Rome's soldiers on the other | The trap closes on the trappers. |
-| 2. What belongs to God? | The same courts, the men leaving | The second half of the sentence | "I want you to hold onto that question." |
+| 2. What belongs to God? | The same courts, the men leaving | The second half of the sentence | "That was the easy half." |
 | 3. A word that lost its weight | Galilee after John's arrest; a church pew today | Saying "kingdom" in Herod's territory; whether it means anything to us | "They ask for one thing, in two ways." |
 | 4. The farmer who forgot his king | One farm, one stone, one family, over years | His harvest, his sons, his family's lives | "He could forget the king only because the king was doing his job." |
 | 5. The king's face | A market; back to the temple courts | Whose face is on what | The question again, in the same words. |
-| 6. The first page | Creation; the farmer; you | Whose image we carry | "You are the statue that breathes, and the coin that walks." |
+| 6. The first page | Creation; the farmer; you | Whose image we carry | "What belongs to God is you." |
 | 7. What the image gives you | A newborn, a grandmother, a prisoner | Worth | God's image was on you before you handed Him anything. |
 | 8. The question comes home | A road at evening; your hand | The listener's own life | "Whose image is this?" Then one thing to do. |
 | 9. Next time | A great king's hall | A people swearing to a treaty | God's covenant words, heard the way Israel first heard them. |
@@ -53,7 +53,7 @@ Times are at 2.5 words a second from the start of the intro.
 The test listener flinched at the king who takes grain and sons. In Scripture that list is a warning about human kings (1 Samuel 8:11–17), and Assyria is the great oppressor (Isaiah 10:5–14). So v4 does three things.
 
 1. **Carries over to God only ownership and protection.**
-   - Ownership: "held under the king"; "This place is the king's, and so are the people in it"; "All of it is His, because He made it."
+   - Ownership: "The field was never only his"; "the king's land"; "All of it is His, because He made it."
    - Protection: the wall the sons built is the wall that saves the family; "All that time, God has been keeping watch over us."
    - The taking stays with the human king.
 2. **Plants worth by contrast.** The officials *count* the grain and *count* the sons (e03–e04). At h01 that counting is turned over: "The farmer's king counted what the farmer could hand over… God's image was on you before you had handed Him anything at all."
@@ -69,11 +69,10 @@ The test listener flinched at the king who takes grain and sons. In Scripture th
 | "The whole trap was small enough to fit in the palm of a hand." (a07) | Caesar's face lying in the palm of the man who brought the coin (i01), then the listener's own hand (i02) |
 | The fork: yes loses the crowd, no brings the soldiers (a06) | The fork gone quiet: nothing to shout about, no one to arrest (a10b) |
 | Passover, the feast of freedom from a foreign king (a02) | The soldiers standing guard over that very feast (a05) |
-| The empty coin and "I want you to hold onto that question" (p01) | The same coin and the same words before Genesis (f05); the coin with a human face (b02) |
+| The empty coin and the question (p01) | The same coin and the same question before Genesis (f05); the coin with a human face (b02) |
 | "We usually say it quickly, on the way to daily bread." (c03) | "…pray the words Jesus taught, slowly this time." (j01) |
-| "a field he thinks of as his own" (e01) | "the one field in your life you still think of as your own" (j01) |
-| "He sent his face." The king's carved image on the stone, walked past every day (e02, e02b) | "The face on the stone has been telling him so every day." (e06); "All his life, the farmer walked past his king's image… You carry it too." (g04) |
-| The stone's curse on anyone who harms it (e02) | The prisoner the whole world has written off still carries God's image (h01). Unstated on purpose. |
+| "a field he thinks of as his own"; his father buried "in that ground" (e01) | "Even the ground where his father lies is the king's land" (e06); "the one field in your life you still call your own" (j01) |
+| "He sent his face." The king's carved image on the stone, walked past every day (e02, e02b) | "The face on the stone has told him so every day." (e06); "All his life, the farmer walked past his king's image… You carry it too. You are the stone that breathes" (g04) |
 | The scribe counts the grain; the officials count the sons (e03, e04) | "The farmer's king counted what the farmer could hand over." (h01) |
 | "No stone marks the edge of God's land." (e09) | All of the listener's life is inside it (g04, j01). |
 | "the great King over all the earth" (f04) | Next episode: *The Treaty of the Great King* (k01) |
@@ -107,14 +106,11 @@ The test listener flinched at the king who takes grain and sons. In Scripture th
 9. "The trap was political, religious, and public — and it was small enough to fit in the palm of a hand." (Revision worksheet, Introduction)
 10. "You are the royal image. You are the statue that breathes, the coin that walks…" (*The King's Rule*, Chapter 3)
 
-**Where v4 uses it:**
+**Where v5 uses it:**
 - **His first person:**
-  - "I want you to hold onto that question."
   - "I believe the men who heard Him knew the answer straight away."
-  - "I am grateful we can."
-  - "Go back with me to the first page."
   - "I often think about those men walking home that evening."
-- **His lines:** the Tuesday (now hedged as he hedges it), "a question sharpened into a trap", the palm of a hand, castle, throne and dragon, "on the way to daily bread", the farmer, "nobody ever voted God in", the statue that breathes, and the grandmother.
+- **His lines:** the Tuesday (now hedged as he hedges it), "a question sharpened into a trap", the palm of a hand, castle, throne and dragon, "on the way to daily bread", the farmer, "the coin that walks" (with "stone" for his "statue", see Decisions), and the grandmother.
 
 **What we leave out even though he does it:**
 - **The "It is not X. It is Y." reflex.** The craft rules ban it.
@@ -159,7 +155,7 @@ The test listener flinched at the king who takes grain and sons. In Scripture th
 | a08–a09 | Caesar's face; "Tiberius Caesar, son of the divine Augustus"; Pontifex Maximus, "the highest priest"; two claims: son of a god, go-between with heaven | The tribute-penny denarius (RIC I² Tiberius 26–30), struck at Lugdunum AD 15–37. He became pontifex maximus on 10 March AD 15. The legend is TI CAESAR DIVI AVG F AVGVSTVS; the reverse is PONTIF MAXIM with a seated female figure (identity debated). The identification is traditional and probable; denarii of Augustus also circulated and made the same kind of claim. Tiberius refused divine honours for himself (Suetonius, *Tiberius* 26), hence "son of a god". |
 | c01 | "Herod ruled Galilee, and Rome ruled Herod." | Herod Antipas, tetrarch of Galilee 4 BC – AD 39, Rome's client; "King Herod" in Mark 6:14. |
 | e01 | The father buried "in that ground" | Mesopotamian families often buried their dead beneath the house floor. |
-| e02 | A stone where the road crosses into the next kingdom, carved with the king's image; its words claim the land and curse anyone who harms it | **Border stelae:** Adad-nirari III's Pazarcık stele (805 BC, between Kummuh and Gurgum); the Antakya stele (between Hamath and Arpad); Senusret III's Semna stelae (c. 1870 BC, "Southern boundary…"). **Royal image stelae** ("I made an image of my royalty… and set it up"): Shalmaneser III; Sargon II at Kition and Ashdod; Esarhaddon at Zincirli. **Curse formulae** on royal stelae against anyone who damages them. Laban's boundary pillar is a biblical echo (Genesis 31:51–52). A composite, believable for a farmer near a frontier. Kudurrus are **not** the source; they recorded land grants and stood in temples. |
+| e02 | A stone where the road crosses into the next kingdom, carved with the king's image; its words claim the land | **Border stelae:** Adad-nirari III's Pazarcık stele (805 BC, between Kummuh and Gurgum); the Antakya stele (between Hamath and Arpad); Senusret III's Semna stelae (c. 1870 BC, "Southern boundary…"). **Royal image stelae** ("I made an image of my royalty… and set it up"): Shalmaneser III; Sargon II at Kition and Ashdod; Esarhaddon at Zincirli. **Curse formulae** on royal stelae against anyone who damages them. Laban's boundary pillar is a biblical echo (Genesis 31:51–52). A composite, believable for a farmer near a frontier. Kudurrus are **not** the source; they recorded land grants and stood in temples. |
 | e03–e05 | A grain levy counted by a scribe; sons called up to build a town wall; the army at the border in spring; the family sheltering in the walled town | J. N. Postgate, *Taxation and Conscription in the Assyrian Empire* (1974): grain and straw taxes (*nusāhē*, *šibšu*), labour service on city walls (*ilku*, *tupšikku*), military service. 1 Samuel 8:11–17 describes the same life. "Every household" generalises (some estates were exempt), which is acceptable for a composite. |
 | e09 | "The Bible was written in the farmer's world" | Every book of the Bible was written under kings or emperors. Kingship "descended from heaven" (opening of the Sumerian King List). |
 | f03 | "Later, rulers… stamped their face on coins" | Early coins (Lydia, c. 600 BC) had no portraits. Rulers' portraits appear on Persian satraps' coins in the late 5th century BC and become the norm under Alexander's successors, c. 300 BC. |
@@ -167,7 +163,7 @@ The test listener flinched at the king who takes grain and sons. In Scripture th
 | g01 | "The men in those courts had learned it as boys." | Josephus, *Against Apion* 2.175, 178; 2 Timothy 3:15. The script avoids "every man", since Greeks and soldiers were in the courts too (John 12:20). |
 | g03 | God places His image in His land, as a king did | Mainstream reading (D. J. A. Clines, 1968; J. R. Middleton, *The Liberating Image*, 2005). Egyptian and Assyrian texts call the king a god's "image". The Tell Fekheriye statue (9th c. BC) calls a king's statue his "image" and "likeness", using the Aramaic forms of the words in Genesis 1:26. Hebrew *tselem* also means statue (2 Kings 11:18; Daniel 3:1). |
 | b02, i02 | Reading "to God what is God's" as the person who bears God's image | An ancient reading (Tertullian, *On Idolatry* 15; *Against Marcion* 4.38) but an interpretation, so it is framed once with "I believe" (p02). |
-| g04 | "the statue that breathes" | Idols "have no breath in them" (Jeremiah 10:14; Psalm 135:17); God breathed life into the man (Genesis 2:7). |
+| g04 | "the stone that breathes" (the author's book: "the statue that breathes") | Idols "have no breath in them" (Jeremiah 10:14; Psalm 135:17); God breathed life into the man (Genesis 2:7). |
 | k01 | A great king's treaty read aloud, sworn to by a smaller people, sealed in clay, "more than three thousand years ago" | Hittite treaties of the 14th–13th centuries BC: sealed tablets, clauses for public reading, and the vassal's oath. "Thus says … the Great King"; "the great king, the king of Assyria" (2 Kings 18:19, 28). The scene compresses these into one moment. |
 
 ## For the video description (not narrated)
@@ -197,7 +193,6 @@ Museum and find-spot facts belong here, not in the story.
   - Cyprus "knew… This place was his now" is gone with the museum stone.
 - **Considered and left out:**
   - **The tsunami illustration** from July 2026. It pulled away from the one spine.
-  - **Paying off the coin's titles.** The cold listener heard "son of a god" and "highest priest" as Jesus' titles and wanted the irony said aloud. Left unsaid, so the episode keeps one meaning; churchgoers will hear it anyway.
   - **The responsibility beat** (h02) and "every face you meet". The episode now sends the listener home with one action.
 
 ## What changed from v3 to v4, and why
@@ -210,6 +205,21 @@ Museum and find-spot facts belong here, not in the story.
 - **The tease for next time is a scene,** not a reading assignment.
 - **Length.** 1,777 story words (v3: 1,848), 11:51 of narration and about 12:20 with intro and outro. 43 drawings, of which 28 are still to be drawn. Every drawing meets the timing rule.
 
+## What changed from v4 to v5, and why
+
+Two more cold listens (`notes-v4-listener.md`, 7/10; `notes-v5-listener.md`, 7/10) found the coin and the farmer reading like an audiobook and the middle turning into a sermon. v5:
+
+- **Pays off the coin's two claims at once:** "Neither claim was true of Caesar. Both were true of the man holding the coin." (Son of God: Mark 1:1; the one mediator and great high priest: 1 Timothy 2:5; Hebrews 4:14.)
+- **Stops stepping out of the story to manage the listener:** cut "I want you to hold onto that question", "Listen to those two lines again", "So, one last time" and "hear both halves of it".
+- **Cuts the voting aside** ("We vote our leaders in… nobody ever voted God in"), which had lost its setup, and "That includes the farmer".
+- **Gives the danger a purpose:** Herod had just jailed John for speaking against him, "and Jesus went into Galilee and talked about a kingdom anyway".
+- **Softens the farmer's king:** "Nobody asks the farmer whether he agrees" is cut; the curse on the stone is cut (it was never paid off); the turn says once that "the field was never only his. Even the ground where his father lies is the king's land."
+- **"The stone that breathes"** in place of "the statue that breathes", so the image ties to the farmer's stone (listeners tripped on "statue").
+- **The climax lands once:** them (b02) → the farmer → you (g04) → Jesus' words and the plain answer (b03, moved to close the section): "What belongs to God is you, every part of you, on every day of the week."
+- **The weekly action is concrete and has no not-X-but-Y:** paying is the reminder; examples (money, evenings, a plan, an old grudge); "It was always His. Give it back to Him."
+- **Fewer names for one man** (Caesar's face, not "Caesar himself, the emperor Tiberius"), and the man on the road "takes a coin from his purse" rather than holding the same coin.
+- **Length:** 1,736 story words, 11:34 of narration, about 12:03 with intro and outro. Every drawing still meets the timing rule.
+
 ## Decisions for Carl
 
 1. **b02's on-screen words.** Change "Whose face do you carry?" to "Whose face did they carry?", so the "you" is saved for the end. This is a timeline text item, not the drawing.
@@ -219,3 +229,4 @@ Museum and find-spot facts belong here, not in the story.
 3. **"Jesus plus nothing."** It stays, as your sign-off. Would you like a line explaining it in the video description?
 4. **"The tax question was small. The ownership question was total."** Cut from b03 to thin the couplets. Restore it?
 5. **Assyria.** It is left unnamed in the narration, as your own "say, Assyria" allows. Agreed?
+6. **"Stone" or "statue" that breathes.** Your book says "the statue that breathes, the coin that walks". v5 says "stone" to tie to the farmer's stone. Your call.
