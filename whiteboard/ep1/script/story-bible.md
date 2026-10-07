@@ -50,7 +50,7 @@ Times are at 2.5 words a second from the start of the intro.
 
 ## Guardrail: the king must not make God feel harsh
 
-The test listener flinched at the king who takes grain and sons. In Scripture that list is a warning about human kings (1 Samuel 8:11–17), and Assyria is the great oppressor (Isaiah 10:5–14). So v4 does three things.
+The test listener flinched at the king who takes grain and sons. In Scripture that list is a warning about human kings (1 Samuel 8:11–17), and Assyria is the great oppressor (Isaiah 10:5–14). So the script does three things.
 
 1. **Carries over to God only ownership and protection.**
    - Ownership: "The field was never only his"; "the king's land"; "All of it is His, because He made it."
@@ -114,7 +114,7 @@ The test listener flinched at the king who takes grain and sons. In Scripture th
 
 **What we leave out even though he does it:**
 - **The "It is not X. It is Y." reflex.** The craft rules ban it.
-- **Long piled-up sentences.** None in v4 runs past 24 words.
+- **Long piled-up sentences.** v4 and v5 keep sentences short enough to say in one breath.
 - **Decorative coin details.** He cut these himself in his revision.
 - **"The tax question was small. The ownership question was total."** It is his line and theologically sound, but v4 cuts it to thin the run of neat couplets at the climax. It can go straight back after the quotation in b03 if Carl misses it.
 
@@ -128,7 +128,7 @@ The test listener flinched at the king who takes grain and sons. In Scripture th
 |---|---|---|
 | a03 | "where He had been every day that week, sitting in the courts, teaching" (narration) | Matthew 26:55; Luke 21:37 |
 | a04 | Pharisees and Herodians; "Teacher… we know that you are a man of integrity." "Is it right to pay the imperial tax to Caesar or not?" | Mark 12:13–14 (alliance before: Mark 3:6) |
-| a07 | "Jesus knew their hypocrisy." "Why are you trying to trap me?" "Bring me a denarius and let me look at it." | Mark 12:15 |
+| a07 | "Jesus saw straight through them" (after "Jesus knew their hypocrisy"). "Why are you trying to trap me?" "Bring me a denarius and let me look at it." | Mark 12:15 |
 | a10 | "Whose image is this? And whose inscription?" "Caesar's," they replied. "Give back to Caesar what is Caesar's and to God what is God's." | Mark 12:16–17 |
 | a10b–a11 | Could not catch Him out in front of the people; astonished by His answer, they fell silent; they left Him and went away (narration) | after Luke 20:26 ("They were unable to trap him in what he had said there in public. And astonished by his answer, they became silent."); Matthew 22:22 |
 | c01 | John in prison, put there by King Herod; Jesus goes into Galilee | Mark 1:14; Mark 6:14–17 |
@@ -150,9 +150,9 @@ The test listener flinched at the king who takes grain and sons. In Scripture th
 | a02 | "most likely a Tuesday" | Traditional reckoning from Mark 11:11, 12, 20, 27 and 14:1; no Gospel names the day. The author hedges it the same way. |
 | a02 | Men "sent" with the question | Mark 12:13 (sent by the chief priests, teachers of the law and elders, Mark 11:27; 12:12); Luke 20:20 calls them spies. |
 | a04 | Pharisees resented Rome's rule; Herodians were comfortable with Roman power; "On any other matter, they would not have stood together." | Josephus, *Antiquities* 17.41–42 and 18.4, 23. Herodians backed Herod's house (Mark 3:6; 12:13). They had already joined against Jesus (Mark 3:6), so the line says "on any other matter". |
-| a05 | Soldiers came down from their fortress at the corner of the temple courts at every festival. Caesar was the Roman emperor, and Rome's armies had conquered this land. | Josephus, *Jewish War* 5.238–247: the Antonia had passages down to the porticoes, and the garrison spread along them at festivals "to watch the people". Also *Jewish War* 2.224; *Antiquities* 20.106–108; Acts 21:31–35. Rome held the Antonia from AD 6 to 36 (*Antiquities* 18.90–95). Pompey took Judea in 63 BC. Whiston's "legion" in 5.244 is a cohort. |
+| a05 | At every festival, Roman soldiers stood along the colonnades, watching the crowd. Caesar was the Roman emperor, and Rome's armies had conquered this land. | Josephus, *Jewish War* 5.238–247: the Antonia had passages down to the porticoes, and the garrison spread along them at festivals "to watch the people". Also *Jewish War* 2.224; *Antiquities* 20.106–108; Acts 21:31–35. Rome held the Antonia from AD 6 to 36 (*Antiquities* 18.90–95). Pompey took Judea in 63 BC. Whiston's "legion" in 5.244 is a cohort. |
 | a06 | "Every tax the people paid to Rome"; to many it felt like bowing to a foreign king | *Jewish War* 2.118 (Judas the Galilean); Acts 5:37; Caesar called "king" in John 19:15; the trap's aim (Luke 20:20; 23:2). |
-| a08–a09 | Caesar's face; "Tiberius Caesar, son of the divine Augustus"; Pontifex Maximus, "the highest priest"; two claims: son of a god, go-between with heaven | The tribute-penny denarius (RIC I² Tiberius 26–30), struck at Lugdunum AD 15–37. He became pontifex maximus on 10 March AD 15. The legend is TI CAESAR DIVI AVG F AVGVSTVS; the reverse is PONTIF MAXIM with a seated female figure (identity debated). The identification is traditional and probable; denarii of Augustus also circulated and made the same kind of claim. Tiberius refused divine honours for himself (Suetonius, *Tiberius* 26), hence "son of a god". |
+| a08–a09 | Caesar's face; "Son of the divine Augustus"; "the highest priest, the one who stood between his people and heaven"; neither claim true of Caesar, both true of Jesus | The tribute-penny denarius (RIC I² Tiberius 26–30), struck at Lugdunum AD 15–37. He became pontifex maximus on 10 March AD 15. The legend is TI CAESAR DIVI AVG F AVGVSTVS; the reverse is PONTIF MAXIM with a seated female figure (identity debated). The identification is traditional and probable; denarii of Augustus also circulated and made the same kind of claim. Tiberius refused divine honours for himself (Suetonius, *Tiberius* 26), hence "son of a god". |
 | c01 | "Herod ruled Galilee, and Rome ruled Herod." | Herod Antipas, tetrarch of Galilee 4 BC – AD 39, Rome's client; "King Herod" in Mark 6:14. |
 | e01 | The father buried "in that ground" | Mesopotamian families often buried their dead beneath the house floor. |
 | e02 | A stone where the road crosses into the next kingdom, carved with the king's image; its words claim the land | **Border stelae:** Adad-nirari III's Pazarcık stele (805 BC, between Kummuh and Gurgum); the Antakya stele (between Hamath and Arpad); Senusret III's Semna stelae (c. 1870 BC, "Southern boundary…"). **Royal image stelae** ("I made an image of my royalty… and set it up"): Shalmaneser III; Sargon II at Kition and Ashdod; Esarhaddon at Zincirli. **Curse formulae** on royal stelae against anyone who damages them. Laban's boundary pillar is a biblical echo (Genesis 31:51–52). A composite, believable for a farmer near a frontier. Kudurrus are **not** the source; they recorded land grants and stood in temples. |
@@ -160,7 +160,7 @@ The test listener flinched at the king who takes grain and sons. In Scripture th
 | e09 | "The Bible was written in the farmer's world" | Every book of the Bible was written under kings or emperors. Kingship "descended from heaven" (opening of the Sumerian King List). |
 | f03 | "Later, rulers… stamped their face on coins" | Early coins (Lydia, c. 600 BC) had no portraits. Rulers' portraits appear on Persian satraps' coins in the late 5th century BC and become the norm under Alexander's successors, c. 300 BC. |
 | f04 | Caesar's face "had travelled across his empire" | The coin was struck at Lugdunum (Lyon), so the script avoids "from Rome". |
-| g01 | "The men in those courts had learned it as boys." | Josephus, *Against Apion* 2.175, 178; 2 Timothy 3:15. The script avoids "every man", since Greeks and soldiers were in the courts too (John 12:20). |
+| g01 | "The men in those courts had learned that page as boys." | Josephus, *Against Apion* 2.175, 178; 2 Timothy 3:15. The script avoids "every man", since Greeks and soldiers were in the courts too (John 12:20). |
 | g03 | God places His image in His land, as a king did | Mainstream reading (D. J. A. Clines, 1968; J. R. Middleton, *The Liberating Image*, 2005). Egyptian and Assyrian texts call the king a god's "image". The Tell Fekheriye statue (9th c. BC) calls a king's statue his "image" and "likeness", using the Aramaic forms of the words in Genesis 1:26. Hebrew *tselem* also means statue (2 Kings 11:18; Daniel 3:1). |
 | b02, i02 | Reading "to God what is God's" as the person who bears God's image | An ancient reading (Tertullian, *On Idolatry* 15; *Against Marcion* 4.38) but an interpretation, so it is framed once with "I believe" (p02). |
 | g04 | "the stone that breathes" (the author's book: "the statue that breathes") | Idols "have no breath in them" (Jeremiah 10:14; Psalm 135:17); God breathed life into the man (Genesis 2:7). |
