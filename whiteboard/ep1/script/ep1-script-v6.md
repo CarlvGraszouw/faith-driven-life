@@ -14,7 +14,7 @@
 
 [DRAWING a02 · existing: the temple courts at Passover, crowds, the money changer, a father and son with a lamb]
 
-It is most likely a Tuesday in the last week of Jesus' life, and Jerusalem is packed for the Passover, the great spring festival of the Jewish people. At Passover the whole city remembers how God brought His people out of slavery in Egypt, and pilgrims crowd the courts of the temple, the centre of Jewish worship. Among them, pushing their way through, comes a small group of men sent by the temple's leaders with a question sharpened into a trap.
+It is most likely a Tuesday in the last week of Jesus' life, and Jerusalem is packed for the Passover, the great spring festival of the Jewish people, now only days away. At Passover the whole nation remembers how God brought His people out of slavery in Egypt, and pilgrims crowd the courts of the temple, the centre of Jewish worship. Among them comes a small group of men sent by the chief priests, the leaders of the temple, with a question sharpened into a trap.
 
 [DRAWING a03 · existing: Jesus seated, teaching, people listening]
 
@@ -22,17 +22,17 @@ They find Jesus where He has been every day that week, sitting in the temple cou
 
 [DRAWING a04 · existing: the Pharisees and a Herodian come to the front; words "Taxes to Caesar?" as the question is asked]
 
-The men with the question push their way to the front of that crowd. Some of them are Pharisees, strict teachers of the law who resent Rome's rule over God's land, and the others are Herodians, men loyal to the family of Herod, which rules parts of the land on Rome's behalf. On any other day those two groups would never stand together, yet here they are, side by side, and they begin with flattery.
+The men with the question push their way to the front of that crowd. Some of them are Pharisees, members of a strict religious party devoted to God's law, who resent Rome's rule over God's land. The others are Herodians, men loyal to the family of Herod, which rules parts of the land on Rome's behalf. On most questions those two groups stand far apart, yet here they are, side by side, and they begin with flattery.
 
-"Teacher," they say, "we know that You are a man of integrity and that You teach the way of God in accordance with the truth." Then they ask Him their question, loudly enough for the whole crowd to hear, "Is it right to pay the imperial tax to Caesar or not?"
+"Teacher," they say, "we know that You are a man of integrity and that You teach the way of God in accordance with the truth." Then they ask their question, loud enough for the whole crowd to hear, "Is it right to pay the imperial tax to Caesar or not?"
 
 [DRAWING a05 · existing: Roman soldiers along the colonnades of the temple]
 
-Caesar was the Roman emperor, and Rome had conquered the Jewish homeland, so its soldiers kept order in Jerusalem and the people groaned under the occupation. At every festival those soldiers stood along the colonnades, the long covered walkways around the temple courts, watching the crowd for the first sign of trouble. They were Caesar's men, keeping watch over a feast that celebrated the day God set His people free from a foreign king.
+Caesar was what everyone called the Roman emperor, and Rome had conquered the Jewish homeland, so its soldiers kept order in Jerusalem and the people groaned under the occupation. At every festival those soldiers stood along the colonnades, the long covered walkways around the temple courts, watching the crowd for the first sign of trouble. They were Caesar's men, keeping watch over a feast that celebrated the day God set His people free from a foreign king.
 
 [DRAWING a06 · existing: Jesus where the road forks: the angry crowd ("YES") on one side, soldiers ("NO") on the other]
 
-Every tax the people paid reminded them who ruled them, and to many of them paying it felt like bowing to a foreign king in God's own land. So everyone in that crowd can see the trap the moment the question is asked. If Jesus says yes, He will lose the crowd, and if He says no, He is calling for a tax revolt against Rome, with the soldiers a short walk away.
+Every tax the people paid to Rome reminded them who ruled them, and to many of them paying it felt like bowing to a foreign king in God's own land. So everyone in that crowd can see the trap the moment the question is asked. If Jesus says yes, He will lose the crowd, and if He says no, He is calling for a tax revolt against Rome, with the soldiers a short walk away.
 
 [DRAWING a07 · existing: a ringed hand puts the coin into Jesus' open palm]
 
@@ -40,11 +40,11 @@ But Jesus sees straight through them, and He says, "Why are you trying to trap M
 
 [DRAWING a08 · existing: the coin, large: the head of Tiberius, then the words around it]
 
-Jesus looks at the coin, and on one side is the head of the emperor of the day, Tiberius Caesar, with a claim running around the edge. The words call him son of the divine Augustus, because Rome had declared Augustus, the emperor before him, a god, and so the coin calls Tiberius the son of a god.
+Jesus looks at the coin, and on one side is the head of the emperor of the day, Tiberius, with a claim running around the edge. The words call him son of the divine Augustus, because Rome had declared Augustus, the emperor before him, a god, and so the coin calls Tiberius the son of a god.
 
 [DRAWING a09 · existing: the other side of the coin: the seated figure and the words PONTIF MAXIM]
 
-Then He turns it over, and on the other side the coin calls Tiberius the highest priest, the one who stands between his people and heaven. In one small piece of silver a man was claiming to be the son of a god and the one who stands between people and heaven, and neither title truly belonged to Caesar. Both belonged to the man who was turning that coin over in His fingers, though nobody watching could have known it that day.
+Then He turns it over, and on the other side the coin calls Tiberius the highest priest, the one who stands between his people and heaven. In one small piece of silver a man was claiming to rule the world and to stand between people and heaven, and neither title truly belonged to him. Both titles belonged to the man who was turning that coin over in His fingers, the Son of God, though nobody watching could have known it that day. Before that week was out He would give His own life to bring people back to God, and so stand between them and heaven Himself.
 
 [DRAWING a10 · existing: words "Whose image?", Jesus holding the coin up, words "Give back"]
 
@@ -56,7 +56,7 @@ Then Jesus says to them, "Give back to Caesar what is Caesar's and to God what i
 
 [DRAWING a10b · new: the fork from a06 again, gone quiet: the crowd lowering its fists, the soldiers turning back to the colonnade, the questioners standing stiff in front of Jesus]
 
-The crowd has nothing to shout about and the soldiers have no one to arrest, because the men who set the trap have failed to catch Him out in front of everyone.
+The crowd has nothing to shout about, and the soldiers watching from the colonnades have no one to arrest, because the men who set the trap have failed to catch Him out in front of everyone.
 
 [DRAWING a11 · existing: the questioners walking away, amazed]
 
@@ -68,7 +68,7 @@ Astonished by His answer, they fall silent, and after a while they turn and go a
 
 [DRAWING b01 · existing: the coin, an arrow, Caesar with his hand held out]
 
-Caesar's face was on the coin, so the coin belonged to Caesar and he could have it back, which was the easy half of the answer.
+Caesar's face was on the coin, so the coin belonged to Caesar and he was welcome to have it back, which was the easy half of Jesus' answer.
 
 [DRAWING p01 · new: beside Caesar's coin, an empty coin with no face and a large question mark; words "and to God what is God's"]
 
@@ -84,27 +84,31 @@ I believe the men who heard Him that day knew the answer straight away, and that
 
 [DRAWING c01 · new: Jesus standing on the shore of the Sea of Galilee, fishermen and villagers around Him; words "The Kingdom of God has come near"]
 
-The Kingdom of God was the first thing Jesus announced when He began to preach, years before that day in the temple. John the Baptist, a prophet who had been calling the nation back to God, had just been thrown into prison by Herod, the ruler of Galilee, for speaking out against him. It was a dangerous time to talk about kings, and Jesus went into Galilee and talked about a kingdom anyway. As He preached in the towns and villages of Galilee, He said, "The time has come. The Kingdom of God has come near. Repent and believe the good news!" To repent means to turn around and change direction, and nobody in those crowds needed the word kingdom explained, because they were living inside one, where Herod ruled Galilee and Rome ruled Herod.
-
-[DRAWING c05 · new: two halves: on the left a ballot box with arrows rising from a crowd of voters to a leader; on the right a throne with arrows coming down from the king to the people]
-
-For most of us a kingdom is much harder to picture, because we grew up in democracies, where power starts with the people. We vote our leaders in, and when we are unhappy with them we vote them out again. In the world of the Bible power flowed the other way, down from the king, and once he had made a decree it simply became the way things were.
+The Kingdom of God was the first thing Jesus announced when He began to preach in Galilee, years before that day in the temple. Herod, the ruler of Galilee, had just thrown a prophet called John the Baptist into prison for speaking out against him. It was a dangerous time to talk about kings, and Jesus went from town to town talking about a kingdom anyway. Wherever He went He said the same thing, "The time has come. The Kingdom of God has come near. Repent and believe the good news!" To repent means to turn around and change direction, and to come back under God's rule. Nobody in those crowds needed the word kingdom explained, because they were living inside one, where Herod ruled Galilee and Rome ruled Herod.
 
 [DRAWING c02 · new: a storybook castle on a hill, a king on a throne, a small dragon far off (lighter, storybook style)]
 
-Today the word kingdom has gone soft, and when we hear it we picture a castle on a hill, a king on a throne, perhaps a dragon in the distance, something pleasant and harmless from a children's story. The other great words of the Bible have softened in the same way over the years.
+Today the word kingdom has gone soft, and when we hear it we picture a castle on a hill, a king on a throne, perhaps a dragon in the distance, something pleasant and harmless from a children's story.
 
-[DRAWING c06 · new: three small pictures in a row: "law" under a parliament with a raised hand voting; "covenant" under two people signing across a table; "kingdom" under a family with suitcases walking to a border post]
+[DRAWING c05 · new: a ballot box, with arrows rising from a line of voters to a leader at a podium]
 
-We hear the word law and picture a rule that a parliament passed and a later vote could change, and we hear covenant and picture a contract between two equal sides who bargained over the terms. When we hear kingdom, we picture a country we could move away from if we did not like the way it was run. A man standing in the temple courts that day would have recognised none of those pictures, because in his world all three words meant something much harder and much closer to home.
+Most of us also grew up in democracies, where power starts with the people, and we vote our leaders in and vote them out again when they disappoint us.
 
-[DRAWING c03 · new: a man and a woman in a church pew, heads bowed; words "Your Kingdom come, Your will be done"]
+[DRAWING c06 · new: three small pictures in a row: "law" under a parliament with hands raised to vote; "covenant" under two people signing across a table; "kingdom" under a family with suitcases walking to a border post]
 
-Many of us pray for that Kingdom every Sunday, in the words Jesus taught His followers, "Your Kingdom come, Your will be done, on earth as it is in heaven." We usually say it quickly, on our way to asking for our daily bread.
+We carry that habit into the Bible, so when we read the word law we picture a rule a parliament passed and a later vote could change. When we read covenant, the Bible's word for a solemn agreement, we picture a contract between two equal sides who bargained over the terms. A kingdom, to us, sounds like a country we could leave if we did not like the way it was run.
+
+[DRAWING c07 · new: a king on a throne, the arrows of his word coming down to the people below; beside it, a man of Jesus' day in the temple courts]
+
+In the world of the Bible power flowed the other way, down from the king, and once he had made a decree it simply became the way things were. A man standing in the temple courts that day would have recognised none of our pictures, because in his world all three words meant something much harder and much closer to home.
+
+[DRAWING c03 · new: people of today praying, some in a pew and some at a kitchen table, heads bowed; words "Your Kingdom come, Your will be done"]
+
+Jesus taught His followers a prayer that millions of people still say every week, and near its start it asks, "Your Kingdom come, Your will be done, on earth as it is in heaven." Many of us say it quickly, on our way to asking for our daily bread.
 
 [DRAWING c04 · new part: on c03's board: an equals sign joining the two halves of the prayer, and under them "wherever the king's will is done"]
 
-Those two lines ask for one thing in two ways, because a kingdom was wherever the king's will was done, and for the people in those temple courts that was simply how the world worked.
+Those two lines ask for one thing in two ways, because a kingdom was wherever the king's will was done, and for the people in those temple courts that was how the world worked.
 
 ---
 
@@ -112,15 +116,15 @@ Those two lines ask for one thing in two ways, because a kingdom was wherever th
 
 [DRAWING d01 · new: a weathered boundary stone in a museum case with a small label; beside it, the same stone standing by a dusty road, a traveller with a staff reading it]
 
-In a museum in Istanbul, in Turkey, there is an old, weathered stone, carved with symbols and writing, which once stood beside a road at the edge of a king's land. It is a boundary stone, and every traveller who passed one like it knew exactly what it meant.
+In a museum in Istanbul, in Turkey, there is an old, weathered boundary stone, carved with symbols and writing, and stones like it once stood beside the road at the edge of a king's land. Every traveller who passed one knew exactly what it meant, because from that stone onward the king's law applied.
 
 [DRAWING d02 · new part: on d01's board, beyond the stone: an official taking a share of grain, a soldier keeping watch, a family at peace]
 
-From that stone onward the king's law applied, his officials collected the taxes and his soldiers kept the peace, and his protection covered everyone on that side of the line.
+His officials collected the taxes there, his soldiers kept the peace, and his protection covered everyone on that side of the line.
 
 [DRAWING d03 · new: three drawings joined by a scroll: a crown (the king), a field with its edges marked (the land), a crowd of families (the people); words "king · land · people"]
 
-Behind that stone stood three things, and the first was the king himself, a man nobody had ever voted for, whose right to rule had come down to him from his father and grandfather. Inside his borders his word settled every argument. The second was his land, real ground with real edges, where his word was law. The third was his people, bound to him by a covenant, a solemn agreement that the king offered on his own terms and his people received. Loyalty to the king was the one condition of belonging to his people, and going over to a rival king was treason.
+Behind that stone stood three things, and the first was the king himself, a man nobody had ever voted for, whose right to rule had come down to him from his father and grandfather. Inside his borders his word settled every argument. The second was his land, real ground with real edges, where his word was law. The third was his people, bound to him by a covenant that the king offered on his own terms and his people received. Loyalty to the king was the one condition of belonging to his people, and going over to a rival king was treason. A king, his land and his people, held together by his word: every man in the temple courts that day knew in his bones that this was what a kingdom actually was.
 
 ---
 
@@ -156,7 +160,7 @@ Now the farmer understands what all those years of grain and labour were for, an
 
 [DRAWING e07 · same board: a modern morning: a parent heading out of the door with a bag, children at the breakfast table, a full calendar on the wall]
 
-Most of us live a lot like that farmer, going to work, raising our children and running our own lives, and whole seasons can go by without God crossing our minds. We take His patience to mean that He is absent, and we forget Him for the same reason the farmer forgot his king, because all that time God has been keeping watch over us.
+Most of us live a lot like that farmer, going to work, raising our children and running our own lives, and whole seasons can go by without God crossing our minds. We take His patience to mean that He is absent, and we forget Him for the same reason the farmer forgot his king. All that time God has been keeping watch over us, as surely as those soldiers stood on the wall between the farmer's family and the enemy.
 
 ---
 
@@ -164,7 +168,7 @@ Most of us live a lot like that farmer, going to work, raising our children and 
 
 [DRAWING e10 · new: a king's seal pressed into a clay tablet, a crowd with hands raised to swear; words "I will be your God, and you will be My people"]
 
-The Bible was written in the farmer's world, and the people who first heard it knew the language of kings. Again and again God says to His people, "I will be your God, and you will be My people." Those words are tender, and they were also the formal language of a covenant, the words by which a king bound a people to himself.
+The Bible was written in a world like the farmer's, and the people who first heard it knew the language of kings by heart. Again and again God says to His people, "I will be your God and you will be My people." Those words are tender, and they were also the formal language of a covenant, the words by which a king bound a people to himself.
 
 [DRAWING e11 · new: a boundary stone with the words "The land is Mine" carved on it, fields of Israel behind]
 
@@ -172,7 +176,7 @@ In the laws God gave to Israel, the ancient Jewish nation, He says plainly, "The
 
 [DRAWING e09 · changed: hills, a sea, a village and its people, all under one wide sky, with no stone anywhere; words "The earth is the Lord's"]
 
-A psalm, one of the songs of Israel's worship, goes further still: "The earth is the Lord's, and everything in it, the world, and all who live in it." No stone marks the edge of God's land, and His Kingdom reaches further than any border, because it is His reign wherever His word is obeyed. When people asked Jesus when the Kingdom of God would come, He told them that it was already in their midst.
+A psalm, one of the songs of Israel's worship, goes further still: "The earth is the Lord's, and everything in it, the world, and all who live in it." No stone marks the edge of God's land, and His Kingdom reaches further than any border, wherever people do what He says. When people asked Jesus when the Kingdom of God would come, He told them that it was already in their midst.
 
 [DRAWING n01 · new: a great throne high up; below it smaller kings kneeling, their crowns laid on the steps; words "King of kings"]
 
@@ -186,29 +190,29 @@ God chose to make Himself known inside that ancient picture of a king. When He c
 
 ## 7. How the king reached the village
 
-[DRAWING m01 · new: the farmer's village small at the edge of the board, four paths leading to it; on the first path a king speaking and a scribe writing; then Mount Sinai in smoke; words "God spoke all these words"]
+[DRAWING m01 · new: the farmer at the threshing floor again, an official holding up a sealed decree; then Mount Sinai in smoke; words "God spoke all these words"]
 
-That farmer in Assyria never once saw his king, and yet the king's will reached his village in four ways, and each of them has its match in the Bible. The first was the royal decree, because when a king declared something his word made it happen, and the God of the Bible speaks in exactly that way. At Mount Sinai in the desert, after God had brought Israel out of Egypt, the Bible says, "God spoke all these words," and His commands became law the moment He spoke them.
+That farmer in Assyria never once saw his king, and yet the king's will reached his village in four ways, and he met every one of them. The officials who came for his grain carried the king's decree, and once the king had spoken the matter was settled, which is exactly how the God of the Bible speaks. At Mount Sinai in the desert, after God had brought Israel out of Egypt, the Bible says, "God spoke all these words," and His commands became law the moment He spoke them.
 
-[DRAWING m02 · new: a herald on horseback at the village gate reading from a scroll, villagers listening; words "Thus says the Lord"]
+[DRAWING m02 · new: a herald on horseback at the farmer's door with a scroll; beside him a prophet speaking to a crowd; words "This is what the Lord says"]
 
-The second was the messenger, the herald who rode into the village to speak for the king, so that when the herald spoke the king was speaking, and to welcome the herald was to welcome the king. The prophets of the Bible were God's heralds, and they opened their messages the way a royal envoy did, with the words "Thus says the Lord." Those words told every listener that the King was speaking, and that the prophet was only His mouth.
+The man who rode in to call the farmer's sons to the wall was the king's herald, and when a herald spoke, the king himself was speaking. The prophets of the Bible were God's heralds, and they opened their messages the way a royal herald did, with the words "This is what the Lord says." Those words told every listener that God, the Great King, was speaking, and that the prophet was only His mouth.
 
-[DRAWING m03 · new: the prophet Nathan, plainly dressed, pointing at King David on his throne; David's hand at his chest]
+[DRAWING m03 · new: the prophet Nathan, plainly dressed, pointing at King David on his throne; David's hand at his chest; a small lamb drawn in a thought above them; words "You are the man!"]
 
-One day the prophet Nathan walked into the palace of King David, Israel's most famous king, after David had taken another man's wife and arranged for her husband to be killed in battle. Nathan was an ordinary man and David was the king, yet David had to listen, because through Nathan the Great King was speaking.
+One day the prophet Nathan walked into the palace of King David, Israel's most famous king, after David had taken another man's wife and arranged for her husband to be killed in battle. Nathan told the king a story about a rich man who took a poor neighbour's only lamb, and when David burned with anger at the rich man, Nathan said to him, "You are the man!" Nathan was an ordinary man and David was the king, yet David listened and confessed his sin, because through Nathan the Great King was speaking.
 
-[DRAWING m04 · new: Jesus sending out His followers two by two along a road; words "Whoever listens to you listens to Me"]
+[DRAWING m04 · new: Jesus sending out His followers two by two along a road toward a village; words "Whoever listens to you listens to Me"]
 
-Jesus carried this forward when He sent out His followers, and He told them, "Whoever listens to you listens to Me; whoever rejects you rejects Me; but whoever rejects Me rejects Him who sent Me."
+Jesus gave His own followers that same authority when He sent them out ahead of Him to the towns and villages. His words to them were these, "Whoever listens to you listens to Me; whoever rejects you rejects Me; but whoever rejects Me rejects Him who sent Me."
 
 [DRAWING m05 · new: two clay tablets side by side; then a priest reading a scroll aloud to men, women, children and foreigners among harvest shelters of branches]
 
-The third was the written covenant, because spoken words fade, so a king had his covenant written down and kept where it could be read again. God did the same, and He commanded that every seven years, at the Feast of Tabernacles, the autumn harvest festival, the whole law should be read aloud. Men, women and children gathered to hear it, along with the foreigners living among them, because God knew that a people who stop hearing their covenant soon forget whose they are.
+A king's covenant was written down and kept, because spoken words fade, and from time to time its terms were read aloud again to the people bound by it. God did the same, and through Moses He commanded that every seven years, at the Festival of Tabernacles, the autumn harvest festival, His law should be read aloud to the whole nation. Men, women and children gathered to hear it, along with the foreigners living among them, because God knew that a people who stop hearing their covenant soon forget whose they are.
 
-[DRAWING m06 · new: a king's statue in a town square, and a carved stone at a city gate like the farmer's stone, people passing]
+[DRAWING m06 · new: the farmer's stone again; beside it a king's statue in a town square and a carved stone at a city gate, people passing]
 
-The fourth was the royal image, and of the four it reached furthest. Kings set up statues of themselves and carved their likeness on stone monuments, in town squares, in the cities they had conquered and at the edges of their land, like the face on the farmer's stone. The image made the king present in places he would never visit, and it told everyone who saw it that this place was his.
+And then there was the king's image, the fourth way and the one that mattered most, which the farmer had walked past every day of his life on the stone at the end of his field. Kings set up statues of themselves and carved their likeness on stone monuments, in town squares, in the cities they had conquered and at the edges of their land. The image made the king present in places he would never visit, and it told everyone who saw it that this place was his.
 
 [DRAWING f03 · same board: a market stall; hands passing coins; one coin drawn large with a king's head on it]
 
@@ -216,7 +220,7 @@ In later centuries kings found a way to send their face further still, by stampi
 
 [DRAWING m07 · new: a throne at the top; four arrows coming down labelled "speaks", "sends", "writes", "His image"; people below, ears open and hands lifted]
 
-All four of those ways ran in one direction, down from the throne to the people, because the King speaks, He sends His messengers, He writes down His covenant and He places His image in His land. Our part is to hear Him, to receive His word, to remember His covenant and to live as what we already are.
+All four of those ways ran in one direction, down from the throne to the people, because God the King speaks, sends His messengers, writes down His covenant and places His image in His land. Our part has always been to hear Him, to receive His word, to remember His covenant and to live as what we already are, His people.
 
 ---
 
@@ -224,7 +228,7 @@ All four of those ways ran in one direction, down from the throne to the people,
 
 [DRAWING f04 · same board: the temple courts drawn small; in front, a hand holding Caesar's coin; words "the Great King over all the earth"]
 
-Caesar's face had travelled that way across his whole empire, right into the courts of God's house in Jerusalem, in the purses of the very men who came to trap Jesus. They lived in two kingdoms at once, paying their taxes to Caesar, while in the temple they sang that God is "the Great King over all the earth."
+Caesar's face had travelled that way across his whole empire, right into the courts of God's house in Jerusalem, where the men who came to trap Jesus could put one into His hand. They lived in two kingdoms at once, paying their taxes to Caesar, while in the temple they sang that God is "the Great King over all the earth."
 
 [DRAWING f05 · new: the empty coin and question mark from p01, drawn again beside Caesar's coin]
 
@@ -232,23 +236,23 @@ The question of what belonged to God was still hanging in the air, and the men i
 
 [DRAWING g01 · same board: darkness over deep water, light breaking across it; words "Let there be light"]
 
-On that first page God speaks the way a king speaks, and what He says simply happens: "And God said, 'Let there be light,' and there was light."
+On that first page God speaks the way a king speaks, and what He says simply happens, as the Bible tells it: "And God said, 'Let there be light,' and there was light."
 
 [DRAWING g02 · new part: on g01's board: dry land rising from the sea, trees and plants, birds in the sky, animals on the ground]
 
-Day by day He fills His world with land and sea, with plants and trees, with birds and animals, and all of it is His because He made it.
+Day by day He fills His world with land and sea, with plants and trees, with birds in the sky and animals on the ground, and all of it belongs to Him, because He made every part of it.
 
 [DRAWING g03 · same board: a man and a woman standing in the garden, light falling on them; words "in Our image"]
 
-Last of all God does something the farmer in Assyria would have understood at once, because He places His own image in His land. He says, "Let Us make mankind in Our image, in Our likeness," and He gives them the task of ruling over His world. Then the Bible says it again, so that nobody can miss it, "So God created mankind in His own image, in the image of God He created them." Christians since the earliest days of the church have heard that verse behind Jesus' words about the coin.
+Last of all God does something the farmer in Assyria would have understood at once, because He places His own image in His land. He says, "Let Us make mankind in Our image, in Our likeness," and He gives them the task of ruling over His world. Then the Bible says it again, so that nobody can miss it, "So God created mankind in His own image, in the image of God He created them." Christians from the first centuries of the church have heard that verse behind Jesus' words about the coin.
 
 [DRAWING b02 · existing, moved: b02: the coin with a human face (IMAGO DEI) and the scroll; words "in the image of God"; on-screen question changed to "Whose face did they carry?"]
 
-So the men in the temple courts carried the answer to Jesus' question in their own faces, because Caesar could stamp his face on a piece of silver, while God had stamped His image on them.
+The answer to Jesus' question was in the men themselves, in the faces of everyone standing in those courts. Caesar could stamp his face on a piece of silver, while God had stamped His own image on the very men who were holding that coin.
 
 [DRAWING g04 · changed: on the left, the farmer walking past his king's stone; on the right, a man and a woman of today walking out into the world, the same light on them as in g03]
 
-All his life the farmer in Assyria walked past his king's image carved in stone, and he never knew that he carried the image of a greater King himself. You carry that image too, like a statue that breathes or a coin that walks, and the face stamped on you is the face of the King of a different Kingdom.
+All his life the farmer in Assyria walked past his king's image carved in stone, and he never knew that he carried the image of a greater King himself. You carry that image too, a statue that breathes and a coin that walks, and the face on you is the face of the King of a different Kingdom.
 
 [DRAWING b03 · existing, moved: b03: Caesar's coin, arrow, "Caesar"; a person, arrow, "God"; the days of the week, every one ticked]
 
@@ -266,7 +270,7 @@ The farmer's king counted what the farmer could hand over, his grain and his son
 
 [DRAWING h02 · new: a man and a woman of today, each with the faint outline of the coin's royal image over them; his hands at work in a garden, her hand guiding a child's pen]
 
-In the ancient world a king's image was handled with great care, because it stood for the king himself. Your body, your mind and your gifts carry the likeness of the Great King, so the way you treat them is the way you treat Him.
+In the ancient world a king's image was handled with great care, because it stood for the king himself. Your body, your mind and your gifts carry the likeness of the Great King, so the way you treat them, and the way you treat every person who carries that likeness, is the way you treat Him.
 
 ---
 
@@ -274,7 +278,7 @@ In the ancient world a king's image was handled with great care, because it stoo
 
 [DRAWING i01 · changed: evening on a road out of Jerusalem; the man who brought the coin has stopped and looks down at Caesar's coin lying in his open palm]
 
-I often think about those men walking home that evening with Jesus' question still turning in their minds, and especially about the one who brought Him the coin. Somewhere on the road he takes a coin from his own purse, and there is Caesar's face again, lying in his palm, and then he looks at the hand that is holding it.
+I often think about those men walking home that evening with Jesus' question still turning in their minds, and especially about the one who brought Him the coin. Somewhere on the road he takes a coin from his purse, and there is Caesar's face again, lying in his palm, and then he looks at the hand that is holding it.
 
 [DRAWING i02 · same board: an open hand of today, palm up, drawn large; words "Whose image is this?"]
 
@@ -282,7 +286,7 @@ Hold out your own hand for a moment and look at it the way he looked at his, and
 
 [DRAWING j01 · changed: a card tapped to pay at a shop counter; beside it, two open hands lifting up a small ploughed field; words "Your Kingdom come, Your will be done."]
 
-This week, every time you pay for something, let the money in your hand remind you whose image you carry, and look at every face you meet as someone who carries His image too. Think of the one field in your life you still call your own, perhaps your money, your evenings, a plan or an old grudge, and give it back to God, because it was always His. Let Him have your working week as well as your Sunday, and when you pray the words Jesus taught, say them slowly this time, "Your Kingdom come, Your will be done."
+This week, whenever money passes through your hand, let it remind you whose image you carry, and whose image is on every face you meet. Think of the one field in your life you still call your own, perhaps your money, your evenings, your working week, a plan or an old grudge, and give it back to God, because it was always His. And when you pray the words Jesus taught, say them slowly this time, "Your Kingdom come, Your will be done."
 
 [DRAWING k01 · changed: on j01's board, the words "Next: The Treaty of the Great King"; it finishes over the first seconds of the outro]
 
@@ -298,21 +302,21 @@ The next episode is called The Treaty of the Great King.
 
 ## Word count and runtime
 
-Counted on the narration only. Runtime at Studio's pace, about 3.4 words a second with its pauses (the v1 recording); Carl's checker estimates 218 words a minute, which would make it about 15:46.
+Counted on the narration only. Runtime at Studio's pace, about 3.4 words a second with its pauses (the v1 recording); Carl's checker estimates 218 words a minute, which would make it about 16:28.
 
 | Section | Words | Runtime | Starts at |
 |---|---:|---:|---:|
 | Opening (channel intro, Carl's recorded audio) | — | 0:12 | 0:00 |
-| 1. The coin | 696 | 3:25 | 0:12 |
-| 2. What belongs to God? | 108 | 0:32 | 3:37 |
-| 3. A word that lost its weight | 428 | 2:06 | 4:09 |
-| 4. The boundary stone | 184 | 0:54 | 6:14 |
-| 5. The farmer who forgot his king | 455 | 2:14 | 7:09 |
-| 6. The Great King | 322 | 1:35 | 9:22 |
-| 7. How the king reached the village | 508 | 2:29 | 10:57 |
-| 8. The first page | 394 | 1:56 | 13:27 |
-| 9. What the image gives you | 136 | 0:40 | 15:22 |
-| 10. The question comes home | 206 | 1:01 | 16:02 |
-| Closing (channel outro, Carl's recorded audio) | — | 0:17 | 17:03 |
-| **Story total (narration only)** | **3437** | **16:51** | |
-| **Episode with intro and outro** | | **17:20** | |
+| 1. The coin | 735 | 3:36 | 0:12 |
+| 2. What belongs to God? | 110 | 0:32 | 3:48 |
+| 3. A word that lost its weight | 413 | 2:01 | 4:21 |
+| 4. The boundary stone | 210 | 1:02 | 6:22 |
+| 5. The farmer who forgot his king | 470 | 2:18 | 7:24 |
+| 6. The Great King | 322 | 1:35 | 9:42 |
+| 7. How the king reached the village | 578 | 2:50 | 11:17 |
+| 8. The first page | 418 | 2:03 | 14:07 |
+| 9. What the image gives you | 147 | 0:43 | 16:10 |
+| 10. The question comes home | 188 | 0:55 | 16:53 |
+| Closing (channel outro, Carl's recorded audio) | — | 0:17 | 17:48 |
+| **Story total (narration only)** | **3591** | **17:36** | |
+| **Episode with intro and outro** | | **18:05** | |
