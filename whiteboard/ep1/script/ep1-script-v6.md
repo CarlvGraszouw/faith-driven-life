@@ -166,7 +166,7 @@ Most of us live a lot like that farmer, going to work, raising our children and 
 
 ## 6. The Great King
 
-[DRAWING e10 · new: a king's seal pressed into a clay tablet, a crowd with hands raised to swear; words "I will be your God, and you will be My people"]
+[DRAWING e10 · new: a king's seal pressed into a clay tablet, a crowd with hands raised to swear; words "I will be your God and you will be My people"]
 
 The Bible was written in a world like the farmer's, and the people who first heard it knew the language of kings by heart. Again and again God says to His people, "I will be your God and you will be My people." In that world those tender words were also the formal language of a covenant, the very phrases a king used when he bound a people to himself.
 
