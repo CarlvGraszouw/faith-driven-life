@@ -246,7 +246,7 @@ Day by day He fills His world with land and sea, with plants and trees, with bir
 
 Last of all God does something the farmer would have understood at once: He places His own image in His land. He says, "Let Us make mankind in Our image, in Our likeness," and He gives them the task of ruling over His world. Then the Bible says it again, so that nobody can miss it, "So God created mankind in His own image, in the image of God He created them." Christians from the first centuries of the church have heard that verse behind Jesus' words about the coin.
 
-[DRAWING b02 · existing, moved: b02: the coin with a human face (IMAGO DEI) and the scroll; words "in the image of God"; on-screen question changed to "Whose face did they carry?"]
+[DRAWING b02 · existing, moved: the coin with a human face (IMAGO DEI) and the scroll; words "in the image of God"; on-screen question changed to "Whose face did they carry?"]
 
 Caesar could stamp his face on a piece of silver, but God had stamped His own image on the men standing in those temple courts. So all along they had been carrying the answer to Jesus' question in their own faces.
 
@@ -254,7 +254,7 @@ Caesar could stamp his face on a piece of silver, but God had stamped His own im
 
 All his life the farmer walked past his king's image carved in stone, and he never knew that he himself carried the image of a greater King. You carry that image too, and it goes wherever you go. You are like a statue of the Great King that breathes, or a coin of a different Kingdom with His face on it, walking into every room you enter.
 
-[DRAWING b03 · existing, moved: b03: Caesar's coin, arrow, "Caesar"; a person, arrow, "God"; the days of the week, every one ticked]
+[DRAWING b03 · existing, moved: Caesar's coin, arrow, "Caesar"; a person, arrow, "God"; the days of the week, every one ticked]
 
 "Give back to Caesar what is Caesar's and to God what is God's."
 
