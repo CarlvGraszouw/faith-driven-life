@@ -1,4 +1,4 @@
-# Bex Credit, Part 2: ownership-change service, registry data, approval letter
+# Pexmart Credit, Part 2: ownership-change service, registry data, approval letter
 
 **Status: plan, not built.** Written 28 Oct 2026. Read with `PLAN.md`. Where this file changes a Part 1 decision,
 `PLAN.md`'s revision note says so.
@@ -59,11 +59,11 @@ public source.
 
 | Change | Where it is recorded | Can a feed see it? | Our source |
 |---|---|---|---|
-| Director appointed or resigned (company) | CIPC, on a CoR39 notice | Yes, via a paid feed or CIPC | Bexmart files it, the client declares it, or a feed reports it |
+| Director appointed or resigned (company) | CIPC, on a CoR39 notice | Yes, via a paid feed or CIPC | Pexmart files it, the client declares it, or a feed reports it |
 | CC member change | CIPC, under the Close Corporations Act (ss 34–37 per a secondary source). The form is not verified | Probably, via a feed | Same as above |
 | Shareholding change, Pty Ltd | The company's own securities register. Not filed at CIPC (general Companies Act structure, not re-verified this session) | **No** | Client declaration in the portal only |
 | Beneficial owner (5% thresholds) | CIPC BO register, restricted to authorities and banks | **No** | Client declaration only |
-| Company name, status, business rescue | CIPC | Yes, via a feed | Feed, or Bexmart's own filing |
+| Company name, status, business rescue | CIPC | Yes, via a feed | Feed, or Pexmart's own filing |
 
 **The service statement, as it should appear to clients:** "We tell you about every change we file for you, every
 change you tell us about, and, if you take the monitoring option, every director or member change CIPC shows
@@ -76,7 +76,7 @@ risk, and it needs to be stopped in the sales wording before the first quote goe
 
 ## 3. Three sources of truth, one event stream
 
-- **A. Bexmart-filed.** A request from the portal is worked through Susan and Hein, filed, and confirmed. The
+- **A. Pexmart-filed.** A request from the portal is worked through Susan and Hein, filed, and confirmed. The
   confirmation creates the event. Free per event, apart from the filing cost.
 - **B. Client-declared.** The client tells us about any change through the portal form, including shareholding
   and beneficial-owner changes. Free.
@@ -101,7 +101,7 @@ Two readings of the deadline conflict, from what I could find:
   becomes aware of the change.
 
 **Design choice (conservative):** the deadline runs from the effective date, and the system also stores
-`aware_at`. A legal opinion from Bexmart's attorney confirms which reading applies (D-P2-11).
+`aware_at`. A legal opinion from Pexmart's attorney confirms which reading applies (D-P2-11).
 
 **Filing clock defaults:** a reminder to Susan and Hein at business day 3 and day 7, and escalation to Hein at day
 8. These are my defaults, and Carl sets them (D-P2-12).
@@ -116,19 +116,19 @@ directors' OTPs, and manual ones take about three days. Treat "filed" and "regis
 **Source:** `scripts/data/org-chart-2026-09-04.json`, the organogram export of 4 Sep 2026 (163 people). Titles and
 reporting lines below come from that file. Older docs in the repo sometimes disagree, and the table notes where.
 
-**Spelling and title checks.** Carl named people by first name and by spelling the repo does not use. Nothing
-gets a permission until each name is confirmed (D-P2-1). The repo has a history of a fuzzy match confusing two
+**Spelling and title checks.** **Names, confirmed by Carl on 28 Oct 2026:** "Suzanne is Susan", "Anchelene" (for Angeline), and "Maroesjke" (for
+Marushka). Titles still come from the org chart. Permissions go on these exact accounts. The repo has a history of a fuzzy match confusing two
 people: `SAVE.md` line 804 records that "a fuzzy match confused exactly" Marina and Maroesjke. Match by exact account
 only.
 
 | Name in request | Name in repo | Title (org chart) | Reports to | Role in this build |
 |---|---|---|---|---|
 | Hein | Hein Momberg | General Manager | Andre Janse van Rensburg | **Final approver** for credit and ownership requests. Signs letters. Escalation point |
-| Susan ("Suzanne") | Susan Kruger | Accounts Receivable | Pieter Marais | **Intake** for both request types. Sends to Hein. Releases deliveries today (`delivery_release`). Code calls her the "creditors clerk" in a comment; the org chart says AR, and AR fits credit control on customers |
+| Suzanne (Carl: "Suzanne is Susan") | Susan Kruger | Accounts Receivable | Pieter Marais | **Intake** for both request types. Sends to Hein. Releases deliveries today (`delivery_release`). Code calls her the "creditors clerk" in a comment; the org chart says AR, and AR fits credit control on customers |
 | Pieter | Pieter Marais | Accountant and Financial Manager | Hein Momberg | **Backup intake** (like `delivery_release_backup`). Susan's manager. Sees all credit decisions |
-| Angeline | Anchelene Pieterse | Accounts Payable | Pieter Marais | **Pays** filing fees and vendor invoices. Sees fee tasks only. No applicant documents |
+| Angeline (confirmed: Anchelene) | Anchelene Pieterse | Accounts Payable | Pieter Marais | **Pays** filing fees and vendor invoices. Sees fee tasks only. No applicant documents |
 | Andre | Andre Janse van Rensburg | Board Member | (none) | **Visibility only** by default: decided limits and ownership summaries. No documents. No approval unless D-P2-8 says otherwise |
-| Marushka | Maroesjke van der Walt | **Operations Manager** (org chart, 4 Sep). Older docs say Production Manager | Hein Momberg | **Escalation** when a delivery is held for credit or ownership beyond N days. Read-only holds. No documents |
+| Marushka (confirmed: Maroesjke) | Maroesjke van der Walt | **Operations Manager** (org chart, 4 Sep). Older docs say Production Manager | Hein Momberg | **Escalation** when a delivery is held for credit or ownership beyond N days. Read-only holds. No documents |
 | (not named) | Marina van der Walt | Sales Manager | Hein Momberg | Sees credit **status** and limit for her accounts, so she knows before she quotes. No documents |
 | (not named) | Werner Posthumus-Meyjes | Logistics Manager | Maroesjke van der Walt | Sees "held for credit" on the planner, the label that already exists for Susan's release. No data |
 | (not named) | Pinky Baloyi | HR and Payroll Officer | Pieter Marais | **No access.** No business reason |
@@ -163,7 +163,7 @@ approves itself. Auto-approval stays refused (PLAN §13).
 
 ### What it contains
 
-- Bexmart letterhead (brand text, D1 in PLAN).
+- Pexmart letterhead (brand text, D1 in PLAN).
 - Letter number, for example `CAL-CA-0001-R1` (R1 = first revision).
 - Date of issue.
 - The applicant: company name and registration number.
@@ -197,13 +197,13 @@ approves itself. Auto-approval stays refused (PLAN §13).
 - **Default: an email with a link** to the portal download. The PDF is not attached, because a credit limit in an
   email attachment outlives the portal. Attachment is a choice (D-P2-5).
 - **In the portal:** the applicant downloads their own letters, newest first, with the superseded ones marked.
-- **Verification page:** `/credit/verify/<code>`, public, rate limited, and it shows **only** the company name,
-  issue date and status (valid, superseded, revoked). It does **not** show the limit. A code guessed by a stranger
-  reveals nothing commercial.
+- **Verification page:** `/credit/verify/<code>`, public, rate limited, and it shows **only** the letter number,
+  issue date and status (valid, superseded, revoked). It shows **no company name and no limit** (`POPIA-DATA-RULES.md`
+  P-11). A code guessed by a stranger reveals nothing about the business or the person.
 
 ### Rejection letter
 
-Default: an automatic rejection notice with no reason text and no limit. "Bexmart has reviewed your application
+Default: an automatic rejection notice with no reason text and no limit. "Pexmart has reviewed your application
 and is unable to approve it at this stage. Your account manager will contact you." Hein's note stays internal.
 Susan may send a reasoned letter by hand (D-P2-6).
 
@@ -226,7 +226,7 @@ recipient, the time, and the send result. A message that cannot be sent is visib
 | Rejected | Applicant and Susan | Email | Generic notice | Once |
 | Returned to Susan | Susan | Push, bell, email | Hein's comment | Once per return |
 | Ownership request received, filed, confirmed | Client contact | Email | Status words and the filing reference | Once per status |
-| Registry change detected (source C) | Client contact and Susan | Email | What changed, the effective date, "not filed by Bexmart" | Once per event key |
+| Registry change detected (source C) | Client contact and Susan | Email | What changed, the effective date, "not filed by Pexmart" | Once per event key |
 | Filing clock | Susan and Hein | Push, email | Days left | Days 3, 7 and 8 |
 
 All senders check the `autotest` prefix first and do nothing for it. Recipients come from the data (the users who
@@ -267,7 +267,8 @@ submitted ─► in_review (Susan) ─► with_hein (Hein)
 - A `NullProvider` that makes no external call. It is the default, so Stage 4 ships without any vendor.
 - The vendor is chosen by configuration. Its key is an environment secret, never in the code.
 - A daily job per watched company compares the new officer list with the last stored snapshot, and creates events
-  for the differences. Snapshots store names, roles and dates, **not ID numbers** (data minimisation).
+  for the differences. Snapshots store **salted hashes** of names, so the diff works, plus roles and dates. Plain names live in the
+  applicant file in the private store. **No ID numbers and no plain names in the database** (`POPIA-DATA-RULES.md` §12).
 - A monthly call budget with a hard cap. At 80% of the budget, Susan and Hein are alerted. The job stops at 100%
   and says so. A silent stop is the failure the self-audit pattern exists to catch.
 
@@ -279,7 +280,7 @@ submitted ─► in_review (Susan) ─► with_hein (Hein)
    resignation dates, change history).
 2. **Alerts:** is there a webhook or a daily change feed? Latency? A stable change ID for de-duplication?
 3. **Price:** per call, monthly minimum, per watched company, setup, overage, and what happens at the cap.
-4. **Resale and white-label rights:** can Bexmart pass the data, or the monitoring result, to its own clients as
+4. **Resale and white-label rights:** can Pexmart pass the data, or the monitoring result, to its own clients as
    part of a paid service? Is sub-licensing allowed? **This is the "on-sell" question. Without a written yes, the
    on-sell model is not built.**
 5. **CIPC terms:** does the vendor's licence from CIPC allow the resale in (4)? CIPC's eServices terms have an
@@ -337,7 +338,7 @@ not release or hold a delivery by itself. Carl decides any hold (D-P2-14).
    in the privacy notice, and an operator agreement with each vendor.
 6. **Stopping people.** A delivery auto-held on an ownership notice would stop a driver or a clerk (rule 1). Flags
    only. Carl decides any hold.
-7. **Name errors.** Wrong person, wrong permission. Mitigation: confirm each name (D-P2-1) and match by exact
+7. **Name errors.** Wrong person, wrong permission. Mitigation: names confirmed (D-P2-1), and match by exact
    account.
 
 **Refused**
@@ -365,10 +366,8 @@ not release or hold a delivery by itself. Carl decides any hold (D-P2-14).
 
 Defaults are what I would pick. Reply "go" to accept them, or change any of them.
 
-- **D-P2-1. Names and titles.** Confirm: "Hein" = Hein Momberg; "Susan" or "Suzanne" = Susan Kruger (AR), and
-  whether her first name is Suzanne; "Angeline" = Anchelene Pieterse (AP); "Andre Janssen van Rensburg" = Andre
-  Janse van Rensburg; "Marushka" = Maroesjke van der Walt, and her title: Operations Manager (org chart) or
-  Production Manager (older docs). **Default: as the org chart says, once you confirm.**
+- **D-P2-1. Names and titles. RESOLVED (Carl, 28 Oct 2026):** "Suzanne is Susan", Anchelene and Maroesjke. Titles
+  still come from the org chart.
 - **D-P2-2. The free-API answer.** Accept "no free feed; buy one after a written evaluation". Approve the RFQ
   shortlist in §9. **Default: yes.**
 - **D-P2-3. Filing route.** In-house through CIPC's platform, or a partner such as GovChain. **Default: in-house,
@@ -384,7 +383,7 @@ Defaults are what I would pick. Reply "go" to accept them, or change any of them
 - **D-P2-11. Deadline reading.** Conservative (from the effective date), pending the attorney's view. **Default:
   conservative.**
 - **D-P2-12. Filing-clock reminders.** Business days 3 and 7, escalation on day 8. **Default: as written.**
-- **D-P2-13. Who pays the filing fee.** Client pass-through, or absorbed by Bexmart. **Default: pass-through.**
+- **D-P2-13. Who pays the filing fee.** Client pass-through, or absorbed by Pexmart. **Default: pass-through.**
 - **D-P2-14. Credit on Susan's release screen.** Information only. **Default: information only, no automatic
   release or hold.**
 

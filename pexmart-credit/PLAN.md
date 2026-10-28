@@ -1,4 +1,4 @@
-# Bex Credit: end-to-end build plan
+# Pexmart Credit: end-to-end build plan
 
 **Status: plan, not built.** Written 28 Oct 2026 from a read of `CarlvGraszouw/pexflow-production`
 (branch `main`, commit `0fd50b5`). The build happens in that repo. This folder holds the spec and the
@@ -17,6 +17,11 @@ What changed here:
 - **Part 2 adds the ownership-change service** (Stage 4) and a registry-data question. There is **no free
   API** for director or member changes that I could confirm (Part 2 §1).
 
+**Revision 3 (28 Oct 2026).** Naming resolved: Pexmart, not Bex. Susan is Suzanne, Anchelene is Angeline, and
+Maroesjke is Marushka (Carl, 28 Oct 2026). **The data design changed:** the database holds no personal
+information, and personal information is kept in a private applicant file that is purged on a schedule.
+Consent is captured with a tick box at upload. See `POPIA-DATA-RULES.md`, which governs §4, §6 and §9 here.
+
 **Request (Carl, 28 Oct 2026), the source of this spec:**
 
 > "We need to build a Bex credit section for all our debtors, where people will be able to apply for
@@ -31,9 +36,9 @@ What changed here:
 > for, and he will be able to reject, edit, lower credit limit, and comment related, and then send that
 > back to Susan as an approval or rejection or comment."
 
-**Naming.** The request says "Bexflow" and "Bexmart". The repo is `pexflow-production`, the company is
-Pexmart, and Carl's email is `@pexmart.co.za`. This plan assumes Bex = Pex. If Bex is a separate brand,
-say so before Stage 0.
+**Naming (resolved by Carl, 28 Oct 2026).** The company is **Pexmart**, the app is **PexFlow**
+(`pexflow-production`), and Carl's email is `@pexmart.co.za`. The request's "Bex" and "Bexmart" were transcription
+errors for "Pex" and "Pexmart". Quoted words stay verbatim, as Carl said them. Everything else uses Pexmart.
 
 ---
 
@@ -56,7 +61,7 @@ say so before Stage 0.
    upload except the private areas `hr/`, `training-material/` and `chat/` (`api/_lib/fileAccess.ts:284`).
    As it stands, every staff member could open applicants' bank letters and ID copies. `credit/` must join
    the private areas before any upload goes live.
-5. **GitHub gave no reusable credit code.** I searched `pexflow-production` for Bex, Bexmart, debtor and
+5. **GitHub gave no reusable credit code.** I searched `pexflow-production` for debtor, credit application and
    credit application. The useful reuse is the requisition workflow, not a library. I did not open the
    other private repos in the account. `pexmart-fms` might hold debtor or credit data. Tell me if it does
    and I will attach it read-only.
@@ -82,7 +87,7 @@ say so before Stage 0.
 | `api/file.ts`: `PRIVATE_FILE_AREAS` | Add `credit/` with its own read rule | Extend |
 | `api/cron/gm-approval-reminder.ts` | `api/cron/credit-application-watch.ts` with a self-audit | Mirror, then add the self-audit |
 | Pipe Inspection ticket (JWT, separate secret) | Not used. The portal uses an opaque hashed token | New, on purpose (§6) |
-| `kind` discriminator (`PurchaseRequisition.category`, `TransportTrip.tripType`) | `kind = 'bex_credit'` from day one | Carry it (three-stage rule, point 3) |
+| `kind` discriminator (`PurchaseRequisition.category`, `TransportTrip.tripType`) | `kind = 'pexmart_credit'` from day one | Carry it (three-stage rule, point 3) |
 
 ---
 
@@ -91,11 +96,11 @@ say so before Stage 0.
 Carl's list is the spec. Each line below is checked by a person doing the work on a phone. Tests support
 these lines; they do not replace them.
 
-**Stage 1: the spine. All of A1–A14 must be true before Stage 1 is done.** A11–A14 are the approval letter,
+**Stage 1: the spine. All of A1–A18 must be true before Stage 1 is done.** A11–A14 are the approval letter,
 specified in `PART2-OWNERSHIP-AND-LETTER.md` §10.
 
 - **A1.** Carl or Susan sends an applicant a link by email. The applicant opens it on a phone with no PexFlow login.
-- **A2.** The applicant sees the documents checklist and can download the terms, the credit policy and the POPIA notice. These are Bexmart's PDFs.
+- **A2.** The applicant sees the documents checklist and can download the terms, the credit policy and the POPIA notice. These are Pexmart's PDFs.
 - **A3.** The applicant ticks consent, types their name, fills the company details and requested limit, uploads each required document, and presses Submit. An upload that is too large or the wrong type is refused, and the reason shows on the screen.
 - **A4.** On submit, Susan gets a push, a bell notice and an email saying a credit application was uploaded, with its number. The email body carries no personal details.
 - **A5.** Susan opens the application and each document. She can request more information (the applicant gets a fresh link) or send it to Hein. Send is refused, with the reason on screen, until every required document is present.
@@ -108,6 +113,12 @@ specified in `PART2-OWNERSHIP-AND-LETTER.md` §10.
 - **A8.** Nobody without `credit_intake` or `credit_approval` can open a credit document, including by pasting its link. Every document open is audited.
 - **A9.** An applicant sees only their own application. The link stops working when it expires or is revoked.
 - **A10.** A double tap on Submit, Send or Approve does one thing, not two.
+- **A15.** Upload is refused until the consent box is ticked, with the reason on screen. The applicant sees the
+  disclaimer beside the box, and the Information Notice opens from it.
+- **A16.** A live scan of the credit tables, for a test applicant's email, phone and company name, returns zero rows.
+- **A17.** Withdrawal, or a deletion request from Susan, removes the stored applicant file and documents on the next
+  run, and the test checks the objects, not a flag.
+- **A18.** Each document row points to the consent that covered it.
 
 **Stage 2: instrumentation.** Audit timeline per application. Decision letter (PDF) with the signature.
 Reminders and escalation for stuck applications, with a self-audit. An alarm if nobody holds
@@ -146,14 +157,17 @@ One additive SQL file: `scripts/2026-10-28_credit_applications.sql`. It is safe 
 models carry the same comment the on-hold columns carry (`schema.prisma:3147`): created outside Prisma,
 declared so that `prisma db push` never drops them. Each model maps to its table with `@@map`, as the existing models do.
 
-- **`CreditApplication`**: `id`, `number` (CA-0001), `kind` (`bex_credit`), `status`, `company_name`,
-  `registration_number`*, `vat_number`*, `trading_address`, `contact_name`, `contact_email`*,
-  `contact_phone`*, `requested_limit`, `requested_terms`, `trade_references`* (Json), `consent_at`,
-  `consent_version`, `consent_name`, `submitted_at`, `intake_by`, `intake_by_name`, `sent_to_hein_at`,
-  `approved_limit`, `approved_terms`, `conditions`, `decision_note`, `decided_by`, `decided_by_name`,
-  `decided_at`, `approver_signature_url` (snapshot), `edit_history` (Json), `revision_count`,
-  `info_request_note`, `info_requested_at`, `created_at`, `updated_at`.
-  *\* Sensitive: added to `SENSITIVE_KEYS` in the same change (rule 18).*
+- **`CreditApplication`** (Revision 3: **no personal information**, see `POPIA-DATA-RULES.md` §2): `id`,
+  `number` (CA-0001), `kind` (`pexmart_credit`), `status`, `requested_limit`, `requested_terms`, `consent_id`
+  (a link to the consent record, which holds the notice version and the time, not a name), `submitted_at`,
+  `intake_by`, `intake_by_name` (staff), `sent_to_hein_at`, `approved_limit`, `approved_terms`, `conditions`,
+  `decision_note` (validated: no ids, emails or phone numbers), `decided_by`, `decided_by_name` (staff),
+  `decided_at`, `approver_signature_url` (staff snapshot), `edit_history` (Json, decision values only),
+  `revision_count`, `info_request_note` (validated), `info_requested_at`, `withdrawn_at`, `purge_after`,
+  `created_at`, `updated_at`.
+  **Removed in Revision 3:** `company_name`, `registration_number`, `vat_number`, `trading_address`,
+  `contact_name`, `contact_email`, `contact_phone`, `trade_references`, `consent_name`. They live in the
+  applicant file in the private store (`POPIA-DATA-RULES.md` §1). The schema guard test enforces this (§9).
 - **`CreditApplicationLink`**: `id`, `application_id`, `token_hash` (unique, SHA-256), `created_by`,
   `created_at`, `expires_at`, `revoked_at`, `last_used_at`.
 - **`CreditApplicationDocument`**: `id`, `application_id`, `doc_type`, `pathname` (private store),
@@ -220,8 +234,9 @@ never be cached with a token in it.
 
 **Consent and personal data**
 
-- Consent (version-stamped), the typed name and the tick come before any upload is allowed. The wording is
-  Bexmart's (D5).
+- **Consent at upload** (Revision 3, Carl's words, 28 Oct 2026: a tick box "when they upload documentation").
+  An unticked box is required before any upload. The server refuses an upload without a current consent for the
+  current notice version. The wording is drafted, unapproved, and waits for Carl's approval (`POPIA-DATA-RULES.md` §3).
 - No personal fields in logs, Sentry, or test fixtures (rule 18). `contact_email`, `contact_phone`,
   `registration_number`, `vat_number`, `trade_references` and any bank-related key are added to
   `SENSITIVE_KEYS` (`api/_lib/sentry.ts:18`) in the same change that introduces them.
@@ -321,7 +336,7 @@ Each stage is accepted by a named person doing real work, not by a green suite.
 - **Stage 0: preflight and decisions.** Record the baseline on the build machine: test count, typecheck count,
   lint count. Carl answers D1–D10. Susan and Hein have PexFlow accounts with the right permissions, or Carl
   creates them. Carl creates a Neon dev branch for the builder's `.env`.
-- **Stage 1: spine (A1–A10).** Ships complete. No Stage 2 item gates it.
+- **Stage 1: spine (A1–A18).** Ships complete. No Stage 2 item gates it.
 - **Stage 2: instrumentation.** Its own branch and PR.
 - **Stage 3: extension.** Its own branch and PR.
 
@@ -344,14 +359,14 @@ Each stage is accepted by a named person doing real work, not by a green suite.
   (three-stage doc, Part 5).
 - **Adversarial pass before go-live:** wrong token, expired, revoked, another applicant's id, oversized file,
   a disguised file (say, an executable renamed to .pdf), a replayed upload callback. Every one must be refused.
-- **Live (stage gate):** Susan and Hein each complete A1–A10 on their own phone against the preview, with a test
+- **Live (stage gate):** Susan and Hein each complete A1–A10 on their own phone (A11–A18 as below) against the preview, with a test
   application using the `autotest` prefix or Carl's own address, so no real person is emailed.
 
 ---
 
 ## 12. Release path
 
-- **Branches:** `feat/2026-10-28-bex-credit-spine` for Stage 1, from the current `origin/main`. Later stages get
+- **Branches:** `feat/2026-10-28-pexmart-credit-spine` for Stage 1, from the current `origin/main`. Later stages get
   their own branches. Nothing is pushed to `main` (Windows workstream §1).
 - **Schema first:** the additive SQL file goes to the builder's Neon dev branch only. Carl runs it on production
   by hand before the code deploys (ENGINEERING_RULES §5, rule 7). New code reads the new columns, so the order
@@ -361,7 +376,7 @@ Each stage is accepted by a named person doing real work, not by a green suite.
 - **CI** runs `guards` and `test` on the PR. Release branches run them too (`.github/workflows/test.yml`).
 - **Carl merges on green.** The merge is the release. Nobody else merges.
 - **After deploy:** `npm run verify:deploy -- --expect "<a string unique to this change>"`. Then a
-  `prove-done` receipt against the deployed preview: `scripts/prove-done.mjs`, spec `specs/bex-credit-spine.json`,
+  `prove-done` receipt against the deployed preview: `scripts/prove-done.mjs`, spec `specs/pexmart-credit-spine.json`,
   with `--expect-bundle` set to the bundle the deploy built. Carl runs it, because it signs as a real admin
   from the production database, which a builder's dev `.env` must not hold.
 
@@ -390,9 +405,10 @@ Each stage is accepted by a named person doing real work, not by a green suite.
 1. **The public upload endpoint is the largest new attack surface.** Mitigations are in §6, and the adversarial
    pass in §11 is a go-live condition.
 2. **The file-read gap** until `credit/` is private. Hard gate (§6).
-3. **POPIA.** ID copies, bank letters and trade references are personal information. Retention and deletion are
-   not decided (D10), so nothing is auto-deleted yet. The build stores them privately and never logs them.
-   Bexmart needs its own sign-off on the consent wording, the retention period, and who the operator is.
+3. **POPI.** ID copies, bank letters, contact details and trade references are personal information. The
+   disclaimer ("we do not keep your personal information in our database") is true only if the database holds none
+   of it. The schema guard, the notification guard and the live scan enforce that. Retention, consent wording and
+   the operator agreements need Carl's approval and the attorney's review (`POPIA-DATA-RULES.md` §11, P-1 to P-11).
 4. **Susan's account.** The last handover records that she has none. That lead time is Carl's to clear, not the
    build's. Until it clears, Susan cannot accept Stage 1.
 5. **A forwarded link.** Anyone holding it can use it for 14 days. Mitigation: short expiry, revoke-on-resend,
@@ -402,16 +418,16 @@ Each stage is accepted by a named person doing real work, not by a green suite.
 7. **Production DDL is human-run.** A deploy before the SQL runs breaks the new screens. The order is SQL, then code.
 8. **This is a live system.** The portal URL sits on the production domain, and test rows are real rows. Live tests
    use the `autotest` prefix or Carl's address.
-9. **The brand name.** "Bex" in the request, "Pex" in the repo. Wrong brand text on a public page is embarrassing
-   and cannot be unsent. Carl confirms it (D1).
+9. **The brand name.** Resolved: Pexmart (Carl, 28 Oct 2026). Wording on the public pages still needs Carl's
+   approval, because it cannot be unsent once a client has seen it.
 10. **The build machine.** Windows clones fail when they sit in OneDrive, when line endings are wrong, when a push
     goes to `main`, or when `ship-item.mjs` is used (it needs `.vercel/project.json`, which is gitignored, and
     its own error message points at a Mac path). The build script follows the Windows workstream doc and never
     uses `ship-item.mjs`.
 11. **Gates not yet recorded.** The baseline counts are not in this plan. Stage 0 records them on the build machine.
 12. **The letter's legal weight.** The approval letter carries Hein's captured signature image and an approval
-    statement with a timestamp and a reference. That is an electronic record. Whether it is enough for Bexmart's
-    purposes is for Bexmart's attorney to decide. The build does not claim more than that.
+    statement with a timestamp and a reference. That is an electronic record. Whether it is enough for Pexmart's
+    purposes is for Pexmart's attorney to decide. The build does not claim more than that.
 
 ---
 
@@ -419,21 +435,22 @@ Each stage is accepted by a named person doing real work, not by a green suite.
 
 Defaults are what I would pick. Reply "go" to accept them, or change any of them.
 
-- **D1. Brand text.** "Bex Credit" (your words), as one constant. Or "Pexmart Credit". **Default: Bex Credit.**
+- **D1. Brand text. RESOLVED.** "Pexmart Credit", as one constant. The company is Pexmart (Carl, 28 Oct 2026).
 - **D2. Susan.** Susan Kruger, creditors clerk, needs a PexFlow account with `credit_intake`. **Default: yes.**
 - **D3. Admin access.** Admin does not get either credit permission implicitly. **Default: explicit grants only.**
 - **D4. Telling the applicant. SUPERSEDED by Carl, 28 Oct 2026.** An automatic approval letter is emailed to the
   applicant, with a link to a portal download and the limit inside the PDF. The rejection notice is automatic and
   generic. See Part 2 §6–7 and D-P2-5 and D-P2-6.
-- **D5. Documents and consent.** Bexmart supplies the consent wording, the checklist, and the three public PDFs
-  (terms, credit policy, POPIA notice). **Default: placeholders marked "awaiting Bexmart".**
+- **D5. Documents and consent.** Pexmart supplies the consent wording, the checklist, and the three public PDFs
+  (terms, credit policy, POPIA notice). **Default: placeholders marked "awaiting Pexmart".**
 - **D6. Hein's edit scope.** Stage 1: limit, terms and conditions only. Applicant-supplied fields come in Stage 3.
   Hein cannot raise the limit above the requested amount. **Default: as written.**
 - **D7. Link validity.** 14 days. Issuing a new link revokes the old ones. **Default: 14 days.**
 - **D8. Uploads.** PDF, JPG and PNG. 10 MB each. No HEIC in Stage 1. **Default: as written.**
 - **D9. Virus scanning.** Not in Stage 1. **Default: not in Stage 1.**
-- **D10. Retention.** How long applicant documents are kept, and how they are deleted. Bexmart sets it. **Default:
-  nothing is deleted automatically until it is set.**
+- **D10. Retention.** Superseded by **P-3** in `POPIA-DATA-RULES.md` §11: 90 days after the decision, purged by a
+  daily job that deletes the stored objects. Pexmart sets the final period.
+- **D11. POPI.** Decisions P-1 to P-11 in `POPIA-DATA-RULES.md` §11. Nothing goes live before P-1, P-6 and P-7.
 
 ---
 

@@ -1,10 +1,11 @@
-# Bex Credit: VS Code and Claude Code build script
+# Pexmart Credit: VS Code and Claude Code build script
 
 **For:** one builder, on one Windows PC, in one clone. That is the rule in `docs/WINDOWS-WORKSTREAM.md` §1:
 one session, one clone, never `main`, and Carl merges.
 
 **Before you start:** read `PLAN.md` and `PART2-OWNERSHIP-AND-LETTER.md` in this folder. Copy them into the clone as
-`SPEC-bex-credit.md` and `SPEC-bex-credit-part2.md`. Those copies are the locked specs. Changing them stops the build
+`SPEC-pexmart-credit.md`, `SPEC-pexmart-credit-part2.md` and `POPIA-DATA-RULES.md` as `SPEC-pexmart-credit-popia.md`.
+Those copies are the locked specs. Changing them stops the build
 and restarts the item (ORCHESTRATION-RULES §4).
 
 **How to read this script**
@@ -68,7 +69,7 @@ npm ci
 
 ```powershell
 git fetch origin
-git switch -c feat/2026-10-28-bex-credit-spine origin/main
+git switch -c feat/2026-10-28-pexmart-credit-spine origin/main
 git log -1 --oneline                            # this is the base commit; paste it
 npm run test:source        *> receipts\2026-10-28-baseline-test.txt
 node scripts/typecheck-budget.mjs *> receipts\2026-10-28-baseline-typecheck.txt
@@ -88,20 +89,24 @@ Create `receipts\` first if it is missing. It is gitignored.
 ## Part C. Carl's decisions (STOP until answered)
 
 Send Carl `PLAN.md` §15 (D1–D10) and `PART2-OWNERSHIP-AND-LETTER.md` §12 (D-P2-1 to D-P2-14), with the
-defaults. Carl's answers go into `SPEC-bex-credit.md` §15, and **you write them there**. The agent does not.
+defaults. Carl's answers go into `SPEC-pexmart-credit.md` §15, and **you write them there**. The agent does not.
 Once they are written, the spec is locked.
 
-Before any code, four things must also be true:
+Before any code, five things must also be true:
 
 1. **Names confirmed** (D-P2-1). The org chart's spellings, not the request's, go into the permissions. Nobody
    gets a permission on a fuzzy match.
 2. **Hein has a saved signature image** in User Management. The approval letter needs it, and so does the PR flow.
    If he has none, the letter cannot be issued.
 3. **The vendor RFQ** (Part 2 §9) is approved by Carl, and Carl sends it. Stage 4 does not need a vendor. Stage 5 does.
-4. **Two questions go to Bexmart's attorney**: the deadline reading (D-P2-11) and the resale answer (Part 2 §9, item 4).
+4. **Two questions go to Pexmart's attorney**: the deadline reading (D-P2-11) and the resale answer (Part 2 §9, item 4).
    Stage 4 can start on the conservative reading. Stage 5 cannot start without the resale answer.
 
-**STOP** until Carl has answered D1–D10 and D-P2-1 to D-P2-14 in writing, and the four items above are confirmed.
+5. **POPI prerequisites** (`POPIA-DATA-RULES.md` §11). Carl has approved the consent wording, the disclaimer and the
+   notice (P-1). The attorney has reviewed them (P-6). An Information Officer is named (P-5). Operator agreements and
+   data location are confirmed for Vercel, Neon and Resend (P-7). Nothing reaches production without all of these.
+
+**STOP** until Carl has answered D1–D10, D-P2-1 to D-P2-14 and P-1 to P-11 in writing, and the five items above are confirmed.
 
 ---
 
@@ -116,12 +121,12 @@ You are Watchdog for this session. Read .claude/agents/watchdog.md and .claude/o
 Then read CLAUDE.md, ENGINEERING_RULES.md, BUILD-PROTOCOL.md,
 docs/standards/THREE-STAGE-BUILD-AND-SAFETY-NETS.md and docs/WINDOWS-WORKSTREAM.md.
 
-The spec is SPEC-bex-credit.md, plus SPEC-bex-credit-part2.md (copied from PART2-OWNERSHIP-AND-LETTER.md).
+The spec is SPEC-pexmart-credit.md, plus SPEC-pexmart-credit-part2.md (copied from PART2-OWNERSHIP-AND-LETTER.md).
 Both are LOCKED. Do not change them. If either seems wrong, stop and tell me.
 Part 2 is not Stage 1 work except the approval letter (A11–A14) and the credit line on Susan's release screen.
 The ownership-change service is Stage 4, and the vendor watch is Stage 5. Do not start them early.
 
-Branch: feat/2026-10-28-bex-credit-spine, from origin/main. Never push to main. Never merge.
+Branch: feat/2026-10-28-pexmart-credit-spine, from origin/main. Never push to main. Never merge.
 
 Hard rules for this session:
 - Never run `npm test`, `npx vitest run`, or the DB suite. Use `npm run test:source` only.
@@ -129,6 +134,12 @@ Hard rules for this session:
 - Never run a SQL file against production. Apply to the builder's dev branch only.
 - Write the failing test first for every behaviour (ENGINEERING_RULES §1).
 - Credit models are NOT added to api/_lib/models.ts. There is no generic route for them.
+- The database holds NO personal information: no name, email, phone, address, company name or number, ID or
+  registration number, bank detail, or reference. Personal information goes only in the applicant file in the
+  private store. The schema guard test enforces this.
+- An upload needs a current consent for the current notice version. Notice and consent wording come from
+  src/lib/credit/notice.js, approved by Carl. Never write notice or consent wording yourself.
+- Email subjects are generic. Credit notifications write null recipient fields. No address in any log or error text.
 - Every sender checks for the `autotest` prefix first (rule 6).
 - Personal fields go into SENSITIVE_KEYS in the same change (rule 18).
 - Private store only for credit files. Never the public store.
@@ -155,7 +166,7 @@ vercel.json, public/sw.js. Show me the row. Do not appoint yet.
 
 ---
 
-## Part E. Stage 1: the spine (A1–A10)
+## Part E. Stage 1: the spine (A1–A18)
 
 Each step ends at a STOP. Each STOP is a gate, not a suggestion.
 
@@ -204,6 +215,20 @@ behaviour. At minimum:
 - credit-verify-page: the verification page shows the company name, issue date and status only, never the limit.
 - amount-in-words: a tested helper (no reusable one exists in api/). Covers zero, cents, thousands, millions, and
   the "rand" and "cents" wording.
+- popi-schema-guard: reads prisma/schema.prisma; every credit column is on the allowlist. A fixture column named
+  contact_email must fail the build and name the column. Ship it red first.
+- popi-notification-guard: an applicant email writes a NotificationLog row with null recipientId and recipientName,
+  a generic subject, and no address, company name or typed name in any field, including the error text.
+- popi-push-guard: credit pushes use only the generic constant.
+- popi-audit-guard: credit audit calls carry ids and action names, never field values.
+- popi-consent-gate: upload refused without consent; refused with a stale notice version; accepted with the current
+  one; each document row points to the consent that covered it.
+- popi-notice-text: the tick-box and disclaimer text on the page equal the constants in src/lib/credit/notice.js.
+- popi-purge: autotest rows past purge_after have their stored objects deleted, checked on the objects, not a flag.
+  A failed delete is retried, then alarmed. A self-audit alarms on any row past purge_after that still has files.
+- popi-decision-note: a 13-digit number, an email address and a phone-number pattern are each refused in the
+  decision and information-request notes.
+- popi-sentry-keys: the new personal keys are in SENSITIVE_KEYS, and the scrubber is tested on them.
 Run `npm run test:source`. Paste the output.
 Each failing test must fail for the NAMED reason, not a typo or a missing import.
 If a test fails for the wrong reason, fix the test first.
@@ -233,6 +258,18 @@ Make the red tests green, one file at a time, in this order:
    The amount-in-words helper goes in src/lib/credit/ so the browser and the server share it.
 10. The verification route `/credit/verify/<code>` and its public endpoint. Rate limited. Status, company and issue
     date only.
+11. The applicant file: one JSON per application in the private store, under `credit/<CA>/applicant.json`,
+    encrypted at application level (AES-256-GCM, key from an environment secret, never in code). It holds the
+    company details, contacts, references and the typed consent name. It is read only through the authenticated
+    path, and the audit line holds ids only. Comment in the code why it is not a database column (rule 18).
+12. The consent record, `CreditConsent`: id, application_id, notice_version, scope, given_at, withdrawn_at. No name,
+    no IP address. Upload-token refuses without a current one.
+13. The notice module, `src/lib/credit/notice.js`: the notice version, the tick-box text, the disclaimer text, and the
+    Information Notice sections from POPIA-DATA-RULES §5. Marked 'awaiting Carl's approval' until P-1.
+14. The purge job, `api/cron/credit-purge.ts`, wrapped in `withCronErrorReporting`. Daily. Deletes stored objects past
+    `purge_after`. Withdrawal sets `purge_after` to now. Deletion on request is a staff action with a reason. Model it
+    on `purgeOldChat` (api/_lib/chat.ts).
+15. The decision-note validator, `src/lib/credit/noteRules.js`, shared by the browser and the server.
 After each file, run `npm run test:source` and show me the count.
 Do not add the credit models to api/_lib/models.ts.
 Do not add a new top-level file under api/ for any single endpoint.
@@ -251,7 +288,12 @@ Build the applicant portal, phone first, per PLAN.md §8.
 - No horizontal scroll at 360px. 16px side gutter.
 - No third-party scripts. Referrer-Policy no-referrer, X-Robots-Tag noindex, Cache-Control no-store
   on the portal route and on /api/credit-portal/*.
-- Public PDFs go under public/credit/, as placeholders marked "awaiting Bexmart" (D5).
+- Public PDFs go under public/credit/, as placeholders marked "awaiting Pexmart" (D5).
+- The upload step: the tick box (unticked, wording from notice.js) and the disclaimer beside it, word for word. The
+  upload button is disabled until the box is ticked, and the reason is visible text. The Information Notice opens
+  from a link on that screen.
+- A 'Withdraw my permission' button on the portal. It asks for confirmation, then sets withdrawn_at.
+- The optional second tick at submit (P-10): 'I confirm that the information I have given is true and complete.'
 Run `npm run test:source`, then `npm run typecheck:budget` (or node scripts/typecheck-budget.mjs).
 Show me the touch-reachable-reasons result.
 ```
@@ -271,6 +313,10 @@ Build the staff screens, per PLAN.md §8.
 - After any action, scroll the result into view (scrollIntoView, bound to the panel's own ref).
 - Portal: a "My letters" list for the applicant, newest first, superseded revisions marked, download of their own
   letters only.
+- Documents open inline only (`Content-Disposition: inline`), with no download button (POPIA-DATA-RULES §6, P-4). Each
+  open is audited with ids only.
+- Delete on request, for Susan or the Information Officer, with a reason. Audited. The stored objects go on the next run.
+- The decision and information-request notes use the shared validator.
 - Susan's delivery-release screen (`src/components/layout/Sidebar.jsx:399`, `api/_lib/deliveryRelease.ts`): one
   read-only line per client showing credit status ("CA-0001 approved" or "no credit review on file").
   Information only. It must not release or hold anything (Part 2 §10, D-P2-14).
@@ -297,6 +343,10 @@ Write one test per attack and make each one refused, with a reason, and no data 
 - another applicant downloading a letter by guessing its id
 - the verification page showing the limit, or a letter's status for a code that does not exist
 - a letter issued without an approval, or a second letter for the same revision
+- an upload with no consent, with the previous notice version, and with a consent id from another application
+- a decision note containing a 13-digit number, an email address and a phone number
+- a notification that puts the company name in its subject or its error text
+- a purge that fails: the alarm fires, and the self-audit fires on a row past its date that still has files
 Run `npm run test:source`. Paste the list of attacks and each one's result.
 ```
 
@@ -323,7 +373,7 @@ Any new error in a file you touched is a failure, fixed here and not waived.
 ```
 git add the files for this step only, then commit with a message that quotes Carl's words, verbatim and dated,
 the way the existing commits do. Do not add any model name to the commit message.
-git push -u origin feat/2026-10-28-bex-credit-spine
+git push -u origin feat/2026-10-28-pexmart-credit-spine
 Open the PR with gh pr create. If .github/pull_request_template.md exists, fill its headings from this change.
 Check `gh run list --limit 10` first. Do not push while a run is queued.
 ```
@@ -343,7 +393,9 @@ a new commit on the same branch, with a test that fails first.
 1. Review and merge the PR to a `release/2026-10-28` branch on Carl's schedule. Only Carl merges.
 2. Run `scripts/2026-10-28_credit_applications.sql` on production by hand, **before** the code deploys.
 3. Grant `credit_intake` to Susan and `credit_approval` to Hein in User Management.
-4. Confirm the brand text (D1), then approve the release.
+4. Confirm the brand text (D1). Approve the consent wording, the disclaimer and the notice (P-1), with the attorney's
+   review done (P-6). Name the Information Officer (P-5). Confirm operator agreements and data location for Vercel,
+   Neon and Resend (P-7). Then approve the release.
 5. After the deploy, run:
    `npm run verify:deploy -- --expect "<a string unique to this change, such as the consent version>"`
 
@@ -352,13 +404,20 @@ a new commit on the same branch, with a test that fails first.
 ### S1-11. Live check, as the real people
 
 Susan and Hein, each on their own phone, against the preview, with a test application that uses the `autotest`
-prefix or Carl's own address. Each acceptance line A1–A10 is ticked by the person who did it, with a date.
+prefix or Carl's own address. Each acceptance line A1–A18 is ticked by the person who did it, with a date.
+**POPI checks, A15–A18, before the live check.**
+- Refusal: try an upload without ticking. It must be refused, with the reason on screen.
+- Live scan, read-only (ENGINEERING_RULES §4): search every credit table for the test applicant's email, phone and
+  company name. Expected: zero rows, in every table. Paste the output.
+- Withdrawal: Carl withdraws the test applicant's permission. The next run removes the stored objects, and the
+  check looks at the objects.
+
 Susan does A1–A5 and A7. Hein does A6, A8 and A9. Either of them may do A10. Hein approves the test application,
 then Susan opens the emailed link as the applicant, to check A11–A14: the email arrives, the letter shows the
 limit in figures and in words with Hein's signature, the portal download matches, and the verification page shows
 the status without the limit.
 
-The spec file `specs/bex-credit-spine.json` is written in this step. It asserts the things in A1–A10 that can
+The spec file `specs/pexmart-credit-spine.json` is written in this step. It asserts the things in A1–A18 that can
 be read from the served bundle and the API.
 
 **Carl runs the receipt, not you.** `prove-done` signs a token for a real admin, looked up in the database the
@@ -366,17 +425,17 @@ preview uses. Your dev `.env` must not hold that. Carl runs this from his own ma
 deploy built (the name `verify:deploy` printed):
 
 ```
-node --env-file=.env scripts/prove-done.mjs <preview-url> specs/bex-credit-spine.json --expect-bundle <assets/index-XXXX.js>
+node --env-file=.env scripts/prove-done.mjs <preview-url> specs/pexmart-credit-spine.json --expect-bundle <assets/index-XXXX.js>
 ```
 
-**STOP.** Stage 1 is **not done** until all of A1–A10 are ticked and the prove-done receipt is GREEN.
+**STOP.** Stage 1 is **not done** until all of A1–A18 are ticked and the prove-done receipt is GREEN.
 Rule 14: done means Carl can use it, with the receipt pasted beneath the word.
 
 ---
 
 ## Part F. Stage 2: instrumentation
 
-Its own branch: `feat/2026-10-28-bex-credit-instrumentation`, from the merged `main`. Same rules, same gates.
+Its own branch: `feat/2026-10-28-pexmart-credit-instrumentation`, from the merged `main`. Same rules, same gates.
 Build in this order, a red test before each item:
 
 1. The audit timeline per application.
@@ -393,7 +452,7 @@ Build in this order, a red test before each item:
 
 ## Part G. Stage 3: extension
 
-Its own branch: `feat/2026-10-28-bex-credit-extension`. Same rules.
+Its own branch: `feat/2026-10-28-pexmart-credit-extension`. Same rules.
 
 1. Applicant-supplied fields editable by Hein, with a reason and a snapshot.
 2. Re-application linked to the earlier application.
@@ -434,7 +493,7 @@ a POPIA operator agreement. Without the resale answer, the build stops here, and
 
 1. The `RegistryProvider` interface (`lookupCompany`, `listOfficers`, `changesSince`). The chosen vendor is one
    adapter behind it. Its key is an environment secret, never in code.
-2. The daily job per watched company, wrapped in `withCronErrorReporting`. It stores names, roles and dates,
+2. The daily job per watched company, wrapped in `withCronErrorReporting`. It stores salted hashes of names, plus roles and dates, never plain names (POPIA-DATA-RULES.md §12),
    **never ID numbers** (Part 2 §8).
 3. The de-duplication key (Part 2 §3). A change we filed must not come back as news.
 4. The monthly budget with a hard cap, the alert at 80%, and the stop at 100%, said out loud. Test that the stop
@@ -478,5 +537,5 @@ Acceptance: <A-numbers this commit moves>
 - The CI check list, green, on the PR head
 - The red-test output from S1-2
 - The adversarial pass results from S1-6
-- The acceptance tick list, A1–A10, with each person's name and date
+- The acceptance tick list, A1–A18, with each person's name and date
 - The prove-done receipt, GREEN
