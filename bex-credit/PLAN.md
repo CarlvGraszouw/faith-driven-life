@@ -4,6 +4,19 @@
 (branch `main`, commit `0fd50b5`). The build happens in that repo. This folder holds the spec and the
 build script, and changes nothing in the app.
 
+**Revision 2 (28 Oct 2026), after Carl's second request.** Read `PART2-OWNERSHIP-AND-LETTER.md` with this file.
+What changed here:
+
+- **D4 is reversed.** Hein's approval now triggers an **automatic approval letter**, emailed to the applicant
+  with a link to a portal download. The letter shows the approved limit, signed with Hein's saved signature.
+  Susan no longer has to tell the applicant by hand. The letter is generated after approval, never as an approval.
+  Acceptance lines A11–A14 are added to Stage 1 (Part 2 §10).
+- **The roles are corrected** against the organogram (4 Sep 2026): Susan Kruger is Accounts Receivable, not
+  creditors clerk. Anchelene Pieterse is Accounts Payable. Maroesjke van der Walt is listed as Operations
+  Manager. Names need confirming (Part 2 D-P2-1).
+- **Part 2 adds the ownership-change service** (Stage 4) and a registry-data question. There is **no free
+  API** for director or member changes that I could confirm (Part 2 §1).
+
 **Request (Carl, 28 Oct 2026), the source of this spec:**
 
 > "We need to build a Bex credit section for all our debtors, where people will be able to apply for
@@ -35,10 +48,10 @@ say so before Stage 0.
    screens and data endpoints all need a PexFlow login. The nearest precedent is the Pipe Inspection ticket (`api/_lib/pipeInspectionTicket.ts`): a
    60-second, single-use JWT signed with its own secret. It hands a staff member into another app. It
    does not let an outsider in. The customer portal's access model is new, and it is the riskiest part.
-3. **Susan is already in the code.** `schema.prisma:3472` says "Susan is the creditors clerk", and
-   `Sidebar.jsx:399` gives her the delivery release. `SAVE.md:4164` records "Susan Kruger and Pieter Marais
-   have no PexFlow account" as of the last handover. I am treating this as the same Susan. Her account
-   is a dependency (ENGINEERING_RULES §10).
+3. **Susan is already in the code.** `schema.prisma:3472` calls her "the creditors clerk", and `Sidebar.jsx:399`
+   gives her the delivery release. The organogram (4 Sep 2026) lists **Susan Kruger as Accounts Receivable**, which
+   fits credit control on customers. `SAVE.md:4164` records that she has no PexFlow account as of the last
+   handover. I am treating this as the same Susan. Her account is a dependency (ENGINEERING_RULES §10).
 4. **There is a file-privacy gap to close first.** `api/file.ts` lets any active staff member open any
    upload except the private areas `hr/`, `training-material/` and `chat/` (`api/_lib/fileAccess.ts:284`).
    As it stands, every staff member could open applicants' bank letters and ID copies. `credit/` must join
@@ -78,7 +91,8 @@ say so before Stage 0.
 Carl's list is the spec. Each line below is checked by a person doing the work on a phone. Tests support
 these lines; they do not replace them.
 
-**Stage 1: the spine. All of A1–A10 must be true before Stage 1 is done.**
+**Stage 1: the spine. All of A1–A14 must be true before Stage 1 is done.** A11–A14 are the approval letter,
+specified in `PART2-OWNERSHIP-AND-LETTER.md` §10.
 
 - **A1.** Carl or Susan sends an applicant a link by email. The applicant opens it on a phone with no PexFlow login.
 - **A2.** The applicant sees the documents checklist and can download the terms, the credit policy and the POPIA notice. These are Bexmart's PDFs.
@@ -145,6 +159,9 @@ declared so that `prisma db push` never drops them. Each model maps to its table
 - **`CreditApplicationDocument`**: `id`, `application_id`, `doc_type`, `pathname` (private store),
   `filename`, `content_type`, `size_bytes`, `sha256`, `uploaded_at`, `removed_at`, `removed_by`. Never a
   public URL.
+- **`CreditApplicationLetter`** (added in Revision 2, Part 2 §6): `id`, `application_id`, `revision`, `status`
+  (`issued`, `superseded`, `revoked`), `issued_at`, `issued_by`, `approved_limit` (snapshot), `sha256`, `pathname`,
+  `verification_code_hash`. Unique on `(application_id, revision)`. Rows are never edited.
 
 The document types, statuses and limits live in `src/lib/credit/` (no Prisma import), so the browser and
 the API read one definition. `api/upload.ts` already imports from `src/lib` this way.
@@ -361,7 +378,8 @@ Each stage is accepted by a named person doing real work, not by a green suite.
 - A separate Vercel project or subdomain in Stage 1. Keeping permissions in one place is the reason; the
   pipe-inspection note makes the same call.
 - Virus scanning (D9). It is not part of the spine.
-- A decision email to the applicant that states the limit (D4).
+- A decision email whose body states the limit. The limit lives in the approval letter, which the applicant
+  downloads through the portal (Part 2 §6). The verification page never shows it.
 - Raising a limit above the requested amount (D6).
 - OCR of documents.
 
@@ -391,6 +409,9 @@ Each stage is accepted by a named person doing real work, not by a green suite.
     its own error message points at a Mac path). The build script follows the Windows workstream doc and never
     uses `ship-item.mjs`.
 11. **Gates not yet recorded.** The baseline counts are not in this plan. Stage 0 records them on the build machine.
+12. **The letter's legal weight.** The approval letter carries Hein's captured signature image and an approval
+    statement with a timestamp and a reference. That is an electronic record. Whether it is enough for Bexmart's
+    purposes is for Bexmart's attorney to decide. The build does not claim more than that.
 
 ---
 
@@ -401,8 +422,9 @@ Defaults are what I would pick. Reply "go" to accept them, or change any of them
 - **D1. Brand text.** "Bex Credit" (your words), as one constant. Or "Pexmart Credit". **Default: Bex Credit.**
 - **D2. Susan.** Susan Kruger, creditors clerk, needs a PexFlow account with `credit_intake`. **Default: yes.**
 - **D3. Admin access.** Admin does not get either credit permission implicitly. **Default: explicit grants only.**
-- **D4. Telling the applicant.** Susan tells the applicant the outcome by hand. Or the system sends an automatic
-  email with no limit in it. **Default: Susan, by hand.**
+- **D4. Telling the applicant. SUPERSEDED by Carl, 28 Oct 2026.** An automatic approval letter is emailed to the
+  applicant, with a link to a portal download and the limit inside the PDF. The rejection notice is automatic and
+  generic. See Part 2 §6–7 and D-P2-5 and D-P2-6.
 - **D5. Documents and consent.** Bexmart supplies the consent wording, the checklist, and the three public PDFs
   (terms, credit policy, POPIA notice). **Default: placeholders marked "awaiting Bexmart".**
 - **D6. Hein's edit scope.** Stage 1: limit, terms and conditions only. Applicant-supplied fields come in Stage 3.

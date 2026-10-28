@@ -3,8 +3,9 @@
 **For:** one builder, on one Windows PC, in one clone. That is the rule in `docs/WINDOWS-WORKSTREAM.md` §1:
 one session, one clone, never `main`, and Carl merges.
 
-**Before you start:** read `PLAN.md` in this folder. Copy it into the clone as `SPEC-bex-credit.md`.
-That copy is the locked spec. Changing it stops the build and restarts the item (ORCHESTRATION-RULES §4).
+**Before you start:** read `PLAN.md` and `PART2-OWNERSHIP-AND-LETTER.md` in this folder. Copy them into the clone as
+`SPEC-bex-credit.md` and `SPEC-bex-credit-part2.md`. Those copies are the locked specs. Changing them stops the build
+and restarts the item (ORCHESTRATION-RULES §4).
 
 **How to read this script**
 
@@ -86,10 +87,21 @@ Create `receipts\` first if it is missing. It is gitignored.
 
 ## Part C. Carl's decisions (STOP until answered)
 
-Send Carl `PLAN.md` §15, D1–D10, with the defaults. Carl's answers go into `SPEC-bex-credit.md` §15, and
-**you write them there**. The agent does not. Once they are written, the spec is locked.
+Send Carl `PLAN.md` §15 (D1–D10) and `PART2-OWNERSHIP-AND-LETTER.md` §12 (D-P2-1 to D-P2-14), with the
+defaults. Carl's answers go into `SPEC-bex-credit.md` §15, and **you write them there**. The agent does not.
+Once they are written, the spec is locked.
 
-**STOP** until Carl has answered D1–D10 in writing.
+Before any code, four things must also be true:
+
+1. **Names confirmed** (D-P2-1). The org chart's spellings, not the request's, go into the permissions. Nobody
+   gets a permission on a fuzzy match.
+2. **Hein has a saved signature image** in User Management. The approval letter needs it, and so does the PR flow.
+   If he has none, the letter cannot be issued.
+3. **The vendor RFQ** (Part 2 §9) is approved by Carl, and Carl sends it. Stage 4 does not need a vendor. Stage 5 does.
+4. **Two questions go to Bexmart's attorney**: the deadline reading (D-P2-11) and the resale answer (Part 2 §9, item 4).
+   Stage 4 can start on the conservative reading. Stage 5 cannot start without the resale answer.
+
+**STOP** until Carl has answered D1–D10 and D-P2-1 to D-P2-14 in writing, and the four items above are confirmed.
 
 ---
 
@@ -104,7 +116,10 @@ You are Watchdog for this session. Read .claude/agents/watchdog.md and .claude/o
 Then read CLAUDE.md, ENGINEERING_RULES.md, BUILD-PROTOCOL.md,
 docs/standards/THREE-STAGE-BUILD-AND-SAFETY-NETS.md and docs/WINDOWS-WORKSTREAM.md.
 
-The spec is SPEC-bex-credit.md. It is LOCKED. Do not change it. If it seems wrong, stop and tell me.
+The spec is SPEC-bex-credit.md, plus SPEC-bex-credit-part2.md (copied from PART2-OWNERSHIP-AND-LETTER.md).
+Both are LOCKED. Do not change them. If either seems wrong, stop and tell me.
+Part 2 is not Stage 1 work except the approval letter (A11–A14) and the credit line on Susan's release screen.
+The ownership-change service is Stage 4, and the vendor watch is Stage 5. Do not start them early.
 
 Branch: feat/2026-10-28-bex-credit-spine, from origin/main. Never push to main. Never merge.
 
@@ -179,6 +194,16 @@ behaviour. At minimum:
 - credit-notify-gating: autotest prefix is a no-op; per-recipient rate limit; retries stop at 3; no infinite retry.
 - credit-double-submit: a second submit or decide on the same status does nothing and says so.
 - credit-scrubber: the new sensitive keys are redacted at any depth.
+- credit-letter-issue: a letter is issued only after an approval, never before; it carries the limit in figures
+  and in words; the figures and the words agree; it carries Hein's saved signature, read from the database,
+  never from the request body; no image means no letter and an approval refused with the PR flow's message.
+- credit-letter-revision: an edit to the limit issues revision 2 and marks revision 1 superseded; a retry of
+  the same revision creates no second row (unique on application and revision).
+- credit-letter-retry: retries back off and stop at three; then an awaited captureError, and the queue shows
+  "letter not issued, retry".
+- credit-verify-page: the verification page shows the company name, issue date and status only, never the limit.
+- amount-in-words: a tested helper (no reusable one exists in api/). Covers zero, cents, thousands, millions, and
+  the "rand" and "cents" wording.
 Run `npm run test:source`. Paste the output.
 Each failing test must fail for the NAMED reason, not a typo or a missing import.
 If a test fails for the wrong reason, fix the test first.
@@ -202,6 +227,12 @@ Make the red tests green, one file at a time, in this order:
 6. api/_lib/sentry.ts: SENSITIVE_KEYS gains the new personal keys, in this same change.
 7. api/_lib/creditNotifications.ts: the sender rules from PLAN.md §9.
 8. AUTHENTICATED_FUNCTIONS: the staff functions from PLAN.md §7.
+9. The approval letter (Part 2 §6): jsPDF, as api/_lib/projectReportPdf.ts already does. The
+   CreditApplicationLetter table, the revision rule, the private store path, the SHA-256, the verification code
+   (hashed, never stored raw), and the post-commit job keyed on (application, revision), with retries capped at 3.
+   The amount-in-words helper goes in src/lib/credit/ so the browser and the server share it.
+10. The verification route `/credit/verify/<code>` and its public endpoint. Rate limited. Status, company and issue
+    date only.
 After each file, run `npm run test:source` and show me the count.
 Do not add the credit models to api/_lib/models.ts.
 Do not add a new top-level file under api/ for any single endpoint.
@@ -238,6 +269,11 @@ Build the staff screens, per PLAN.md §8.
 - Hein's panel (credit_approval only): Approve, Reject, Edit terms, Return to Susan. The limit rule
   shown in words. Every disabled button says why, as visible text.
 - After any action, scroll the result into view (scrollIntoView, bound to the panel's own ref).
+- Portal: a "My letters" list for the applicant, newest first, superseded revisions marked, download of their own
+  letters only.
+- Susan's delivery-release screen (`src/components/layout/Sidebar.jsx:399`, `api/_lib/deliveryRelease.ts`): one
+  read-only line per client showing credit status ("CA-0001 approved" or "no credit review on file").
+  Information only. It must not release or hold anything (Part 2 §10, D-P2-14).
 Then show me: tests/landing-never-access-denied.test.ts, tests/control-reachability.test.ts and
 tests/touch-reachable-reasons.test.ts, all green.
 ```
@@ -258,6 +294,9 @@ Write one test per attack and make each one refused, with a reason, and no data 
 - a staff member without credit_intake opening a credit/ document by pasting its path
 - a PATCH to a credit field through the generic route
 - a notification to an autotest recipient
+- another applicant downloading a letter by guessing its id
+- the verification page showing the limit, or a letter's status for a code that does not exist
+- a letter issued without an approval, or a second letter for the same revision
 Run `npm run test:source`. Paste the list of attacks and each one's result.
 ```
 
@@ -314,7 +353,10 @@ a new commit on the same branch, with a test that fails first.
 
 Susan and Hein, each on their own phone, against the preview, with a test application that uses the `autotest`
 prefix or Carl's own address. Each acceptance line A1–A10 is ticked by the person who did it, with a date.
-Susan does A1–A5 and A7. Hein does A6, A8 and A9. Either of them may do A10.
+Susan does A1–A5 and A7. Hein does A6, A8 and A9. Either of them may do A10. Hein approves the test application,
+then Susan opens the emailed link as the applicant, to check A11–A14: the email arrives, the letter shows the
+limit in figures and in words with Hein's signature, the portal download matches, and the verification page shows
+the status without the limit.
 
 The spec file `specs/bex-credit-spine.json` is written in this step. It asserts the things in A1–A10 that can
 be read from the served bundle and the API.
@@ -362,6 +404,44 @@ Its own branch: `feat/2026-10-28-bex-credit-extension`. Same rules.
 **STOP** at the end for a human acceptance pass.
 
 ---
+
+## Part K. Stage 4: ownership-change service
+
+Its own branch: `feat/2026-10-28-ownership-change`, from the merged `main`. Same rules, same gates. Sources A and B
+only (Part 2 §3). **No vendor code in this stage.** The `NullProvider` is the default and makes no external call.
+
+Build order, a red test before each item:
+
+1. `OwnershipChangeRequest` model and its SQL file (additive, dated). Discriminator `kind = 'ownership_change'`.
+   The state machine is **shared** with the credit flow, not copied (Part 2 §8).
+2. The states in Part 2 §8. `filed` needs a filing reference and the acknowledgment in the private store.
+   `confirmed` needs the CIPC record uploaded by Susan.
+3. The portal form: appoint or resign a director, change a CC member, a shareholding change (declared), and a
+   beneficial-owner change (declared). Personal data minimal. **No ID numbers in database columns.**
+4. Filing clock: reminders at business days 3 and 7, escalation to Hein on day 8 (D-P2-12). Stored: the effective
+   date and `aware_at`.
+5. Fee tasks for Anchelene (`ownership_fees`). Filing is never blocked by an unpaid fee.
+6. Comms from Part 2 §7, using the shared comms module.
+7. Permissions from Part 2 §5. Matrix tests: each role sees exactly what §5 says and nothing more.
+
+**STOP** after each item for its gates. At the end, a human acceptance pass: Susan and Hein complete a real request on
+their phones, file it, and the client contact receives the confirmation.
+
+## Part L. Stage 5: vendor watch (source C)
+
+**Do not start until** three things are true: a signed contract, the written resale answer (Part 2 §9 item 4), and
+a POPIA operator agreement. Without the resale answer, the build stops here, and the on-sell model stays unbuilt.
+
+1. The `RegistryProvider` interface (`lookupCompany`, `listOfficers`, `changesSince`). The chosen vendor is one
+   adapter behind it. Its key is an environment secret, never in code.
+2. The daily job per watched company, wrapped in `withCronErrorReporting`. It stores names, roles and dates,
+   **never ID numbers** (Part 2 §8).
+3. The de-duplication key (Part 2 §3). A change we filed must not come back as news.
+4. The monthly budget with a hard cap, the alert at 80%, and the stop at 100%, said out loud. Test that the stop
+   is reported, not silent.
+5. The vendor's terms, in the repo's docs, with the date signed.
+
+**STOP** for a human acceptance pass with a watched test company, and for Carl's approval of the first month's bill.
 
 ## Part H. If something breaks on Windows
 
